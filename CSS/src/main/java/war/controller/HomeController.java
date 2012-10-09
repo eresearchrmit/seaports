@@ -21,7 +21,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Model model) {
-		logger.info("Welcome home!");
+		logger.info("Welcome home eResearch!");
 		model.addAttribute("controllerMessage", "Please Login to Create Workboard");
 		return "home";
 	}
