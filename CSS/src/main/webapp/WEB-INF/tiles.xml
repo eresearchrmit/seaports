@@ -33,6 +33,7 @@
 			
 	<definition name="createdWB" extends="list">
 		<put-attribute name="title" value="Seaport Project" />
+		<put-attribute name="menu" value="/WEB-INF/views/userwbmenu.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/createdWB.jsp" />
 	</definition>
 			

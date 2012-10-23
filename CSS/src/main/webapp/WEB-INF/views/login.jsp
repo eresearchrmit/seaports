@@ -5,22 +5,22 @@
 
 <body>
 
-<h3 align = "left">
+<h3 align = "center" style="font-style: italic; color: #294052">
 	     Sign In 
 </h3>
 <p style="color:red"> ${controllerMessage} </p>
 <form:form method="POST" modelAttribute="person" style="padding:8px">
-    <p align = "left" >
-        User Name <br/>
+    <p align = "left" style="color: #294052" >
+         Username <br/>
         <form:input path="firstName" />
     </p>
-    <p align = "left">
-        Password <br/>
+    <p align = "left" style="color: #294052" >
+         Password <br/>
         <form:password path="passWord" align ="right" />
     <br/><br/>   
     
     </p>
-    <input type="submit" value="login" />
+    <input type="submit" value="Login" />
 </form:form>
 </body>
 </html>

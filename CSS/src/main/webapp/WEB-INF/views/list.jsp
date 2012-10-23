@@ -11,7 +11,7 @@
 <%-- <jsp:setProperty name="person" property="firstName" value = <% ${person.firstName} %>/> --%>
 
 
-<h3 style="color:green;"> ${person.firstName}   ${person.lastName} </h3>
+<h3 style="color:#FF6600;margin-bottom: 3cm; font-style: italic; position:static;"> ${person.firstName}   ${person.lastName} </h3>
 
 <%-- <% Person p = (WorkBoard) request.getAttribute("workboard") ; %> --%>
 <%-- <c:forEach items="${people}" var="v_person">
@@ -24,7 +24,7 @@
 <br/>
 <br/>
 
-<a href="createwb?firstName=${person.firstName}" style="font-size: large;"> Create a Work Board </a>
+<a href="createwb/add?firstName=${person.firstName}" style="font-size: medium;"> Create a Work Board </a>
  
 
  

@@ -1,12 +1,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page session="true"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page language="java" import="war.model.WorkBoard" %>
+<%@ page language="java" import="war.model.Person" %>
 <html>
 <head>
 <title>Home</title>
 </head>
 <body>
-<h3 style="color:green;"> Work Board : ${workboard.workBoardName} </h3>
+<h3 style="background-color:silver; color:black; text-align: center ; margin-bottom:11cm;"> ${workboard.workBoardName} </h3>
+<% WorkBoard wb = (WorkBoard) request.getAttribute("workboard") ; %>
+<% Person p = (Person) wb.getPerson() ; %>
+<% int wbid = wb.getWorkBoardID() ;  %>
 
 <%-- <c:forEach items="${people}" var="v_person">
 	<a href="edit?id=${v_person.id}">${v_person.id} -
@@ -14,12 +19,12 @@
 	<br />
 </c:forEach> --%>
 
-<br/>
+<%-- <br/>
 <br/>
 <br/>
 <br/>
 
-<h4> Upload Data File</h4>
+<h4> Uploadddddd Data File</h4>
 <form method="post" action="views/fileupload.jsp" name="upform"  
 enctype="multipart/form-data">  
   <table width="60%" border="0" cellspacing="1" cellpadding="1"  
@@ -42,8 +47,6 @@ align="center" class="style1">
   </table>  
 </form>  
 
-
-<%-- 
 <form:form method="POST" modelAttribute="workboard" style="padding:8px" >
  
   <table align="left">
@@ -57,14 +60,13 @@ align="center" class="style1">
     </tr>
 </table> 
 </form:form> 
-
---%>
-
-
-
 <br/>
 <br/>
-<br/>
-<%-- <a href="createwb?firstName=${workboard.person.firstName}" style="font-size: large;"> Create a Work Board </a> --%>
+<br/> --%>
+
+
+
+<a href="delete?workboardid=<%=wb.getWorkBoardID() %>" style="font-size: large; margin-top: 5cm"> Delete </a>
+
 </body>
 </html>

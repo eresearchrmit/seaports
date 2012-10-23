@@ -9,15 +9,15 @@
 <body>
 <table border="1" cellpadding="2" cellspacing="2" align="center">
 	<tr>
-		<td height="90" colspan="4"><tiles:insertAttribute name="header"/>
+		<td height="90" colspan="4" bgcolor="#8FBCDB"><tiles:insertAttribute name="header"/>
 		</td>
 	</tr>
 	<tr>
-		<td height="430" colspan="3"><tiles:insertAttribute name="menu" /></td>
+		<td height="430" colspan="3" bgcolor="#F8E4CC"><tiles:insertAttribute name="menu" /></td>
 		<td width="900"><tiles:insertAttribute name="body" /></td>
 	</tr>
 	<tr>
-		<td height="20" colspan="1"><tiles:insertAttribute name="footer" />
+		<td height="20" colspan="4" bgcolor="silver"><tiles:insertAttribute name="footer" />
 		</td>
 	</tr>
 </table>

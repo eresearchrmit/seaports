@@ -12,7 +12,7 @@
     <title>Work Board Page</title>
 </head>
 <body>
-<h3 style="color:green;"> User ${workboard.person.firstName} ${workboard.person.lastName} </h3> 
+<h3 style="color:#FF6600;margin-bottom: 3cm; font-style: italic;"> ${workboard.person.firstName} ${workboard.person.lastName} </h3> 
 <%-- <% Person p = workboard.person ; %> --%>
 <%-- <jsp:useBean id="person" class="war.model.Person" scope="page" /> --%>
 <%-- <h3 style="color:green;"> ${workboard.WorkBoardID} </h3>  --%>
@@ -22,12 +22,13 @@
 <br/>
 <br/>
 
-<h4 align="center">Enter WorkBoard Title</h4>
-<form:form method="POST" modelAttribute="workboard" style="padding:8px" >
+<h4 align="left" style="color:#294052;font-size: medium ; padding:8px">Enter WorkBoard Title</h4>
+<form:form method="POST" modelAttribute="workboard" style="padding:2px" >
 
   <table align="left">
     <tr>
-        <td><form:input path="WorkBoardName"/></td>
+       <td> 
+        <form:input path="WorkBoardName" /></td>
     </tr>
     <tr>
 <%--         <td><form:hidden path="person" value = "<%= p  %>"  /></td> --%>
@@ -52,6 +53,6 @@
 <br/>
 <br/>
 <br/>
-<a href="login">Logout</a>
+<a href="../login">Logout</a>
 </body>
 </html>
