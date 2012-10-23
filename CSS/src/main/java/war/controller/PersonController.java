@@ -77,16 +77,7 @@ public class PersonController {
 				}
 		}	
 		return mav ;
-	}
-	
-	@ModelAttribute("workboard")
-	@RequestMapping(value = "/createwb", method = RequestMethod.GET)
-	public WorkBoard CreateWorkBoard(Model model) {
-		logger.info("Inside Model!");
-		model.addAttribute("controllerMessage", "Please Login to Create Workboard");
-		return new WorkBoard();
-	}
-	
+	}	
 	
 /*	@RequestMapping(method=RequestMethod.GET,value="list")
 	public ModelAndView showPeopleView(@ModelAttribute Person person) {
