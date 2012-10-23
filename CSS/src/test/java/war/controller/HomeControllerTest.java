@@ -15,6 +15,6 @@ public class HomeControllerTest {
 		Assert.assertEquals("home",controller.home(model));
 		
 		Object message = model.asMap().get("controllerMessage");
-		Assert.assertEquals("This is the message from the controller!",message);		
+		Assert.assertEquals("Please Login to Create Workboard",message);		
 	}
 }
