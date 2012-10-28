@@ -1,5 +1,10 @@
 package war.controller;
 
+import java.util.List;
+import java.util.ArrayList;
+
+import javax.validation.Valid;
+
 import war.dao.*;
 import war.model.* ;
 
@@ -24,26 +29,61 @@ public class WorkBoardController {
 	private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
 	@Autowired
+	private FilesDao filesDao ;
+	@Autowired
 	private WorkBoardDao workboardDao;
 	@Autowired
 	private PersonDao personDao ;
 	private Person person ;
-
+	private WorkBoard workboard ; 
 	
+	private List<Files> viewfiles;
+//	private Files files ;
 
-	@ModelAttribute("workboard")
-	@RequestMapping(value = "/uploadfile", method = RequestMethod.GET)
-	public String Uploadfile(Model model) {
-		logger.info("Inside File upload !");
-		model.addAttribute("controllerMessage", "Please Login to Create Workboard");
-		return "uploadfile";
+
+	@ModelAttribute("person")
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView getUserWorkBoard(@RequestParam(value="username",required=true) String firstName, Model model) {
+		logger.info("Inside get Work Board !");
+		ModelAndView mav = new ModelAndView();
+		Files tmpfile, singlefile ;
+//		System.out.println("Inside the Workboard Controller" + firstName);
+		person = personDao.find(firstName) ;
+//		System.out.println("Inside the Workboard Controller" + person.getLastName());
+//		model.addAttribute("controllerMessage", "Correct Username and Password" + person.getLastName() );
+		workboard = workboardDao.getActiveWorkBoard() ; 
+		model.addAttribute("firstName",person.getFirstName()) ;
+ 		model.addAttribute("secondName",person.getLastName()) ;	
+ 		model.addAttribute("workboardTitle", workboard.getWorkBoardName()) ;
+ 		model.addAttribute("workboardID", workboard.getWorkBoardID());
+ 		viewfiles = new ArrayList<Files>() ;
+ 		List<Files> files = filesDao.getFiles(workboard) ;
+ 		
+		for(int i = 0, n = files.size(); i < n; i++) {
+	        singlefile = new Files() ;
+	        tmpfile = new Files( );
+			tmpfile = files.get(i) ;
+			singlefile.setFileid(tmpfile.getFileid()) ;
+			singlefile.setFilename(tmpfile.getFilename())  ;
+			singlefile.setType(tmpfile.getType()) ; 
+			singlefile.setWorkboard(tmpfile.getWorkboard()); 
+			singlefile.setFile(tmpfile.getFile()) ;
+			singlefile.setFilecontent(singlefile.toString((tmpfile.getFile()))) ;
+			System.out.println("The Actual Value : " + tmpfile.getFile()) ;
+			System.out.println("The String Value : " + singlefile.toString((tmpfile.getFile()))) ;	
+			viewfiles.add(singlefile);
+	    }
+ 		System.out.println("Inside the success query");
+ 		mav.addObject("workboard", workboard) ;
+ 		mav.addObject("files", viewfiles);
+		mav.setViewName("activeWB");
+		return mav;
 	}
 	
 	
 	@ModelAttribute("workboard")
 	@RequestMapping(value ="/add",method = RequestMethod.GET)
 	public ModelAndView CreateWorkBoard(@RequestParam(value="firstName",required=true) String firstName, Model model) {
-		System.out.println("Inside CreateWorkBoard" + firstName) ;
 		person = personDao.find(firstName) ;
 		ModelAndView mav = new ModelAndView();
 		WorkBoard workboard = new WorkBoard();
@@ -55,44 +95,52 @@ public class WorkBoardController {
 		return mav;
 	}
 	
+	
 	@RequestMapping(value = "/add",method=RequestMethod.POST) 
-	public ModelAndView saveWorkboard(@ModelAttribute WorkBoard workboard,@RequestParam(value="firstName",required=true) String firstname, Model model) {
+	public ModelAndView addWorkboard(@ModelAttribute WorkBoard workboard,@RequestParam(value="firstName",required=true) String firstname, Model model) {
 		logger.debug("Received object for workboard  "+ workboard);
-		String username = person.getFirstName() ;
 		workboard.setPerson(person) ;
-		System.out.println("Inside saveWorkboard 1 : " + workboard.getPerson() + username) ;	
-		System.out.println("Inside saveWorkboard 2 : " + workboard.getWorkBoardName() ) ;
 		workboardDao.save(workboard);
 		ModelAndView mav = new ModelAndView();	
-		System.out.println("Inside saveWorkboard 3 : " + workboard.getWorkBoardID() ) ;
 		model.addAttribute("workboardid",workboard.getWorkBoardID() );
 		mav.addObject("workboard", workboard);
 		mav.setViewName("createdWB") ;
-		return mav ;
-		
+		return mav ;		
+	}
+	
+	@RequestMapping(value = "/update",method=RequestMethod.POST)
+	public ModelAndView updateWorkboard( @ModelAttribute("files") @Valid List<Files> files, 
+			@RequestParam(value="workboardid",required=true) Integer workboardid, Model model) {
+		logger.debug("Received object for workboard  "+ workboard);
+		Files updatedfiles ;
+		for(int i = 0, n = files.size(); i < n; i++) {
+			updatedfiles = new Files() ;
+			updatedfiles = files.get(i) ;
+			System.out.println(updatedfiles.getFileid()) ;
+	        System.out.println(updatedfiles.getFilecontent()) ;
+		}
+		workboard.setPerson(person) ;
+		workboardDao.save(workboard);
+		ModelAndView mav = new ModelAndView();	
+		model.addAttribute("workboardid",workboard.getWorkBoardID() );
+		mav.addObject("workboard", workboard);
+		mav.setViewName("createdWB") ;
+		return mav ;		
 	}
 	
 
 	@RequestMapping(value = "/delete",method=RequestMethod.GET) 
 	public String deleteWorkboard(@ModelAttribute WorkBoard workboard,@RequestParam(value="workboardid",required=true) Integer Id, Model model) {
 		logger.debug("Received object for workboard  "+ workboard);
-		System.out.println("Inside saveWorkboard 4 Id : " + Id ) ;
 		workboard = workboardDao.find(Id) ;
-		System.out.println("Inside saveWorkboard 5 workboard : " + workboard ) ;
 		person = workboard.getPerson() ;
-		System.out.println("Inside saveWorkboard 8.1 workboard : " + Id ) ;
 		workboardDao.removeWorkBoard(Id) ;
-		System.out.println("Inside saveWorkboard 9 workboard : " + Id ) ;
 		ModelAndView mav = new ModelAndView();
 		WorkBoard wb = new WorkBoard();
-		System.out.println("Inside saveWorkboard 10 workboard : " + wb ) ;
 		wb.setPerson(person) ;
-//		mav.setViewName("createwb");
  		mav.addObject("workboard", wb);
 		model.addAttribute("firstName",person.getFirstName()) ;
-// 		model.addAttribute("secondName",person.getLastName()) ;
-		return "redirect:add" ;
-//		return mav;		
+		return "redirect:add" ;	
 	}
 	
 

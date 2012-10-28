@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 //import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
+//import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.ui.Model;
 
@@ -42,6 +42,8 @@ public class PersonController {
 		return mav;	
 	}
 	*/
+	
+	
 	@ModelAttribute("person")
 	@RequestMapping(method=RequestMethod.GET) 
 	public Person loginPerson() {
@@ -56,27 +58,40 @@ public class PersonController {
 */
 	
 	@RequestMapping(method=RequestMethod.POST) 
-	public ModelAndView loginValidation(@ModelAttribute Person person, Model model) {
+	public String loginValidation(@ModelAttribute Person person, Model model) {
 		logger.debug("Received postback on person "+ person);
 		Person persondb = null ;
-		ModelAndView mav = new ModelAndView();
+//		ModelAndView mav = new ModelAndView();
 		
-		if (person.getFirstName() != null) {	
-				persondb = personDao.find(person.getFirstName()) ;
-				Boolean val = persondb.getPassWord().equalsIgnoreCase(person.getPassWord()) ;
-				if (val) {	
-		 			mav.setViewName("list") ;
-		 	 		mav.addObject("person", persondb);
-				} else {
-
-					System.out.println (val) ;
-					System.out.println (persondb.getPassWord()) ;
-					System.out.println (person.getPassWord()) ;
-					model.addAttribute("controllerMessage","Please enter correct" + "</br>" + "username and password");
-					mav.setViewName("login") ;	
-				}
-		}	
-		return mav ;
+		try {
+			if (person.getFirstName() != null) {	
+					persondb = personDao.find(person.getFirstName()) ;
+					Boolean val = persondb.getPassWord().equalsIgnoreCase(person.getPassWord()) ;
+					if (val) {
+						//TODO check whether the user have an active Work Board
+						
+						//TODO If yes print the Work Board Name and the elements in that WorkBoard
+	//		 			mav.setViewName("list") ;
+						String firstname = persondb.getFirstName() ;
+	//		 	 		mav.addObject("person", persondb);
+			 	 		String request = "forward:/spring/createwb?username=" + firstname ;
+			 	 		return request ;
+					} else {
+						System.out.println("False username password") ;
+						model.addAttribute("controllerMessage","Please enter correct" + "</br>" + "username and password");
+						return "login" ;	
+					}
+			} else {
+				System.out.println("No username password") ;
+				model.addAttribute("controllerMessage","Please enter" + "</br>" + "the username");
+				return "login" ;	
+			}	
+		}  
+		catch (NullPointerException err) {
+			System.out.println("no person object") ;
+			model.addAttribute("controllerMessage","Please enter" + "</br>" + "username and password");
+			return "login" ;	
+		}
 	}	
 	
 /*	@RequestMapping(method=RequestMethod.GET,value="list")

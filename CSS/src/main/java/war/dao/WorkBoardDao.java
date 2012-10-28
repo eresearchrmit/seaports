@@ -9,8 +9,6 @@ import javax.persistence.Query;
 
 import war.model.WorkBoard;
 
-
-
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +17,6 @@ public class WorkBoardDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-	
-
 	
 	public WorkBoard find(Integer id) {
 		return entityManager.find(WorkBoard.class, id);
@@ -31,8 +27,25 @@ public class WorkBoardDao {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<WorkBoard> getWorkBoard() {
+	public List<WorkBoard> getWorkBoardList() {
 		return entityManager.createQuery("select w from WorkBoard w").getResultList();
+	}
+	
+	public WorkBoard getActiveWorkBoard() {	
+		Query query = entityManager.createQuery("select w from WorkBoard w where w.mode = :mode") ;
+		return (WorkBoard) query.setParameter("mode", "active").getSingleResult() ;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<WorkBoard> getPassiveWorkBoard() {	
+		Query query = entityManager.createQuery("select w from WorkBoard w where w.mode = :mode") ;
+		return query.setParameter("mode", "passive").getResultList() ;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<WorkBoard> getInactiveWorkBoard() {	
+		Query query = entityManager.createQuery("select w from WorkBoard w where w.mode = :mode") ;
+		return query.setParameter("mode", "inactive").getResultList() ; 
 	}
 	
 	@Transactional
@@ -47,8 +60,9 @@ public class WorkBoardDao {
 	
 	@Transactional
 	public void removeWorkBoard(Integer id) {
-/*		
- * 		entityManager.getTransaction().begin();
+   /*		
+    * 	
+    * entityManager.getTransaction().begin();
 		WorkBoard workboard = entityManager.find(WorkBoard.class, id);	
 		System.out.println("Inside saveWorkboard 6 workboard : " + workboard ) ;
 		System.out.println("Inside saveWorkboard 6.1 workboard : " + workboard.getWorkBoardID() ) ;
@@ -63,15 +77,5 @@ public class WorkBoardDao {
 		Query query = entityManager.createQuery("delete from WorkBoard w where w.workBoardID = :ID") ;
 		query.setParameter("ID", localid).executeUpdate();
 	}
-	
-	
-/*	public void removeWorkBoard(Integer id) {
-		WorkBoard workboard = (WorkBoard) sessionFactory.getCurrentSession().load(WorkBoard.class, id);
-		if (null != workboard) {
-			sessionFactory.getCurrentSession().delete(workboard);
-		}
-
-	}*/
-	
 	
 }
