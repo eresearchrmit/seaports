@@ -17,8 +17,6 @@
 <% WorkBoard wb = (WorkBoard) request.getAttribute("workboard") ; %>
 <% Person p = (Person) wb.getPerson() ; %>
 
-
-
 <form method="post" action="views/fileupload.jsp" name="upform"  
 enctype="multipart/form-data">  
   <table width="60%" border="0" cellspacing="1" cellpadding="1"  
@@ -44,7 +42,7 @@ align="center" class="style1">
 
 
 <p style="text-align:right;margin-top: 5cm;color: purple; position:static ; ">
-<a href="../login">Logout</a>
+<a href="/CSS/spring/login/">Logout</a>
 </p>
 </body>
 </html>

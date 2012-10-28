@@ -1,12 +1,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ page session="false" %>
+<%@ page session="true" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 
 <body>
 
 <h3 align = "center" style="font-style: italic; color: #294052">
-	     Sign In 
+	     Sign In
 </h3>
 <p style="color:red"> ${controllerMessage} </p>
 <form:form method="POST" modelAttribute="person" style="padding:8px">
