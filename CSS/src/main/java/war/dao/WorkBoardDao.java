@@ -4,6 +4,7 @@ import war.model.Person;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -31,9 +32,19 @@ public class WorkBoardDao {
 		return entityManager.createQuery("select w from WorkBoard w").getResultList();
 	}
 	
-	public WorkBoard getActiveWorkBoard() {	
-		Query query = entityManager.createQuery("select w from WorkBoard w where w.mode = :mode") ;
-		return (WorkBoard) query.setParameter("mode", "active").getSingleResult() ;
+	public WorkBoard getActiveWorkBoard(Person person) {	
+		WorkBoard workboard = null ;
+		Query query = entityManager.createQuery("select w from WorkBoard w where w.mode = :mode and w.person = :person") ;
+		query.setParameter("mode", "active") ;
+		query.setParameter("person", person) ;
+		
+		try{
+			workboard = (WorkBoard) query.getSingleResult() ;	
+		} catch (NoResultException ne){
+			return workboard ;
+			
+		}
+		return workboard ; 
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -59,22 +70,11 @@ public class WorkBoardDao {
 	}	
 	
 	@Transactional
-	public void removeWorkBoard(Integer id) {
-   /*		
-    * 	
-    * entityManager.getTransaction().begin();
-		WorkBoard workboard = entityManager.find(WorkBoard.class, id);	
-		System.out.println("Inside saveWorkboard 6 workboard : " + workboard ) ;
-		System.out.println("Inside saveWorkboard 6.1 workboard : " + workboard.getWorkBoardID() ) ;
-		if (null != workboard) {
-			System.out.println("Inside saveWorkboard 7 workboard : " + workboard ) ;
-			entityManager.remove(workboard) ;
-			entityManager.getTransaction().commit();
-			System.out.println("Inside saveWorkboard 8 workboard : " + id ) ;
-		}
-		*/
+	public void removeWorkBoard(Integer id, WorkBoard workboard) {
 		int localid = id ;
-		Query query = entityManager.createQuery("delete from WorkBoard w where w.workBoardID = :ID") ;
+		Query query = entityManager.createQuery("delete from Files f where f.workboard = :workboard") ;
+		query.setParameter("workboard", workboard).executeUpdate();
+		query = entityManager.createQuery("delete from WorkBoard w where w.workBoardID = :ID") ;
 		query.setParameter("ID", localid).executeUpdate();
 	}
 	

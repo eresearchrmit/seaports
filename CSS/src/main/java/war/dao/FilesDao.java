@@ -12,14 +12,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
-
 @Repository
 public class FilesDao {
 	
 	@PersistenceContext
-	private EntityManager entityManager;
+	private EntityManager entityManager ;
 	
-//	private List<Files> viewfiles ;
+	private List<Files> viewfiles ;
 
 
 	public Files find(Integer id) {
@@ -30,9 +29,29 @@ public class FilesDao {
 	@Transactional
 	public List<Files> getFiles(WorkBoard workboard) {
 		Query query = entityManager.createQuery("select f from Files f where f.workboard = :workboard ") ;
-		List<Files> files = query.setParameter("workboard", workboard).getResultList() ;
-		return files ;		
+		viewfiles = query.setParameter("workboard", workboard).getResultList() ;
+		return viewfiles ;		
 	}
 	
+	@Transactional
+	public Files save(Files file) {
+		
+//		System.out.println("EntityManager value " + entityManager) ; 
+//		System.out.println("EntityManager value " + entityManager.isOpen()) ; 
+		if (file.getFileid() == 0) {
+			entityManager.persist(file);
+			return file ;
+		} else {
+			entityManager.merge(file) ;
+			return file ;
+		}		
+	}
+	
+	@Transactional
+	public void removeFile(Integer id) {
+		int localid = id ;
+		Query query = entityManager.createQuery("delete from Files w where w.fileid = :ID") ;
+		query.setParameter("ID", localid).executeUpdate();
+	}
 	
 }

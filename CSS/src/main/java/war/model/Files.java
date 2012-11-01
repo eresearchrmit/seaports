@@ -15,13 +15,13 @@ import war.model.WorkBoard ;
 public class Files {
 
 	private static final long serialVersionUID = -1308795024262635690L;
-    private int fileid;
+    private int fileid ;
     private String filename;
     private String type;
     private byte[] file;
     private WorkBoard workboard ;
     
-    private String filecontent ;
+    private StringBuffer filecontent ;
     
     
 	@Id
@@ -31,6 +31,8 @@ public class Files {
 	}
 	public void setFileid(int fileid) {
 		this.fileid = fileid;
+/*		System.out.println("Inside Model FileID:" + this.fileid);
+		System.out.println("Inside Model FileContent :" + this.filecontent);*/
 	}
 	public String getFilename() {
 		return filename;
@@ -51,20 +53,27 @@ public class Files {
 		this.file = file;
 	}
 	
-	public String toString(byte[] file){
-		filecontent = new String(file) ;
+	public StringBuffer toString(byte[] file){
+		filecontent = new StringBuffer(new String(file)) ;
 		return filecontent ;
 	}
 	
-	@Transient
-	public String getFilecontent() {
-		return filecontent;
-	}
-	public void setFilecontent(String filecontent) {
-		
-		this.filecontent = filecontent ;
+	//Always convert the StringBuffer to String before getting the bytes 
+	public byte [] toBytes(String filecontent) {
+		this.file = filecontent.getBytes(); ;
+		return file ;
 	}
 	
+	@Transient
+	public StringBuffer getFilecontent() {
+		return filecontent;
+	}
+	public void setFilecontent(StringBuffer filecontent) {
+		
+		this.filecontent = filecontent ;
+/*		System.out.println("Inside Model FileID:" + this.fileid);
+		System.out.println("Inside Model FileContent :" + this.filecontent);*/
+	}
 	
 	@ManyToOne
 	@JoinColumn(name="workboard_id")
@@ -78,5 +87,9 @@ public class Files {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-    
+	
+	public Files(){
+			
+	}
+	
 }
