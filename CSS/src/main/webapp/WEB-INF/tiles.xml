@@ -26,18 +26,18 @@
 		<put-attribute name="menu" value="/WEB-INF/views/list.jsp" />
 	</definition>
 	
-	<definition name="createwb" extends="list">
+	<definition name="createwb" extends="base.definition">
 		<put-attribute name="title" value="Seaport Project" />
         <put-attribute name="menu" value="/WEB-INF/views/createwb.jsp" />
 	</definition>
 			
-	<definition name="createdWB" extends="list">
+	<definition name="createdWB" extends="base.definition">
 		<put-attribute name="title" value="Seaport Project" />
 		<put-attribute name="menu" value="/WEB-INF/views/userwbmenu.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/createdWB.jsp" />
 	</definition>
 	
-	<definition name="activeWB" extends="list">
+	<definition name="activeWB" extends="base.definition">
 		<put-attribute name="title" value="Seaport Project" />
 		<put-attribute name="menu" value="/WEB-INF/views/userwbmenu.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/activeWB.jsp" />

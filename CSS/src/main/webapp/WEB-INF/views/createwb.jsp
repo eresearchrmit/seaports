@@ -21,9 +21,9 @@
 <br/>
 <br/>
 <br/>
-
-<h4 align="left" style="color:#294052;font-size: medium ; padding:8px">Enter WorkBoard Title</h4>
-<form:form method="POST" modelAttribute="workboard" style="padding:2px" >
+<h6 align="left" style="color:red;font-size: medium ; padding:8px">There are no <i> active </i> Work Board</h6>
+<h4 align="left" style="color:#294052;font-size: medium ; padding:8px">Please Enter WorkBoard Title</h4>
+<form:form method="POST" action="/CSS/spring/createwb/add?firstName=${workboard.person.firstName}"  modelAttribute="workboard" style="padding:2px" >
 
   <table align="left">
     <tr>
