@@ -22,6 +22,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.ui.Model;
 
+import org.apache.commons.codec.binary.* ;
+import org.springframework.web.servlet.tags.* ; 
+import org.apache.commons.lang.* ; 
+
+
 @Controller
 @RequestMapping("/createwb")
 public class WorkBoardController {
@@ -61,23 +66,31 @@ public class WorkBoardController {
 	@RequestMapping(value= "/upload", method = RequestMethod.POST)
 	public ModelAndView uploadfileinWorkBoard(@RequestParam(value="files",required=true) MultipartFile uploadfile,
 			@RequestParam(value="workboardid",required=true) Integer workboardid, Model model) throws IOException{
-       
-        try {
-        	byte [] bytes = uploadfile.getBytes() ;
-            file.setFile(bytes) ;
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
+		
         workboard = workboardDao.find(workboardid) ;
         String filename = uploadfile.getOriginalFilename() ;
 		tokens = filename.split(splitvar) ;
 		file.setFilename(tokens[0]) ;
 		file.setType(tokens[1]) ;
 		file.setWorkboard(workboard) ;	
+        try {
+        	
+        	System.out.println("Inside the image converstion........." + tokens[0] + tokens[1]);
+        	byte [] bytes ;
+        	if (tokens[1].contains("jpg")  || tokens[1].contains("jpeg")){
+        		bytes = Base64.encodeBase64(uploadfile.getBytes()) ;
+        		System.out.println("Inside the image converstion.........");
+//        		if (Base64.isArrayByteBase64(bytes)) System.out.println("Yes the image is base 64"); else System.out.println("Yes the image is not base 64") ;
+        	} else {
+        		
+        		bytes = uploadfile.getBytes() ;
+        	}
+            file.setFile(bytes) ;
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 		filesDao.save(file) ;
-		
 		ModelAndView mav = modelForActiveWBview(model, workboard);
 		return mav;	
        
@@ -118,7 +131,19 @@ public class WorkBoardController {
 		Files actualfile ;
 		for(int i = 0, n = updatefiles.size(); i < n; i++) {
 			actualfile = filesDao.find(updatefiles.get(i).getFileid()) ;
-			actualfile.setFile(updatefiles.get(i).toBytes(updatefiles.get(i).getFilecontent().toString())) ;
+			if (!(actualfile.getType().contains("jpg") || actualfile.getType().contains("jpeg"))) {
+				actualfile.setFile(updatefiles.get(i).toBytes(updatefiles.get(i).getFilecontent().toString())) ;
+			}
+/*				if (Base64.isArrayByteBase64(Base64.decodeBase64(updatefiles.get(i).getFilecontent()))){
+					System.out.println("Yes the image is base 64") ; 
+				    actualfile.setFile(Base64.decodeBase64(updatefiles.get(i).getFilecontent())) ;
+				}
+				else { 
+					encodebyte = Base64.encodeBase64(Base64.decodeBase64(updatefiles.get(i).getFilecontent())) ;
+					actualfile.setFile(encodebyte) ;
+					System.out.println("Yes the image is not base 64") ;	
+				}	
+*/			
 			filesDao.save(actualfile);
 	    }
 		
@@ -144,6 +169,7 @@ public class WorkBoardController {
 			/////// Converting the bytefiles to stringfiles     ///////
 			List<Files> files = filesDao.getFiles(workboard);
 			Files stringfile;
+			StringBuffer imagestring ;
 			for (int i = 0, n = files.size(); i < n; i++) {
 				stringfile = new Files();
 				swapfile = new Files();
@@ -153,8 +179,15 @@ public class WorkBoardController {
 				stringfile.setType(swapfile.getType());
 				stringfile.setWorkboard(swapfile.getWorkboard());
 				stringfile.setFile(swapfile.getFile());
-				stringfile
-						.setFilecontent(swapfile.toString((swapfile.getFile())));
+				if (swapfile.getType() == "jpg" || swapfile.getType() == "jpeg" ) {
+					System.out.println("Inside upload " + swapfile.getFile()) ;
+//					imagestring = new StringBuffer(Base64.encodeBase64String(swapfile.getFile())) ;
+					stringfile.setFilecontent(Base64.encodeBase64String(swapfile.getFile())) ; 
+				}else {
+					stringfile.setFilecontent(swapfile.toString((swapfile.getFile())));
+				}
+				
+				
 				System.out.println("The Actual Value of the File : " + swapfile.getFile());
 //				System.out.println("The String Value : " + swapfile.toString((swapfile.getFile())));
 				convertedfiles.add(stringfile);
