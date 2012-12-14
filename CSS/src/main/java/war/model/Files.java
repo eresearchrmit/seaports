@@ -10,7 +10,6 @@ import javax.persistence.Transient;
 
 import war.model.WorkBoard ;
 
-
 @Entity
 public class Files {
 
@@ -21,40 +20,47 @@ public class Files {
     private byte[] file;
     private WorkBoard workboard ;
     
-    private StringBuffer filecontent ;
-    
+    private String filecontent ;
     
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getFileid() {
 		return fileid;
 	}
+	
 	public void setFileid(int fileid) {
 		this.fileid = fileid;
 /*		System.out.println("Inside Model FileID:" + this.fileid);
 		System.out.println("Inside Model FileContent :" + this.filecontent);*/
 	}
+	
 	public String getFilename() {
 		return filename;
 	}
+	
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
+	
 	public String getType() {
 		return type;
 	}
+	
 	public void setType(String type) {
 		this.type = type;
 	}
+	
 	public byte[] getFile() {
 		return file;
 	}
+	
 	public void setFile(byte[] file) {
 		this.file = file;
 	}
 	
-	public StringBuffer toString(byte[] file){
-		filecontent = new StringBuffer(new String(file)) ;
+	public String toString(byte[] file){
+//		filecontent = new StringBuffer(new String(file)) ;
+		filecontent = new String(file) ;
 		return filecontent ;
 	}
 	
@@ -65,10 +71,10 @@ public class Files {
 	}
 	
 	@Transient
-	public StringBuffer getFilecontent() {
+	public String getFilecontent() {
 		return filecontent;
 	}
-	public void setFilecontent(StringBuffer filecontent) {
+	public void setFilecontent(String filecontent) {
 		
 		this.filecontent = filecontent ;
 /*		System.out.println("Inside Model FileID:" + this.fileid);
