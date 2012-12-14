@@ -65,6 +65,21 @@
 			<version>5.1.9</version>
 		</dependency>
 		
+		<!--Codec for Base64   -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.4</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.5</version>
+		</dependency>
+            
+            
+		
 		<!-- Venki : Add artifacts for the tiles -->
 
 		<dependency>
