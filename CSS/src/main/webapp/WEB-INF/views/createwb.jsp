@@ -53,6 +53,6 @@
 <br/>
 <br/>
 <br/>
-<a href="../login">Logout</a>
+<a href="/CSS/spring/login">Logout</a>
 </body>
 </html>
