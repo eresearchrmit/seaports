@@ -21,6 +21,8 @@ public class CsiroParams {
 	/**
 	 * The unique ID of the combination of parameters
 	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	/**
@@ -38,9 +40,18 @@ public class CsiroParams {
 	 */
 	private int assessmentYear;
 	
+	/**
+	 * Default Constructor of CsiroParams
+	 */
 	public CsiroParams() {
 	}
 	
+	/**
+	 * Constructor of CsiroParams
+	 * @param modelName: the name of the climate model
+	 * @param emissionScenario: the name of the emission scenario
+	 * @param assessmentYear: the year for which the data are computed
+	 */
 	public CsiroParams(String modelName, String emissionScenario, int assessmentYear) {
 		this.modelName = modelName;
 		this.emissionScenario = emissionScenario;
@@ -51,8 +62,6 @@ public class CsiroParams {
 	 * Getter for the unique ID of the parameters combination
 	 * @return the unique ID of the parameters
 	 */
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getId() {
 		return id;
 	}

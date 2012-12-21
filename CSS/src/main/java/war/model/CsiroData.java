@@ -5,7 +5,10 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -21,24 +24,28 @@ public class CsiroData
 {
 	private static final long serialVersionUID = -1308795024262635690L;
 	
-	@Id 
-	private CsiroDataPK primaryKey = new CsiroDataPK();
 	
-	// Bi-directional association! Needed to trick Hibernate !
-	@SuppressWarnings("unused")
-	@Column(name="region_id", nullable=false, updatable=false, insertable=false)
-	private long region;
+	/**
+	 * The unique ID of the CSIRO Data
+	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
 	
-	@SuppressWarnings("unused")
-	@Column(name="csiroparams_id", nullable=false, updatable=false, insertable=false)
-	private long item;
+	@ManyToOne
+	@JoinColumn(name="region_id")
+	private Region region;
+	  
+	@ManyToOne
+	@JoinColumn(name="csiroparams_id")
+	private CsiroParams parameter;
 
-	@SuppressWarnings("unused")
-	@Column(name="csirovariable_id", nullable=false, updatable=false, insertable=false)
-	private long product;
-	//----
+	@ManyToOne
+	@JoinColumn(name="csirovariable_id")
+	private CsiroVariable variable;
 
 	private long value;
+	
 	
 	public CsiroData() {
 	}
@@ -50,52 +57,13 @@ public class CsiroData
 		setValue(value);
 	}
 
-	public void setRegion(Region region) {
-		primaryKey.setRegion(region);
-	}
-
-	public Region getRegion(){
-		return primaryKey.getRegion();
+	public int getId() {
+		return id;
 	}
 	
-	public void setParameter(CsiroParams params) {
-		primaryKey.setParameter(params);
+	public void setId(int id) {
+		this.id = id;
 	}
-
-	public CsiroParams getParameter(){
-		return primaryKey.getParameter();
-	}
-
-	public void setVariable(CsiroVariable variable) {
-		primaryKey.setVariable(variable);
-	}
-
-	public CsiroVariable getVariable() {
-		return primaryKey.getVariable();
-	}
-	
-	public float getValue() {
-		return value;
-	}
-	
-	public void setValue(long value) {
-		this.value = value;
-	}
-}
-
-@Embeddable 
-class CsiroDataPK implements Serializable
-{
-	private static final long serialVersionUID = -1308795024262635690L;
-
-	@ManyToOne
-	private Region region;
-	  
-	@ManyToOne
-	private CsiroParams parameter;
-
-	@ManyToOne
-	private CsiroVariable variable;
 	
 	public Region getRegion() {
 		return region;
@@ -119,5 +87,13 @@ class CsiroDataPK implements Serializable
 	
 	public void setVariable(CsiroVariable variable) {
 		this.variable = variable;
+	}
+	
+	public float getValue() {
+		return value;
+	}
+	
+	public void setValue(long value) {
+		this.value = value;
 	}
 }

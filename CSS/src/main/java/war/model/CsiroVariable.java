@@ -1,9 +1,13 @@
 package war.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -20,6 +24,8 @@ public class CsiroVariable {
 	/**
 	 * Unique ID of the variable
 	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	/**
@@ -32,17 +38,9 @@ public class CsiroVariable {
 	 */
 	private String uom;
 	
-	/**
-	 * Default Constructor of CsiroVariable
-	 */
 	public CsiroVariable() {
 	}
 	
-	/**
-	 * Constructor of CsiroVariable
-	 * @param name: the name of the Variable
-	 * @param uom: the unit of measure of the Variable
-	 */
 	public CsiroVariable(String name, String uom) {
 		this.name = name;
 		this.uom = uom;
@@ -52,8 +50,6 @@ public class CsiroVariable {
 	 * Getter for the unique ID of the variable
 	 * @return The unique ID of the variable
 	 */
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getId() {
 		return id;
 	}

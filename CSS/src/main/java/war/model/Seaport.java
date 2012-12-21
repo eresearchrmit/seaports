@@ -22,6 +22,8 @@ public class Seaport {
 	/**
 	 * The unique ID of the seaport
 	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	/**
@@ -32,6 +34,8 @@ public class Seaport {
 	/**
 	 * The region where the seaport is located
 	 */
+	@ManyToOne
+	@JoinColumn(name="region_id")
 	private Region region;
 	
 	
@@ -39,8 +43,6 @@ public class Seaport {
 	 * Getter for the unique ID of the parameters combination
 	 * @return the unique ID of the parameters
 	 */
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	public int getId() {
 		return id;
 	}
@@ -65,8 +67,6 @@ public class Seaport {
 	 * Getter for the seaport's region
 	 * @return the region where the seaport is located
 	 */
-	@ManyToOne
-	@JoinColumn(name="region_id")
 	public Region getRegion() {
 		return region;
 	}
