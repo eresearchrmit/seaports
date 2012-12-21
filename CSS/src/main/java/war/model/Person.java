@@ -70,6 +70,7 @@ public class Person implements Serializable {
 		this.workboard = workboard;
 	}
 
+	
 	@Override
 	public String toString() {
 
