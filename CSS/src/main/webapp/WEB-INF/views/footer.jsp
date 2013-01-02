@@ -1,1 +1,1 @@
-<p style="color:red ; text-align:center; font-size:small ;font-weight: bold; font-style: italic;"> Copyright &copy; RMIT University </p>
+<p>Copyright &copy; RMIT University</p>

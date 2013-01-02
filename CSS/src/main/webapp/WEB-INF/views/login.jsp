@@ -2,26 +2,26 @@
 <%@ page session="true" %>
 <%@ page import= "org.springframework.web.servlet.tags.*" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<html>
 
-<body>
 
-<h3 align = "center" style="font-style: italic; color: #294052">
-	     Sign In
-</h3>
-<p style="color:red"> ${controllerMessage} </p>
-<form:form method="POST" modelAttribute="person" style="padding:8px">
-    <p align = "left" style="color: #294052" >
-         Username <br/>
-        <form:input path="firstName" />
-    </p>
-    <p align = "left" style="color: #294052" >
-         Password <br/>
-        <form:password path="passWord" align ="right" />
-    <br/><br/>   
-    
-    </p>
-    <input type="submit" value="Login" />
-</form:form>
-</body>
-</html>
+
+<div class="grid_10">
+		<h2>Sign In</h2>
+	<div class="block">
+		<c:if test="${not empty controllerMessage}"> 
+		<div class="message error">
+			<h5>Error</h5>
+			<p>${controllerMessage}</p>
+		</div>
+		</c:if>
+		
+		<form:form method="POST" modelAttribute="person" style="padding:8px">
+		    <p>Username <form:input path="firstName" /></p>
+		    <p>Password <form:password path="passWord" align ="right" /></p>
+		    <input type="submit" value="Sign In" class="btn btn-blue" />
+		</form:form>
+	</div>
+</div>
+
+<h2></h2>
+
