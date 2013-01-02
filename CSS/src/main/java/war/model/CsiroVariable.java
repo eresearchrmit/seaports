@@ -1,13 +1,9 @@
 package war.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -38,9 +34,17 @@ public class CsiroVariable {
 	 */
 	private String uom;
 	
+	/**
+	 * Default constructor of CsiroVariable
+	 */
 	public CsiroVariable() {
 	}
 	
+	/**
+	 * Constructor of CsiroVariable
+	 * @param name: the name of the variable
+	 * @param uom: the unit of measure of the variable
+	 */
 	public CsiroVariable(String name, String uom) {
 		this.name = name;
 		this.uom = uom;

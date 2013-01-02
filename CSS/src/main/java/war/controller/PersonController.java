@@ -78,18 +78,18 @@ public class PersonController {
 			 	 		return request ;
 					} else {
 						System.out.println("False username password") ;
-						model.addAttribute("controllerMessage","Please enter correct" + "</br>" + "username and password");
+						model.addAttribute("controllerMessage","User name and/or password invalid");
 						return "login" ;	
 					}
 			} else {
 				System.out.println("No username password") ;
-				model.addAttribute("controllerMessage","Please enter" + "</br>" + "the username");
+				model.addAttribute("controllerMessage","Please enter a user name and/or a password");
 				return "login" ;	
 			}	
 		}  
 		catch (NullPointerException err) {
 			System.out.println("no person object") ;
-			model.addAttribute("controllerMessage","Please enter" + "</br>" + "username and password");
+			model.addAttribute("controllerMessage","User name and/or password invalid");
 			return "login" ;	
 		}
 	}	

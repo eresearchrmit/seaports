@@ -22,9 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.ui.Model;
 
-import org.apache.commons.codec.binary.* ;
-import org.springframework.web.servlet.tags.* ; 
-import org.apache.commons.lang.* ; 
+import org.apache.commons.codec.binary.*;
 
 
 @Controller
@@ -38,6 +36,9 @@ public class WorkBoardController {
 	private WorkBoardDao workboardDao;
 	@Autowired
 	private PersonDao personDao ;
+	@Autowired
+	private CsiroDataDao dataDao;
+	
 	private Person person ;
 	private WorkBoard workboard ;
 //	private FilesService stringfiles ;
@@ -60,7 +61,6 @@ public class WorkBoardController {
 		ModelAndView mav = modelForActiveWBview(model, workboard);
 		return mav;	
 	}
-	
 	
 	@ModelAttribute("file")
 	@RequestMapping(value= "/upload", method = RequestMethod.POST)
@@ -96,6 +96,83 @@ public class WorkBoardController {
        
 	}
 	
+	@ModelAttribute("file")
+	@RequestMapping(value= "/addCsiroData", method = RequestMethod.POST)
+	public ModelAndView addDataToWorkBoard(
+		@RequestParam(value="csiroVariable",required=true) String csiroVariable,
+		@RequestParam(value="csiroEmissionScenario",required=true) String csiroEmissionScenario,
+		@RequestParam(value="csiroClimateModel",required=true) String csiroClimateModel,
+		@RequestParam(value="assessmentYear",required=true) String assessmentYear,
+		@RequestParam(value="workboardid",required=true) Integer workboardid, Model model) 
+		throws IOException 
+	{
+		logger.info("Inside addDataToWorkBoard !");
+        workboard = workboardDao.find(workboardid);
+        
+		file.setFilename("CSIRO Data");
+		file.setType("data");
+		file.setWorkboard(workboard);
+		
+		
+        // Retrieve CSIRO data in the database according to the variable & parameters
+		String content = "";
+		if (csiroVariable.equals("All"))
+		{
+			List<CsiroData> dataList = dataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear));
+			
+			content += "<table class=\"data display datatable\" id=\"example\">";
+			content += "	<thead>";
+			content += "		<tr>";
+			content += "			<th>Variable</th>";
+			content += "			<th>Value</th>";
+			content += "			<th>Asessement Year</th>";
+			content += "			<th>Emission Scenario</th>";
+			content += "			<th>Climate Model</th>";
+			content += "			<th>Region</th>";
+			content += "		</tr>";
+			content += "	</thead>";
+			content += "	<tbody>";
+			Integer i = 0;
+			for (CsiroData data : dataList)
+			{
+				if (i % 2 == 0)
+					content += "		<tr class=\"odd\">";
+				else
+					content += "		<tr class=\"even\">";
+				
+				content += "			<td>" + data.getVariable().getName() + "</td>";
+				content += "			<td class=\"center\">" + data.getValue() + data.getVariable().getUom() + "</td>";
+				content += "			<td>" + data.getParameters().getAssessmentYear() + "</td>";
+				content += "			<td>" + data.getParameters().getEmissionScenario() + "</td>";
+				content += "			<td>" + data.getParameters().getModelName() + "</td>";
+				content += "			<td>" + data.getRegion().getName() + "</td>";
+				content += "		</tr>";
+			}
+			content += "	</tbody>";
+			content += "</table>";
+		}
+		else // Generate a text statement from the data & save it as the file content
+		{
+			// Retrieve the data for the specified variable
+			CsiroData data = dataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear), csiroVariable);
+			String statementVerb = "not increase";
+			if (data.getValue() > 0)
+				statementVerb = "increase of <b>" + data.getValue() + " " + data.getVariable().getUom() + "</b>";
+			else if (data.getValue() < 0)
+				statementVerb = "decrease of <b>" + Math.abs(data.getValue()) + " " + data.getVariable().getUom() + "</b>";
+			content += "According to the <b>" + data.getParameters().getModelName() + "</b> climate model, ";
+			content += "if the <b>" + data.getParameters().getEmissionScenario() + "</b> emissions scenario happens,";
+			content += "the <b>" + data.getVariable().getName() + "</b> will " + statementVerb + " ";
+			content += "by <b>" + data.getParameters().getAssessmentYear() + "</b> in the <b>" + data.getRegion().getName() + "</b> region.";
+		}
+		
+		file.setFile(content.getBytes());
+		filesDao.save(file);
+		model.addAttribute("controllerMessageSuccess", "CSIRO Data added successfully");
+		ModelAndView mav = modelForActiveWBview(model, workboard);
+		return mav;
+	}
+	
 	public ModelAndView CreateWorkBoard(String firstName, Model model) {
 		person = personDao.find(firstName) ;
 		ModelAndView mav = new ModelAndView();
@@ -103,8 +180,8 @@ public class WorkBoardController {
 		workboard.setPerson(person) ;
 		mav.setViewName("createwb");
  		mav.addObject("workboard", workboard);
-		model.addAttribute("firstName",person.getFirstName()) ;
- 		model.addAttribute("secondName",person.getLastName()) ;
+		model.addAttribute("firstName",person.getFirstName());
+ 		model.addAttribute("secondName",person.getLastName());
 		return mav;
 	}
 	
@@ -169,7 +246,7 @@ public class WorkBoardController {
 			/////// Converting the bytefiles to stringfiles     ///////
 			List<Files> files = filesDao.getFiles(workboard);
 			Files stringfile;
-			StringBuffer imagestring ;
+			//StringBuffer imagestring ;
 			for (int i = 0, n = files.size(); i < n; i++) {
 				stringfile = new Files();
 				swapfile = new Files();
@@ -181,7 +258,7 @@ public class WorkBoardController {
 				stringfile.setFile(swapfile.getFile());
 				if (swapfile.getType() == "jpg" || swapfile.getType() == "jpeg" ) {
 					System.out.println("Inside upload " + swapfile.getFile()) ;
-//					imagestring = new StringBuffer(Base64.encodeBase64String(swapfile.getFile())) ;
+					//imagestring = new StringBuffer(Base64.encodeBase64String(swapfile.getFile())) ;
 					stringfile.setFilecontent(Base64.encodeBase64String(swapfile.getFile())) ; 
 				}else {
 					stringfile.setFilecontent(swapfile.toString((swapfile.getFile())));
@@ -189,7 +266,7 @@ public class WorkBoardController {
 				
 				
 				System.out.println("The Actual Value of the File : " + swapfile.getFile());
-//				System.out.println("The String Value : " + swapfile.toString((swapfile.getFile())));
+				//System.out.println("The String Value : " + swapfile.toString((swapfile.getFile())));
 				convertedfiles.add(stringfile);
 			}
 		} catch (NullPointerException e) {

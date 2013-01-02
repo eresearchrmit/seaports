@@ -1,9 +1,5 @@
 package war.model;
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,8 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Class representing the dataset available from CSIRO. 
- * It associates the CSIRO variables and parameters to values.
+ * Class representing data from the dataset available from CSIRO. 
+ * It associates values to the NRM regions, CSIRO variables and parameters.
  * @author Guillaume Prevost
  * @since 20th Dec. 2012
  */
@@ -32,67 +28,120 @@ public class CsiroData
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
+	/**
+	 * The region to which the data applies
+	 */
 	@ManyToOne
 	@JoinColumn(name="region_id")
 	private Region region;
-	  
+	
+	/**
+	 * The parameters of the computed data (Climate model, Emission Scenario, Assessment Year)
+	 */
 	@ManyToOne
 	@JoinColumn(name="csiroparams_id")
-	private CsiroParams parameter;
+	private CsiroParams parameters;
 
+	/**
+	 * The variable that this data represents
+	 */
 	@ManyToOne
 	@JoinColumn(name="csirovariable_id")
 	private CsiroVariable variable;
 
+	/**
+	 * The value of the data
+	 */
 	private long value;
 	
-	
+	/**
+	 * Default constructor of CsiroData
+	 */
 	public CsiroData() {
 	}
 	
-	public CsiroData(Region region, CsiroParams parameter, CsiroVariable variable, long value) {
+	/**
+	 * Constructor of CsiroVariable
+	 * @param region: the region to which the data applies
+	 * @param parameters: the parameters of the computed data
+	 * @param variable: the variable that this data represents
+	 * @param value: the value of the data
+	 */
+	public CsiroData(Region region, CsiroParams parameters, CsiroVariable variable, long value) {
 		setRegion(region);
-		setParameter(parameter);
+		setParameters(parameters);
 		setVariable(variable);
 		setValue(value);
 	}
 
+	/**
+	 * Getter for the unique ID of the CSIRO Data
+	 * @return: the unique ID of the CSIRO Data
+	 */
 	public int getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
-		this.id = id;
-	}
-	
+	/**
+	 * Getter for the region to which the data applies
+	 * @return
+	 */
 	public Region getRegion() {
 		return region;
 	}
 
+	/**
+	 * Setter for the region to which the data applies
+	 * @param region: the new region to which the data applies
+	 */
 	public void setRegion(Region region) {
 		this.region = region;
 	}
 	
-	public CsiroParams getParameter() {
-		return parameter;
+	/**
+	 * Getter for the parameters of the computed data (Climate model, Emission Scenario, Assessment Year)
+	 * @return: the parameters of the computed data
+	 */
+	public CsiroParams getParameters() {
+		return parameters;
 	}
 	
-	public void setParameter(CsiroParams parameter) {
-		this.parameter = parameter;
+	/**
+	 * Setter for the parameters of the computed data (Climate model, Emission Scenario, Assessment Year)
+	 * @param parameters: the new parameters of the computed data
+	 */
+	public void setParameters(CsiroParams parameters) {
+		this.parameters = parameters;
 	}
 	
+	/**
+	 * Getter for the variable that this Data represent
+	 * @return: the variable represented by this data
+	 */
 	public CsiroVariable getVariable() {
 		return variable;
 	}
 	
+	/**
+	 * Setter for the variable that this Data represent
+	 * @param variable: the new variable represented by this data
+	 */
 	public void setVariable(CsiroVariable variable) {
 		this.variable = variable;
 	}
 	
+	/**
+	 * Getter for the value of the Data
+	 * @return: the value of the data
+	 */
 	public float getValue() {
 		return value;
 	}
 	
+	/**
+	 * Getter for the value of the Data
+	 * @param value: the new value of the Data
+	 */
 	public void setValue(long value) {
 		this.value = value;
 	}

@@ -113,4 +113,12 @@ public class CsiroParams {
 	public int getAssessmentYear() {
 		return assessmentYear;
 	}
+	
+	/**
+	 * String representation of the CsiroParams object
+	 */
+	@Override
+	public String toString() {
+		return new String(modelName + " " + emissionScenario + " " + assessmentYear);
+	}
 }
