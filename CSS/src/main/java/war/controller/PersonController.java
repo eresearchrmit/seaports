@@ -59,9 +59,9 @@ public class PersonController {
 	
 	@RequestMapping(method=RequestMethod.POST) 
 	public String loginValidation(@ModelAttribute Person person, Model model) {
-		logger.debug("Received postback on person "+ person);
+		logger.debug("Received postback on person " + person);
 		Person persondb = null ;
-//		ModelAndView mav = new ModelAndView();
+		//ModelAndView mav = new ModelAndView();
 		
 		try {
 			if (person.getFirstName() != null) {	
@@ -69,11 +69,11 @@ public class PersonController {
 					Boolean val = persondb.getPassWord().equalsIgnoreCase(person.getPassWord()) ;
 					if (val) {
 						//TODO check whether the user have an active Work Board
-						
 						//TODO If yes print the Work Board Name and the elements in that WorkBoard
-	//		 			mav.setViewName("list") ;
+						
+						//mav.setViewName("list") ;
 						String firstname = persondb.getFirstName() ;
-	//		 	 		mav.addObject("person", persondb);
+						//mav.addObject("person", persondb);
 			 	 		String request = "forward:/spring/createwb?username=" + firstname ;
 			 	 		return request ;
 					} else {

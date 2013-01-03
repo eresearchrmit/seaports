@@ -1,7 +1,10 @@
 package war.controller;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import war.dao.*;
@@ -52,14 +55,14 @@ public class WorkBoardController {
 	public ModelAndView getUserWorkBoard(@RequestParam(value="username",required=true) String firstName, Model model) {
 		logger.info("Inside get Work Board !");
 		person = personDao.find(firstName) ;
-		workboard = workboardDao.getActiveWorkBoard(person) ; 
+		workboard = workboardDao.getActiveWorkBoard(person); 
 		if (workboard == null){
-			ModelAndView mav = CreateWorkBoard(firstName,model) ;
-			return mav;	
+			ModelAndView mav = CreateWorkBoard(firstName, model);
+			return mav;
 		}
 		
 		ModelAndView mav = modelForActiveWBview(model, workboard);
-		return mav;	
+		return mav;
 	}
 	
 	@ModelAttribute("file")
@@ -80,10 +83,9 @@ public class WorkBoardController {
         	if (tokens[1].contains("jpg")  || tokens[1].contains("jpeg")){
         		bytes = Base64.encodeBase64(uploadfile.getBytes()) ;
         		System.out.println("Inside the image converstion.........");
-//        		if (Base64.isArrayByteBase64(bytes)) System.out.println("Yes the image is base 64"); else System.out.println("Yes the image is not base 64") ;
+        		//if (Base64.isArrayByteBase64(bytes)) System.out.println("Yes the image is base 64"); else System.out.println("Yes the image is not base 64") ;
         	} else {
-        		
-        		bytes = uploadfile.getBytes() ;
+        		bytes = uploadfile.getBytes();
         	}
             file.setFile(bytes) ;
             
@@ -98,7 +100,7 @@ public class WorkBoardController {
 	
 	@ModelAttribute("file")
 	@RequestMapping(value= "/addCsiroData", method = RequestMethod.POST)
-	public ModelAndView addDataToWorkBoard(
+	public ModelAndView addCsiroDataToWorkBoard(
 		@RequestParam(value="csiroVariable",required=true) String csiroVariable,
 		@RequestParam(value="csiroEmissionScenario",required=true) String csiroEmissionScenario,
 		@RequestParam(value="csiroClimateModel",required=true) String csiroClimateModel,
@@ -113,68 +115,76 @@ public class WorkBoardController {
 		file.setType("data");
 		file.setWorkboard(workboard);
 		
-		
-        // Retrieve CSIRO data in the database according to the variable & parameters
-		String content = "";
-		if (csiroVariable.equals("All"))
-		{
-			List<CsiroData> dataList = dataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear));
-			
-			content += "<table class=\"data display datatable\" id=\"example\">";
-			content += "	<thead>";
-			content += "		<tr>";
-			content += "			<th>Variable</th>";
-			content += "			<th>Value</th>";
-			content += "			<th>Asessement Year</th>";
-			content += "			<th>Emission Scenario</th>";
-			content += "			<th>Climate Model</th>";
-			content += "			<th>Region</th>";
-			content += "		</tr>";
-			content += "	</thead>";
-			content += "	<tbody>";
-			Integer i = 0;
-			for (CsiroData data : dataList)
+		try {
+	        // Retrieve CSIRO data in the database according to the variable & parameters
+			String content = "";
+			if (csiroVariable.equals("All"))
 			{
-				if (i % 2 == 0)
-					content += "		<tr class=\"odd\">";
-				else
-					content += "		<tr class=\"even\">";
+				List<CsiroData> dataList = dataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear));
 				
-				content += "			<td>" + data.getVariable().getName() + "</td>";
-				content += "			<td class=\"center\">" + data.getValue() + data.getVariable().getUom() + "</td>";
-				content += "			<td>" + data.getParameters().getAssessmentYear() + "</td>";
-				content += "			<td>" + data.getParameters().getEmissionScenario() + "</td>";
-				content += "			<td>" + data.getParameters().getModelName() + "</td>";
-				content += "			<td>" + data.getRegion().getName() + "</td>";
+				content += "<table class=\"data display datatable\" id=\"example\">";
+				content += "	<thead>";
+				content += "		<tr>";
+				content += "			<th>Variable</th>";
+				content += "			<th>Value</th>";
+				content += "			<th>Asessement Year</th>";
+				content += "			<th>Emission Scenario</th>";
+				content += "			<th>Climate Model</th>";
+				content += "			<th>Region</th>";
 				content += "		</tr>";
+				content += "	</thead>";
+				content += "	<tbody>";
+				Integer i = 0;
+				for (CsiroData data : dataList)
+				{
+					if (i % 2 == 0)
+						content += "		<tr class=\"odd\">";
+					else
+						content += "		<tr class=\"even\">";
+					
+					content += "			<td>" + data.getVariable().getName() + "</td>";
+					content += "			<td class=\"center\">" + data.getValue() + data.getVariable().getUom() + "</td>";
+					content += "			<td>" + data.getParameters().getAssessmentYear() + "</td>";
+					content += "			<td>" + data.getParameters().getEmissionScenario() + "</td>";
+					content += "			<td>" + data.getParameters().getModelName() + "</td>";
+					content += "			<td>" + data.getRegion().getName() + "</td>";
+					content += "		</tr>";
+				}
+				content += "	</tbody>";
+				content += "</table>";
 			}
-			content += "	</tbody>";
-			content += "</table>";
+			else // Generate a text statement from the data & save it as the file content
+			{
+				// Retrieve the data for the specified variable
+				CsiroData data = dataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear), csiroVariable);
+				String statementVerb = "not increase";
+				if (data.getValue() > 0)
+					statementVerb = "increase of <b>" + data.getValue() + " " + data.getVariable().getUom() + "</b>";
+				else if (data.getValue() < 0)
+					statementVerb = "decrease of <b>" + Math.abs(data.getValue()) + " " + data.getVariable().getUom() + "</b>";
+				content += "<p>According to the <b>" + data.getParameters().getModelName() + "</b> climate model, ";
+				content += "if the <b>" + data.getParameters().getEmissionScenario() + "</b> emissions scenario happens,";
+				content += "the <b>" + data.getVariable().getName() + "</b> will " + statementVerb + " ";
+				content += "by <b>" + data.getParameters().getAssessmentYear() + "</b> in the <b>" + data.getRegion().getName() + "</b> region.</p>";
+			}
+			
+			DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+			Date date = new Date();
+			content += "<i>Based on data from CSIRO, generated on " + dateFormat.format(date) + ".</i>";
+			
+			file.setFile(content.getBytes());
+			filesDao.save(file);
+			model.addAttribute("controllerMessageSuccess", "The CSIRO Data has been added successfully to your workboard");
 		}
-		else // Generate a text statement from the data & save it as the file content
-		{
-			// Retrieve the data for the specified variable
-			CsiroData data = dataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear), csiroVariable);
-			String statementVerb = "not increase";
-			if (data.getValue() > 0)
-				statementVerb = "increase of <b>" + data.getValue() + " " + data.getVariable().getUom() + "</b>";
-			else if (data.getValue() < 0)
-				statementVerb = "decrease of <b>" + Math.abs(data.getValue()) + " " + data.getVariable().getUom() + "</b>";
-			content += "According to the <b>" + data.getParameters().getModelName() + "</b> climate model, ";
-			content += "if the <b>" + data.getParameters().getEmissionScenario() + "</b> emissions scenario happens,";
-			content += "the <b>" + data.getVariable().getName() + "</b> will " + statementVerb + " ";
-			content += "by <b>" + data.getParameters().getAssessmentYear() + "</b> in the <b>" + data.getRegion().getName() + "</b> region.";
+		catch (Exception e) {
+			model.addAttribute("controllerMessageError", "No CSIRO data found corresponding to the specified parameters.");
 		}
-		
-		file.setFile(content.getBytes());
-		filesDao.save(file);
-		model.addAttribute("controllerMessageSuccess", "CSIRO Data added successfully");
 		ModelAndView mav = modelForActiveWBview(model, workboard);
 		return mav;
 	}
 	
 	public ModelAndView CreateWorkBoard(String firstName, Model model) {
-		person = personDao.find(firstName) ;
+		person = personDao.find(firstName);
 		ModelAndView mav = new ModelAndView();
 		WorkBoard workboard = new WorkBoard();
 		workboard.setPerson(person) ;
@@ -237,10 +247,10 @@ public class WorkBoardController {
 		
 		/* ** CRUD operation for the file and to redirect activeWB.jsp View** */
 		ModelAndView mav = new ModelAndView();
-		person = personDao.find(workboard.getPerson().getFirstName()) ;
+		person = personDao.find(workboard.getPerson().getFirstName());
 		
  		
- 		List<Files> convertedfiles = new ArrayList<Files>() ;
+ 		List<Files> convertedfiles = new ArrayList<Files>();
  		
  		try {
 			/////// Converting the bytefiles to stringfiles     ///////
@@ -257,10 +267,11 @@ public class WorkBoardController {
 				stringfile.setWorkboard(swapfile.getWorkboard());
 				stringfile.setFile(swapfile.getFile());
 				if (swapfile.getType() == "jpg" || swapfile.getType() == "jpeg" ) {
-					System.out.println("Inside upload " + swapfile.getFile()) ;
-					//imagestring = new StringBuffer(Base64.encodeBase64String(swapfile.getFile())) ;
-					stringfile.setFilecontent(Base64.encodeBase64String(swapfile.getFile())) ; 
-				}else {
+					System.out.println("Inside upload " + swapfile.getFile());
+					//imagestring = new StringBuffer(Base64.encodeBase64String(swapfile.getFile()));
+					stringfile.setFilecontent(Base64.encodeBase64String(swapfile.getFile())); 
+				}
+				else {
 					stringfile.setFilecontent(swapfile.toString((swapfile.getFile())));
 				}
 				
@@ -298,8 +309,7 @@ public class WorkBoardController {
 		
 		return mav;	
 	}
-	
-	
+		
 	@RequestMapping(value = "/deletefile",method=RequestMethod.GET) 
 	public ModelAndView deleteDataelement(@ModelAttribute Files file,@RequestParam(value="dataelementid",required=true) Integer Id, Model model) {
 		logger.debug("Received object for workboard  "+ file);
