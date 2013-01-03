@@ -19,6 +19,19 @@
 <%-- <c:out value="${stringfiles}"></c:out> --%>
 
 <div class="grid_8">
+	<c:if test="${not empty controllerMessageSuccess}">
+		<div class="message success">
+			<h5>Success !</h5>
+			<p>${controllerMessageSuccess}.</p>
+		</div>
+	</c:if>
+	<c:if test="${not empty controllerMessageError}">
+		<div class="message error">
+			<h5>Error</h5>
+			<p>${controllerMessageError}.</p>
+		</div>
+	</c:if>
+	
 	<form:form method="post" action="/CSS/spring/createwb/update?workboardid=${workboard.workBoardID}" modelAttribute="stringfiles">
 		
 	  	<c:if test="${not empty stringfiles}">		
@@ -62,9 +75,9 @@
 		                 		
 		                 	<c:otherwise>
 								<textarea name="files[${status.index}].filecontent" rows="12"> 
-		                   			${file.filecontent}		
+		                   			${file.filecontent}
 		                   		</textarea>
-							</c:otherwise> 
+							</c:otherwise>
 						</c:choose>
 					</div>
 			</c:forEach>

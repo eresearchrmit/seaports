@@ -456,7 +456,8 @@ function setupDialogBox(containerElement, associatedButton) {
     $("#" + containerElement).dialog({
         autoOpen: false,
         show: "fade",
-        hide: "fade"
+        hide: "fade",
+        width:"auto"
     });
 
     $("#" + associatedButton).click(function () {
