@@ -18,7 +18,6 @@ import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/login")
-
 public class PersonController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
@@ -64,25 +63,25 @@ public class PersonController {
 		//ModelAndView mav = new ModelAndView();
 		
 		try {
-			if (person.getFirstName() != null) {	
-					persondb = personDao.find(person.getFirstName()) ;
-					Boolean val = persondb.getPassWord().equalsIgnoreCase(person.getPassWord()) ;
+			if (person.getLogin() != null) {	
+					persondb = personDao.find(person.getLogin()) ;
+					Boolean val = persondb.getPassword().equalsIgnoreCase(person.getPassword()) ;
 					if (val) {
 						//TODO check whether the user have an active Work Board
 						//TODO If yes print the Work Board Name and the elements in that WorkBoard
 						
 						//mav.setViewName("list") ;
-						String firstname = persondb.getFirstName() ;
+						String login = persondb.getLogin() ;
 						//mav.addObject("person", persondb);
-			 	 		String request = "forward:/spring/createwb?username=" + firstname ;
-			 	 		return request ;
+			 	 		String request = "forward:/spring/workboard?username=" + login;
+			 	 		return request;
 					} else {
-						System.out.println("False username password") ;
+						System.out.println("Wrong login and/or password");
 						model.addAttribute("controllerMessage","User name and/or password invalid");
-						return "login" ;	
+						return "login";
 					}
 			} else {
-				System.out.println("No username password") ;
+				System.out.println("No username password");
 				model.addAttribute("controllerMessage","Please enter a user name and/or a password");
 				return "login" ;	
 			}	

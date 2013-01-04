@@ -23,8 +23,8 @@ public class WorkBoardDao {
 		return entityManager.find(WorkBoard.class, id);
 	}
 	
-	public Person findPerson(String firstName) {
-		return entityManager.find(Person.class, firstName);	
+	public Person findPerson(String login) {
+		return entityManager.find(Person.class, login);	
 	}
 	
 	@SuppressWarnings("unchecked")

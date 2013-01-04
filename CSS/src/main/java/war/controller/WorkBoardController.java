@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 import war.dao.*;
-import war.model.* ;
+import war.model.*;
 import war.service.*;
 
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ import org.apache.commons.codec.binary.*;
 
 
 @Controller
-@RequestMapping("/createwb")
+@RequestMapping("/workboard")
 public class WorkBoardController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
@@ -52,13 +52,19 @@ public class WorkBoardController {
 
 	@ModelAttribute("person")
 	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView getUserWorkBoard(@RequestParam(value="username",required=true) String firstName, Model model) {
+	public ModelAndView getUserWorkBoard(@RequestParam(value="username",required=true) String login, Model model) {
 		logger.info("Inside get Work Board !");
-		person = personDao.find(firstName) ;
-		workboard = workboardDao.getActiveWorkBoard(person); 
-		if (workboard == null){
-			ModelAndView mav = CreateWorkBoard(firstName, model);
-			return mav;
+		try {
+			person = personDao.find(login) ;
+			workboard = workboardDao.getActiveWorkBoard(person); 
+			if (workboard == null){
+				ModelAndView mav = CreateWorkBoard(login, model);
+				return mav;
+			}
+		}
+		catch (NullPointerException e)
+		{
+			model.addAttribute("errorMessage", "Error: Impossible to retrieve your Workboard.");
 		}
 		
 		ModelAndView mav = modelForActiveWBview(model, workboard);
@@ -70,7 +76,9 @@ public class WorkBoardController {
 	public ModelAndView uploadfileinWorkBoard(@RequestParam(value="files",required=true) MultipartFile uploadfile,
 			@RequestParam(value="workboardid",required=true) Integer workboardid, Model model) throws IOException{
 		
-        workboard = workboardDao.find(workboardid) ;
+		if (workboard == null)
+			workboard = workboardDao.find(workboardid);
+		
         String filename = uploadfile.getOriginalFilename() ;
 		tokens = filename.split(splitvar) ;
 		file.setFilename(tokens[0]) ;
@@ -109,7 +117,8 @@ public class WorkBoardController {
 		throws IOException 
 	{
 		logger.info("Inside addDataToWorkBoard !");
-        workboard = workboardDao.find(workboardid);
+		if (workboard == null)
+			workboard = workboardDao.find(workboardid);
         
 		file.setFilename("CSIRO Data");
 		file.setType("data");
@@ -177,31 +186,31 @@ public class WorkBoardController {
 			model.addAttribute("controllerMessageSuccess", "The CSIRO Data has been added successfully to your workboard");
 		}
 		catch (Exception e) {
-			model.addAttribute("controllerMessageError", "No CSIRO data found corresponding to the specified parameters.");
+			model.addAttribute("controllerMessageError", "No CSIRO data found corresponding to the specified parameters");
 		}
 		ModelAndView mav = modelForActiveWBview(model, workboard);
 		return mav;
 	}
 	
-	public ModelAndView CreateWorkBoard(String firstName, Model model) {
-		person = personDao.find(firstName);
+	public ModelAndView CreateWorkBoard(String login, Model model) {
+		person = personDao.find(login);
 		ModelAndView mav = new ModelAndView();
 		WorkBoard workboard = new WorkBoard();
 		workboard.setPerson(person) ;
-		mav.setViewName("createwb");
+		mav.setViewName("workboard");
  		mav.addObject("workboard", workboard);
-		model.addAttribute("firstName",person.getFirstName());
- 		model.addAttribute("secondName",person.getLastName());
+		model.addAttribute("firstname",person.getFirstname());
+ 		model.addAttribute("secondname",person.getLastname());
 		return mav;
 	}
 	
 	@RequestMapping(value = "/add",method=RequestMethod.POST) 
-	public ModelAndView addWorkboard(@ModelAttribute WorkBoard workboard,@RequestParam(value="firstName",required=true) String firstname, Model model) {
+	public ModelAndView addWorkboard(@ModelAttribute WorkBoard workboard,@RequestParam(value="login",required=true) String login, Model model) {
 		logger.debug("Received object for workboard  "+ workboard);
 	
-		person = personDao.find(firstname) ;
-		workboard.setPerson(person) ;
-		workboard.setMode("active") ;
+		person = personDao.find(login);
+		workboard.setPerson(person);
+		workboard.setMode("active");
 		workboardDao.save(workboard);
 
 		ModelAndView mav = modelForActiveWBview(model, workboard);
@@ -212,27 +221,31 @@ public class WorkBoardController {
 	@RequestMapping(value ="/update",method=RequestMethod.POST)
 	public ModelAndView updateWorkboard(@ModelAttribute FilesService stringfiles, @RequestParam(value="workboardid",required=true) Integer workboardid,Model model) {
 		logger.debug("Received object for workboard  "+ workboard);
-
-		List<Files> updatefiles =  stringfiles.getFiles() ;
-		System.out.println("Inside update function " + updatefiles.size()) ;
-		Files actualfile ;
-		for(int i = 0, n = updatefiles.size(); i < n; i++) {
-			actualfile = filesDao.find(updatefiles.get(i).getFileid()) ;
-			if (!(actualfile.getType().contains("jpg") || actualfile.getType().contains("jpeg"))) {
-				actualfile.setFile(updatefiles.get(i).toBytes(updatefiles.get(i).getFilecontent().toString())) ;
+		if (workboard == null)
+			workboard = workboardDao.find(workboardid);
+		
+		List<Files> filesList = stringfiles.getFiles();
+		System.out.println("Inside update function " + filesList.size());
+		Files actualfile;
+		for (Files file : filesList)
+		{
+			actualfile = filesDao.find(file.getFileid());
+			if (!(actualfile.getType().contains("jpg") || actualfile.getType().contains("jpeg")
+					|| actualfile.getType().contains("data"))) {
+				actualfile.setFile(file.toBytes(file.getFilecontent().toString())) ;
 			}
-/*				if (Base64.isArrayByteBase64(Base64.decodeBase64(updatefiles.get(i).getFilecontent()))){
-					System.out.println("Yes the image is base 64") ; 
-				    actualfile.setFile(Base64.decodeBase64(updatefiles.get(i).getFilecontent())) ;
-				}
-				else { 
-					encodebyte = Base64.encodeBase64(Base64.decodeBase64(updatefiles.get(i).getFilecontent())) ;
-					actualfile.setFile(encodebyte) ;
-					System.out.println("Yes the image is not base 64") ;	
-				}	
-*/			
+			//if (Base64.isArrayByteBase64(Base64.decodeBase64(updatefiles.get(i).getFilecontent()))){
+				//System.out.println("Yes the image is base 64") ; 
+			    //actualfile.setFile(Base64.decodeBase64(updatefiles.get(i).getFilecontent())) ;
+			//}
+			//else { 
+				//encodebyte = Base64.encodeBase64(Base64.decodeBase64(updatefiles.get(i).getFilecontent())) ;
+				//actualfile.setFile(encodebyte) ;
+				//System.out.println("Yes the image is not base 64") ;	
+			//}
 			filesDao.save(actualfile);
-	    }
+			model.addAttribute("controllerMessageSuccess", "Workboard saved");
+		}
 		
 		ModelAndView mav = modelForActiveWBview(model, workboard);
 		return mav;		
@@ -244,10 +257,9 @@ public class WorkBoardController {
 		
 		System.out.println("Inside the refractor" + person +" "+ personDao + " " + workboard);
 		
-		
 		/* ** CRUD operation for the file and to redirect activeWB.jsp View** */
 		ModelAndView mav = new ModelAndView();
-		person = personDao.find(workboard.getPerson().getFirstName());
+		person = personDao.find(workboard.getPerson().getLogin());
 		
  		
  		List<Files> convertedfiles = new ArrayList<Files>();
@@ -289,8 +301,9 @@ public class WorkBoardController {
  		mav.addObject("workboard", workboard) ;
  		file = new Files() ;
  		mav.addObject(file) ;  // This file object id for the userwbmenu.jsp
-		model.addAttribute("firstName",person.getFirstName()) ;
- 		model.addAttribute("secondName",person.getLastName()) ;	
+ 		model.addAttribute("login",person.getLogin());
+ 		model.addAttribute("firstname",person.getFirstname());
+ 		model.addAttribute("lastname",person.getLastname());	
  		model.addAttribute("workboardTitle", workboard.getWorkBoardName()) ;
  		model.addAttribute("workboardID", workboard.getWorkBoardID());
  		mav.addObject("stringfiles",stringfiles) ;
@@ -305,7 +318,7 @@ public class WorkBoardController {
 		person = workboard.getPerson() ;
 		workboardDao.removeWorkBoard(Id,workboard) ;
 		
-		ModelAndView mav = CreateWorkBoard(person.getFirstName(),model) ;
+		ModelAndView mav = CreateWorkBoard(person.getLogin(),model) ;
 		
 		return mav;	
 	}
@@ -313,11 +326,18 @@ public class WorkBoardController {
 	@RequestMapping(value = "/deletefile",method=RequestMethod.GET) 
 	public ModelAndView deleteDataelement(@ModelAttribute Files file,@RequestParam(value="dataelementid",required=true) Integer Id, Model model) {
 		logger.debug("Received object for workboard  "+ file);
-		file = filesDao.find(Id) ;
-		workboard = file.getWorkboard() ;
-		filesDao.removeFile(Id) ;
-
-		ModelAndView mav = modelForActiveWBview(model,workboard);
+		try {
+			file = filesDao.find(Id);
+			workboard = file.getWorkboard();
+			filesDao.removeFile(Id);
+			model.addAttribute("controllerMessageSuccess", "The Data Element was deleted successfully from your Workboard");
+		}
+		catch (Exception e)
+		{
+			model.addAttribute("controllerMessageError", "The Data Element '" + file.getFilename() + "' could not be deleted.");
+		}
+		
+		ModelAndView mav = modelForActiveWBview(model, workboard);
 		return mav;	
 	}
 }

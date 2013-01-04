@@ -15,66 +15,163 @@ public class Person implements Serializable {
 
 	private static final long serialVersionUID = -1308795024262635690L;
 
+	/**
+	 * The login of the person. This is the unique identifier of the person
+	 */
+	@Id
+	private String login;
 	
-	private String firstName;
-	private String lastName;
-	private String passWord;
+	/**
+	 * Password of the person
+	 */
+	private String password;
 	
-	private List<WorkBoard> workboard ;
+	/**
+	 * First name of the person
+	 */
+	private String firstname;
+	
+	/**
+	 * Last name of the person
+	 */
+	private String lastname;
+	
+	/**
+	 * Privilege level of the person in the application
+	 */
+	private Privilege privilege;
+	
+	/**
+	 * The workboards of the person
+	 */
+	@OneToMany(targetEntity=WorkBoard.class, mappedBy="person",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private List<WorkBoard> workboard;
 
+	/**
+	 * Default constructor of person
+	 */
 	public Person() {
 	}
 
-	public Person(String firstName, String lastName, String passWord) {
+	/**
+	 * Constructor of Person specifying the name, login and password 
+	 * @param login: the login of the user. This is the unique identifier of the user
+	 * @param password: the password of the user
+	 * @param firstname: the first name of the user
+	 * @param lastname: the last name of the user
+	 */
+	public Person(String login, String password, String firstname, String lastname, Privilege privilege) {
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.passWord = passWord ;
+		this.login = login;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.password = password;
+		this.privilege = privilege;
 	}
 	
-	@Id
-	public String getFirstName() {
-		return firstName;
+	/**
+	 * Getter for the login of the person
+	 * @return the login of the person
+	 */
+	public String getLogin() {
+		return login;
+	}
+	
+	/**
+	 * Setter for the login of the person
+	 * @param name: the new login of the person
+	 */
+	public void setLogin(String login) {
+		this.login = login;
+	}
+	
+	/**
+	 * Getter for the password of the person
+	 * @return the password of the person
+	 */
+	public String getPassword() {
+		return password;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	/**
+	 * Setter for the password of the person
+	 * @param name: the new password of the person
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	/**
+	 * Getter for the first name of the person
+	 * @return the first name of the person
+	 */
+	public String getFirstname() {
+		return firstname;
 	}
 
-	public String getLastName() {
-		return lastName;
+	/**
+	 * Setter for the first name of the person
+	 * @param name: the new first name of the person
+	 */
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	/**
+	 * Getter for the last name of the person
+	 * @return the last name of the person
+	 */
+	public String getLastname() {
+		return lastname;
 	}
 
-	public String getPassWord() {
-		return passWord;
+	/**
+	 * Setter for the last name of the person
+	 * @param name: the new last name of the person
+	 */
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+	
+	/**
+	 * Getter for the privilege level of the person in the application
+	 * @return the privilege level of the person in the application
+	 */
+	public Privilege getPrivilege() {
+		return privilege;
+	}
+	
+	/**
+	 * Setter for the privilege level of the person in the application
+	 * @param name: the new privilege level of the person in the application
+	 */
+	public void setRole(Privilege privilege) {
+		this.privilege = privilege;
+	}
+	
+	/**
+	 * Getter for the list of workboards belonging to the person
+	 * @return the list of workboards of the person
+	 */
+	public List<WorkBoard> getWorkboard() {
+		return workboard;
 	}
 
-	public void setPassWord(String passWord) {
-		this.passWord = passWord;
+	/**
+	 * Setter for the list of workboards belonging to the person
+	 * @param name: the new list of workboards of the person
+	 */
+	public void setWorkboard(List<WorkBoard> workboard) {
+		this.workboard = workboard;
 	}
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 	
-	@OneToMany(targetEntity=WorkBoard.class, mappedBy="person",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
-	public List<WorkBoard> getWorkboard() {
-		return workboard;
-	}
-
-	public void setWorkboard(List<WorkBoard> workboard) {
-		this.workboard = workboard;
-	}
-
-	
 	@Override
 	public String toString() {
-
-		return super.toString() + " name = " + firstName + " " + lastName ;
+		return super.toString() + " name = " + firstname + " " + lastname ;
 	}
 
 	@Override
@@ -82,10 +179,10 @@ public class Person implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((firstName == null) ? 0 : firstName.hashCode());
+				+ ((firstname == null) ? 0 : firstname.hashCode());
 //		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
-				+ ((lastName == null) ? 0 : lastName.hashCode());
+				+ ((lastname == null) ? 0 : lastname.hashCode());
 		return result;
 	}
 
@@ -98,22 +195,28 @@ public class Person implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Person other = (Person) obj;
-		if (firstName == null) {
-			if (other.firstName != null)
+		if (firstname == null) {
+			if (other.firstname != null)
 				return false;
-		} else if (!firstName.equals(other.firstName))
+		} else if (!firstname.equals(other.firstname))
 			return false;
 //		if (id == null) {
 //			if (other.id != null)
 //				return false;
 //		} else if (!id.equals(other.id))
 //			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
+		if (lastname == null) {
+			if (other.lastname != null)
 				return false;
-		} else if (!lastName.equals(other.lastName))
+		} else if (!lastname.equals(other.lastname))
 			return false;
 		return true;
 	}
 
+	public enum Privilege {
+		ANONYMOUS,
+		USER,
+		RESEARCHER,
+		ADMIN
+	}
 }

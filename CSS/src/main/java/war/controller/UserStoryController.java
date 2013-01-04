@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import war.dao.*;
-import war.model.* ;
+import war.model.*;
 import war.service.*;
 
 import org.slf4j.Logger;
@@ -49,22 +49,21 @@ public class UserStoryController {
 	@ModelAttribute("workboard")
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getUserWorkBoard(@RequestParam(value="workboardid",required=true) Integer Id, Model model) {
-		logger.info("Inside get Work Board !");
-		
-		String firstName ;
-		cworkboard = new WorkBoardController() ;
-		workboard = workboardDao.find(Id) ;
-		person = personDao.find(workboard.getPerson().getFirstName()) ;
-		firstName = person.getFirstName() ;
-		workboard = workboardDao.getActiveWorkBoard(person) ; 
-		if (workboard == null){
-			ModelAndView mav = cworkboard.CreateWorkBoard(firstName,model) ;
+		logger.info("Inside get Workboard !");
+
+		cworkboard = new WorkBoardController();
+		workboard = workboardDao.find(Id);
+		person = personDao.find(workboard.getPerson().getLogin());
+		workboard = workboardDao.getActiveWorkBoard(person);
+		if (workboard == null) {
+			ModelAndView mav = cworkboard.CreateWorkBoard(person.getLogin(), model);
 			return mav;	
-		} else {	
-			workboard = workboardDao.find(Id) ; 
 		}
-		workboard.setMode("passive") ;
-		workboardDao.save(workboard) ;
+		else {
+			workboard = workboardDao.find(Id); 
+		}
+		//workboard.setMode("passive");
+		workboardDao.save(workboard);
 		
 		ModelAndView mav = modelForPassiveWBview(model, workboard);
 		return mav;	
@@ -79,7 +78,7 @@ public class UserStoryController {
 		
 		/* ** CRUD operation for the file and to redirect activeWB.jsp View** */
 		ModelAndView mav = new ModelAndView();
-		person = personDao.find(workboard.getPerson().getFirstName()) ;
+		person = personDao.find(workboard.getPerson().getLogin()) ;
 		
  		
  		List<Files> convertedfiles = new ArrayList<Files>() ;
@@ -114,8 +113,8 @@ public class UserStoryController {
  		mav.addObject("workboard", workboard) ;
  		file = new Files() ;
  		mav.addObject(file) ;  // This file object id for the userwbmenu.jsp
-		model.addAttribute("firstName",person.getFirstName()) ;
- 		model.addAttribute("secondName",person.getLastName()) ;	
+		model.addAttribute("firstname",person.getFirstname()) ;
+ 		model.addAttribute("secondname",person.getLastname()) ;	
  		model.addAttribute("workboardTitle", workboard.getWorkBoardName()) ;
  		model.addAttribute("workboardID", workboard.getWorkBoardID());
  		mav.addObject("stringfiles",stringfiles) ;

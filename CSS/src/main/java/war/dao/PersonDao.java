@@ -16,8 +16,8 @@ public class PersonDao {
 	private EntityManager entityManager;
 	
 
-	public Person find(String firstName) {
-		return entityManager.find(Person.class, firstName);
+	public Person find(String login) {
+		return entityManager.find(Person.class, login);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -27,11 +27,12 @@ public class PersonDao {
 	
 	@Transactional
 	public Person save(Person person) {
-		if (person.getFirstName() == null) {
+		if (person.getLogin() == null) {
 			entityManager.persist(person);
 			return person;
-		} else {
-			return entityManager.merge(person) ;
+		}
+		else {
+			return entityManager.merge(person);
 		}		
 	}	
 	
