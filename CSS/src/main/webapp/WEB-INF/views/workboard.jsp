@@ -18,7 +18,7 @@
 	<i>There is no active workboard. Create a new workboard using the page below:</i>
 	
 	
-	<form:form method="POST" action="/CSS/spring/createwb/add?firstName=${workboard.person.firstName}"  modelAttribute="workboard" >
+	<form:form method="POST" action="/CSS/spring/workboard/add?login=${workboard.person.login}"  modelAttribute="workboard" >
 	<table class="form">
 		<tr>
 			<td class="col1">

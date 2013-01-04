@@ -15,10 +15,18 @@
 		</div>
 		</c:if>
 		
-		<form:form method="POST" modelAttribute="person" style="padding:8px">
-		    <p>Username <form:input path="firstName" /></p>
-		    <p>Password <form:password path="passWord" align ="right" /></p>
-		    <input type="submit" value="Sign In" class="btn btn-blue" />
+		<form:form method="POST" modelAttribute="person" >
+			<table class="form">
+			    <tr>
+			    	<td class="col1" align="right">Login:</td>
+			    	<td class="col2"><form:input path="login" /></td>
+			    </tr>
+			    <tr>
+			    	<td class="col1" align="right">Password:</td>
+			    	<td class="col2"><form:password path="password" align ="right" /></td>
+			    </tr>
+			</table>
+			<input type="submit" value="Sign In" class="btn btn-blue" />
 		</form:form>
 	</div>
 </div>

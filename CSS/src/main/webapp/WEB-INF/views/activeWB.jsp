@@ -32,7 +32,7 @@
 		</div>
 	</c:if>
 	
-	<form:form method="post" action="/CSS/spring/createwb/update?workboardid=${workboard.workBoardID}" modelAttribute="stringfiles">
+	<form:form method="post" action="/CSS/spring/workboard/update?workboardid=${workboard.workBoardID}" modelAttribute="stringfiles">
 		
 	  	<c:if test="${not empty stringfiles}">		
 		 	<c:forEach items="${stringfiles.files}" var="file" varStatus="status"> 
@@ -42,7 +42,7 @@
 		 			<div class="box round">
 						<div class="box-header">
 							<h5 class="floatleft">${file.filename}<c:if test="${file.type != 'data'}">.${file.type}</c:if></h5>
-							<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" onclick="location.href='/CSS/spring/createwb/deletefile?dataelementid=${file.fileid}'" >
+							<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" onclick="location.href='/CSS/spring/workboard/deletefile?dataelementid=${file.fileid}'" >
 								<span></span>Delete
 							</button>
 							<div class="clear"></div>
@@ -66,7 +66,13 @@
 			                 	<!-- byte Array - convert that into Base64 String otherwise regular String -   -->
 								<%--   <img name="files[${status.index}].filecontent" src="data:image/jpg;base64,<%=img %>" />  --%>
 								<%-- <input name="files[${status.index}].filecontent" src="data:image/jpeg;charset=utf-8;base64,${file.filecontent}" type="hidden"> --%>
-								<img name="files[${status.index}].filecontent" src="data:image/jpeg;charset=utf-8;base64,${file.filecontent}"  />
+								<ul class="prettygallery clearfix">
+		                        	<li>
+		                        		<a href="data:image/jpeg;charset=utf-8;base64,${file.filecontent}" rel="prettyPhoto[gallery2]" title="">
+		                            		<img name="files[${status.index}].filecontent" src="data:image/jpeg;charset=utf-8;base64,${file.filecontent}" class="dataElementThumb" />
+		                            	</a>
+		                            </li>
+								</ul>		
 		                 	</c:when>
 						
 					  		<c:when test="${file.type == 'data'}">
@@ -74,9 +80,7 @@
 		                 	</c:when>
 		                 		
 		                 	<c:otherwise>
-								<textarea name="files[${status.index}].filecontent" rows="12"> 
-		                   			${file.filecontent}
-		                   		</textarea>
+								<textarea name="files[${status.index}].filecontent" rows="12">${file.filecontent}</textarea>
 							</c:otherwise>
 						</c:choose>
 					</div>

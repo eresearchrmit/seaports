@@ -10,6 +10,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/fancy-button/fancy-button.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/themes/base/jquery.ui.all.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/table/demo_page.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/prettyPhoto.css" />" />
 
 <!-- BEGIN: load jquery -->
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.4.min.js" />"></script>
@@ -37,8 +38,6 @@
 <!-- END: load jquery -->
 
 
-
-
 <!-- BEGIN: load jqplot -->
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.jqplot.min.css" />" />
 <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/excanvas.min.js" />"></script><![endif]-->
@@ -54,6 +53,7 @@
 <script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/plugins/jqplot.bubbleRenderer.min.js" />"></script>
 <!-- END: load jqplot -->
 
+<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/pretty-photo/jquery.prettyPhoto.js" />"></script>
 <script language="javascript" type="text/javascript" src="<c:url value="/resources/js/setup.js" />"></script>
 
 <script type="text/javascript">
@@ -62,5 +62,36 @@
       setSidebarHeight();
       // Uncomment to add sorting, pagination & search on tables
       //$('.datatable').dataTable();
-   });
+      
+      // Resize each idea image so it is a good sized thumbnail
+      $.each($("img.dataElementThumb"), function() {
+          var maxWidth = 450;
+          var maxHeight = 150;
+          var width = $(this).width();
+          var height = $(this).height();
+
+          if((width/maxWidth) < (height/maxHeight)){
+              var multiplier = maxWidth/width;
+              var newHeight = height * multiplier;
+
+              $(this).css("width", maxWidth);
+              $(this).css("height", newHeight);
+
+              //var heightD = (maxHeight - newHeight)/2;
+              //$(this).css("margin-top", heightD+"px");
+              //$(this).css("margin-bottom", heightD+"px");
+          }else{
+              var multiplier = maxHeight/height;
+              var newWidth = width * multiplier;
+
+              $(this).css("width", newWidth);
+              $(this).css("height", maxHeight);
+
+              //var widthD = (maxWidth - width)/2;
+              //$(this).css("margin-left", widthD+"px");
+              //$(this).css("margin-right", widthD+"px");
+          }
+		}); 
+		setupPrettyPhoto();
+	});
 </script>

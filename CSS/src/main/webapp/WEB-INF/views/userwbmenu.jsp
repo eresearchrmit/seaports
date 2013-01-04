@@ -18,7 +18,7 @@
 
 <div class="grid_3 box">
 	<p>
-		<form:form method="post" action="/CSS/spring/createwb/upload?workboardid=${workboard.workBoardID}" modelAttribute="file" enctype="multipart/form-data">
+		<form:form method="post" action="/CSS/spring/workboard/upload?workboardid=${workboard.workBoardID}" modelAttribute="file" enctype="multipart/form-data">
 			File Upload : <input type="file" name="files" id="files" /><br />
 	    	<input type="submit" value="Upload File" class="btn btn-grey btn-icon btn-plus" />
 		</form:form>
@@ -64,7 +64,7 @@
 			</script>
 			<p>
 			<div id="csiroDataForm">
-				<form:form method="post" action="/CSS/spring/createwb/addCsiroData?workboardid=${workboard.workBoardID}" modelAttribute="file" enctype="multipart/form-data">
+				<form:form method="post" action="/CSS/spring/workboard/addCsiroData?workboardid=${workboard.workBoardID}" modelAttribute="file" enctype="multipart/form-data">
 					<p><strong>2. CSIRO Data Options:</strong></p>
 					<table width="auto" height="auto" class="form">
 						<tr>
@@ -141,7 +141,7 @@
 	</script>
 	
 	<p>
-		<button type="button" class="btn btn-icon btn-blue btn-cross" onclick="location.href='/CSS/spring/createwb/deleteWB?workboardid=${workboard.workBoardID}'" >
+		<button type="button" class="btn btn-icon btn-blue btn-cross" onclick="location.href='/CSS/spring/workboard/deleteWB?workboardid=${workboard.workBoardID}'" >
 			<span></span>Delete WorkBoard
 		</button>
 	</p>

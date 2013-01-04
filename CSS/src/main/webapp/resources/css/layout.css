@@ -688,7 +688,7 @@ img.right
 
 
 .prettygallery{ margin-top:10px; }
-.prettygallery li{display:inline; padding:0px 70px 40px 10px; margin:0px;  float:left; }
+.prettygallery li{display:inline; margin:0px;  float:left; }
 .prettygallery img {
 	
 	box-shadow:0px 0px 5px #ccc;

@@ -7,7 +7,7 @@
 </div>
 <div class="floatleft marginleft10">
 	<ul class="inline-ul floatleft">
-		<li>${workboard.person.firstName} ${workboard.person.lastName}</li>
+		<li>${workboard.person.firstname} ${workboard.person.lastname}</li>
 		<li><a href="#">My Account</a></li>
 		<li><a href="CSS/spring/login">Logout</a></li>
 	</ul>
