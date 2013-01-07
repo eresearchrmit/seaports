@@ -19,9 +19,8 @@ public class DataElement {
     private UserStory userstory ;
     private String extension ;
     
-    private StringBuffer dataelementcontent ;
+    private String dataelementcontent ;
     
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
     public int getDataelementid() {
@@ -79,12 +78,17 @@ public class DataElement {
 	}
 
 	@Transient
-	public StringBuffer getDataelementcontent() {
+	public String getDataelementcontent() {
 		return dataelementcontent;
 	}
 
-	public void setDataelementcontent(StringBuffer dataelementcontent) {
+	public void setDataelementcontent(String dataelementcontent) {
 		this.dataelementcontent = dataelementcontent;
+	}
+	
+	public String toString(byte[] dataelement){
+		dataelementcontent = new String(dataelement) ;
+        return dataelementcontent ;
 	}
   
 }
