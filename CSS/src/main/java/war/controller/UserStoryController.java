@@ -35,19 +35,25 @@ public class UserStoryController {
 	@Autowired
 	private FilesDao filesDao ;
 	@Autowired
+	private DataElementDao dataelementDao ;
+	@Autowired
 	private WorkBoardDao workboardDao;
 	@Autowired
+	private UserStoryDao userstoryDao ;
+	@Autowired
 	private PersonDao personDao ;
+	
 	private Person person ;
 	private WorkBoard workboard ;
+	private UserStory userstory ;
 	
 	private WorkBoardController cworkboard ;
 	private Files file ;
 	private String splitvar = "\\." ;
 	private String [] tokens;
 
-	@ModelAttribute("workboard")
-	@RequestMapping(method = RequestMethod.GET)
+	@ModelAttribute("userstory")
+	@RequestMapping(value = "/addUS",method=RequestMethod.GET) 
 	public ModelAndView getUserWorkBoard(@RequestParam(value="workboardid",required=true) Integer Id, Model model) {
 		logger.info("Inside get Workboard !");
 
@@ -59,28 +65,74 @@ public class UserStoryController {
 			ModelAndView mav = cworkboard.CreateWorkBoard(person.getLogin(), model);
 			return mav;	
 		}
+		
 		else {
 			workboard = workboardDao.find(Id); 
 		}
 		//workboard.setMode("passive");
 		workboardDao.save(workboard);
 		
-		ModelAndView mav = modelForPassiveWBview(model, workboard);
+		userstory = new UserStory() ;
+		userstory.setUserstoryname(workboard.getWorkBoardName()) ;
+		userstory.setAccess("private") ;
+		userstory.setWorkboard(workboard) ;
+		userstoryDao.save(userstory) ;	
+		ModelAndView mav = modelForPassiveWBview(model, workboard, userstory);
 		return mav;	
 	}
 	
-	private ModelAndView modelForPassiveWBview(Model model, WorkBoard workboard) {
+	
+	@RequestMapping(value = "/addfile",method=RequestMethod.GET) 
+	public ModelAndView addDataelement(@ModelAttribute DataElement dataelement,@RequestParam(value="fileid",required=true) Integer fileid, 
+			@RequestParam(value="workboardid",required=true) Integer workboardid, Model model) {
+		
+		workboard = workboardDao.find(workboardid) ;
+		userstory = userstoryDao.getPublicUserStory(workboard) ;
+		file = filesDao.find(fileid) ;
+		dataelement = new DataElement() ;
+		
+		dataelement.setDataelement(file.getFile()) ;
+		dataelement.setDataelementname(file.getFilename()) ;
+		dataelement.setExtension(file.getType()) ;
+		dataelement.setUserstory(userstory) ;
+		
+		String format = null ; 
+		List<DataElement> dataelements = new ArrayList<DataElement>() ;
+ 		try {
+ 			
+ 			boolean TWO = false ; 
+ 			boolean THREE = false ;
+ 			boolean FIVE = false ;
+			dataelements = dataelementDao.getDataElements(userstory) ;
+			for (int i = 0, n = dataelements.size(); i < n; i++) {	
+				if (dataelements.get(i).getFormat() == "TWO") TWO = true ;
+				if (dataelements.get(i).getFormat() == "FIVE") FIVE = true ;
+				if (dataelements.get(i).getFormat() == "THREE") THREE = true ;
+			}
+			format = TWO ? (THREE ? "FIVE" : "THREE") : (THREE ? "TWO" : "TWO")  ;    			
+
+ 		} catch (NullPointerException e) {
+				System.out.println ("No dataelement found") ;
+		}
+ 		
+ 		dataelement.setFormat(format) ;
+ 		dataelementDao.save(dataelement) ;
+		
+		ModelAndView mav = modelForPassiveWBview(model, workboard, userstory);
+		return mav;	
+	}
+	
+	private ModelAndView modelForPassiveWBview(Model model, WorkBoard workboard, UserStory userstory) {
+		
+		/* ** Operation to get the files and to direct passiveWB.jsp View** */
 		FilesService stringfiles;
 		Files swapfile;
 		
 		System.out.println("Inside the refractor" + person +" "+ personDao + " " + workboard);
 		
-		
-		/* ** CRUD operation for the file and to redirect activeWB.jsp View** */
 		ModelAndView mav = new ModelAndView();
 		person = personDao.find(workboard.getPerson().getLogin()) ;
 		
- 		
  		List<Files> convertedfiles = new ArrayList<Files>() ;
  		
  		try {
@@ -107,23 +159,68 @@ public class UserStoryController {
 		} catch (NullPointerException e) {
 				convertedfiles.add(null) ;
 		}
+		
 		stringfiles = new FilesService() ;
  		stringfiles.setFiles(convertedfiles) ;
  		
  		mav.addObject("workboard", workboard) ;
- 		file = new Files() ;
- 		mav.addObject(file) ;  // This file object id for the userwbmenu.jsp
-		model.addAttribute("firstname",person.getFirstname()) ;
- 		model.addAttribute("secondname",person.getLastname()) ;	
  		model.addAttribute("workboardTitle", workboard.getWorkBoardName()) ;
  		model.addAttribute("workboardID", workboard.getWorkBoardID());
  		mav.addObject("stringfiles",stringfiles) ;
+ 		
+		/* ** Operation to get the dataelements and to direct activeUS.jsp View** */
+		DataElementService stringdataelements ;
+		DataElement swapdataelement;
+		
+		System.out.println("Inside the userstory" + person +" "+ personDao + " " + userstory);
+
+	 	List<DataElement> converteddataelement = new ArrayList<DataElement>() ;
+ 		
+ 		try {
+			/////// Converting the bytefiles to stringfiles     ///////
+			List<DataElement> dataelements = dataelementDao.getDataElements(userstory) ;
+			DataElement stringdataelement;
+			for (int i = 0, n = dataelements.size(); i < n; i++) {
+				stringdataelement = new DataElement();
+				swapdataelement = new DataElement();
+				swapdataelement = dataelements.get(i);
+
+				stringdataelement.setDataelementid(swapdataelement.getDataelementid());
+				stringdataelement.setDataelement(swapdataelement.getDataelement()) ;
+				stringdataelement.setDataelementname(swapdataelement.getDataelementname()) ;
+				stringdataelement.setFormat(swapdataelement.getFormat()) ;   
+				stringdataelement.setUserstory(swapdataelement.getUserstory()) ;
+
+				stringdataelement.setExtension(swapdataelement.getExtension()) ;
+				if (swapdataelement.getExtension() == "jpg" || swapdataelement.getExtension() == "jpeg" ) {
+					stringdataelement.setDataelementcontent(Base64.encodeBase64String(swapdataelement.getDataelement())) ; 
+				}else {
+					stringdataelement.setDataelementcontent(swapdataelement.toString((swapdataelement.getDataelement()))) ;
+				}
+				converteddataelement.add(stringdataelement);
+			}
+		} catch (NullPointerException e) {
+				converteddataelement.add(null) ;
+		}
+		
+		stringdataelements = new DataElementService() ;
+ 		stringdataelements.setDataElements(converteddataelement) ;
+ 		
+		mav.addObject("userstory", userstory) ; 
+ 		model.addAttribute("userstoryName", userstory.getUserstoryname()) ;
+ 		model.addAttribute("userstoryID", userstory.getUserstoryid());
+ 		mav.addObject("stringdataelements",stringdataelements) ;
+ 		
+		// This file object id for the userwbmenu.jsp 
+ 		file = new Files() ;
+ 		mav.addObject(file) ;  
+		model.addAttribute("firstname",person.getFirstname()) ;
+ 		model.addAttribute("secondname",person.getLastname()) ;	
+	
 		mav.setViewName("passiveWB");
+
+		
 		return mav;
 	}
-	
-	
-	
-	
-	
+		
 }
