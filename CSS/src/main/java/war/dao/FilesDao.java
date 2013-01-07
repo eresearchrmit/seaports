@@ -36,8 +36,6 @@ public class FilesDao {
 	@Transactional
 	public Files save(Files file) {
 		
-//		System.out.println("EntityManager value " + entityManager) ; 
-//		System.out.println("EntityManager value " + entityManager.isOpen()) ; 
 		if (file.getFileid() == 0) {
 			entityManager.persist(file);
 			return file ;
