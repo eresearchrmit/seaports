@@ -47,6 +47,22 @@ public class UserStoryDao {
 		
 		return userstory ; 
 	}
+	
+	public UserStory getPrivateUserStory(WorkBoard workboard) {	
+		UserStory userstory = null ;
+		Query query = entityManager.createQuery("select u from UserStory u where u.access = :access and u.workboard = :workboard") ;
+		query.setParameter("access", "private") ;
+		query.setParameter("workboard", workboard) ;
+		
+		try{
+			userstory = (UserStory) query.getSingleResult() ;	
+		} catch (NoResultException ne){
+			return userstory ;			
+		}
+		
+		return userstory ; 
+	}
+	
 		
 	@Transactional
 	public UserStory save(UserStory userstory) {
