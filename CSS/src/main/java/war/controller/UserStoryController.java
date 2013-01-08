@@ -59,26 +59,53 @@ public class UserStoryController {
 
 		cworkboard = new WorkBoardController();
 		workboard = workboardDao.find(Id);
-		person = personDao.find(workboard.getPerson().getLogin());
+		person = personDao.find(workboard.getPerson().getFirstName());
 		workboard = workboardDao.getActiveWorkBoard(person);
 		if (workboard == null) {
-			ModelAndView mav = cworkboard.CreateWorkBoard(person.getLogin(), model);
+			ModelAndView mav = cworkboard.CreateWorkBoard(person.getFirstName(), model);
 			return mav;	
 		}
 		
 		else {
 			workboard = workboardDao.find(Id); 
 		}
-		//workboard.setMode("passive");
+		workboard.setMode("passive");
 		workboardDao.save(workboard);
 		
 		userstory = new UserStory() ;
 		userstory.setUserstoryname(workboard.getWorkBoardName()) ;
 		userstory.setAccess("private") ;
 		userstory.setWorkboard(workboard) ;
-		userstoryDao.save(userstory) ;	
+		userstoryDao.save(userstory) ;
+		addDefaultDataElements(userstory) ;
+		
+		
+		
 		ModelAndView mav = modelForPassiveWBview(model, workboard, userstory);
 		return mav;	
+	}
+	
+	public void addDefaultDataElements(UserStory userstory) {
+		
+		DataElement dataelement ;
+		String header  = "Type the Title of the User Story", 
+		       content = "Type the Content of the User Story";
+		
+		dataelement = new DataElement() ;		
+		dataelement.setDataelement(header.getBytes()) ;
+		dataelement.setDataelementname("Header") ;
+		dataelement.setExtension("txt") ;
+		dataelement.setFormat("ONE") ;
+		dataelement.setUserstory(userstory) ;
+		dataelementDao.save(dataelement) ;
+		
+		dataelement = new DataElement() ;		
+		dataelement.setDataelement(content.getBytes()) ;
+		dataelement.setDataelementname("Content") ;
+		dataelement.setExtension("txt") ;
+		dataelement.setFormat("FOUR") ;
+		dataelement.setUserstory(userstory) ;
+		dataelementDao.save(dataelement) ;
 	}
 	
 	
@@ -87,7 +114,7 @@ public class UserStoryController {
 			@RequestParam(value="workboardid",required=true) Integer workboardid, Model model) {
 		
 		workboard = workboardDao.find(workboardid) ;
-		userstory = userstoryDao.getPublicUserStory(workboard) ;
+		userstory = userstoryDao.getPrivateUserStory(workboard) ;
 		file = filesDao.find(fileid) ;
 		dataelement = new DataElement() ;
 		
@@ -100,23 +127,25 @@ public class UserStoryController {
 		List<DataElement> dataelements = new ArrayList<DataElement>() ;
  		try {
  			
- 			boolean TWO = false ; 
- 			boolean THREE = false ;
- 			boolean FIVE = false ;
+ 			boolean TWO = false, THREE = false, FIVE = false, NONE = false ; 
+
 			dataelements = dataelementDao.getDataElements(userstory) ;
 			for (int i = 0, n = dataelements.size(); i < n; i++) {	
-				if (dataelements.get(i).getFormat() == "TWO") TWO = true ;
-				if (dataelements.get(i).getFormat() == "FIVE") FIVE = true ;
-				if (dataelements.get(i).getFormat() == "THREE") THREE = true ;
+				if (dataelements.get(i).getFormat().equalsIgnoreCase("TWO")) TWO = true ;
+				if (dataelements.get(i).getFormat().equalsIgnoreCase("THREE")) THREE = true ;
+				if (dataelements.get(i).getFormat().equalsIgnoreCase("FIVE")) FIVE = true ;
 			}
-			format = TWO ? (THREE ? "FIVE" : "THREE") : (THREE ? "TWO" : "TWO")  ;    			
+			System.out.println("Inside the " + TWO + " " + THREE + " " + FIVE);
+			
+			format = TWO ? (THREE ? (FIVE ? "NONE" : "FIVE") : "THREE") : (THREE ? "TWO" : "TWO")  ;
+			System.out.println("The value in the data is : " + format);
 
  		} catch (NullPointerException e) {
 				System.out.println ("No dataelement found") ;
 		}
  		
  		dataelement.setFormat(format) ;
- 		dataelementDao.save(dataelement) ;
+ 		if (!format.equalsIgnoreCase("NONE")) dataelementDao.save(dataelement) ;
 		
 		ModelAndView mav = modelForPassiveWBview(model, workboard, userstory);
 		return mav;	
@@ -128,10 +157,8 @@ public class UserStoryController {
 		FilesService stringfiles;
 		Files swapfile;
 		
-		System.out.println("Inside the refractor" + person +" "+ personDao + " " + workboard);
-		
 		ModelAndView mav = new ModelAndView();
-		person = personDao.find(workboard.getPerson().getLogin()) ;
+		person = personDao.find(workboard.getPerson().getFirstName()) ;
 		
  		List<Files> convertedfiles = new ArrayList<Files>() ;
  		
@@ -168,11 +195,17 @@ public class UserStoryController {
  		model.addAttribute("workboardID", workboard.getWorkBoardID());
  		mav.addObject("stringfiles",stringfiles) ;
  		
+		// This file object id for the userwbmenu.jsp 
+ 		file = new Files() ;
+ 		mav.addObject(file) ;  
+		model.addAttribute("firstname",person.getFirstName()) ;
+ 		model.addAttribute("secondname",person.getLastName()) ;	
+ 		
 		/* ** Operation to get the dataelements and to direct activeUS.jsp View** */
 		DataElementService stringdataelements ;
 		DataElement swapdataelement;
 		
-		System.out.println("Inside the userstory" + person +" "+ personDao + " " + userstory);
+		System.out.println("Inside the userstory " + person +" "+ personDao + " " + userstory);
 
 	 	List<DataElement> converteddataelement = new ArrayList<DataElement>() ;
  		
@@ -209,17 +242,10 @@ public class UserStoryController {
 		mav.addObject("userstory", userstory) ; 
  		model.addAttribute("userstoryName", userstory.getUserstoryname()) ;
  		model.addAttribute("userstoryID", userstory.getUserstoryid());
- 		mav.addObject("stringdataelements",stringdataelements) ;
+ 		System.out.println("The object value of the dataelement : " + stringdataelements) ;
+ 		mav.addObject("stringdataelements",stringdataelements) ;	
  		
-		// This file object id for the userwbmenu.jsp 
- 		file = new Files() ;
- 		mav.addObject(file) ;  
-		model.addAttribute("firstname",person.getFirstname()) ;
- 		model.addAttribute("secondname",person.getLastname()) ;	
-	
-		mav.setViewName("passiveWB");
-
-		
+		mav.setViewName("activeUS");
 		return mav;
 	}
 		
