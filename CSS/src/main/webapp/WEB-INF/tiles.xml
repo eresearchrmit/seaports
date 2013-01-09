@@ -9,19 +9,22 @@
 		<put-attribute name="header" value="/WEB-INF/views/header.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/views/menu.jsp" />
 		<put-attribute name="user" value="/WEB-INF/views/user.jsp" />
-		<put-attribute name="sidemenu" value="" />
-		<put-attribute name="body" value="" />
+		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
+	</definition>
+	
+	<definition name="public.base.definition" template="/WEB-INF/views/layout.jsp">
+		<put-attribute name="title" value="Seaport Project" />
+		<put-attribute name="imports" value="/WEB-INF/views/imports.jsp" />
+		<put-attribute name="header" value="/WEB-INF/views/header.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
 	</definition>
 
-	<definition name="home" extends="base.definition">
+	<definition name="home" extends="public.base.definition">
 		<put-attribute name="title" value="Home - Climate Smart Seaports" />
-		<put-attribute name="user" value="" />
-		<put-attribute name="menu" value="" />
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 	</definition>
 	
-	<definition name="login" extends="base.definition">
+	<definition name="login" extends="public.base.definition">
 		<put-attribute name="title" value="Login - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
 	</definition>
@@ -58,5 +61,10 @@
 		<put-attribute name="title" value="Create Data Element - Climate Smart Seaports" />
 		<put-attribute name="sidemenu" value="" />
         <put-attribute name="body" value="/WEB-INF/views/createDE.jsp" />
+	</definition>
+	
+	<definition name="listUS" extends="base.definition">
+		<put-attribute name="title" value="User Stories - Climate Smart Seaports" />
+        <put-attribute name="body" value="/WEB-INF/views/listUS.jsp" />
 	</definition>
 </tiles-definitions>

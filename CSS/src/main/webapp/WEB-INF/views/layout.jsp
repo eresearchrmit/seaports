@@ -15,7 +15,7 @@
         <div>
             <div id="branding">
                 <div class="floatleft">
-                	<img src="<c:url value="/resources/img/logo-CSS-100x100.png" />" alt="Logo" />
+                	<a href="/CSS"><img src="<c:url value="/resources/img/logo/css-logo-darkblue-100x100.png" />" alt="Logo" /></a>
                	</div>
                	<div id="main-title" class="floatleft"><div style="margin-top:25px">Climate Smart Seaports</div></div>
                 <div class="floatright">

@@ -1,4 +1,4 @@
-/*package war.controller;
+package war.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,27 +19,28 @@ public class DataInitializer {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	public List<Long> people = new ArrayList<Long>();
+	public List<String> people = new ArrayList<String>();
 
 	public void initData() {
 		people.clear();// clear out the previous list of people
-		addPerson("Jim", "Smith");
-		addPerson("Tina", "Marsh");
-		addPerson("Steve", "Blair");
+		addPerson("jsmith", "password", "John", "Smith");
+		addPerson("tmarsh", "password", "Tina", "Marsh");
+		addPerson("sblair", "passzord", "Steve", "Blair");
 		entityManager.flush();
 		entityManager.clear();
 	}
 
-	public void addPerson(String firstName, String lastName) {
-		Person p = new Person();
-		p.setFirstName(firstName);
-		p.setLastName(lastName);
+	public void addPerson(String login, String password, String firstName, String lastName) {
+		Person p = new Person(login, password, firstName, lastName, Person.Privilege.USER);
 		entityManager.persist(p);
-		people.add(p.getId());
+		people.add(p.getLogin());
+	}
+	
+	public Person getPerson(String login) {
+		return entityManager.find(Person.class, login);
 	}
 	
 	public EntityManager getEntityManager() {
 		return entityManager;
 	}
 }
-*/

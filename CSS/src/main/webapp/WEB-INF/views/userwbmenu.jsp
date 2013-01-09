@@ -141,12 +141,12 @@
 	</script>
 	
 	<p>
-		<button type="button" class="btn btn-icon btn-blue btn-cross" onclick="location.href='/CSS/spring/workboard/deleteWB?workboardid=${workboard.workBoardID}'" >
+		<button type="button" class="btn btn-icon btn-blue btn-cross" onclick="location.href='/CSS/spring/workboard/delete?workboardid=${workboard.workBoardID}'" >
 			<span></span>Delete WorkBoard
 		</button>
 	</p>
 	<p>
-		<button type="button" class="btn btn-icon btn-blue btn-arrow-right" onclick="location.href='/CSS/spring/createus?workboardid=${workboard.workBoardID}'" >
+		<button type="button" class="btn btn-icon btn-blue btn-arrow-right" onclick="location.href='/CSS/spring/userstory?workboardid=${workboard.workBoardID}'" >
 			<span></span>Create User Story
 		</button>
 	</p>

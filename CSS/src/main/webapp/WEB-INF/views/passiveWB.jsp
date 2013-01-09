@@ -12,6 +12,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="grid_7">
+	<h2>Workboard: ${workboard.workBoardName} </h2>
 	<form:form method="post" action="/CSS/spring/workboard/update?workboardid=${workboard.workBoardID}" modelAttribute="stringfiles">
 	  	<c:if test="${not empty stringfiles}">		
 		 	<c:forEach items="${stringfiles.files}" var="file" varStatus="status"> 
@@ -21,7 +22,7 @@
 		 			<div class="box round">
 						<div class="box-header">
 							<h5 class="floatleft">${file.filename}<c:if test="${file.type != 'data'}">.${file.type}</c:if></h5>
-							<button type="button" class="btn btn-icon btn-blue btn-small btn-arrow-right floatright" onclick="location.href='/CSS/spring/createus/addfile?dataelementid=${file.fileid}'" >
+							<button type="button" class="btn btn-icon btn-blue btn-small btn-arrow-right floatright" onclick="location.href='/CSS/spring/userstory/addfile?workboardid=${workboard.workBoardID}&fileid=${file.fileid}'" >
 								<span></span>Add
 							</button>
 							<div class="clear"></div>

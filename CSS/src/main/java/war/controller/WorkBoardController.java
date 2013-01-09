@@ -33,27 +33,28 @@ import org.apache.commons.codec.binary.*;
 public class WorkBoardController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
+	
 	@Autowired
-	private FilesDao filesDao ;
+	private FilesDao filesDao;
 	@Autowired
 	private WorkBoardDao workboardDao;
 	@Autowired
-	private PersonDao personDao ;
+	private PersonDao personDao;
 	@Autowired
 	private CsiroDataDao dataDao;
 	
-	private Person person ;
-	private WorkBoard workboard ;
-//	private FilesService stringfiles ;
+	private Person person;
+	private WorkBoard workboard;
 
 	private Files file ;
-	private String splitvar = "\\." ;
+	private String splitvar = "\\.";
 	private String [] tokens;
 
 	@ModelAttribute("person")
-	@RequestMapping(method = RequestMethod.POST)
-	public ModelAndView getUserWorkBoard(@RequestParam(value="username",required=true) String login, Model model) {
-		logger.info("Inside get Work Board !");
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView getUserWorkBoard(@RequestParam(value="user",required=true) String login, Model model) {
+		logger.info("Inside getUserWorkBoard !");
+		
 		try {
 			person = personDao.find(login) ;
 			workboard = workboardDao.getActiveWorkBoard(person); 
@@ -64,7 +65,7 @@ public class WorkBoardController {
 		}
 		catch (NullPointerException e)
 		{
-			model.addAttribute("errorMessage", "Error: Impossible to retrieve your Workboard.");
+			model.addAttribute("errorMessage", ERR_RETRIEVE_WORKBOARD);
 		}
 		
 		ModelAndView mav = modelForActiveWBview(model, workboard);
@@ -197,10 +198,9 @@ public class WorkBoardController {
 		ModelAndView mav = new ModelAndView();
 		WorkBoard workboard = new WorkBoard();
 		workboard.setPerson(person) ;
+		model.addAttribute("user",person);
 		mav.setViewName("workboard");
  		mav.addObject("workboard", workboard);
-		model.addAttribute("firstname",person.getFirstname());
- 		model.addAttribute("secondname",person.getLastname());
 		return mav;
 	}
 	
@@ -235,15 +235,6 @@ public class WorkBoardController {
 				actualfile.setFile(file.toBytes(file.getFilecontent().toString())) ;
 			}		
 			
-			//if (Base64.isArrayByteBase64(Base64.decodeBase64(updatefiles.get(i).getFilecontent()))){
-				//System.out.println("Yes the image is base 64") ; 
-			    //actualfile.setFile(Base64.decodeBase64(updatefiles.get(i).getFilecontent())) ;
-			//}
-			//else { 
-				//encodebyte = Base64.encodeBase64(Base64.decodeBase64(updatefiles.get(i).getFilecontent())) ;
-				//actualfile.setFile(encodebyte) ;
-				//System.out.println("Yes the image is not base 64") ;	
-			//}
 			filesDao.save(actualfile);
 			model.addAttribute("controllerMessageSuccess", "Workboard saved");
 		}
@@ -279,37 +270,32 @@ public class WorkBoardController {
 				stringfile.setWorkboard(swapfile.getWorkboard());
 				stringfile.setFile(swapfile.getFile());
 				if (swapfile.getType() == "jpg" || swapfile.getType() == "jpeg" ) {
-					System.out.println("Inside upload " + swapfile.getFile()) ;
-					stringfile.setFilecontent(Base64.encodeBase64String(swapfile.getFile())) ; 
-				}else {
+					System.out.println("Inside upload " + swapfile.getFile());
+					stringfile.setFilecontent(Base64.encodeBase64String(swapfile.getFile())); 
+				}
+				else {
 					stringfile.setFilecontent(swapfile.toString((swapfile.getFile())));
 				}
-				
-				
-//				System.out.println("The Actual Value of the File : " + swapfile.getFile());
-				//System.out.println("The String Value : " + swapfile.toString((swapfile.getFile())));
 				convertedfiles.add(stringfile);
 			}
 		} catch (NullPointerException e) {
-				convertedfiles.add(null) ;
+				convertedfiles.add(null);
 		}
-		stringfiles = new FilesService() ;
- 		stringfiles.setFiles(convertedfiles) ;
+		stringfiles = new FilesService();
+ 		stringfiles.setFiles(convertedfiles);
  		
- 		mav.addObject("workboard", workboard) ;
+ 		mav.addObject("workboard", workboard);
  		file = new Files() ;
  		mav.addObject(file) ;  // This file object id for the userwbmenu.jsp
- 		model.addAttribute("login",person.getLogin());
- 		model.addAttribute("firstname",person.getFirstname());
- 		model.addAttribute("lastname",person.getLastname());	
- 		model.addAttribute("workboardTitle", workboard.getWorkBoardName()) ;
+ 		model.addAttribute("user", person);	
+ 		model.addAttribute("workboardTitle", workboard.getWorkBoardName());
  		model.addAttribute("workboardID", workboard.getWorkBoardID());
  		mav.addObject("stringfiles",stringfiles) ;
 		mav.setViewName("activeWB");
 		return mav;
 	}
 	
-	@RequestMapping(value = "/deleteWB",method=RequestMethod.GET) 
+	@RequestMapping(value = "/delete",method=RequestMethod.GET) 
 	public ModelAndView deleteWorkboard(@ModelAttribute WorkBoard workboard,@RequestParam(value="workboardid",required=true) Integer Id, Model model) {
 		logger.debug("Received object for workboard  "+ workboard);
 		workboard = workboardDao.find(Id) ;
@@ -338,4 +324,7 @@ public class WorkBoardController {
 		ModelAndView mav = modelForActiveWBview(model, workboard);
 		return mav;	
 	}
+
+	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";
+	public static final String ERR_MISSING_LOGIN_PASSWORD = "Please enter a login and/or a password";
 }

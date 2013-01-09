@@ -1,22 +1,12 @@
-           <ul class="nav main">
-               <li class="ic-dashboard"><a href="dashboard.html"><span>Dashboard</span></a> </li>
-               <li class="ic-form-style"><a href="javascript:"><span>Controls</span></a>
-                   <ul>
-                       <li><a href="form-controls.html">Forms</a> </li>
-                       <li><a href="buttons.html">Buttons</a> </li>
-                       <li><a href="form-controls.html">Full Page Example</a> </li>
-                       <li><a href="table.html">Page with Sidebar Example</a> </li>
-                   </ul>
-               </li>
-			<li class="ic-typography"><a href="typography.html"><span>Typography</span></a></li>
-               <li class="ic-charts"><a href="charts.html"><span>Charts &amp; Graphs</span></a></li>
-               <li class="ic-grid-tables"><a href="table.html"><span>Data Table</span></a></li>
-               <li class="ic-gallery dd"><a href="javascript:"><span>Image Galleries</span></a>
-              		 <ul>
-                       <li><a href="image-gallery.html">Pretty Photo</a> </li>
-                       <li><a href="gallery-with-filter.html">Gallery with Filter</a> </li>
-                   </ul>
-               </li>
-               <li class="ic-notifications"><a href="notifications.html"><span>Notifications</span></a></li>
-
-           </ul>
+<ul class="nav main">
+	<li class="ic-home"><a href="/CSS"><span>Home</span></a> </li>
+	<li class="ic-workboard"><a href="/CSS/spring/workboard?user=${user.login}"><span>My Workboard</span></a></li>
+	<li class="ic-story"><a href="/CSS/spring/userstory/list?user=${user.login}"><span>My Stories</span></a>
+		<ul>
+			<li><a href="/CSS/spring/userstory/list?user=${user.login}">My Stories</a></li>
+			<li><a href="#">Stories shared with me</a></li>
+		</ul>
+	</li>
+	<li class="ic-data-element"><a href="#" title="Manage the favorite data elements that you saved"><span>My Data Elements</span></a></li>
+	<li class="ic-search dd"><a href="#"><span>Search User's Stories</span></a></li>
+</ul>

@@ -84,7 +84,7 @@ ul.nav li.current:hover ul li a:active {color:#666; background:#fff;}
 /* navigation (vertical subnavigation)
 ----------------------------------------------- */
 ul.nav {
-  
+  margin-bottom: 10px;
 }
 ul.main li {
   position:relative;
@@ -167,13 +167,11 @@ ul.nav li.secondary:hover a:hover {
 }
 ul.nav li.secondary:hover a:active {background:#1F4562;}
 
-ul.nav li.ic-dashboard a span, .ic-dashboard{background:url(../img/icon-dashboard.png) no-repeat center left;}
-ul.nav li.ic-typography a span, .ic-typography{background:url(../img/icon-typography.png) no-repeat center left;}
-ul.nav li.ic-charts a span, .ic-charts{background:url(../img/icon-charts-graphs.png) no-repeat center left;}
-ul.nav li.ic-form-style a span, .ic-form-style{background:url(../img/icon-form-style.png) no-repeat center left;}
-ul.nav li.ic-grid-tables a span, .ic-grid-tables{background:url(../img/icon-grid-tables.png) no-repeat center left;}
-ul.nav li.ic-gallery a span, .ic-gallery{background:url(../img/icon-gallery.png) no-repeat center left;}
-ul.nav li.ic-notifications a span, .ic-notifications{background:url(../img/icon-notifications.png) no-repeat center left;}
+ul.nav li.ic-home a span, .ic-home{background:url(../img/icons/home_32.png) no-repeat center left;}
+ul.nav li.ic-workboard a span, .ic-workboard{background:url(../img/icon-workboard.png) no-repeat center left;}
+ul.nav li.ic-story a span, .ic-story{background:url(../img/icon-story.png) no-repeat center left;}
+ul.nav li.ic-data-element a span, .ic-data-element{background:url(../img/icon-line-chart.png) no-repeat center left;}
+ul.nav li.ic-search a span, .ic-search{background:url(../img/icon-search.png) no-repeat center left;}
 ul.nav li {
 background-image: none !important;
 }

@@ -1,13 +1,9 @@
-/*package war.controller;
+package war.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
+import junit.framework.Assert;
 
 import war.model.Person;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.ExtendedModelMap;
 
 @ContextConfiguration("/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -25,50 +21,96 @@ public class PersonControllerTest {
 	@Autowired
 	private DataInitializer dataInitializer;
 	
+	
 	@Autowired
 	private PersonController personController;
-		
+
 	@Before
 	public void before() {
 		dataInitializer.initData();
 	}
 	
+	/**
+	 * Login should succeed
+	 */
 	@Test
-	public void shouldReturnPersonListView() {
-		ModelAndView mav = personController.listPeople();
-		assertEquals("list",mav.getViewName());
+	public void loginValidationSuccessTest() {
+		Person p = new Person("user", "password", "user", "user", Person.Privilege.USER);
+		ExtendedModelMap model = new ExtendedModelMap();
+		String result = personController.loginValidation(p, model);
 		
-		@SuppressWarnings("unchecked")
-		List<Person> people = (List<Person>) mav.getModelMap().get("people");
-		assertNotNull(people);		
-		assertEquals(DataInitializer.PERSON_COUNT,people.size());		
+		Assert.assertNotNull(result);		
+		Assert.assertEquals("redirect:/spring/workboard?user=" + p.getLogin(), result);
 	}
 	
-	
-
-	public void shouldReturnNewPersonWithEditMav() {
-		ModelAndView mav = personController.editPerson(null);
-		assertNotNull(mav);
-		assertEquals("edit", mav.getViewName());
-		Object object = mav.getModel().get("person");
-		assertTrue(Person.class.isAssignableFrom(object.getClass()));
-		Person person = (Person) object;
-		assertNull(person.getId());
-		assertNull(person.getFirstName());
-		assertNull(person.getLastName());		
-	}
-	
+	/**
+	 * Login should fail because Person is null: in the model, 'controllerMessage' should be filled with ERR_MISSING_LOGIN_PASSWORD
+	 */
 	@Test
-	public void shouldReturnSecondPersonWithEditMav() {
-		Long template = dataInitializer.people.get(1);
-		ModelAndView mav = personController.editPerson(template);
-		assertNotNull(mav);
-		assertEquals("edit", mav.getViewName());
-		Object object = mav.getModel().get("person");
-		assertTrue(Person.class.isAssignableFrom(object.getClass()));
-		Person person = (Person) object;
-		assertEquals(template,person.getId());
+	public void loginValidationNullPersonTest() {
+		ExtendedModelMap model = new ExtendedModelMap();
+		String result = personController.loginValidation(null, model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertEquals("login", result);
+		
+		Assert.assertEquals(PersonController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
 	}
 	
+	/**
+	 * Login should fail because login is missing: in the model, 'controllerMessage' should be filled with ERR_MISSING_LOGIN_PASSWORD
+	 */
+	@Test
+	public void loginValidationLoginMissingTest() {
+		Person p = new Person();
+		p.setFirstname("John");
+		p.setLastname("Smith");
+		// Login not set ON PURPOSE
+		p.setPassword("password");
+		p.setRole(Person.Privilege.USER);
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		String result = personController.loginValidation(p, model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertEquals("login", result);
+		
+		Assert.assertEquals(PersonController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
+	}
+	
+	/**
+	 * Login should fail because password is missing: in the model, 'controllerMessage' should be filled with ERR_MISSING_LOGIN_PASSWORD
+	 */
+	@Test
+	public void loginValidationPasswordMissingTest() {
+		Person p = new Person();
+		p.setFirstname("John");
+		p.setLastname("Smith");
+		p.setLogin("jsmith");
+		// Password not set ON PURPOSE
+		p.setRole(Person.Privilege.USER);
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		String result = personController.loginValidation(p, model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertEquals("login", result);
+		
+		Assert.assertEquals(PersonController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
+	}
+	
+	/**
+	 * Login should fail because password is invalid: in the model, 'controllerMessage' should be filled with ERR_BAD_LOGIN_PASSWORD
+	 */
+	@Test
+	public void loginValidationPasswordInvalidTest() {
+		Person p = new Person("jsmith", "WRONGPASSWORD", "John", "Smith", Person.Privilege.USER);
+		ExtendedModelMap model = new ExtendedModelMap();
+		String result = personController.loginValidation(p, model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertEquals("login", result);
+		
+		Assert.assertEquals(PersonController.ERR_BAD_LOGIN_PASSWORD, model.get("controllerMessage"));
+	}
 }
-*/

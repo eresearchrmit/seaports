@@ -35,27 +35,40 @@ public class WorkBoardDao {
 	public WorkBoard getActiveWorkBoard(Person person) {	
 		WorkBoard workboard = null ;
 		Query query = entityManager.createQuery("select w from WorkBoard w where w.mode = :mode and w.person = :person") ;
-		query.setParameter("mode", "active") ;
-		query.setParameter("person", person) ;
+		query.setParameter("mode", "active");
+		query.setParameter("person", person);
 		
 		try{
-			workboard = (WorkBoard) query.getSingleResult() ;	
-		} catch (NoResultException ne){
-			return workboard ;
-			
+			workboard = (WorkBoard) query.getSingleResult();	
+		} catch (NoResultException e){
+			return workboard;
 		}
-		return workboard ; 
+		return workboard; 
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<WorkBoard> getPassiveWorkBoard() {	
-		Query query = entityManager.createQuery("select w from WorkBoard w where w.mode = :mode") ;
-		return query.setParameter("mode", "passive").getResultList() ;
+	public List<WorkBoard> getUserStoriesList(Person person) {	
+		List<WorkBoard> workboards = null ;
+		Query query = entityManager.createQuery("select w from WorkBoard w where (w.mode = 'passive' or w.mode = 'inactive') and w.person = :person") ;
+		query.setParameter("person", person);
+		
+		try{
+			workboards = (List<WorkBoard>)(query.getResultList());	
+		} catch (NoResultException e){
+			return workboards;
+		}
+		return workboards; 
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<WorkBoard> getAllPassiveWorkBoard() {	
+		Query query = entityManager.createQuery("select w from WorkBoard w where w.mode = :mode");
+		return query.setParameter("mode", "passive").getResultList();
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<WorkBoard> getInactiveWorkBoard() {	
-		Query query = entityManager.createQuery("select w from WorkBoard w where w.mode = :mode") ;
+		Query query = entityManager.createQuery("select w from WorkBoard w where w.mode = :mode");
 		return query.setParameter("mode", "inactive").getResultList() ; 
 	}
 	

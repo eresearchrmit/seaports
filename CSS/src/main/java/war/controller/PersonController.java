@@ -4,6 +4,7 @@ package war.controller;
 
 import war.dao.*;
 import war.model.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,39 +60,44 @@ public class PersonController {
 	@RequestMapping(method=RequestMethod.POST) 
 	public String loginValidation(@ModelAttribute Person person, Model model) {
 		logger.debug("Received postback on person " + person);
-		Person persondb = null ;
-		//ModelAndView mav = new ModelAndView();
+		Person persondb = null;
 		
 		try {
-			if (person.getLogin() != null) {	
-					persondb = personDao.find(person.getLogin()) ;
-					Boolean val = persondb.getPassword().equalsIgnoreCase(person.getPassword()) ;
-					if (val) {
+			if (person.getLogin() != null && person.getPassword() != null) {	
+					persondb = personDao.find(person.getLogin());
+					if (persondb == null) // If the person wasn't found in the DB
+					{
+						System.out.println("User not found in the Database");
+						model.addAttribute("controllerMessage", ERR_BAD_LOGIN_PASSWORD);
+						return "login";
+					}
+					
+					// Check password
+					if (persondb.getPassword().equalsIgnoreCase(person.getPassword())) {
 						//TODO check whether the user have an active Work Board
 						//TODO If yes print the Work Board Name and the elements in that WorkBoard
 						
-						//mav.setViewName("list") ;
-						String login = persondb.getLogin() ;
-						//mav.addObject("person", persondb);
-			 	 		String request = "forward:/spring/workboard?username=" + login;
+			 	 		String request = "redirect:/spring/workboard?user=" + persondb.getLogin();
 			 	 		return request;
-					} else {
-						System.out.println("Wrong login and/or password");
-						model.addAttribute("controllerMessage","User name and/or password invalid");
+					}
+					else {
+						System.out.println(ERR_BAD_LOGIN_PASSWORD);
+						model.addAttribute("controllerMessage", ERR_BAD_LOGIN_PASSWORD);
 						return "login";
 					}
-			} else {
-				System.out.println("No username password");
-				model.addAttribute("controllerMessage","Please enter a user name and/or a password");
-				return "login" ;	
+			}
+			else {
+				System.out.println(ERR_MISSING_LOGIN_PASSWORD);
+				model.addAttribute("controllerMessage", ERR_MISSING_LOGIN_PASSWORD);
+				return "login";
 			}	
-		}  
-		catch (NullPointerException err) {
-			System.out.println("no person object") ;
-			model.addAttribute("controllerMessage","User name and/or password invalid");
-			return "login" ;	
 		}
-	}	
+		catch (NullPointerException e) {
+			System.out.println("Person is NULL") ;
+			model.addAttribute("controllerMessage", ERR_MISSING_LOGIN_PASSWORD);
+			return "login";
+		}
+	}
 	
 /*	@RequestMapping(method=RequestMethod.GET,value="list")
 	public ModelAndView showPeopleView(@ModelAttribute Person person) {
@@ -103,5 +109,6 @@ public class PersonController {
 		mav.setViewName("list");
 		return mav;
 	}*/
-
+	public static final String ERR_BAD_LOGIN_PASSWORD = "Invalid login and/or password";
+	public static final String ERR_MISSING_LOGIN_PASSWORD = "Please enter a login and/or a password";
 }
