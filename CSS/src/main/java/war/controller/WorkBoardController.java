@@ -233,7 +233,8 @@ public class WorkBoardController {
 			if (!(actualfile.getType().contains("jpg") || actualfile.getType().contains("jpeg")
 					|| actualfile.getType().contains("data"))) {
 				actualfile.setFile(file.toBytes(file.getFilecontent().toString())) ;
-			}
+			}		
+			
 			//if (Base64.isArrayByteBase64(Base64.decodeBase64(updatefiles.get(i).getFilecontent()))){
 				//System.out.println("Yes the image is base 64") ; 
 			    //actualfile.setFile(Base64.decodeBase64(updatefiles.get(i).getFilecontent())) ;
@@ -268,7 +269,6 @@ public class WorkBoardController {
 			/////// Converting the bytefiles to stringfiles     ///////
 			List<Files> files = filesDao.getFiles(workboard);
 			Files stringfile;
-			//StringBuffer imagestring ;
 			for (int i = 0, n = files.size(); i < n; i++) {
 				stringfile = new Files();
 				swapfile = new Files();
@@ -279,16 +279,14 @@ public class WorkBoardController {
 				stringfile.setWorkboard(swapfile.getWorkboard());
 				stringfile.setFile(swapfile.getFile());
 				if (swapfile.getType() == "jpg" || swapfile.getType() == "jpeg" ) {
-					System.out.println("Inside upload " + swapfile.getFile());
-					//imagestring = new StringBuffer(Base64.encodeBase64String(swapfile.getFile()));
-					stringfile.setFilecontent(Base64.encodeBase64String(swapfile.getFile())); 
-				}
-				else {
+					System.out.println("Inside upload " + swapfile.getFile()) ;
+					stringfile.setFilecontent(Base64.encodeBase64String(swapfile.getFile())) ; 
+				}else {
 					stringfile.setFilecontent(swapfile.toString((swapfile.getFile())));
 				}
 				
 				
-				System.out.println("The Actual Value of the File : " + swapfile.getFile());
+//				System.out.println("The Actual Value of the File : " + swapfile.getFile());
 				//System.out.println("The String Value : " + swapfile.toString((swapfile.getFile())));
 				convertedfiles.add(stringfile);
 			}

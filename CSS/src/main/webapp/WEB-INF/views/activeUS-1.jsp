@@ -7,8 +7,8 @@
 <%@ page import="org.apache.commons.lang.*" %>
 <%@ page language="java" import="war.model.WorkBoard" %>
 <%@ page language="java" import="war.model.Person" %>
+<%@ page language="java" import="war.model.Files" %>
 <%@ page language="java" import="war.model.DataElement" %>
-<%@ page language="java" import="war.service.DataElementService" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
@@ -30,15 +30,10 @@
 
 </table>
 
-
-
 <form:form method="post" modelAttribute="stringdataelements">
 	
-	<c:out value="${stringdataelements.dataelements}"/>	 
+  	<c:if test="${not empty stringdataelements}"> 
 	<table border=1 cellspacing=1 cellpadding=1>
-	<c:if test="${empty stringdataelements}">
-	
-	<c:out value="${stringdataelements.dataelements}"/>
 	
  	<c:forEach items="${stringdataelements.dataelements}" var="dataelement" varStatus="status"> 
  	
@@ -68,21 +63,10 @@
        	</tr>  	
 	 	<br />
 	</c:forEach>
-	</c:if>	
 	</table>
-
+	</c:if>	
   
 </form:form>
 
 </body>
 </html>
-<div class="grid_5">
-	<form:form method="post" modelAttribute="stringfiles">
-		<p><textarea name="title" cols ="90" rows="10">Type the Title of the User Story</textarea></p> 
-		<p><textarea name="picture1" cols ="90" rows="10" readonly="readonly" style="background-color: lightgrey;"></textarea></p>
-		<p><textarea name="picture2" cols ="90" rows="10" readonly="readonly" style="background-color: lightgrey;"></textarea></p>
-		<p><textarea name="content" cols ="90" rows="10" >Type the Content of the User Story</textarea></p>
-		<p><textarea name="picture3" cols ="90" rows="10" readonly="readonly" style="background-color: lightgrey;"></textarea></p>
-	</form:form>
-	<p><button class="floatright btn btn-icon btn-check btn-blue btn-big" onclick="location.href='/CSS/spring/login'"><span></span>End Demo</button></p>
-</div>

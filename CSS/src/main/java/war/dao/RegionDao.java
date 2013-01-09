@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import war.model.Region;
+import war.model.* ;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

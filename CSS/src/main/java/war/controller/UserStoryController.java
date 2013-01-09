@@ -59,10 +59,10 @@ public class UserStoryController {
 
 		cworkboard = new WorkBoardController();
 		workboard = workboardDao.find(Id);
-		person = personDao.find(workboard.getPerson().getFirstName());
+		person = personDao.find(workboard.getPerson().getLogin());
 		workboard = workboardDao.getActiveWorkBoard(person);
 		if (workboard == null) {
-			ModelAndView mav = cworkboard.CreateWorkBoard(person.getFirstName(), model);
+			ModelAndView mav = cworkboard.CreateWorkBoard(person.getLogin(), model);
 			return mav;	
 		}
 		
@@ -158,7 +158,7 @@ public class UserStoryController {
 		Files swapfile;
 		
 		ModelAndView mav = new ModelAndView();
-		person = personDao.find(workboard.getPerson().getFirstName()) ;
+		person = personDao.find(workboard.getPerson().getLogin()) ;
 		
  		List<Files> convertedfiles = new ArrayList<Files>() ;
  		
@@ -198,8 +198,8 @@ public class UserStoryController {
 		// This file object id for the userwbmenu.jsp 
  		file = new Files() ;
  		mav.addObject(file) ;  
-		model.addAttribute("firstname",person.getFirstName()) ;
- 		model.addAttribute("secondname",person.getLastName()) ;	
+		model.addAttribute("firstname",person.getFirstname()) ;
+ 		model.addAttribute("secondname",person.getLastname()) ;	
  		
 		/* ** Operation to get the dataelements and to direct activeUS.jsp View** */
 		DataElementService stringdataelements ;
