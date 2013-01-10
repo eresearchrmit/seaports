@@ -23,13 +23,13 @@ import war.model.Person ;
 public class WorkBoard {
 	
 	private static final long serialVersionUID = -1308795024262635690L;
-	private int WorkBoardID ;
-	private String WorkBoardName ;
-	private Person person ;
-	private String mode ;
+	private int WorkBoardID;
+	private String WorkBoardName;
+	private Person person;
+	private String mode;
 	
-	private List<Files> files ;
-	private UserStory userstory ;
+	private List<Files> files;
+	private UserStory userstory;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

@@ -65,36 +65,30 @@ public class PersonController {
 		try {
 			if (person.getLogin() != null && person.getPassword() != null) {	
 					persondb = personDao.find(person.getLogin());
-					if (persondb == null) // If the person wasn't found in the DB
-					{
-						System.out.println("User not found in the Database");
-						model.addAttribute("controllerMessage", ERR_BAD_LOGIN_PASSWORD);
-						return "login";
-					}
 					
 					// Check password
 					if (persondb.getPassword().equalsIgnoreCase(person.getPassword())) {
 						//TODO check whether the user have an active Work Board
 						//TODO If yes print the Work Board Name and the elements in that WorkBoard
-						
 			 	 		String request = "redirect:/spring/workboard?user=" + persondb.getLogin();
 			 	 		return request;
 					}
 					else {
-						System.out.println(ERR_BAD_LOGIN_PASSWORD);
 						model.addAttribute("controllerMessage", ERR_BAD_LOGIN_PASSWORD);
 						return "login";
 					}
 			}
 			else {
-				System.out.println(ERR_MISSING_LOGIN_PASSWORD);
 				model.addAttribute("controllerMessage", ERR_MISSING_LOGIN_PASSWORD);
 				return "login";
 			}	
 		}
 		catch (NullPointerException e) {
-			System.out.println("Person is NULL") ;
 			model.addAttribute("controllerMessage", ERR_MISSING_LOGIN_PASSWORD);
+			return "login";
+		}
+		catch (Exception e) {
+			model.addAttribute("controllerMessage", e.getMessage());
 			return "login";
 		}
 	}

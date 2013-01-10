@@ -58,7 +58,7 @@ public class Files {
 		this.file = file;
 	}
 	
-	public String toString(byte[] file){
+	public String generateFileContent(byte[] file) {
 //      filecontent = new StringBuffer(new String(file)) ;
         filecontent = new String(file) ;
         return filecontent ;

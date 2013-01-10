@@ -142,108 +142,57 @@ public class UserStoryController {
 	}
 	
 	private ModelAndView modelForPassiveWBview(Model model, WorkBoard workboard, UserStory userstory) {
-		FilesService stringfiles;
-		Files swapfile;
-		
-		System.out.println("Inside the refractor" + person +" "+ personDao + " " + workboard);
-		
-		
-		/* ** CRUD operation for the file and to redirect activeWB.jsp View** */
+		logger.debug("Inside modelForPassiveWBview");
+
 		ModelAndView mav = new ModelAndView();
-		person = personDao.find(workboard.getPerson().getLogin()) ;
+		mav.addObject("workboard", workboard);
+		List<Files> dataElements = new ArrayList<Files>();
 		
- 		
- 		List<Files> convertedfiles = new ArrayList<Files>() ;
- 		
- 		try {
-			/////// Converting the bytefiles to stringfiles     ///////
+		try {
+			person = workboard.getPerson();
+			model.addAttribute("user", person) ;
+			
 			List<Files> files = filesDao.getFiles(workboard);
-			Files stringfile;
-			for (int i = 0, n = files.size(); i < n; i++) {
-				stringfile = new Files();
-				swapfile = new Files();
-				swapfile = files.get(i);
-				stringfile.setFileid(swapfile.getFileid());
-				stringfile.setFilename(swapfile.getFilename());
-				stringfile.setType(swapfile.getType());
-				stringfile.setWorkboard(swapfile.getWorkboard());
-				stringfile.setFile(swapfile.getFile());
-				if (swapfile.getType() == "jpg" || swapfile.getType() == "jpeg" ) {
-					System.out.println("Inside upload " + swapfile.getFile()) ;
-					stringfile.setFilecontent(Base64.encodeBase64String(swapfile.getFile())) ; 
-				}else {
-					stringfile.setFilecontent(swapfile.toString((swapfile.getFile())));
-				}
-				convertedfiles.add(stringfile);
+	 		Files tmpFile;
+	 		for (Files file : files) {
+	 			tmpFile = file;
+	 			if (file.getType() == "jpg" || file.getType() == "jpeg" )
+	 				tmpFile.setFilecontent(Base64.encodeBase64String(file.getFile()));
+				else
+					tmpFile.setFilecontent(file.generateFileContent((file.getFile())));
+	 			dataElements.add(tmpFile);
 			}
-		} catch (NullPointerException e) {
-				convertedfiles.add(null) ;
-		}
-		stringfiles = new FilesService() ;
- 		stringfiles.setFiles(convertedfiles) ;
- 		
- 		mav.addObject("workboard", workboard) ;
- 		file = new Files() ;
- 		mav.addObject(file) ;  // This file object id for the userwbmenu.jsp
-		model.addAttribute("firstname",person.getFirstname()) ;
-		model.addAttribute("secondname",person.getLastname()) ;	
-		model.addAttribute("user", person) ;	
- 		model.addAttribute("workboardTitle", workboard.getWorkBoardName()) ;
- 		model.addAttribute("workboardID", workboard.getWorkBoardID());
- 		mav.addObject("stringfiles",stringfiles) ;
- 		
- 		// This file object id for the userwbmenu.jsp 
- 		file = new Files() ;
- 		mav.addObject(file) ;  
-		model.addAttribute("firstname",person.getFirstname()) ;
- 		model.addAttribute("secondname",person.getLastname()) ;	
- 		
-		/* ** Operation to get the dataelements and to direct activeUS.jsp View** */
-		DataElementService stringdataelements ;
-		DataElement swapdataelement;
-		
-		System.out.println("Inside the userstory " + person +" "+ personDao + " " + userstory);
-
-	 	List<DataElement> converteddataelement = new ArrayList<DataElement>() ;
- 		
- 		try {
-			/////// Converting the bytefiles to stringfiles     ///////
-			List<DataElement> dataelements = dataelementDao.getDataElements(userstory) ;
-			DataElement stringdataelement;
-			for (int i = 0, n = dataelements.size(); i < n; i++) {
-				stringdataelement = new DataElement();
-				swapdataelement = new DataElement();
-				swapdataelement = dataelements.get(i);
-
-				stringdataelement.setDataelementid(swapdataelement.getDataelementid());
-				stringdataelement.setDataelement(swapdataelement.getDataelement()) ;
-				stringdataelement.setDataelementname(swapdataelement.getDataelementname()) ;
-				stringdataelement.setFormat(swapdataelement.getFormat()) ;   
-				stringdataelement.setUserstory(swapdataelement.getUserstory()) ;
-
-				stringdataelement.setExtension(swapdataelement.getExtension()) ;
-				if (swapdataelement.getExtension() == "jpg" || swapdataelement.getExtension() == "jpeg" ) {
-					stringdataelement.setDataelementcontent(Base64.encodeBase64String(swapdataelement.getDataelement())) ; 
-				}else {
-					stringdataelement.setDataelementcontent(swapdataelement.toString((swapdataelement.getDataelement()))) ;
+	 		file = new Files();
+	 		mav.addObject(file);  // This file object id for the userwbmenu.jsp
+	 		mav.addObject("dataelements", dataElements);
+	 		
+	 		
+			/* Operation to get the dataelements and to direct activeUS.jsp View */
+		 	List<DataElement> commentsDataElement = new ArrayList<DataElement>() ;
+	 		try {
+				// Converting the bytefiles to stringfiles
+				List<DataElement> dataelements = dataelementDao.getDataElements(userstory);
+				DataElement stringdataelement;
+				for (DataElement dataelement : dataelements) {
+					stringdataelement = dataelement;
+					if (dataelement.getExtension() == "jpg" || dataelement.getExtension() == "jpeg" )
+						stringdataelement.setDataelementcontent(Base64.encodeBase64String(dataelement.getDataelement())); 
+					else
+						stringdataelement.setDataelementcontent(dataelement.toString((dataelement.getDataelement())));
+					commentsDataElement.add(stringdataelement);
 				}
-				converteddataelement.add(stringdataelement);
 			}
-		} catch (NullPointerException e) {
-				converteddataelement.add(null) ;
+	 		catch (NullPointerException e) {
+	 			commentsDataElement.add(null) ;
+			}
+			mav.addObject("userstory", userstory);
+	 		mav.addObject("commentsDataElement", commentsDataElement);
+	 		
+ 			mav.setViewName("passiveWB");
 		}
-		
-		stringdataelements = new DataElementService() ;
- 		stringdataelements.setDataElements(converteddataelement) ;
- 		
-		mav.addObject("userstory", userstory) ; 
- 		model.addAttribute("userstoryName", userstory.getUserstoryname()) ;
- 		model.addAttribute("userstoryID", userstory.getUserstoryid());
- 		System.out.println("The object value of the dataelement : " + stringdataelements) ;
- 		mav.addObject("stringdataelements",stringdataelements) ;	
- 		
-		//mav.setViewName("activeUS");
-		mav.setViewName("passiveWB");
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
 		return mav;
 	}
 	
@@ -261,9 +210,15 @@ public class UserStoryController {
 			return mav;
 		}
 		catch (NullPointerException e) {
-			model.addAttribute("errorMessage", "Error: Impossible to retrieve the list of your stories");
+			model.addAttribute("errorMessage", ERR_RETRIEVE_USERSTORY_LIST);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
 		}
 		
 		return null;
 	}
+	
+	public static final String ERR_RETRIEVE_USERSTORY_LIST = "Error: Impossible to retrieve the list of your stories";
+	
 }

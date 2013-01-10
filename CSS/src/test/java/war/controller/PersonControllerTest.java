@@ -35,7 +35,7 @@ public class PersonControllerTest {
 	 */
 	@Test
 	public void loginValidationSuccessTest() {
-		Person p = new Person("user", "password", "user", "user", Person.Privilege.USER);
+		Person p = new Person("testuser1", "password", "testuser1", "testuser1", Person.Privilege.USER);
 		ExtendedModelMap model = new ExtendedModelMap();
 		String result = personController.loginValidation(p, model);
 		
@@ -86,7 +86,7 @@ public class PersonControllerTest {
 		Person p = new Person();
 		p.setFirstname("John");
 		p.setLastname("Smith");
-		p.setLogin("jsmith");
+		p.setLogin("testuser1");
 		// Password not set ON PURPOSE
 		p.setRole(Person.Privilege.USER);
 		
@@ -104,7 +104,7 @@ public class PersonControllerTest {
 	 */
 	@Test
 	public void loginValidationPasswordInvalidTest() {
-		Person p = new Person("jsmith", "WRONGPASSWORD", "John", "Smith", Person.Privilege.USER);
+		Person p = new Person("testuser1", "WRONGPASSWORD", "testuser1", "testuser1", Person.Privilege.USER);
 		ExtendedModelMap model = new ExtendedModelMap();
 		String result = personController.loginValidation(p, model);
 		

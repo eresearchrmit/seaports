@@ -16,9 +16,11 @@ public class PersonDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-
-	public Person find(String login) {
-		return entityManager.find(Person.class, login);
+	public Person find(String login) throws Exception {
+		Person p = entityManager.find(Person.class, login);
+		if (p == null)
+			throw new Exception(ERR_NO_SUCH_USER);
+		return p;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -37,4 +39,5 @@ public class PersonDao {
 		}		
 	}	
 	
+	public static final String ERR_NO_SUCH_USER = "No user could be found with this name";
 }
