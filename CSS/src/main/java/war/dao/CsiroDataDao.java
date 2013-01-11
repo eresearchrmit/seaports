@@ -72,4 +72,6 @@ public class CsiroDataDao {
 		
 		return (CsiroData)(query.getSingleResult());
 	}
+	
+	public static final String ERR_NO_RESULT = "No CSIRO data found corresponding to the specified parameters";
 }

@@ -5,9 +5,9 @@
 <%@ page import="org.apache.commons.codec.binary.*"%>
 <%@ page import= "org.springframework.web.servlet.tags.*" %>
 <%@ page import="org.apache.commons.lang.*" %>
-<%@ page language="java" import="war.model.WorkBoard" %>
-<%@ page language="java" import="war.model.Person" %>
-<%@ page language="java" import="war.model.Files" %>
+<%@ page language="java" import="war.model.UserStory" %>
+<%@ page language="java" import="war.model.User" %>
+<%@ page language="java" import="war.model.DataElement" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
@@ -19,54 +19,51 @@
 <%-- <c:out value="${stringfiles}"></c:out> --%>
 
 <div class="grid_8">
-	<c:if test="${not empty controllerMessageSuccess}">
+	<c:if test="${not empty successMessage}">
 		<div class="message success">
 			<h5>Success !</h5>
-			<p>${controllerMessageSuccess}.</p>
+			<p>${successMessage}.</p>
 		</div>
 	</c:if>
-	<c:if test="${not empty controllerMessageError}">
+	<c:if test="${not empty errorMessage}">
 		<div class="message error">
 			<h5>Error</h5>
-			<p>${controllerMessageError}.</p>
+			<p>${errorMessage}.</p>
 		</div>
 	</c:if>
 
-	<form:form method="post" action="/CSS/spring/workboard/update?workboardid=${workboard.workBoardID}" modelAttribute="stringfiles">
+	<form:form method="post" action="/CSS/spring/workboard/update?workboardid=${userstory.id}" modelAttribute="stringfiles">
 		
 	  	<c:if test="${not empty dataelements}">		
-		 	<c:forEach items="${dataelements}" var="dataelement" varStatus="status"> 
-		 	
-		 		<c:set var="stringcontent">${dataelement.filecontent}</c:set>
-		 		
+		 	<c:forEach items="${dataelements}" var="dataelement" varStatus="status"> 		 		
 		 			<div class="box round">
 						<div class="box-header">
-							<h5 class="floatleft">${dataelement.filename}<c:if test="${dataelement.type != 'data'}">.${dataelement.type}</c:if></h5>
-							<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" onclick="location.href='/CSS/spring/workboard/deletefile?dataelementid=${dataelement.fileid}'" >
+							<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.type != 'data'}">.${dataelement.type}</c:if></h5>
+							<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" onclick="location.href='/CSS/spring/workboard/deletedataelement?dataelementid=${dataelement.id}'" >
 								<span></span>Delete
 							</button>
 							<div class="clear"></div>
 						</div>
-						<input name="dataelements[${status.index}].fileid" value= ${dataelement.fileid} type="hidden">
-						<input name="dataelements[${status.index}].filename" value= ${dataelement.filename} type="hidden">
+						<input name="dataelements[${status.index}].fileid" value= ${dataelement.id} type="hidden">
+						<input name="dataelements[${status.index}].filename" value= ${dataelement.name} type="hidden">
 						
 						<c:choose>
 							<c:when test="${dataelement.type == 'jpg'}">
 								<ul class="prettygallery clearfix">
 		                        	<li>
-		                        		<a href="data:image/jpeg;charset=utf-8;base64,${dataelement.filecontent}" rel="prettyPhoto[gallery2]" title="">
-		                            		<img name="dataelements[${status.index}].filecontent" src="data:image/jpeg;charset=utf-8;base64,${dataelement.filecontent}" class="dataElementThumb" />
+		                        		<a href="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" rel="prettyPhoto[gallery2]" title="">
+		                            		<img name="dataelements[${status.index}].name" src="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" class="dataElementThumb" />
 		                            	</a>
 		                            </li>
 								</ul>		
 		                 	</c:when>
 						
 					  		<c:when test="${dataelement.type == 'data'}">
-								${dataelement.filecontent}
+								${dataelement.stringContent}
 		                 	</c:when>
 		                 		
 		                 	<c:otherwise>
-								<textarea name="dataelements[${status.index}].filecontent" rows="12">${dataelement.filecontent}</textarea>
+								<textarea name="dataelements[${status.index}].name" rows="12">${dataelement.stringContent}</textarea>
 							</c:otherwise>
 						</c:choose>
 					</div>

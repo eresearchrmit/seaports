@@ -5,13 +5,13 @@ import war.model.* ;
 import java.util.List ;
 
 public class FilesService {
-	private List<Files> files ;
+	private List<DataElement> files ;
 
-	public List<Files> getFiles() {	
+	public List<DataElement> getFiles() {	
 		return files;
 	}
 
-	public void setFiles(List<Files> files) { 
+	public void setFiles(List<DataElement> files) { 
 		this.files = files ;	
 	}
 

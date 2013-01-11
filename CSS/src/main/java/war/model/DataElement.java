@@ -1,94 +1,111 @@
 package war.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.codec.binary.Base64;
+
+import war.model.UserStory ;
+
+
 @Entity
+@Table(name = "DataElement")
 public class DataElement {
-	
+
 	private static final long serialVersionUID = -1308795024262635690L;
-    private int dataelementid;
-    private String dataelementname;
-    private byte[] dataelement;
-    private String format;
-    private UserStory userstory ;
-    private String extension ;
-    
-    private String dataelementcontent ;
     
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-    public int getDataelementid() {
-		return dataelementid;
-	}
+	private int id;
+
+	@Column
+    private String name;
 	
-	public void setDataelementid(int dataelementid) {
-		this.dataelementid = dataelementid;
-	}
-	
-	public String getDataelementname() {
-		return dataelementname;
-	}
-	
-	public void setDataelementname(String dataelementname) {
-		this.dataelementname = dataelementname;
-	}
-	
-	public String getFormat() {
-		return format;
-	}
-	
-	public void setFormat(String format) {
-		this.format = format;
-	}
-	
+	@Column
+	private String type;
+    
+    @Column
+    private int position;
+    
+    @Column
+    private byte[] content;
+    @Transient
+    private String stringContent; 
+    
 	@ManyToOne
 	@JoinColumn(name="userstory_id")
-	public UserStory getUserstory() {
-		return userstory;
+    private UserStory userStory;
+
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
-	public void setUserstory(UserStory userstory) {
-		this.userstory = userstory;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getPosition() {
+		return this.position;
+	}
+	public void setPosition(int position) {
+		this.position = position;
 	}
 	
-	public String getExtension() {
-		return extension;
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 	
-	public void setExtension(String extension) {
-		this.extension = extension;
+	@Column
+	public byte[] getContent() {
+		return content;
+	}
+	public void setContent(byte[] content) {
+		this.content = content;
+	}
+	
+	public void generateStringContent() {
+		if (this.type.equals("jpg") || this.type.equals("jpeg"))
+			this.stringContent = Base64.encodeBase64String(this.content);
+		else
+			this.stringContent = new String(this.content);
+	}
+	
+	public byte [] toBytes(String stringContent) {
+		this.content = stringContent.getBytes();
+		return this.content;
+	}
+	
+	public String getStringContent() {
+		return this.stringContent;
+	}
+	public void setStringContent(String stringContent) {		
+		this.stringContent = stringContent;
+	}
+	
+	public UserStory getUserStory() {
+		return this.userStory;
+	}
+	public void setUserStory(UserStory userStory) {
+		this.userStory = userStory;
 	}
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-
-	public byte[] getDataelement() {
-		return dataelement;
-	}
-
-	public void setDataelement(byte[] dataelement) {
-		this.dataelement = dataelement;
-	}
-
-	@Transient
-	public String getDataelementcontent() {
-		return dataelementcontent;
-	}
-
-	public void setDataelementcontent(String dataelementcontent) {
-		this.dataelementcontent = dataelementcontent;
-	}
-	
-	public String toString(byte[] dataelement){
-		dataelementcontent = new String(dataelement) ;
-        return dataelementcontent ;
-	}
-  
 }

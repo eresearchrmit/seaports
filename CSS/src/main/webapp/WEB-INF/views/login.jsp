@@ -14,7 +14,7 @@
 			</div>
 			</c:if>
 			
-			<form:form method="POST" modelAttribute="person" >
+			<form:form method="POST" modelAttribute="user" >
 				<table class="form">
 				    <tr>
 				    	<td class="col1" align="right">Login:</td>

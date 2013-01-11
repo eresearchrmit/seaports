@@ -4,22 +4,24 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ page language="java" import="war.model.WorkBoard" %>
-<%@ page language="java" import="war.model.Person" %>
-<%@ page language="java" import="war.model.Files" %>
+<%@ page language="java" import="war.model.UserStory" %>
+<%@ page language="java" import="war.model.User" %>
+<%@ page language="java" import="war.model.DataElement" %>
 
-<% WorkBoard wb = (WorkBoard) request.getAttribute("workboard") ; %>
-<% Person p = (Person) wb.getPerson() ; %>
+<%
+	UserStory wb = (UserStory)(request.getAttribute("userstory"));
+	User user = (User) wb.getUser();
+%>
 
 <div class="grid_12">
-	<h2> ${workboard.workBoardName} </h2>
+	<h2> ${userstory.name} </h2>
 </div>
 <div class="clear"></div>
 
 <div class="grid_3 box">
 	<p>
-		<form:form method="post" action="/CSS/spring/workboard/upload?workboardid=${workboard.workBoardID}" modelAttribute="file" enctype="multipart/form-data">
-			File Upload : <input type="file" name="files" id="files" /><br />
+		<form:form method="post" action="/CSS/spring/workboard/upload?id=${userstory.id}" enctype="multipart/form-data">
+			File Upload : <input type="file" name="file" id="file" /><br />
 	    	<input type="submit" value="Upload File" class="btn btn-grey btn-icon btn-plus" />
 		</form:form>
 	</p>
@@ -64,7 +66,7 @@
 			</script>
 			<p>
 			<div id="csiroDataForm">
-				<form:form method="post" action="/CSS/spring/workboard/addCsiroData?workboardid=${workboard.workBoardID}" modelAttribute="file" enctype="multipart/form-data">
+				<form:form method="post" action="/CSS/spring/workboard/addCsiroData?id=${userstory.id}" modelAttribute="csiroData">
 					<p><strong>2. CSIRO Data Options:</strong></p>
 					<table width="auto" height="auto" class="form">
 						<tr>
@@ -141,12 +143,12 @@
 	</script>
 	
 	<p>
-		<button type="button" class="btn btn-icon btn-blue btn-cross" onclick="location.href='/CSS/spring/workboard/delete?workboardid=${workboard.workBoardID}'" >
+		<button type="button" class="btn btn-icon btn-blue btn-cross" onclick="location.href='/CSS/spring/workboard/delete?id=${userstory.id}'" >
 			<span></span>Delete WorkBoard
 		</button>
 	</p>
 	<p>
-		<button type="button" class="btn btn-icon btn-blue btn-arrow-right" onclick="location.href='/CSS/spring/userstory?workboardid=${workboard.workBoardID}'" >
+		<button type="button" class="btn btn-icon btn-blue btn-arrow-right" onclick="location.href='/CSS/spring/userstory?id=${userstory.id}'" >
 			<span></span>Create User Story
 		</button>
 	</p>

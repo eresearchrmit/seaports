@@ -2,7 +2,7 @@ package war.controller;
 
 import junit.framework.Assert;
 
-import war.model.Person;
+import war.model.User;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,26 +16,17 @@ import org.springframework.ui.ExtendedModelMap;
 @ContextConfiguration("/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-public class PersonControllerTest {
+public class UserControllerTest {
 	
 	@Autowired
-	private DataInitializer dataInitializer;
-	
-	
-	@Autowired
-	private PersonController personController;
+	private UserController personController;
 
-	@Before
-	public void before() {
-		dataInitializer.initData();
-	}
-	
 	/**
 	 * Login should succeed
 	 */
 	@Test
 	public void loginValidationSuccessTest() {
-		Person p = new Person("testuser1", "password", "testuser1", "testuser1", Person.Privilege.USER);
+		User p = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
 		ExtendedModelMap model = new ExtendedModelMap();
 		String result = personController.loginValidation(p, model);
 		
@@ -54,7 +45,7 @@ public class PersonControllerTest {
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
 		
-		Assert.assertEquals(PersonController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
+		Assert.assertEquals(UserController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
 	}
 	
 	/**
@@ -62,12 +53,10 @@ public class PersonControllerTest {
 	 */
 	@Test
 	public void loginValidationLoginMissingTest() {
-		Person p = new Person();
-		p.setFirstname("John");
-		p.setLastname("Smith");
+		User p = new User();
 		// Login not set ON PURPOSE
 		p.setPassword("password");
-		p.setRole(Person.Privilege.USER);
+		p.setRole(User.Privilege.USER);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		String result = personController.loginValidation(p, model);
@@ -75,7 +64,7 @@ public class PersonControllerTest {
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
 		
-		Assert.assertEquals(PersonController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
+		Assert.assertEquals(UserController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
 	}
 	
 	/**
@@ -83,12 +72,10 @@ public class PersonControllerTest {
 	 */
 	@Test
 	public void loginValidationPasswordMissingTest() {
-		Person p = new Person();
-		p.setFirstname("John");
-		p.setLastname("Smith");
+		User p = new User();
 		p.setLogin("testuser1");
 		// Password not set ON PURPOSE
-		p.setRole(Person.Privilege.USER);
+		p.setRole(User.Privilege.USER);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		String result = personController.loginValidation(p, model);
@@ -96,7 +83,7 @@ public class PersonControllerTest {
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
 		
-		Assert.assertEquals(PersonController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
+		Assert.assertEquals(UserController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
 	}
 	
 	/**
@@ -104,13 +91,13 @@ public class PersonControllerTest {
 	 */
 	@Test
 	public void loginValidationPasswordInvalidTest() {
-		Person p = new Person("testuser1", "WRONGPASSWORD", "testuser1", "testuser1", Person.Privilege.USER);
+		User p = new User("testuser1", "WRONGPASSWORD", "testuser1", "testuser1", User.Privilege.USER);
 		ExtendedModelMap model = new ExtendedModelMap();
 		String result = personController.loginValidation(p, model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
 		
-		Assert.assertEquals(PersonController.ERR_BAD_LOGIN_PASSWORD, model.get("controllerMessage"));
+		Assert.assertEquals(UserController.ERR_BAD_LOGIN_PASSWORD, model.get("controllerMessage"));
 	}
 }

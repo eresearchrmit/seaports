@@ -451,6 +451,7 @@ textarea {
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	font-family: Tahoma, Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
+	resize: none;
 }
 
 

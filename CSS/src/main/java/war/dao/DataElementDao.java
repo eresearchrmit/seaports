@@ -9,16 +9,17 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import war.model.* ;
 
 @Repository
 public class DataElementDao {
 	
 	@PersistenceContext
-	private EntityManager entityManager ;
+	private EntityManager entityManager;
 	
-	private List<DataElement> viewdataelements ;
+	private final String tableName = "DataElement";
+	
+	private List<DataElement> dataElements;
 
 
 	public DataElement find(Integer id) {
@@ -27,29 +28,28 @@ public class DataElementDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<DataElement> getDataElements(UserStory userstory) {
-		Query query = entityManager.createQuery("select d from DataElement d where d.userstory = :userstory ") ;
-		viewdataelements = query.setParameter("userstory", userstory).getResultList() ;
-		return viewdataelements ;		
+	public List<DataElement> getDataElements(UserStory userStory) {
+		Query query = entityManager.createQuery("select de from " + this.tableName + " de where de.userStory = :userStory ");
+		dataElements = query.setParameter("userStory", userStory).getResultList();
+		
+		return dataElements;		
 	}
 	
 	@Transactional
-	public DataElement save(DataElement dataelement) {
-		
-		if (dataelement.getDataelementid() == 0) {
-			entityManager.persist(dataelement);
-			return dataelement ;
-		} else {
-			entityManager.merge(dataelement) ;
-			return dataelement ;
+	public DataElement save(DataElement dataElement) {
+		if (dataElement.getId() == 0) {
+			entityManager.persist(dataElement);
+			return dataElement;
+		}
+		else {
+			entityManager.merge(dataElement);
+			return dataElement;
 		}		
 	}
 	
 	@Transactional
-	public void removeDataElement(Integer id) {
-		int localid = id ;
-		Query query = entityManager.createQuery("delete from DataElement w where w.datalementid = :ID") ;
-		query.setParameter("ID", localid).executeUpdate();
+	public void deleteDataElement(int id) {
+		Query query = entityManager.createQuery("delete from " + this.tableName + " de where de.id = :id") ;
+		query.setParameter("id", id).executeUpdate();
 	}
-	
 }

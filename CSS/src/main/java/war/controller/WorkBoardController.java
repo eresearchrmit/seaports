@@ -9,7 +9,6 @@ import java.util.List;
 
 import war.dao.*;
 import war.model.*;
-import war.service.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,35 +31,32 @@ import org.apache.commons.codec.binary.*;
 @RequestMapping("/workboard")
 public class WorkBoardController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
-	private FilesDao filesDao;
-	@Autowired
-	private WorkBoardDao workboardDao;
-	@Autowired
-	private PersonDao personDao;
-	@Autowired
-	private CsiroDataDao dataDao;
+	private DataElementDao dataElementDao;
 	
-	private WorkBoard workboard;
-
-	private Files file ;
-	private String splitvar = "\\.";
-	private String [] tokens;
-
-	@ModelAttribute("person")
+	@Autowired
+	private UserStoryDao userStoryDao;
+	
+	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
+	private CsiroDataDao csiroDataDao;
+	
+	//@ModelAttribute("user")
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getUserWorkBoard(@RequestParam(value="user",required=true) String login, Model model) {
-		logger.info("Inside getUserWorkBoard !");
+		logger.info("Inside getUserWorkBoard");
 		
 		try {
-			Person person = personDao.find(login);
-			workboard = workboardDao.getActiveWorkBoard(person); 
-			if (workboard == null){
-				return CreateWorkBoard(person, model);
+			User user = userDao.find(login);
+			UserStory userStory = userStoryDao.getWorkBoard(user); 
+			if (userStory == null) {
+				return CreateWorkBoard(user, model);
 			}
-			return modelForActiveWBview(model, workboard);
+			return modelForActiveWBview(model, userStory);
 		}
 		catch (NullPointerException e) {
 			model.addAttribute("errorMessage", ERR_RETRIEVE_WORKBOARD);
@@ -71,65 +67,62 @@ public class WorkBoardController {
 		return null;
 	}
 	
-	@ModelAttribute("file")
 	@RequestMapping(value= "/upload", method = RequestMethod.POST)
-	public ModelAndView uploadfileinWorkBoard(@RequestParam(value="files",required=true) MultipartFile uploadfile,
-			@RequestParam(value="workboardid",required=true) Integer workboardid, Model model) throws IOException{
+	public ModelAndView uploadfileinWorkBoard(
+			@RequestParam(value="file",required=true) MultipartFile uploadfile,
+			@RequestParam(value="id",required=true) Integer userStoryId, 
+			Model model) 
+	throws IOException {
+		logger.info("Inside uploadfileinWorkBoard");
 		
-		if (workboard == null)
-			workboard = workboardDao.find(workboardid);
-		
-        String filename = uploadfile.getOriginalFilename() ;
-		tokens = filename.split(splitvar) ;
-		file.setFilename(tokens[0]) ;
-		file.setType(tokens[1]) ;
-		file.setWorkboard(workboard) ;	
+		UserStory userStory = userStoryDao.find(userStoryId);
         try {
-        	
-        	System.out.println("Inside the image converstion........." + tokens[0] + tokens[1]);
-        	byte [] bytes ;
-        	if (tokens[1].contains("jpg")  || tokens[1].contains("jpeg")){
-        		bytes = Base64.encodeBase64(uploadfile.getBytes()) ;
-        		System.out.println("Inside the image converstion.........");
-        		//if (Base64.isArrayByteBase64(bytes)) System.out.println("Yes the image is base 64"); else System.out.println("Yes the image is not base 64") ;
-        	} else {
-        		bytes = uploadfile.getBytes();
-        	}
-            file.setFile(bytes) ;
+            String filename = uploadfile.getOriginalFilename();
+            String [] tokens = filename.split("\\.");
             
-        } catch (IOException e) {
-            e.printStackTrace();
+	        DataElement dataElement = new DataElement();
+			dataElement.setName(tokens[0]);
+			dataElement.setType(tokens[1]);
+			dataElement.setUserStory(userStory);
+        
+        	dataElement.setContent(uploadfile.getBytes());
+        	dataElementDao.save(dataElement);
+        	
+        	model.addAttribute("successMessage", "The file was uploaded successfully to your workboard");
         }
-		filesDao.save(file) ;
-		ModelAndView mav = modelForActiveWBview(model, workboard);
+        catch (Exception e) {
+        	model.addAttribute("errorMessage", "Unable to upload the file to your workboard");
+        }
+        
+		ModelAndView mav = modelForActiveWBview(model, userStory);
+		
 		return mav;	
-       
 	}
 	
-	@ModelAttribute("file")
+	//@ModelAttribute("csiroData")
 	@RequestMapping(value= "/addCsiroData", method = RequestMethod.POST)
 	public ModelAndView addCsiroDataToWorkBoard(
 		@RequestParam(value="csiroVariable",required=true) String csiroVariable,
 		@RequestParam(value="csiroEmissionScenario",required=true) String csiroEmissionScenario,
 		@RequestParam(value="csiroClimateModel",required=true) String csiroClimateModel,
 		@RequestParam(value="assessmentYear",required=true) String assessmentYear,
-		@RequestParam(value="workboardid",required=true) Integer workboardid, Model model) 
+		@RequestParam(value="id",required=true) Integer userStoryId, Model model) 
 		throws IOException 
 	{
 		logger.info("Inside addDataToWorkBoard !");
-		if (workboard == null)
-			workboard = workboardDao.find(workboardid);
+		UserStory userStory = userStoryDao.find(userStoryId);
         
-		file.setFilename("CSIRO Data");
-		file.setType("data");
-		file.setWorkboard(workboard);
+		DataElement dataElement = new DataElement();
+		dataElement.setName("CSIRO Data");
+		dataElement.setType("data");
+		dataElement.setUserStory(userStory);
 		
 		try {
 	        // Retrieve CSIRO data in the database according to the variable & parameters
 			String content = "";
 			if (csiroVariable.equals("All"))
 			{
-				List<CsiroData> dataList = dataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear));
+				List<CsiroData> dataList = csiroDataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear));
 				
 				content += "<table class=\"data display datatable\" id=\"example\">";
 				content += "	<thead>";
@@ -165,7 +158,7 @@ public class WorkBoardController {
 			else // Generate a text statement from the data & save it as the file content
 			{
 				// Retrieve the data for the specified variable
-				CsiroData data = dataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear), csiroVariable);
+				CsiroData data = csiroDataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear), csiroVariable);
 				String statementVerb = "not increase";
 				if (data.getValue() > 0)
 					statementVerb = "increase of <b>" + data.getValue() + " " + data.getVariable().getUom() + "</b>";
@@ -181,43 +174,28 @@ public class WorkBoardController {
 			Date date = new Date();
 			content += "<i>Based on data from CSIRO, generated on " + dateFormat.format(date) + ".</i>";
 			
-			file.setFile(content.getBytes());
-			filesDao.save(file);
-			model.addAttribute("controllerMessageSuccess", "The CSIRO Data has been added successfully to your workboard");
-		}
-		catch (Exception e) {
-			model.addAttribute("controllerMessageError", "No CSIRO data found corresponding to the specified parameters");
-		}
-		ModelAndView mav = modelForActiveWBview(model, workboard);
-		return mav;
-	}
-	
-	private ModelAndView CreateWorkBoard(Person person, Model model) {
-		ModelAndView mav = new ModelAndView();
-		try {
-			WorkBoard workboard = new WorkBoard();
-			workboard.setPerson(person) ;
-			model.addAttribute("user",person);
-			mav.setViewName("workboard");
-	 		mav.addObject("workboard", workboard);
+			dataElement.setContent(content.getBytes());
+			dataElementDao.save(dataElement);
+			model.addAttribute("successMessage", "The CSIRO Data has been added successfully to your workboard");
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
+		ModelAndView mav = modelForActiveWBview(model, userStory);
 		return mav;
 	}
 	
-	@RequestMapping(value = "/add",method=RequestMethod.POST) 
-	public ModelAndView addWorkboard(@ModelAttribute WorkBoard workboard,@RequestParam(value="login",required=true) String login, Model model) {
-		logger.debug("Received object for workboard  "+ workboard);
-		
+	@RequestMapping(value="/add", method=RequestMethod.POST) 
+	public ModelAndView addWorkboard(@ModelAttribute("userstory") UserStory userStory, @RequestParam(value="login",required=true) String login, Model model) {
+		logger.debug("Received object for workboard  " + userStory);
+        
 		try {
-			Person person = personDao.find(login);
-			workboard.setPerson(person);
-			workboard.setMode("active");
-			workboardDao.save(workboard);
+			User user = userDao.find(login);
+			userStory.setUser(user);
+			userStory.setMode("active");
+			userStoryDao.save(userStory);
 			
-			return modelForActiveWBview(model, workboard);
+			return modelForActiveWBview(model, userStory);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -225,57 +203,92 @@ public class WorkBoardController {
 		return null;
 	}
 	
-	@RequestMapping(value ="/update",method=RequestMethod.POST)
-	public ModelAndView updateWorkboard(@ModelAttribute FilesService stringfiles, @RequestParam(value="workboardid",required=true) Integer workboardid,Model model) {
-		logger.debug("Received object for workboard  "+ workboard);
+	@RequestMapping(value ="/save",method=RequestMethod.POST)
+	public ModelAndView saveWorkboard(@ModelAttribute List<DataElement> dataElements, @RequestParam(value="id",required=true) Integer userStoryId, Model model) {
+		logger.debug("Inside saveWorkboard");
 		
-		if (workboard == null)
-			workboard = workboardDao.find(workboardid);
+		UserStory userStory = userStoryDao.find(userStoryId);
 		
-		List<Files> filesList = stringfiles.getFiles();
-		System.out.println("Inside update function " + filesList.size());
-		Files actualfile;
-		for (Files file : filesList)
+		DataElement dataElementFromDb;
+		for (DataElement dataElement : dataElements)
 		{
-			actualfile = filesDao.find(file.getFileid());
-			if (!(actualfile.getType().contains("jpg") || actualfile.getType().contains("jpeg")
-					|| actualfile.getType().contains("data"))) {
-				actualfile.setFile(file.toBytes(file.getFilecontent().toString())) ;
-			}		
-			
-			filesDao.save(actualfile);
-			model.addAttribute("controllerMessageSuccess", "Workboard saved");
+			dataElementFromDb = dataElementDao.find(dataElement.getId());
+			if (!(dataElementFromDb .getType().contains("jpg") || dataElementFromDb.getType().contains("jpeg") || dataElementFromDb .getType().contains("data"))) {
+				dataElementFromDb .setContent(dataElement.toBytes(dataElement.getContent().toString())) ;
+			}
+			dataElementDao.save(dataElementFromDb);
+			model.addAttribute("successMessage", "Workboard saved");
 		}
 		
-		ModelAndView mav = modelForActiveWBview(model, workboard);
+		ModelAndView mav = modelForActiveWBview(model, userStory);
 		return mav;		
 	}
 
-	private ModelAndView modelForActiveWBview(Model model, WorkBoard workboard) {
+	@RequestMapping(value = "/delete",method=RequestMethod.GET) 
+	public ModelAndView deleteWorkboard(@RequestParam(value="id", required=true) Integer userStoryId, Model model) {
+		logger.debug("Inside deleteWorkboard");
+		
+		UserStory userStory = userStoryDao.find(userStoryId);
+		userStoryDao.deleteUserStory(userStory);
+		
+		ModelAndView mav = CreateWorkBoard(userStory.getUser(), model);
+		
+		return mav;	
+	}
+		
+	@RequestMapping(value = "/deletedataelement",method=RequestMethod.GET) 
+	public ModelAndView deleteDataElementFromUserStory(@RequestParam(value="dataelementid",required=true) Integer dataElementId, Model model) {
+		logger.debug("Inside deleteDataElementFromUserStory");
+		
+		try {
+			DataElement dataElement = dataElementDao.find(dataElementId);
+			UserStory userStory = dataElement.getUserStory();
+			
+			dataElementDao.deleteDataElement(dataElementId);
+			model.addAttribute("successMessage", "The Data Element was deleted successfully from your Workboard");
+			
+			ModelAndView mav = modelForActiveWBview(model, userStory);
+			return mav;	
+		}
+		catch (Exception e)
+		{
+			model.addAttribute("errorMessage", "The Data Element could not be deleted.");
+		}
+		
+		return modelForActiveWBview(model, null);
+	}
+
+	private ModelAndView CreateWorkBoard(User user, Model model) {
+		ModelAndView mav = new ModelAndView();
+		try {
+			model.addAttribute("user", user);
+			
+			UserStory userStory = new UserStory();
+			userStory.setUser(user) ;
+			mav.addObject("userstory", userStory);
+			
+			mav.setViewName("createWB");
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		return mav;
+	}
+	
+	private ModelAndView modelForActiveWBview(Model model, UserStory userStory) {
 		logger.debug("Inside modelForActiveWBview");
 		
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("workboard", workboard);
-		model.addAttribute("user", workboard.getPerson());
-		List<Files> dataElements = new ArrayList<Files>();
+		mav.addObject("userstory", userStory);
+		model.addAttribute("user", userStory.getUser());
 		
 		try {
-			List<Files> files = filesDao.getFiles(workboard);
-	 		Files tmpFile;
-	 		for (Files file : files) {
-	 			tmpFile = file;
-	 			if (file.getType() == "jpg" || file.getType() == "jpeg" )
-	 				tmpFile.setFilecontent(Base64.encodeBase64String(file.getFile()));
-				else
-					tmpFile.setFilecontent(file.generateFileContent((file.getFile())));
-	 			dataElements.add(tmpFile);
+			List<DataElement> dataElements = dataElementDao.getDataElements(userStory);
+	 		for (DataElement dataElement : dataElements) {
+	 			dataElement.generateStringContent();
 			}
-	 		file = new Files();
-	 		mav.addObject(file);  // This file object id for the userwbmenu.jsp
 	 		mav.addObject("dataelements", dataElements);
-			
-	 		file = new Files();
-	 		mav.addObject(file); // This file object id for the userwbmenu.jsp	
+	 		mav.addObject(new DataElement());  // This file object is for the userwbmenu.jsp
 
 			mav.setViewName("activeWB");
 		}
@@ -285,35 +298,5 @@ public class WorkBoardController {
 		return mav;
 	}
 	
-	@RequestMapping(value = "/delete",method=RequestMethod.GET) 
-	public ModelAndView deleteWorkboard(@ModelAttribute WorkBoard workboard,@RequestParam(value="workboardid",required=true) Integer Id, Model model) {
-		logger.debug("Received object for workboard  " + workboard);
-		
-		workboard = workboardDao.find(Id);
-		workboardDao.removeWorkBoard(Id,workboard);
-		
-		ModelAndView mav = CreateWorkBoard(workboard.getPerson(), model);
-		
-		return mav;	
-	}
-		
-	@RequestMapping(value = "/deletefile",method=RequestMethod.GET) 
-	public ModelAndView deleteDataelement(@ModelAttribute Files file,@RequestParam(value="dataelementid",required=true) Integer Id, Model model) {
-		logger.debug("Received object for workboard  "+ file);
-		try {
-			file = filesDao.find(Id);
-			workboard = file.getWorkboard();
-			filesDao.removeFile(Id);
-			model.addAttribute("controllerMessageSuccess", "The Data Element was deleted successfully from your Workboard");
-		}
-		catch (Exception e)
-		{
-			model.addAttribute("controllerMessageError", "The Data Element '" + file.getFilename() + "' could not be deleted.");
-		}
-		
-		ModelAndView mav = modelForActiveWBview(model, workboard);
-		return mav;	
-	}
-
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";
 }

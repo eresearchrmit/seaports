@@ -4,29 +4,29 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ page language="java" import="war.model.WorkBoard" %>
-<%@ page language="java" import="war.model.Person" %>
+<%@ page language="java" import="war.model.UserStory" %>
+<%@ page language="java" import="war.model.User" %>
  
-<%-- <% Person p = workboard.person ; %> --%>
-<%-- <jsp:useBean id="person" class="war.model.Person" scope="page" /> --%>
-<%-- <h3 style="color:green;"> ${workboard.WorkBoardID} </h3>  --%>
-<% WorkBoard wb = (WorkBoard) request.getAttribute("workboard") ; %>
-<% Person p = (Person) wb.getPerson() ; %>
+<%-- <% User p = userstory.owner ; %> --%>
+<%-- <jsp:useBean id="user" class="war.model.User" scope="page" /> --%>
+
+<% UserStory wb = (UserStory)(request.getAttribute("userstory")); %>
+<% User user = (User) wb.getUser() ; %>
 
 <div class="grid_12">
 	<h2>New Workboard</h2>
 	<i>There is no active workboard. Create a new workboard using the page below:</i>
 	
 	
-	<form:form method="POST" action="/CSS/spring/workboard/add?login=${user.login}"  modelAttribute="workboard" >
+	<form:form method="POST" action="/CSS/spring/workboard/add?login=${user.login}"  modelAttribute="userstory" >
 	<table class="form">
 		<tr>
 			<td class="col1">
 				<label>Title:</label>
 			</td>
 			<td class="col2">
-				<form:input path="WorkBoardName" />
-				<%-- <form:hidden path="person" value = "<%= p  %>"  /> --%>
+				<form:input path="name" />
+				<%-- <form:hidden path="owner" value = "<%= p  %>"  /> --%>
 			</td>
 		</tr>
 		<tr>

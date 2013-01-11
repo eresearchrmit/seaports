@@ -1,85 +1,89 @@
-package war.model;
+package war.model ;
 
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+
+
+import war.model.User ;
 
 @Entity
 public class UserStory {
 	
 	private static final long serialVersionUID = -1308795024262635690L;
-    private int userstoryid;
-    private String userstoryname;
-    private String access;
-    private WorkBoard workboard ;
-    
-    private List<DataElement> dataelements ;
-    
-    
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-    public int getUserstoryid() {
-		return userstoryid;
+	private int id;
+	@Column
+	private String name;
+	@Column
+	private String mode;
+	@Column
+	private String access;
+	
+	@ManyToOne
+	@JoinColumn(name="owner_login")
+	private User owner;
+	
+	@OneToMany(targetEntity=DataElement.class, mappedBy="userStory",cascade=CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<DataElement> dataElements;
+	
+
+	public int getId() {
+		return this.id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	
-	public void setUserstoryid(int userstoryid) {
-		this.userstoryid = userstoryid;
+	public String getName() {
+		return this.name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public User getUser() {
+		return owner;
+	}
+	public void setUser(User owner) {
+		this.owner = owner;
 	}
 	
-	public String getUserstoryname() {
-		return userstoryname;
+	public String getMode() {
+		return this.mode;
 	}
-	
-	public void setUserstoryname(String userstoryname) {
-		this.userstoryname = userstoryname;
+	public void setMode(String mode) {
+		this.mode = mode;
 	}
 	
 	public String getAccess() {
-		return access;
+		return this.access;
 	}
-	
 	public void setAccess(String access) {
 		this.access = access;
 	}
-		
-	@OneToOne
-	@JoinColumn(name="workboard_id")
-	public WorkBoard getWorkboard() {
-		return workboard;
-	}
-	
-	public void setWorkboard(WorkBoard workboard) {
-		this.workboard = workboard;
-	}
-		
-	@OneToMany(targetEntity=DataElement.class, mappedBy="userstory", cascade=CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	public List<DataElement> getDataelements() {
-		return dataelements;
-	}
 
-	public void setDataelements(List<DataElement> dataelements) {
-		this.dataelements = dataelements;
+	public List<DataElement> getDataElements() {
+		return this.dataElements;
 	}
-
-	
+	public void setDataElements(List<DataElement> dataElements) {
+		this.dataElements = dataElements;
+	}
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
-	
-    
-  
 }

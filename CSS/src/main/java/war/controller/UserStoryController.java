@@ -1,12 +1,10 @@
 package war.controller;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import war.dao.*;
 import war.model.*;
-import war.service.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,100 +14,81 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.ui.Model;
 
-import org.apache.commons.codec.binary.* ;
-import org.springframework.web.servlet.tags.* ; 
-import org.apache.commons.lang.* ; 
+import org.apache.commons.codec.binary.* ; 
 
 
 @Controller
 @RequestMapping("/userstory")
 public class UserStoryController {
 		
-	private static final Logger logger = LoggerFactory.getLogger(PersonController.class);
+	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	@Autowired
-	private FilesDao filesDao;
+	private DataElementDao dataElementDao;
 	@Autowired
-	private DataElementDao dataelementDao;
+	private UserStoryDao userStoryDao;
 	@Autowired
-	private UserStoryDao userstoryDao;
-	@Autowired
-	private WorkBoardDao workboardDao;
-	@Autowired
-	private PersonDao personDao;
-	
-	private Person person;
-	private WorkBoard workboard;
-	private UserStory userstory;
-	
-	private WorkBoardController cworkboard;
-	private Files file;
+	private UserDao userDao;
 
-	@ModelAttribute("workboard")
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView getUserWorkBoard(@RequestParam(value="workboardid",required=true) Integer Id, Model model) {
-		logger.info("Inside get Workboard !");
-
-		cworkboard = new WorkBoardController();
-		workboard = workboardDao.find(Id);
-		person = workboard.getPerson();
-
-		workboard.setMode("passive");
-		workboardDao.save(workboard);
+	@RequestMapping(value= "/list", method = RequestMethod.GET)
+	public ModelAndView getUserStoriesList(@RequestParam(value="user",required=true) String login, Model model) {
+		logger.info("Inside getUserStoriesList !");
 		
-		userstory = userstoryDao.getPrivateUserStory(workboard);
-		if (userstory == null) {
-			userstory = new UserStory();
-			userstory.setUserstoryname(workboard.getWorkBoardName());
-			userstory.setAccess("private");
-			userstory.setWorkboard(workboard);
-			userstoryDao.save(userstory);
-			addDefaultDataElements(userstory);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("listUS");
+		
+		try {			
+			// Retrieve user
+			User user = userDao.find(login);
+			mav.addObject("user", user);
+			
+			// Retrieve user's Stories
+			List<UserStory> userStoriesList = userStoryDao.getUserStories(user);
+			mav.addObject("userStoriesList", userStoriesList);
+			
+			// Define a title
+	 		model.addAttribute("listingTitle", "My User Stories");
+
+		}
+		catch (NullPointerException e) {
+			model.addAttribute("errorMessage", ERR_RETRIEVE_USERSTORY_LIST);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
 		}
 		
-		ModelAndView mav = modelForPassiveWBview(model, workboard, userstory);
+		return mav;
+	}
+	
+	@ModelAttribute("userstory")
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView getUserStoryFromUser(@RequestParam(value="id",required=true) Integer Id, Model model) {
+		logger.info("Inside getUserStoryFromUser");
+
+		UserStory userstory = userStoryDao.find(Id);
+		//userstory.setMode("passive");
+		//userStoryDao.save(userstory);
+		
+		ModelAndView mav = modelForUserStoryView(model, userstory);
 		return mav;	
 	}
-	
-	public void addDefaultDataElements(UserStory userstory) {
+
+	@RequestMapping(value="/includeDataElement", method=RequestMethod.GET) 
+	public ModelAndView includeDataElementToUserStory(
+			@ModelAttribute DataElement dataelement, 
+			@RequestParam(value="dataelement",required=true) Integer dataElementId, 
+			@RequestParam(value="story",required=true) Integer id, 
+			Model model) {
+		logger.info("Inside includeDataElementToUserStory");
 		
-		DataElement dataelement ;
-		String header  = "Type the Title of the User Story", 
-		       content = "Type the Content of the User Story";
-		
-		dataelement = new DataElement() ;		
-		dataelement.setDataelement(header.getBytes()) ;
-		dataelement.setDataelementname("Header") ;
-		dataelement.setExtension("txt") ;
-		dataelement.setFormat("ONE") ;
-		dataelement.setUserstory(userstory) ;
-		dataelementDao.save(dataelement) ;
-		
-		dataelement = new DataElement() ;		
-		dataelement.setDataelement(content.getBytes()) ;
-		dataelement.setDataelementname("Content") ;
-		dataelement.setExtension("txt") ;
-		dataelement.setFormat("FOUR") ;
-		dataelement.setUserstory(userstory) ;
-		dataelementDao.save(dataelement) ;
-	}
-	
-	@RequestMapping(value="/addfile", method=RequestMethod.GET) 
-	public ModelAndView addDataelement(@ModelAttribute DataElement dataelement,@RequestParam(value="fileid",required=true) Integer fileid, 
-			@RequestParam(value="workboardid",required=true) Integer workboardid, Model model) {
-		
-		workboard = workboardDao.find(workboardid) ;
-		userstory = userstoryDao.getPrivateUserStory(workboard) ;
-		file = filesDao.find(fileid) ;
-		dataelement = new DataElement() ;
-		
-		dataelement.setDataelement(file.getFile()) ;
-		dataelement.setDataelementname(file.getFilename()) ;
+		UserStory userstory = userStoryDao.find(id);
+		/*file = filesDao.find(fileid);
+		dataelement = new DataElement();
+		dataelement.setDataelement(file.getName()) ;
+		dataelement.setDataelementname(file.getName()) ;
 		dataelement.setExtension(file.getType()) ;
 		dataelement.setUserstory(userstory) ;
 		
@@ -136,87 +115,33 @@ public class UserStoryController {
  		
  		dataelement.setFormat(format) ;
  		if (!format.equalsIgnoreCase("NONE")) dataelementDao.save(dataelement) ;
-		
-		ModelAndView mav = modelForPassiveWBview(model, workboard, userstory);
+		*/
+		ModelAndView mav = modelForUserStoryView(model, userstory);
 		return mav;	
 	}
 	
-	private ModelAndView modelForPassiveWBview(Model model, WorkBoard workboard, UserStory userstory) {
-		logger.debug("Inside modelForPassiveWBview");
+	private ModelAndView modelForUserStoryView(Model model, UserStory userStory) {
+		logger.debug("Inside modelForUserStoryView");
 
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("workboard", workboard);
-		List<Files> dataElements = new ArrayList<Files>();
+		mav.addObject("userstory", userStory);
 		
 		try {
-			person = workboard.getPerson();
-			model.addAttribute("user", person) ;
+			model.addAttribute("user", userStory.getUser()) ;
 			
-			List<Files> files = filesDao.getFiles(workboard);
-	 		Files tmpFile;
-	 		for (Files file : files) {
-	 			tmpFile = file;
-	 			if (file.getType() == "jpg" || file.getType() == "jpeg" )
-	 				tmpFile.setFilecontent(Base64.encodeBase64String(file.getFile()));
-				else
-					tmpFile.setFilecontent(file.generateFileContent((file.getFile())));
-	 			dataElements.add(tmpFile);
+			List<DataElement> dataElements = dataElementDao.getDataElements(userStory);
+	 		for (DataElement dataElement : dataElements) {
+	 			dataElement.generateStringContent();
 			}
-	 		file = new Files();
-	 		mav.addObject(file);  // This file object id for the userwbmenu.jsp
 	 		mav.addObject("dataelements", dataElements);
+	 		mav.addObject(new DataElement());  // This DataElement object is for the userwbmenu.jsp
 	 		
-	 		
-			/* Operation to get the dataelements and to direct activeUS.jsp View */
-		 	List<DataElement> commentsDataElement = new ArrayList<DataElement>() ;
-	 		try {
-				// Converting the bytefiles to stringfiles
-				List<DataElement> dataelements = dataelementDao.getDataElements(userstory);
-				DataElement stringdataelement;
-				for (DataElement dataelement : dataelements) {
-					stringdataelement = dataelement;
-					if (dataelement.getExtension() == "jpg" || dataelement.getExtension() == "jpeg" )
-						stringdataelement.setDataelementcontent(Base64.encodeBase64String(dataelement.getDataelement())); 
-					else
-						stringdataelement.setDataelementcontent(dataelement.toString((dataelement.getDataelement())));
-					commentsDataElement.add(stringdataelement);
-				}
-			}
-	 		catch (NullPointerException e) {
-	 			commentsDataElement.add(null) ;
-			}
-			mav.addObject("userstory", userstory);
-	 		mav.addObject("commentsDataElement", commentsDataElement);
-	 		
- 			mav.setViewName("passiveWB");
+ 			mav.setViewName("passiveUS");
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		return mav;
-	}
-	
-	@RequestMapping(value= "/list", method = RequestMethod.GET)
-	public ModelAndView getUserStoriesList(@RequestParam(value="user",required=true) String login, Model model) {
-		logger.info("Inside getUserStoriesList !");
-		try {
-			person = personDao.find(login) ;
-			List<WorkBoard> wbList = workboardDao.getUserStoriesList(person); 
-			ModelAndView mav = new ModelAndView();
-			mav.addObject("user", person);
-			mav.addObject("wbList", wbList);
-	 		model.addAttribute("listingTitle", "My User Stories");
-	 		mav.setViewName("listUS");
-			return mav;
-		}
-		catch (NullPointerException e) {
-			model.addAttribute("errorMessage", ERR_RETRIEVE_USERSTORY_LIST);
-		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
-		
-		return null;
 	}
 	
 	public static final String ERR_RETRIEVE_USERSTORY_LIST = "Error: Impossible to retrieve the list of your stories";

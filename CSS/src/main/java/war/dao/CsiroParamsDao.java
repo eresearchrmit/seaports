@@ -1,12 +1,9 @@
 package war.dao;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +15,6 @@ public class CsiroParamsDao {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
-	
-	private List<CsiroParams> csiroParamsList;
 
 	public CsiroParams find(Integer id) {
 		return entityManager.find(CsiroParams.class, id);

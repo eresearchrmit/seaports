@@ -3,6 +3,7 @@
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
 <tiles-definitions>
+	<!-- BASE DEFINITIONS -->
 	<definition name="base.definition" template="/WEB-INF/views/layout.jsp">
 		<put-attribute name="title" value="Seaport Project" />
 		<put-attribute name="imports" value="/WEB-INF/views/imports.jsp" />
@@ -18,7 +19,9 @@
 		<put-attribute name="header" value="/WEB-INF/views/header.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
 	</definition>
-
+	<!-- /BASE DEFINITIONS -->
+	
+	<!-- PAGE SPECIFIC -->
 	<definition name="home" extends="public.base.definition">
 		<put-attribute name="title" value="Home - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
@@ -29,41 +32,25 @@
 		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
 	</definition>
 	
-	<definition name="list" extends="base.definition">
-		<put-attribute name="title" value="List - Climate Smart Seaports" />
-		<put-attribute name="body" value="/WEB-INF/views/list.jsp" />
-	</definition>
-	
-	<definition name="workboard" extends="base.definition">
+	<definition name="createWB" extends="base.definition">
 		<put-attribute name="title" value="New Workboard - Climate Smart Seaports" />
-        <put-attribute name="body" value="/WEB-INF/views/workboard.jsp" />
-	</definition>
-			
-	<definition name="createdWB" extends="base.definition">
-		<put-attribute name="title" value="Workboard Created - Climate Smart Seaports" />
-		<put-attribute name="sidemenu" value="/WEB-INF/views/userwbmenu.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/createdWB.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/createWB.jsp" />
 	</definition>
 	
 	<definition name="activeWB" extends="base.definition">
 		<put-attribute name="title" value="Workboard - Climate Smart Seaports" />
-		<put-attribute name="sidemenu" value="/WEB-INF/views/userwbmenu.jsp" />
+		<put-attribute name="sidemenu" value="/WEB-INF/views/toolboxWB.jsp" />
         <put-attribute name="body" value="/WEB-INF/views/activeWB.jsp" />
 	</definition>
 	
-	<definition name="passiveWB" extends="base.definition">
+	<definition name="passiveUS" extends="base.definition">
 		<put-attribute name="title" value="Create User Story - Climate Smart Seaports" />
-		<put-attribute name="sidemenu" value="/WEB-INF/views/passiveWB.jsp" />
-	</definition>
-
-	<definition name="createDE" extends="base.definition">
-		<put-attribute name="title" value="Create Data Element - Climate Smart Seaports" />
-		<put-attribute name="sidemenu" value="" />
-        <put-attribute name="body" value="/WEB-INF/views/createDE.jsp" />
+		<put-attribute name="sidemenu" value="/WEB-INF/views/passiveUS.jsp" />
 	</definition>
 	
 	<definition name="listUS" extends="base.definition">
 		<put-attribute name="title" value="User Stories - Climate Smart Seaports" />
         <put-attribute name="body" value="/WEB-INF/views/listUS.jsp" />
 	</definition>
+	<!-- /PAGE SPECIFIC -->
 </tiles-definitions>

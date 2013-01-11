@@ -5,15 +5,15 @@
 <%@ page import="org.apache.commons.codec.binary.*"%>
 <%@ page import= "org.springframework.web.servlet.tags.*" %>
 <%@ page import="org.apache.commons.lang.*" %>
-<%@ page language="java" import="war.model.WorkBoard" %>
-<%@ page language="java" import="war.model.Person" %>
-<%@ page language="java" import="war.model.Files" %>
+<%@ page language="java" import="war.model.UserStory" %>
+<%@ page language="java" import="war.model.User" %>
+<%@ page language="java" import="war.model.DataElement" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="grid_12">
 	<h2>${listingTitle}</h2>
-	<c:if test="${not empty wbList}">
+	<c:if test="${not empty userStoriesList}">
 		<table class="data display datatable" id="tblUserStoryList">
 			<thead>
 				<tr>
@@ -24,11 +24,11 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${wbList}" var="wb" varStatus="status"> 
+				<c:forEach items="${userStoriesList}" var="story" varStatus="status"> 
 				<tr>
-					<td>${wb.workBoardName}</td>
+					<td>${story.name}</td>
 					<td class="center"><img src="<c:url value="/resources/img/icons/arrow_right_32.png" />" alt="Publish" title="Publish" /></td>
-					<td class="center"><a href="/CSS/spring/userstory?workboardid=${wb.workBoardID}"><img src="<c:url value="/resources/img/icons/pencil_32.png" />" alt="Edit" title="Edit" /></a></td>
+					<td class="center"><a href="/CSS/spring/userstory?workboardid=${story.id}"><img src="<c:url value="/resources/img/icons/pencil_32.png" />" alt="Edit" title="Edit" /></a></td>
 					<td class="center"><img src="<c:url value="/resources/img/icons/close_32.png" />" alt="Delete" title="Delete" /></td>
 				</tr>
 				</c:forEach>
