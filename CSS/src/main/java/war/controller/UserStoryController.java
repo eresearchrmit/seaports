@@ -65,7 +65,7 @@ public class UserStoryController {
 	
 	@ModelAttribute("userstory")
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView getUserStoryFromUser(@RequestParam(value="id",required=true) Integer Id, Model model) {
+	public ModelAndView getUserStory(@RequestParam(value="id",required=true) Integer Id, Model model) {
 		logger.info("Inside getUserStoryFromUser");
 
 		UserStory userstory = userStoryDao.find(Id);
@@ -127,7 +127,7 @@ public class UserStoryController {
 		mav.addObject("userstory", userStory);
 		
 		try {
-			model.addAttribute("user", userStory.getUser()) ;
+			model.addAttribute("user", userStory.getOwner()) ;
 			
 			List<DataElement> dataElements = dataElementDao.getDataElements(userStory);
 	 		for (DataElement dataElement : dataElements) {

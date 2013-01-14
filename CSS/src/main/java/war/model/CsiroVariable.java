@@ -67,7 +67,7 @@ public class CsiroVariable {
 	}
 
 	/**
-	 * Getter the name of the variable
+	 * Getter for the name of the variable
 	 * @return the current name of the variable
 	 */
 	public String getName() {

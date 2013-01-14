@@ -12,97 +12,197 @@ import javax.persistence.Transient;
 
 import org.apache.commons.codec.binary.Base64;
 
-import war.model.UserStory ;
+import war.model.UserStory;
 
-
+/**
+ * Class representing a data element of a user story
+ * @author Guillaume Prevost
+ * @since 11th Jan. 2013
+ */
 @Entity
 @Table(name = "DataElement")
 public class DataElement {
 
 	private static final long serialVersionUID = -1308795024262635690L;
     
+	/**
+	 * the unique ID of the Data Element
+	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 
+	/**
+	 * The name of the data element
+	 */
 	@Column
     private String name;
 	
+	/**
+	 * The type of the data element. The specific type 'data' is reserved for the data extracted from the database. 
+	 */
 	@Column
 	private String type;
     
+	/**
+	 * The position of the data element in the user story it belongs to
+	 */
     @Column
     private int position;
     
-    @Column
-    private byte[] content;
-    @Transient
-    private String stringContent; 
-    
+    /**
+     * The user story to which this data element belongs
+     */
 	@ManyToOne
 	@JoinColumn(name="userstory_id")
     private UserStory userStory;
+	
+    /**
+     * The binary content of the data element
+     */
+    @Column
+    private byte[] content;
+    
+    /**
+     * The string conversion of the data element content
+     */
+    @Transient
+    private String stringContent; 
 
+	/**
+	 * Default constructor of data element
+	 */
+	public DataElement() {
+	}
+	
+	/**
+	 * Constructor of User specifying the name, login and password 
+	 * @param name: the name of the data element
+	 * @param type: the type of the data element
+	 * @param position: the position of the data element in the user story it belongs to
+	 * @param userStory: the user story to which this data element belongs
+	 * @param content: the binary content of the data element
+	 */
+	public DataElement(String name, String type, int position, UserStory userStory, byte[] content) {
+		super();
+		this.name = name;
+		this.type = type;
+		this.position = position;
+		this.userStory = userStory;
+		this.content = content;
+		
+		this.generateStringContent();
+	}
+    
+	/**
+	 * Getter for the unique ID of the data element
+	 * @return The unique ID of the data element
+	 */
 	public int getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	
+	/**
+	 * Getter for the name of the data element
+	 * @return the current name of the data element
+	 */
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * Setter for the name of the data element
+	 * @param name: the new name of the data element
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Getter for the position of the data element in its user story
+	 * @return the current position of the data element
+	 */
 	public int getPosition() {
 		return this.position;
 	}
+	
+	/**
+	 * Setter for the position of the data element in its user story
+	 * @param position: the new position of the data element
+	 */
 	public void setPosition(int position) {
 		this.position = position;
 	}
 	
+	/**
+	 * Getter for the type of the data element
+	 * @return The current type of the data element
+	 */
 	public String getType() {
 		return type;
 	}
+	
+	/**
+	 * Setter for the type of the data element in its user story
+	 * @param type: the new type of the data element
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 	
-	@Column
+	/**
+	 * Getter for the user story containing this data element
+	 * @return The user story currently containing this data element
+	 */
+	public UserStory getUserStory() {
+		return this.userStory;
+	}
+	
+	/**
+	 * Setter for the user story containing this data element
+	 * @param userStory: The new user story currently containing this data element
+	 */
+	public void setUserStory(UserStory userStory) {
+		this.userStory = userStory;
+	}
+	
+	/**
+	 * Getter for the binary content of the data element
+	 * @return The current binary content of the data element
+	 */
 	public byte[] getContent() {
 		return content;
 	}
+	
+
+	/**
+	 * Setter for the binary content of the data element. 
+	 * It also sets the property stringContent by converting the binary content into a String.
+	 * @param content
+	 */
 	public void setContent(byte[] content) {
 		this.content = content;
+		generateStringContent();
 	}
 	
+	/**
+	 * Getter for the string conversion of the data element
+	 * @return The current string conversion of the data element
+	 */
+	public String getStringContent() {
+		if (this.stringContent == null)
+			generateStringContent();
+		return this.stringContent;
+	}
+	
+	/**
+	 * Converts the binary content into a String and assign it to the stringContent property.
+	 */
 	public void generateStringContent() {
 		if (this.type.equals("jpg") || this.type.equals("jpeg"))
 			this.stringContent = Base64.encodeBase64String(this.content);
 		else
 			this.stringContent = new String(this.content);
-	}
-	
-	public byte [] toBytes(String stringContent) {
-		this.content = stringContent.getBytes();
-		return this.content;
-	}
-	
-	public String getStringContent() {
-		return this.stringContent;
-	}
-	public void setStringContent(String stringContent) {		
-		this.stringContent = stringContent;
-	}
-	
-	public UserStory getUserStory() {
-		return this.userStory;
-	}
-	public void setUserStory(UserStory userStory) {
-		this.userStory = userStory;
 	}
 	
 	public static long getSerialversionuid() {

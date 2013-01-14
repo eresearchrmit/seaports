@@ -3,6 +3,7 @@ package war.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -23,12 +24,16 @@ public class CsiroVariableDao {
 	}
 	
 	@Transactional
-	public CsiroVariable find(String variableName) {
-		
-		Query query = entityManager.createQuery("select v from CsiroVariable v where v.name = :variableName");
-		query.setParameter("variableName", variableName);
-		
-		return (CsiroVariable)(query.getSingleResult());
+	public CsiroVariable find(String variableName) throws NoResultException {
+		try {
+			Query query = entityManager.createQuery("SELECT v FROM CsiroVariable v WHERE v.name = :variableName");
+			query.setParameter("variableName", variableName);
+			return (CsiroVariable)(query.getSingleResult());
+		}
+		catch (Exception e)
+		{
+			throw new NoResultException(ERR_NO_RESULT);
+		}
 	}
 	
 	@Transactional
@@ -37,4 +42,6 @@ public class CsiroVariableDao {
 		
 		return (List<CsiroVariable>)(query.getResultList());
 	}
+	
+	public static final String ERR_NO_RESULT = "No CSIRO variable found corresponding to the specified name";
 }

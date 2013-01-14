@@ -3,6 +3,7 @@ package war.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -36,41 +37,57 @@ public class CsiroDataDao {
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<CsiroData> find(String regionName) {
+	public List<CsiroData> find(String regionName) throws NoResultException {
 		Region region = regionDao.find(regionName);
-		Query query = entityManager.createQuery("select d from CsiroData d where d.region = :region");
-		query.setParameter("region", region);
-		csiroDataList = query.getResultList();
 		
-		return csiroDataList;
+		try {
+			Query query = entityManager.createQuery("select d from CsiroData d where d.region = :region");
+			query.setParameter("region", region);
+			csiroDataList = query.getResultList();
+			
+			return csiroDataList;
+		}
+		catch (NoResultException e) {
+			throw new NoResultException(ERR_NO_RESULT);
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Transactional
-	public List<CsiroData> find(String regionName, String emissionScenario, String climateModel, Integer assessmentYear) {
+	public List<CsiroData> find(String regionName, String emissionScenario, String climateModel, Integer assessmentYear) throws NoResultException {
 		Region region = regionDao.find(regionName);
 		CsiroParams parameters = csiroParamsDao.find(emissionScenario, climateModel, assessmentYear);
 		
-		Query query = entityManager.createQuery("select d from CsiroData d where d.region = :region and d.parameters = :parameters");
-		query.setParameter("region", region);
-		query.setParameter("parameters", parameters);
-		csiroDataList = query.getResultList();
-		
-		return csiroDataList;
+		try {
+			Query query = entityManager.createQuery("select d from CsiroData d where d.region = :region and d.parameters = :parameters");
+			query.setParameter("region", region);
+			query.setParameter("parameters", parameters);
+			csiroDataList = query.getResultList();
+			
+			return csiroDataList;
+		}
+		catch (NoResultException e) {
+			throw new NoResultException(ERR_NO_RESULT);
+		}
 	}
 	
 	@Transactional
-	public CsiroData find(String regionName, String emissionScenario, String climateModel, Integer assessmentYear, String variableName) {
+	public CsiroData find(String regionName, String emissionScenario, String climateModel, Integer assessmentYear, String variableName) throws NoResultException {
 		Region region = regionDao.find(regionName);
 		CsiroParams parameters = csiroParamsDao.find(emissionScenario, climateModel, assessmentYear);
 		CsiroVariable variable = csiroVariableDao.find(variableName);
 		
-		Query query = entityManager.createQuery("select d from CsiroData d where d.region = :region and d.parameters = :parameters and d.variable = :variable");
-		query.setParameter("region", region);
-		query.setParameter("parameters", parameters);
-		query.setParameter("variable", variable);
-		
-		return (CsiroData)(query.getSingleResult());
+		try {
+			Query query = entityManager.createQuery("select d from CsiroData d where d.region = :region and d.parameters = :parameters and d.variable = :variable");
+			query.setParameter("region", region);
+			query.setParameter("parameters", parameters);
+			query.setParameter("variable", variable);
+			
+			return (CsiroData)(query.getSingleResult());
+		}
+		catch (NoResultException e) {
+			throw new NoResultException(ERR_NO_RESULT);
+		}
 	}
 	
 	public static final String ERR_NO_RESULT = "No CSIRO data found corresponding to the specified parameters";

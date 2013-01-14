@@ -12,8 +12,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="grid_12">
-	<h2>Workboard: ${workboard.name} </h2>
-	<form:form method="post" action="/CSS/spring/workboard/update?workboardid=${workboard.id}" modelAttribute="stringfiles">
+	<h2>${userstory.name} </h2>
+	<form:form method="post" action="/CSS/spring/workboard/update?workboardid=${userstory.id}" modelAttribute="stringfiles">
 	  	<c:if test="${not empty dataelements}">		
 		 	<ul id="sortable">
 		 	<c:forEach items="${dataelements}" var="dataelement" varStatus="status">
@@ -21,7 +21,7 @@
 			 			<div class="box round">
 							<div class="box-header">
 								<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.type != 'data'}">.${dataelement.type}</c:if></h5>
-								<button type="button" class="btn btn-icon btn-blue btn-small btn-arrow-right floatright" onclick="location.href='/CSS/spring/userstory/includeDataElement?story=${workboard.id}&dataelement=${dataelement.id}'" >
+								<button type="button" class="btn btn-icon btn-blue btn-small btn-arrow-right floatright" onclick="location.href='/CSS/spring/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" >
 									<span></span>Add
 								</button>
 								<div class="clear"></div>

@@ -32,9 +32,9 @@
 		</div>
 	</c:if>
 
-	<form:form method="post" action="/CSS/spring/workboard/update?workboardid=${userstory.id}" modelAttribute="stringfiles">
+	<form:form method="post" action="/CSS/spring/workboard/save?id=${userstory.id}" modelAttribute="userstory">
 		
-	  	<c:if test="${not empty dataelements}">		
+	  	<c:if test="${not empty dataelements}">
 		 	<c:forEach items="${dataelements}" var="dataelement" varStatus="status"> 		 		
 		 			<div class="box round">
 						<div class="box-header">

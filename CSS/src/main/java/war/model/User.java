@@ -10,6 +10,11 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+/**
+ * Class representing a user of the application
+ * @author Guillaume Prevost
+ * @since 11th Jan. 2013
+ */
 @Entity
 public class User implements Serializable {
 
@@ -22,22 +27,22 @@ public class User implements Serializable {
 	private String login;
 	
 	/**
-	 * Password of the user
+	 * The password of the user
 	 */
 	private String password;
 	
 	/**
-	 * First name of the user
+	 * The first name of the user
 	 */
 	private String firstname;
 	
 	/**
-	 * Last name of the user
+	 * The last name of the user
 	 */
 	private String lastname;
 	
 	/**
-	 * Privilege level of the user in the application
+	 * The privilege level of the user in the application
 	 */
 	private Privilege privilege;
 	
@@ -169,50 +174,48 @@ public class User implements Serializable {
 		return serialVersionUID;
 	}
 	
+	/**
+	 * Returns the string representation of the user
+	 * @return String : the string representation of the user
+	 */
 	@Override
 	public String toString() {
-		return super.toString() + " name = " + firstname + " " + lastname ;
+		return this.firstname + " " + this.lastname + " (" + this.login + ")";
 	}
 
+	/**
+	 * Returns the hashcode of the user
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((firstname == null) ? 0 : firstname.hashCode());
-//		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result
-				+ ((lastname == null) ? 0 : lastname.hashCode());
+		result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
+		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
 		return result;
 	}
 
+	/**
+	 * Defines if a given object is equal to this user object. The login property is compared.
+	 * @param Object obj : the object to compare 
+	 * @return boolean : whether the given object is equal to this User object
+	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
 		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		User other = (User) obj;
-		if (firstname == null) {
-			if (other.firstname != null)
-				return false;
-		} else if (!firstname.equals(other.firstname))
-			return false;
-//		if (id == null) {
-//			if (other.id != null)
-//				return false;
-//		} else if (!id.equals(other.id))
-//			return false;
-		if (lastname == null) {
-			if (other.lastname != null)
-				return false;
-		} else if (!lastname.equals(other.lastname))
-			return false;
-		return true;
+		
+		User other = (User)obj;
+		return (this.login.equals(other.getLogin()));
 	}
 
+	/**
+	 * The enumeration of user's privileges in the application
+	 * @author Guillaume Prevost
+	 * @since 4th Jan. 2013
+	 */
 	public enum Privilege {
 		ANONYMOUS,
 		USER,

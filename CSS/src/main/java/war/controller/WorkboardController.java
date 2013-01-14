@@ -29,7 +29,7 @@ import org.apache.commons.codec.binary.*;
 
 @Controller
 @RequestMapping("/workboard")
-public class WorkBoardController {
+public class WorkboardController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
@@ -106,8 +106,7 @@ public class WorkBoardController {
 		@RequestParam(value="csiroEmissionScenario",required=true) String csiroEmissionScenario,
 		@RequestParam(value="csiroClimateModel",required=true) String csiroClimateModel,
 		@RequestParam(value="assessmentYear",required=true) String assessmentYear,
-		@RequestParam(value="id",required=true) Integer userStoryId, Model model) 
-		throws IOException 
+		@RequestParam(value="id",required=true) Integer userStoryId, Model model)
 	{
 		logger.info("Inside addDataToWorkBoard !");
 		UserStory userStory = userStoryDao.find(userStoryId);
@@ -176,7 +175,7 @@ public class WorkBoardController {
 			
 			dataElement.setContent(content.getBytes());
 			dataElementDao.save(dataElement);
-			model.addAttribute("successMessage", "The CSIRO Data has been added successfully to your workboard");
+			model.addAttribute("successMessage", MSG_CSIRO_DATA_ADDED);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -191,7 +190,7 @@ public class WorkBoardController {
         
 		try {
 			User user = userDao.find(login);
-			userStory.setUser(user);
+			userStory.setOwner(user);
 			userStory.setMode("active");
 			userStoryDao.save(userStory);
 			
@@ -204,19 +203,18 @@ public class WorkBoardController {
 	}
 	
 	@RequestMapping(value ="/save",method=RequestMethod.POST)
-	public ModelAndView saveWorkboard(@ModelAttribute List<DataElement> dataElements, @RequestParam(value="id",required=true) Integer userStoryId, Model model) {
+	public ModelAndView saveWorkboard(@ModelAttribute UserStory workboard, @RequestParam(value="id",required=true) Integer userStoryId, Model model) {
 		logger.debug("Inside saveWorkboard");
 		
 		UserStory userStory = userStoryDao.find(userStoryId);
 		
-		DataElement dataElementFromDb;
-		for (DataElement dataElement : dataElements)
-		{
-			dataElementFromDb = dataElementDao.find(dataElement.getId());
-			if (!(dataElementFromDb .getType().contains("jpg") || dataElementFromDb.getType().contains("jpeg") || dataElementFromDb .getType().contains("data"))) {
-				dataElementFromDb .setContent(dataElement.toBytes(dataElement.getContent().toString())) ;
+		for (DataElement dataElement : workboard.getDataElements())
+		{			
+			if (!(dataElement.getType().contains("jpg") || dataElement.getType().contains("jpeg") || dataElement.getType().contains("data"))) {
+				String stringContent = dataElement.getContent().toString();
+				dataElement.setContent(stringContent.getBytes());
 			}
-			dataElementDao.save(dataElementFromDb);
+			dataElementDao.save(dataElement);
 			model.addAttribute("successMessage", "Workboard saved");
 		}
 		
@@ -231,7 +229,7 @@ public class WorkBoardController {
 		UserStory userStory = userStoryDao.find(userStoryId);
 		userStoryDao.deleteUserStory(userStory);
 		
-		ModelAndView mav = CreateWorkBoard(userStory.getUser(), model);
+		ModelAndView mav = CreateWorkBoard(userStory.getOwner(), model);
 		
 		return mav;	
 	}
@@ -264,7 +262,7 @@ public class WorkBoardController {
 			model.addAttribute("user", user);
 			
 			UserStory userStory = new UserStory();
-			userStory.setUser(user) ;
+			userStory.setOwner(user) ;
 			mav.addObject("userstory", userStory);
 			
 			mav.setViewName("createWB");
@@ -280,7 +278,7 @@ public class WorkBoardController {
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("userstory", userStory);
-		model.addAttribute("user", userStory.getUser());
+		model.addAttribute("user", userStory.getOwner());
 		
 		try {
 			List<DataElement> dataElements = dataElementDao.getDataElements(userStory);
@@ -299,4 +297,5 @@ public class WorkBoardController {
 	}
 	
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";
+	public static final String MSG_CSIRO_DATA_ADDED = "The CSIRO Data has been added successfully to your workboard";
 }

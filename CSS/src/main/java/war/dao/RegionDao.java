@@ -3,6 +3,7 @@ package war.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -21,7 +22,7 @@ public class RegionDao {
 	}
 	
 	@Transactional
-	public Region find(String name) {
+	public Region find(String name) throws NoResultException {
 		try {
 			Query query = entityManager.createQuery("SELECT r FROM Region r WHERE r.name = :name");
 			query.setParameter("name", name);
@@ -30,9 +31,8 @@ public class RegionDao {
 		}
 		catch (Exception e)
 		{
-			System.out.println("EXCEPTION: " + e.getMessage());
+			throw new NoResultException(ERR_NO_RESULT);
 		}
-		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -43,4 +43,6 @@ public class RegionDao {
 		
 	    return regions;
 	}
+	
+	public static final String ERR_NO_RESULT = "No region found corresponding to the specified name";
 }

@@ -8,11 +8,6 @@
 <%@ page language="java" import="war.model.User" %>
 <%@ page language="java" import="war.model.DataElement" %>
 
-<%
-	UserStory wb = (UserStory)(request.getAttribute("userstory"));
-	User user = (User) wb.getUser();
-%>
-
 <div class="grid_12">
 	<h2> ${userstory.name} </h2>
 </div>

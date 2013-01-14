@@ -28,7 +28,7 @@
 				<tr>
 					<td>${story.name}</td>
 					<td class="center"><img src="<c:url value="/resources/img/icons/arrow_right_32.png" />" alt="Publish" title="Publish" /></td>
-					<td class="center"><a href="/CSS/spring/userstory?workboardid=${story.id}"><img src="<c:url value="/resources/img/icons/pencil_32.png" />" alt="Edit" title="Edit" /></a></td>
+					<td class="center"><a href="/CSS/spring/userstory?id=${story.id}"><img src="<c:url value="/resources/img/icons/pencil_32.png" />" alt="Edit" title="Edit" /></a></td>
 					<td class="center"><img src="<c:url value="/resources/img/icons/close_32.png" />" alt="Delete" title="Delete" /></td>
 				</tr>
 				</c:forEach>
