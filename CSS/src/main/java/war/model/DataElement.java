@@ -103,6 +103,14 @@ public class DataElement {
 	}
 	
 	/**
+	 * Setter for the unique ID of the data element
+	 * @param The unique ID of the data element
+	 */
+	public void setId(int id) {
+		this.id = id ;
+	}
+	
+	/**
 	 * Getter for the name of the data element
 	 * @return the current name of the data element
 	 */

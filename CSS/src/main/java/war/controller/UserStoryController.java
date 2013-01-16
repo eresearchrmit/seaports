@@ -1,5 +1,6 @@
 package war.controller;
 
+import java.util.Collections;
 import java.util.List;
 
 import war.dao.*;
@@ -25,6 +26,7 @@ public class UserStoryController {
 	@Autowired
 	private DataElementDao dataElementDao;
 	@Autowired
+	
 	private UserStoryDao userStoryDao;
 	@Autowired
 	private UserDao userDao;
@@ -75,6 +77,33 @@ public class UserStoryController {
 		return modelForUserStoryView(model, userStory);
 	}
 
+	@RequestMapping(value="/save", method=RequestMethod.POST) 
+	public ModelAndView includeDataElementToUserStory(@ModelAttribute UserStory reorderedUserStory, @RequestParam(value="id",required=true) Integer Id, Model model) {
+		logger.info("Inside includeDataElementToUserStory");
+		
+		try {
+			// Retrieve the original user story
+			UserStory userstory = userStoryDao.find(Id);
+			
+			// Reorder the data elements
+			for (DataElement de : userstory.getDataElements()) {
+				for (DataElement reorderedDE : reorderedUserStory.getDataElements())
+					if (de.getId() == reorderedDE.getId())
+					de.setPosition(reorderedDE.getPosition());
+			}
+		
+			// Save the user story
+			userStoryDao.save(userstory);
+			
+			model.addAttribute("successMessage", MSG_USERSTORY_SAVED);
+			return modelForUserStoryView(model, userstory);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+		}
+		return modelForUserStoryView(model, null);
+	}
+	/*
 	@RequestMapping(value="/includeDataElement", method=RequestMethod.GET) 
 	public ModelAndView includeDataElementToUserStory(
 			@ModelAttribute DataElement dataelement, 
@@ -84,7 +113,7 @@ public class UserStoryController {
 		logger.info("Inside includeDataElementToUserStory");
 		
 		UserStory userstory = userStoryDao.find(id);
-		/*file = filesDao.find(fileid);
+		file = filesDao.find(fileid);
 		dataelement = new DataElement();
 		dataelement.setDataelement(file.getName()) ;
 		dataelement.setDataelementname(file.getName()) ;
@@ -114,10 +143,11 @@ public class UserStoryController {
  		
  		dataelement.setFormat(format) ;
  		if (!format.equalsIgnoreCase("NONE")) dataelementDao.save(dataelement) ;
-		*/
+		
 		ModelAndView mav = modelForUserStoryView(model, userstory);
 		return mav;	
-	}
+	}*/
+	
 	
 	private ModelAndView modelForUserStoryView(Model model, UserStory userStory) {
 		logger.debug("Inside modelForUserStoryView");
@@ -127,8 +157,10 @@ public class UserStoryController {
 		
 		if (userStory != null)
 		{
-			mav.addObject("userstory", userStory);	
-			try {
+			Collections.sort(userStory.getDataElements(), new DateElementPositionComparator());
+			model.addAttribute("userstory", userStory);
+			model.addAttribute("user", userStory.getOwner());
+			/*try {
 				model.addAttribute("user", userStory.getOwner()) ;
 				
 				List<DataElement> dataElements = dataElementDao.getDataElements(userStory);
@@ -140,12 +172,15 @@ public class UserStoryController {
 			}
 			catch (Exception e) {
 				model.addAttribute("errorMessage", e.getMessage());
-			}
+			}*/
 		}
+		else
+			model.addAttribute("errorMessage", MSG_NO_USER_STORY);
 		return mav;
 	}
 	
 	public static final String ERR_RETRIEVE_USERSTORY_LIST = "Impossible to retrieve the list of your stories";
 	public static final String MSG_NO_USER_STORY = "There is no story to display";
-	
+	public static final String MSG_USERSTORY_SAVED = "The story has been saved successfully";
+	public static final String ERR_SAVE_USERSTORY = "Error while saving the story. Please Try Again";
 }

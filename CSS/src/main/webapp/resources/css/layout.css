@@ -1181,3 +1181,19 @@ td.details {
 }
 
 .gallery-sand .sorting{background-color:white !important;}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Sortable boxes
+ */
+ 
+#sortable li.sortableItem, #sortable li.sortable-placeholder {
+	list-style-type:none;
+	float:left;
+	width:45%
+}
+ 
+#sortable li.sortable-placeholder {
+	min-height:260px;
+	border: 3px dashed #b3cbd6;
+ 	margin-bottom:20px;
+}

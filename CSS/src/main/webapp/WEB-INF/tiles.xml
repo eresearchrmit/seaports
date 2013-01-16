@@ -44,7 +44,7 @@
 	</definition>
 	
 	<definition name="passiveUS" extends="base.definition">
-		<put-attribute name="title" value="Create User Story - Climate Smart Seaports" />
+		<put-attribute name="title" value="User Story - Climate Smart Seaports" />
 		<put-attribute name="sidemenu" value="/WEB-INF/views/passiveUS.jsp" />
 	</definition>
 	

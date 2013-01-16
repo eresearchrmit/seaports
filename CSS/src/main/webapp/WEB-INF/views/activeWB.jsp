@@ -11,19 +11,22 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<%--      	
-       <%     
-     		 String filename, fileid, filecontent;
-     	%> 
- --%>
-<%-- <c:out value="${stringfiles}"></c:out> --%>
-
 <div class="grid_8">
 	<c:if test="${not empty successMessage}">
 		<div class="message success">
 			<h5>Success !</h5>
 			<p>${successMessage}.</p>
 		</div>
+		<!-- Makes the success messages fade out after 3 seconds -->
+		<script type="text/javascript">
+			$(document).ready(function(){
+				setTimeout(function(){
+					$("#successMessage").fadeOut("slow", function () {
+						$("#successMessage").remove();
+					});
+				}, 3000);
+			});
+		</script>
 	</c:if>
 	<c:if test="${not empty errorMessage}">
 		<div class="message error">

@@ -13,11 +13,36 @@
 
 <div class="grid_12">
 	<h2>${userstory.name} </h2>
-	<form:form method="post" action="/CSS/spring/workboard/update?workboardid=${userstory.id}" modelAttribute="stringfiles">
-	  	<c:if test="${not empty dataelements}">		
+	
+	<c:if test="${not empty successMessage}">
+		<div id="successMessage" class="message success">
+			<h5>Success !</h5>
+			<p>${successMessage}.</p>
+		</div>
+		<!-- Makes the success messages fade out after 3 seconds -->
+		<script type="text/javascript">
+			$(document).ready(function(){
+				setTimeout(function(){
+					$("#successMessage").fadeOut("slow", function () {
+						$("#successMessage").remove();
+					});
+				}, 3000);
+			});
+		</script>
+	</c:if>
+	<c:if test="${not empty errorMessage}">
+		<div class="message error">
+			<h5>Error</h5>
+			<p>${errorMessage}.</p>
+		</div>
+	</c:if>
+	
+	<form:form method="post" action="/CSS/spring/userstory/save?id=${userstory.id}" modelAttribute="userstory">
+	  	<form:input value="${userstory.id}" type="hidden" path="id" />
+	  	<c:if test="${not empty userstory.dataElements}">		
 		 	<ul id="sortable">
-		 	<c:forEach items="${dataelements}" var="dataelement" varStatus="status">
-		 			<li style="list-style-type:none;float:left;width:45%">
+		 	<c:forEach items="${userstory.dataElements}" var="dataelement" varStatus="status">
+		 			<li class="sortableItem" id="dataElement${dataelement.id}">
 			 			<div class="box round">
 							<div class="box-header">
 								<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.type != 'data'}">.${dataelement.type}</c:if></h5>
@@ -26,15 +51,16 @@
 								</button>
 								<div class="clear"></div>
 							</div>
-							<input name="dataelements[${status.index}].id" value= ${dataelement.id} type="hidden">
-							<input name="dataelements[${status.index}].name" value= ${dataelement.name} type="hidden">
+							<input type="hidden" name="dataElements[${status.index}].id" value="${dataelement.id}" id="dataElements[${status.index}].id" >
+							<input type="hidden" name="dataElements[${status.index}].name" value="${dataelement.name}" id="dataElements[${status.index}].name">
+							<input type="hidden" name="dataElements[${status.index}].position" value="${dataelement.position}" type="hidden" id="dataElements[${status.index}].position" class="dataElementPosition">
 							
 							<c:choose>
 								<c:when test="${dataelement.type == 'jpg'}">
 									<ul class="prettygallery clearfix">
 			                        	<li>
 			                        		<a href="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" rel="prettyPhoto[gallery2]" title="">
-			                            		<img name="dataelements[${status.index}].stringContent" src="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" class="dataElementThumb" />
+			                            		<img name="dataElements[${status.index}].stringContent" src="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" class="dataElementThumb" />
 			                            	</a>
 			                            </li>
 									</ul>		
@@ -45,7 +71,7 @@
 			                 	</c:when>
 			                 		
 			                 	<c:otherwise>
-									<textarea name="dataelements[${status.index}].stringContent" rows="12" disabled>${dataelement.stringContent}</textarea>
+									<textarea name="userstory.dataElements[${status.index}].stringContent" rows="12" disabled>${dataelement.stringContent}</textarea>
 								</c:otherwise>
 							</c:choose>
 						</div>
@@ -55,12 +81,25 @@
 			<script type="text/javascript">
 				$(document).ready(function () {
 					$( "#sortable" ).sortable({
-						placeholder: "ui-state-highlight",
-						cursor: 'crosshair'
+						placeholder: "sortable-placeholder",
+						cursor: 'crosshair',
+			            update: function(event, ui) {
+			            	// Reorder the positions into the hidden field of each data element
+			            	var order = $("#sortable").sortable("toArray");
+							for (var i = 0; i < order.length; i++)
+							{
+								var element = $("#" + order[i]);
+								element.find(".dataElementPosition").attr("value", (i + 1));
+							}
+			            }
 					});
 					$( "#sortable" ).disableSelection();
 				});
 			</script>
 		</c:if>
+		<div class="clearfix"></div><br />
+		<button type="button" class="btn btn-icon btn-blue btn-check floatright" onclick="submit()">
+			<span></span>Save
+		</button>
 	</form:form>
 </div>
