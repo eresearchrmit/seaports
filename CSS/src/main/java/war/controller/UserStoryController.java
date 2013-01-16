@@ -1,6 +1,5 @@
 package war.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import war.dao.*;
@@ -17,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.ui.Model;
-
-import org.apache.commons.codec.binary.* ; 
-
 
 @Controller
 @RequestMapping("/userstory")
@@ -67,13 +63,16 @@ public class UserStoryController {
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getUserStory(@RequestParam(value="id",required=true) Integer Id, Model model) {
 		logger.info("Inside getUserStoryFromUser");
-
-		UserStory userstory = userStoryDao.find(Id);
-		//userstory.setMode("passive");
-		//userStoryDao.save(userstory);
 		
-		ModelAndView mav = modelForUserStoryView(model, userstory);
-		return mav;	
+		UserStory userStory = null;
+		
+		try {
+			userStory = userStoryDao.find(Id);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		return modelForUserStoryView(model, userStory);
 	}
 
 	@RequestMapping(value="/includeDataElement", method=RequestMethod.GET) 
@@ -124,26 +123,29 @@ public class UserStoryController {
 		logger.debug("Inside modelForUserStoryView");
 
 		ModelAndView mav = new ModelAndView();
-		mav.addObject("userstory", userStory);
+		mav.setViewName("passiveUS");
 		
-		try {
-			model.addAttribute("user", userStory.getOwner()) ;
-			
-			List<DataElement> dataElements = dataElementDao.getDataElements(userStory);
-	 		for (DataElement dataElement : dataElements) {
-	 			dataElement.generateStringContent();
+		if (userStory != null)
+		{
+			mav.addObject("userstory", userStory);	
+			try {
+				model.addAttribute("user", userStory.getOwner()) ;
+				
+				List<DataElement> dataElements = dataElementDao.getDataElements(userStory);
+		 		for (DataElement dataElement : dataElements) {
+		 			dataElement.generateStringContent();
+				}
+		 		mav.addObject("dataelements", dataElements);
+		 		mav.addObject(new DataElement());
 			}
-	 		mav.addObject("dataelements", dataElements);
-	 		mav.addObject(new DataElement());  // This DataElement object is for the userwbmenu.jsp
-	 		
- 			mav.setViewName("passiveUS");
-		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			catch (Exception e) {
+				model.addAttribute("errorMessage", e.getMessage());
+			}
 		}
 		return mav;
 	}
 	
-	public static final String ERR_RETRIEVE_USERSTORY_LIST = "Error: Impossible to retrieve the list of your stories";
+	public static final String ERR_RETRIEVE_USERSTORY_LIST = "Impossible to retrieve the list of your stories";
+	public static final String MSG_NO_USER_STORY = "There is no story to display";
 	
 }

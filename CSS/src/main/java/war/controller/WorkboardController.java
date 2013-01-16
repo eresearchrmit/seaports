@@ -3,9 +3,10 @@ package war.controller;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.NoResultException;
 
 import war.dao.*;
 import war.model.*;
@@ -23,8 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.ui.Model;
-
-import org.apache.commons.codec.binary.*;
 
 
 @Controller
@@ -190,8 +189,16 @@ public class WorkboardController {
         
 		try {
 			User user = userDao.find(login);
+			UserStory currentWorkboard = userStoryDao.getWorkBoard(user);
+			if (currentWorkboard != null)
+			{
+				model.addAttribute("errorMessage", ERR_ALREADY_CURRENT_WORKBOARD);
+				return modelForActiveWBview(model, currentWorkboard);
+			}
+			
 			userStory.setOwner(user);
 			userStory.setMode("active");
+			userStory.setAccess("private");
 			userStoryDao.save(userStory);
 			
 			return modelForActiveWBview(model, userStory);
@@ -199,41 +206,51 @@ public class WorkboardController {
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
-		return null;
+		return new ModelAndView();
 	}
 	
 	@RequestMapping(value ="/save",method=RequestMethod.POST)
 	public ModelAndView saveWorkboard(@ModelAttribute UserStory workboard, @RequestParam(value="id",required=true) Integer userStoryId, Model model) {
 		logger.debug("Inside saveWorkboard");
 		
-		UserStory userStory = userStoryDao.find(userStoryId);
-		
-		for (DataElement dataElement : workboard.getDataElements())
-		{			
-			if (!(dataElement.getType().contains("jpg") || dataElement.getType().contains("jpeg") || dataElement.getType().contains("data"))) {
-				String stringContent = dataElement.getContent().toString();
-				dataElement.setContent(stringContent.getBytes());
+		try {
+			UserStory userStory = userStoryDao.find(userStoryId);
+			
+			for (DataElement dataElement : workboard.getDataElements())
+			{			
+				if (!(dataElement.getType().contains("jpg") || dataElement.getType().contains("jpeg") || dataElement.getType().contains("data"))) {
+					String stringContent = dataElement.getContent().toString();
+					dataElement.setContent(stringContent.getBytes());
+				}
+				dataElementDao.save(dataElement);
+				model.addAttribute("successMessage", MSG_WORKBOARD_SAVED);
 			}
-			dataElementDao.save(dataElement);
-			model.addAttribute("successMessage", "Workboard saved");
+			return modelForActiveWBview(model, userStory);
 		}
-		
-		ModelAndView mav = modelForActiveWBview(model, userStory);
-		return mav;		
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		return new ModelAndView();		
 	}
 
+	
 	@RequestMapping(value = "/delete",method=RequestMethod.GET) 
 	public ModelAndView deleteWorkboard(@RequestParam(value="id", required=true) Integer userStoryId, Model model) {
 		logger.debug("Inside deleteWorkboard");
 		
-		UserStory userStory = userStoryDao.find(userStoryId);
-		userStoryDao.deleteUserStory(userStory);
-		
-		ModelAndView mav = CreateWorkBoard(userStory.getOwner(), model);
-		
-		return mav;	
+		try {
+			UserStory userStory = userStoryDao.find(userStoryId);
+			userStoryDao.deleteUserStory(userStory);
+			
+			return CreateWorkBoard(userStory.getOwner(), model);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		return new ModelAndView();
 	}
 		
+	
 	@RequestMapping(value = "/deletedataelement",method=RequestMethod.GET) 
 	public ModelAndView deleteDataElementFromUserStory(@RequestParam(value="dataelementid",required=true) Integer dataElementId, Model model) {
 		logger.debug("Inside deleteDataElementFromUserStory");
@@ -243,18 +260,22 @@ public class WorkboardController {
 			UserStory userStory = dataElement.getUserStory();
 			
 			dataElementDao.deleteDataElement(dataElementId);
-			model.addAttribute("successMessage", "The Data Element was deleted successfully from your Workboard");
+			model.addAttribute("successMessage", MSG_DATA_ELEMENT_DELETED);
 			
 			ModelAndView mav = modelForActiveWBview(model, userStory);
-			return mav;	
+			return mav;
+		}
+		catch (NoResultException e)
+		{
+			model.addAttribute("errorMessage", e.getMessage());
 		}
 		catch (Exception e)
 		{
-			model.addAttribute("errorMessage", "The Data Element could not be deleted.");
+			model.addAttribute("errorMessage", ERR_DELETE_DATA_ELEMENT);
 		}
-		
-		return modelForActiveWBview(model, null);
+		return new ModelAndView();
 	}
+	
 
 	private ModelAndView CreateWorkBoard(User user, Model model) {
 		ModelAndView mav = new ModelAndView();
@@ -272,6 +293,7 @@ public class WorkboardController {
 		}
 		return mav;
 	}
+	
 	
 	private ModelAndView modelForActiveWBview(Model model, UserStory userStory) {
 		logger.debug("Inside modelForActiveWBview");
@@ -296,6 +318,11 @@ public class WorkboardController {
 		return mav;
 	}
 	
+	public static final String ERR_ALREADY_CURRENT_WORKBOARD = "There is already a current workboard. Delete it or make a User Story before creating a new Workboard.";
+	
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";
+	public static final String ERR_DELETE_DATA_ELEMENT = "The Data Element could not be deleted";
 	public static final String MSG_CSIRO_DATA_ADDED = "The CSIRO Data has been added successfully to your workboard";
+	public static final String MSG_DATA_ELEMENT_DELETED = "The Data Element was deleted successfully from your Workboard";
+	public static final String MSG_WORKBOARD_SAVED = "Workboard saved";
 }

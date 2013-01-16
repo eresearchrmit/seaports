@@ -1,5 +1,6 @@
 package war.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -40,7 +41,13 @@ public class CsiroVariableDao {
 	public List<CsiroVariable> getAll() {
 		Query query = entityManager.createQuery("select v from CsiroVariable v");
 		
-		return (List<CsiroVariable>)(query.getResultList());
+		List<CsiroVariable> results = new ArrayList<CsiroVariable>();
+		for (Object obj : query.getResultList()) {
+			if (obj instanceof CsiroVariable)
+			results.add((CsiroVariable)(obj));
+		}
+		
+		return results;
 	}
 	
 	public static final String ERR_NO_RESULT = "No CSIRO variable found corresponding to the specified name";

@@ -3,6 +3,7 @@ package war.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import war.model.User;
@@ -16,11 +17,11 @@ public class UserDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public User find(String login) throws Exception {
-		User p = entityManager.find(User.class, login);
-		if (p == null)
-			throw new Exception(ERR_NO_SUCH_USER);
-		return p;
+	public User find(String login) throws NoResultException {
+		User user = entityManager.find(User.class, login);
+		if (user == null)
+			throw new NoResultException(ERR_NO_SUCH_USER);
+		return user;
 	}
 	
 	@SuppressWarnings("unchecked")

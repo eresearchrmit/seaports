@@ -3,6 +3,7 @@ package war.dao;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -23,7 +24,10 @@ public class DataElementDao {
 
 
 	public DataElement find(Integer id) {
-		return entityManager.find(DataElement.class, id);
+		DataElement de = entityManager.find(DataElement.class, id);
+		if (de == null)
+			throw new NoResultException(ERR_NO_SUCH_DATA_ELEMENT);
+		return de;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -52,4 +56,7 @@ public class DataElementDao {
 		Query query = entityManager.createQuery("delete from " + this.tableName + " de where de.id = :id") ;
 		query.setParameter("id", id).executeUpdate();
 	}
+	
+
+	public static final String ERR_NO_SUCH_DATA_ELEMENT = "No such data element could be found";
 }

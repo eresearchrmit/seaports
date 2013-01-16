@@ -1,6 +1,7 @@
 package war.dao;
 import war.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -19,8 +20,11 @@ public class UserStoryDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public UserStory find(Integer id) {
-		return entityManager.find(UserStory.class, id);
+	public UserStory find(Integer id) throws NoResultException {
+		UserStory us= entityManager.find(UserStory.class, id);
+		if (us == null)
+			throw new NoResultException(ERR_NO_SUCH_USERSTORY);
+		return us;
 	}
 	
 	public User findOwner(String login) {
@@ -33,65 +37,37 @@ public class UserStoryDao {
 	}
 	
 	public List<UserStory> getUserStories(User user) {
-		List<UserStory> userStories = null ;
 		Query query = entityManager.createQuery("select us from UserStory us where us.mode = :mode and us.owner = :owner") ;
 		query.setParameter("mode", "passive");
 		query.setParameter("owner", user); // Only of this user
 		
-		try {
-			userStories = (List<UserStory>)(query.getResultList());	
-		}
-		catch (NoResultException e) {
-			return userStories;
-		}
-		return userStories; 
+		return performQueryAndCheckResultList(query);
 	}
 	
 	public List<UserStory> getPrivateUserStories(User user) {
-		List<UserStory> userStories = null;
 		Query query = entityManager.createQuery("select us from UserStory us where us.mode != :mode and us.access = :access and us.owner = :owner") ;
 		query.setParameter("access", "private"); // Only Private
 		query.setParameter("mode", "active"); // All except active
 		query.setParameter("owner", user); // Only of this user
 		
-		try {
-			userStories = (List<UserStory>)(query.getResultList());	
-		}
-		catch (NoResultException e) {
-			return userStories;
-		}
-		return userStories;  
+		return performQueryAndCheckResultList(query);
 	}
 	
 	public List<UserStory> getPublicUserStories(User user) {
-		List<UserStory> userStories = null;
 		Query query = entityManager.createQuery("select us from UserStory us where us.mode != :mode and us.access = :access and us.owner = :owner") ;
 		query.setParameter("access", "public"); // Only public
 		query.setParameter("mode", "active"); // All except active
 		query.setParameter("owner", user); // Only of this user
 		
-		try {
-			userStories = (List<UserStory>)(query.getResultList());	
-		}
-		catch (NoResultException e) {
-			return userStories;
-		}
-		return userStories; 
+		return performQueryAndCheckResultList(query);
 	}
 	
 	public List<UserStory> getPublishedUserStories(User user) {
-		List<UserStory> userStories = null ;
 		Query query = entityManager.createQuery("select us from UserStory us where us.mode != :mode and us.access = :access and us.owner = :owner") ;
 		query.setParameter("mode", "published");
 		query.setParameter("owner", user);
 		
-		try {
-			userStories = (List<UserStory>)(query.getResultList());	
-		}
-		catch (NoResultException e) {
-			return userStories;
-		}
-		return userStories; 
+		return performQueryAndCheckResultList(query);
 	}
 	
 	public UserStory getWorkBoard(User user) {
@@ -103,7 +79,7 @@ public class UserStoryDao {
 			query.setParameter("owner", user);
 			
 			workboard = (UserStory)(query.getSingleResult());
-			return workboard; 
+			return workboard;
 		}
 		catch (NoResultException e) {
 			return workboard;
@@ -145,4 +121,20 @@ public class UserStoryDao {
 		query = entityManager.createQuery("delete from UserStory us where us.id = :id") ;
 		query.setParameter("id", userStory.getId()).executeUpdate();
 	}
+
+	private List<UserStory> performQueryAndCheckResultList(Query query) {
+		try {
+			List<UserStory> userStories = new ArrayList<UserStory>();
+			for (Object obj : query.getResultList()) {
+				if (obj instanceof UserStory)
+					userStories.add((UserStory)(obj));
+			}
+			return userStories;
+		}
+		catch (NoResultException e) {
+			return null;
+		}
+	}
+	
+	public static final String ERR_NO_SUCH_USERSTORY = "No user story or workboard could be found with the specified parameters.";
 }
