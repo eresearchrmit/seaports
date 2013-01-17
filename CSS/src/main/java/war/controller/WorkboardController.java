@@ -210,13 +210,13 @@ public class WorkboardController {
 	}
 	
 	@RequestMapping(value ="/save",method=RequestMethod.POST)
-	public ModelAndView saveWorkboard(@ModelAttribute UserStory workboard, @RequestParam(value="id",required=true) Integer userStoryId, Model model) {
+	public ModelAndView saveWorkboard(@ModelAttribute("userstory") UserStory updatedWorkboard, @RequestParam(value="id",required=true) Integer workboardId, Model model) {
 		logger.debug("Inside saveWorkboard");
 		
 		try {
-			UserStory userStory = userStoryDao.find(userStoryId);
+			//UserStory workboard = userStoryDao.find(workboardId);
 			
-			for (DataElement dataElement : workboard.getDataElements())
+			for (DataElement dataElement : updatedWorkboard.getDataElements())
 			{			
 				if (!(dataElement.getType().contains("jpg") || dataElement.getType().contains("jpeg") || dataElement.getType().contains("data"))) {
 					String stringContent = dataElement.getContent().toString();
@@ -225,12 +225,15 @@ public class WorkboardController {
 				dataElementDao.save(dataElement);
 				model.addAttribute("successMessage", MSG_WORKBOARD_SAVED);
 			}
-			return modelForActiveWBview(model, userStory);
+			return modelForActiveWBview(model, updatedWorkboard);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
-		return new ModelAndView();		
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("activeWB");
+		return mav;		
 	}
 
 	

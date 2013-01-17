@@ -17,10 +17,27 @@ public class CsiroParamsDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	/**
+	 * Retrieve the set of CSIRO parameters in the database associated to a unique ID
+	 * @param id: the unique ID of the required set of CSIRO parameters
+	 * @return the set of CSIRO parameters associated to the given unique ID
+	 * @throws NoResultException if the search didn't return any result
+	 */
 	public CsiroParams find(Integer id) {
-		return entityManager.find(CsiroParams.class, id);
+		CsiroParams csiroParams = entityManager.find(CsiroParams.class, id);
+		if (csiroParams == null)
+			throw new NoResultException(ERR_NO_RESULT);
+		return csiroParams;
 	}
 	
+	/**
+	 * Retrieve the (unique) set of CSIRO parameters matching an emission scenario, climate model name and year
+	 * @param emissionScenario: the emission scenario to match
+	 * @param modelName: the climate model name to match
+	 * @param assessmentYear: the year to match
+	 * @return the set of CSIRO parameters matching the given parameters
+	 * @throws NoResultException if no set of CSIRO parameters matches the given parameters
+	 */
 	@Transactional
 	public CsiroParams find(String emissionScenario, String modelName, Integer assessmentYear) throws NoResultException {
 		try {

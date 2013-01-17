@@ -20,10 +20,25 @@ public class CsiroVariableDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 
+	/**
+	 * Retrieve the CSIRO variable in the database associated to a unique ID
+	 * @param id: the unique ID of the required CSIRO variable
+	 * @return the CSIRO variable associated to the given unique ID
+	 * @throws NoResultException if the search didn't return any result
+	 */
 	public CsiroVariable find(Integer id) {
-		return entityManager.find(CsiroVariable.class, id);
+		CsiroVariable csiroVariable = entityManager.find(CsiroVariable.class, id);
+		if (csiroVariable == null)
+			throw new NoResultException(ERR_NO_RESULT);
+		return csiroVariable;
 	}
 	
+	/**
+	 * Retrieve the (unique) CSIRO variable matching a name
+	 * @param variableName: the anme of the variable to match
+	 * @return the CSIRO variable from the database
+	 * @throws NoResultException if no variable matches the given name 
+	 */
 	@Transactional
 	public CsiroVariable find(String variableName) throws NoResultException {
 		try {

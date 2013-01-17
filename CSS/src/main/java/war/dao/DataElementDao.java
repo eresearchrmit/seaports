@@ -1,5 +1,6 @@
 package war.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -18,27 +19,42 @@ public class DataElementDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	private final String tableName = "DataElement";
+	/**
+	 * The name of the table in the database where the Data Elements are stored
+	 */
+	private final String TABLE_NAME = "DataElement";
 	
-	private List<DataElement> dataElements;
-
-
-	public DataElement find(Integer id) {
+	/**
+	 * Retrieve the data element in the database associated to a unique ID 
+	 * @param id: the unique ID of the required data element
+	 * @return the data element associated to the given unique ID
+	 * @throws NoResultException if the search didn't return any result
+	 */
+	public DataElement find(Integer id) throws NoResultException {
 		DataElement de = entityManager.find(DataElement.class, id);
 		if (de == null)
 			throw new NoResultException(ERR_NO_SUCH_DATA_ELEMENT);
 		return de;
 	}
 	
-	@SuppressWarnings("unchecked")
+	/**
+	 * Get a list of all the data elements belonging to a User Story
+	 * @param userStory: the user story to retrieve the data elements of
+	 * @return the list of data elements of the given user story
+	 */
 	@Transactional
 	public List<DataElement> getDataElements(UserStory userStory) {
-		Query query = entityManager.createQuery("select de from " + this.tableName + " de where de.userStory = :userStory ");
-		dataElements = query.setParameter("userStory", userStory).getResultList();
+		Query query = entityManager.createQuery("select de from " + this.TABLE_NAME + " de where de.userStory = :userStory ");
+		query.setParameter("userStory", userStory);
 		
-		return dataElements;		
+		return performQueryAndCheckResultList(query);		
 	}
 	
+	/**
+	 * Saves a given data element into the database, by adding it or updating it
+	 * @param dataElement: the data element to save in the database
+	 * @return the saved data element
+	 */
 	@Transactional
 	public DataElement save(DataElement dataElement) {
 		if (dataElement.getId() == 0) {
@@ -51,12 +67,34 @@ public class DataElementDao {
 		}		
 	}
 	
+	/**
+	 * Delete from the database the data element associated to the unique ID
+	 * @param id: the unique ID of the data element to delete
+	 */
 	@Transactional
 	public void deleteDataElement(int id) {
-		Query query = entityManager.createQuery("delete from " + this.tableName + " de where de.id = :id") ;
+		Query query = entityManager.createQuery("delete from " + this.TABLE_NAME + " de where de.id = :id") ;
 		query.setParameter("id", id).executeUpdate();
 	}
 	
+	/**
+	 * Perform a query and check the result list is of the right type
+	 * @param query: the query to execute
+	 * @return the list of data elements returned by the query and checked
+	 */
+	private List<DataElement> performQueryAndCheckResultList(Query query) {
+		try {
+			List<DataElement> dataElements = new ArrayList<DataElement>();
+			for (Object obj : query.getResultList()) {
+				if (obj instanceof DataElement)
+					dataElements.add((DataElement)(obj));
+			}
+			return dataElements;
+		}
+		catch (NoResultException e) {
+			return null;
+		}
+	}	
 
 	public static final String ERR_NO_SUCH_DATA_ELEMENT = "No such data element could be found";
 }

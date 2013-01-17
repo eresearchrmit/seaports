@@ -20,32 +20,49 @@ public class UserStoryDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	/**
+	 * Retrieve the user story in the database associated to a unique ID
+	 * @param id: the unique ID of the required user story
+	 * @return the user story associated to the given unique ID
+	 * @throws NoResultException if the search didn't return any result
+	 */
 	public UserStory find(Integer id) throws NoResultException {
-		UserStory us= entityManager.find(UserStory.class, id);
+		UserStory us = entityManager.find(UserStory.class, id);
 		if (us == null)
 			throw new NoResultException(ERR_NO_SUCH_USERSTORY);
 		return us;
 	}
 	
-	public User findOwner(String login) {
-		return entityManager.find(User.class, login);	
+	/**
+	 * Retrieve a list of all the user stories in the database.
+	 * WARNING: the use of this method can be time and resource consuming !
+	 * @return the list of all the user stories in the database
+	 */
+	public List<UserStory> getAllStories() {	
+		Query query = entityManager.createQuery("SELECT us FROM UserStory us");
+		return performQueryAndCheckResultList(query);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public List<UserStory> getAllStories() {
-		return entityManager.createQuery("select us from UserStory us").getResultList();
-	}
-	
+	/**
+	 * Retrieve all the stories belonging to a user
+	 * @param user: the user to retrieve the stories of
+	 * @return the list of the user's stories
+	 */
 	public List<UserStory> getUserStories(User user) {
-		Query query = entityManager.createQuery("select us from UserStory us where us.mode = :mode and us.owner = :owner") ;
+		Query query = entityManager.createQuery("SELECT us FROM UserStory us WHERE us.mode = :mode AND us.owner = :owner") ;
 		query.setParameter("mode", "passive");
 		query.setParameter("owner", user); // Only of this user
 		
 		return performQueryAndCheckResultList(query);
 	}
 	
+	/**
+	 * Retrieve only the private stories belonging to a user
+	 * @param user: the user to retrieve the private stories
+	 * @return the list of the private stories of the given user
+	 */
 	public List<UserStory> getPrivateUserStories(User user) {
-		Query query = entityManager.createQuery("select us from UserStory us where us.mode != :mode and us.access = :access and us.owner = :owner") ;
+		Query query = entityManager.createQuery("SELECT us FROM UserStory us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
 		query.setParameter("access", "private"); // Only Private
 		query.setParameter("mode", "active"); // All except active
 		query.setParameter("owner", user); // Only of this user
@@ -53,8 +70,13 @@ public class UserStoryDao {
 		return performQueryAndCheckResultList(query);
 	}
 	
+	/**
+	 * Retrieve only the private stories belonging to a user
+	 * @param user: the user to retrieve the public stories
+	 * @return the list of the public stories of the given user
+	 */
 	public List<UserStory> getPublicUserStories(User user) {
-		Query query = entityManager.createQuery("select us from UserStory us where us.mode != :mode and us.access = :access and us.owner = :owner") ;
+		Query query = entityManager.createQuery("SELECT us FROM UserStory us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
 		query.setParameter("access", "public"); // Only public
 		query.setParameter("mode", "active"); // All except active
 		query.setParameter("owner", user); // Only of this user
@@ -62,19 +84,29 @@ public class UserStoryDao {
 		return performQueryAndCheckResultList(query);
 	}
 	
+	/**
+	 * Retrieve only the stories belonging to a user that he has decided to publish
+	 * @param user: the user to retrieve the published stories
+	 * @return the list of the published stories of the given user
+	 */
 	public List<UserStory> getPublishedUserStories(User user) {
-		Query query = entityManager.createQuery("select us from UserStory us where us.mode != :mode and us.access = :access and us.owner = :owner") ;
+		Query query = entityManager.createQuery("SELECT us FROM UserStory us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
 		query.setParameter("mode", "published");
 		query.setParameter("owner", user);
 		
 		return performQueryAndCheckResultList(query);
 	}
 	
+	/**
+	 * Retrieve the Workboard (the only story in 'active' mode) of a user
+	 * @param user: the user to retrieve the workboard of
+	 * @return the Workboard of the given user
+	 */
 	public UserStory getWorkBoard(User user) {
 		UserStory workboard = null ;
 		
 		try {
-			Query query = entityManager.createQuery("select u from UserStory u where u.mode = :mode and u.owner = :owner") ;
+			Query query = entityManager.createQuery("SELECT u FROM UserStory u WHERE u.mode = :mode AND u.owner = :owner") ;
 			query.setParameter("mode", "active"); // Only the active one
 			query.setParameter("owner", user);
 			
@@ -89,18 +121,11 @@ public class UserStoryDao {
 		}
 	}
 	
-	/*@SuppressWarnings("unchecked")
-	public List<UserStory> getAllPassiveWorkBoard() {	
-		Query query = entityManager.createQuery("select us from UserStory us where us.mode = :mode");
-		return query.setParameter("mode", "passive").getResultList();
-	}*/
-	
-	/*@SuppressWarnings("unchecked")
-	public List<UserStory> getInactiveWorkBoard() {	
-		Query query = entityManager.createQuery("select us from UserStory us where us.mode = :mode");
-		return query.setParameter("mode", "inactive").getResultList() ; 
-	}*/
-	
+	/**
+	 * Save a user story in the database. Adds it if it doesn't exist or update it
+	 * @param userStory: the user story to save
+	 * @return the saved user story
+	 */
 	@Transactional
 	public UserStory save(UserStory userStory) {
 		if (userStory.getId() == 0) {
@@ -112,16 +137,25 @@ public class UserStoryDao {
 		}		
 	}
 	
+	/**
+	 * Delete a user story from the database along with all the data element it contains
+	 * @param userStory: the user story to delete
+	 */
 	@Transactional
 	public void deleteUserStory(UserStory userStory) {
 		
-		Query query = entityManager.createQuery("delete from DataElement de where de.userStory = :userStory") ;
+		Query query = entityManager.createQuery("DELETE FROM DataElement de WHERE de.userStory = :userStory") ;
 		query.setParameter("userStory", userStory).executeUpdate();
 		
-		query = entityManager.createQuery("delete from UserStory us where us.id = :id") ;
+		query = entityManager.createQuery("DELETE FROM UserStory us WHERE us.id = :id") ;
 		query.setParameter("id", userStory.getId()).executeUpdate();
 	}
 
+	/**
+	 * Perform a query and check the result list is of the right type
+	 * @param query: the query to execute
+	 * @return the list of user stories returned by the query and checked
+	 */
 	private List<UserStory> performQueryAndCheckResultList(Query query) {
 		try {
 			List<UserStory> userStories = new ArrayList<UserStory>();

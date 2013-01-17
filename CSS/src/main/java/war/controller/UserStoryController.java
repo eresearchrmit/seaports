@@ -23,11 +23,10 @@ import org.springframework.ui.Model;
 public class UserStoryController {
 		
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
 	@Autowired
-	private DataElementDao dataElementDao;
-	@Autowired
-	
 	private UserStoryDao userStoryDao;
+	
 	@Autowired
 	private UserDao userDao;
 
@@ -78,7 +77,7 @@ public class UserStoryController {
 	}
 
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
-	public ModelAndView includeDataElementToUserStory(@ModelAttribute UserStory reorderedUserStory, @RequestParam(value="id",required=true) Integer Id, Model model) {
+	public ModelAndView saveUserStory(@ModelAttribute UserStory reorderedUserStory, @RequestParam(value="id",required=true) Integer Id, Model model) {
 		logger.info("Inside includeDataElementToUserStory");
 		
 		try {
