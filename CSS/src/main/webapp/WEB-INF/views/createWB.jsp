@@ -6,12 +6,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" import="war.model.UserStory" %>
 <%@ page language="java" import="war.model.User" %>
- 
-<%-- <% User p = userstory.owner ; %> --%>
-<%-- <jsp:useBean id="user" class="war.model.User" scope="page" /> --%>
-
-<% UserStory wb = (UserStory)(request.getAttribute("userstory")); %>
-<% User user = (User) wb.getUser() ; %>
 
 <div class="grid_12">
 	<h2>New Workboard</h2>

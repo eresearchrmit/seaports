@@ -47,15 +47,15 @@
 							</button>
 							<div class="clear"></div>
 						</div>
-						<input name="dataelements[${status.index}].fileid" value= ${dataelement.id} type="hidden">
-						<input name="dataelements[${status.index}].filename" value= ${dataelement.name} type="hidden">
+						<input name="dataElements[${status.index}].fileid" value="${dataelement.id}" type="hidden">
+						<input name="dataElements[${status.index}].filename" value="${dataelement.name}" type="hidden">
 						
 						<c:choose>
 							<c:when test="${dataelement.type == 'jpg'}">
 								<ul class="prettygallery clearfix">
 		                        	<li>
 		                        		<a href="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" rel="prettyPhoto[gallery2]" title="">
-		                            		<img name="dataelements[${status.index}].name" src="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" class="dataElementThumb" />
+		                            		<img name="dataelement.name" src="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" class="dataElementThumb" />
 		                            	</a>
 		                            </li>
 								</ul>		
@@ -71,7 +71,7 @@
 						</c:choose>
 					</div>
 			</c:forEach>
-			<button class="floatright btn btn-icon btn-check btn-blue btn-big" ><span></span>Save Workboard</button>
+			<!-- <button class="floatright btn btn-icon btn-check btn-blue btn-big" ><span></span>Save Workboard</button> -->
 		</c:if>
 	</form:form>
 </div>

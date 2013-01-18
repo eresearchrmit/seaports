@@ -13,14 +13,7 @@
 </div>
 <div class="clear"></div>
 
-<div class="grid_3 box">
-	<p>
-		<form:form method="post" action="/CSS/spring/workboard/upload?id=${userstory.id}" enctype="multipart/form-data">
-			File Upload : <input type="file" name="file" id="file" /><br />
-	    	<input type="submit" value="Upload File" class="btn btn-grey btn-icon btn-plus" />
-		</form:form>
-	</p>
-	
+<div class="grid_3 box">	
 	<p>
 		<button id="btnOpenAddDataElementModalWindow" type="button" class="btn btn-icon btn-blue btn-plus" >
 			<span></span>Add Data Element
@@ -37,25 +30,31 @@
 							<option value="None">- Select Data Source -</option>
 							<option value="CSIRO">CSIRO</option>
 							<option value="BoM">BoM</option>
+							<option value="CustomFile">Custom file</option>
 						</select>
 					</td>
 				</tr>
 			</table>
 			<script type="text/javascript">
 				$('select#cbbDataSource').change(function() {
+					$('#csiroDataForm').hide();
+					$('#bomDataForm').hide();
+					$('#customFileDataForm').hide();
 					switch($('select#cbbDataSource').val())
 					{
 						case "CSIRO":
 							$('#csiroDataForm').show();
-							$('#bomDataForm').hide();
 							break;
 						case "BoM":
-							$('#csiroDataForm').hide();
 							$('#bomDataForm').show();
+							break;
+						case "CustomFile":
+							$('#customFileDataForm').show();
 							break;
 						default:
 							$('#csiroDataForm').hide();
 							$('#bomDataForm').hide();
+							$('#customFileDataForm').hide();
 					}
 				});
 			</script>
@@ -126,14 +125,31 @@
 					</tr>
 				</table>
 				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add BoM Data Element
+					<span></span>Upload custom file
 				</button>
+			</div>
+			<div id="customFileDataForm">
+				<form:form method="post" action="/CSS/spring/workboard/upload?id=${userstory.id}" enctype="multipart/form-data">
+					<p><strong>2. Custom Data Element Options:</strong></p>
+					<table width="auto" height="auto" class="form">
+						<tr>
+							<td align="right" class="col1">Select a file to upload:</td>
+							<td class="col2">
+								<input type="file" name="file" id="file" />
+							</td>
+						</tr>
+					</table>
+					<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+						<span></span>Add CCustom Data Element
+					</button>
+				</form:form>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
 		$('#csiroDataForm').hide();
 		$('#bomDataForm').hide();
+		$('#customFileDataForm').hide();
 		setupDialogBox("addDataElementModalWindow", "btnOpenAddDataElementModalWindow");
 	</script>
 	
@@ -143,7 +159,7 @@
 		</button>
 	</p>
 	<p>
-		<button type="button" class="btn btn-icon btn-blue btn-arrow-right" onclick="location.href='/CSS/spring/userstory?id=${userstory.id}'" >
+		<button type="button" class="btn btn-icon btn-blue btn-arrow-right" onclick="location.href='/CSS/spring/userstory/create?id=${userstory.id}'" >
 			<span></span>Create User Story
 		</button>
 	</p>

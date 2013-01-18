@@ -76,10 +76,16 @@
 							</c:choose>
 						</div>
 					</li>
+					<c:if test="${status.index} % 2 != 0">
+						<div class="clearfix"></div>
+					</c:if>
 			</c:forEach>
 			</ul>
 			<script type="text/javascript">
 				$(document).ready(function () {
+					// Resize the sortable list items 2 by 2 to have a proper grid
+					resizeListItems();
+					
 					$( "#sortable" ).sortable({
 						placeholder: "sortable-placeholder",
 						cursor: 'crosshair',
@@ -91,10 +97,29 @@
 								var element = $("#" + order[i]);
 								element.find(".dataElementPosition").attr("value", (i + 1));
 							}
+							// Resize the sortable list items 2 by 2 to have a proper grid
+							resizeListItems();
 			            }
 					});
 					$( "#sortable" ).disableSelection();
 				});
+				
+				// Resize the sortable list items 2 by 2 to have a proper grid
+				function resizeListItems() {
+					var listItems = $("#sortable li.sortableItem .box");
+					var boxOne = null;
+					listItems.each(function(idx, box) {
+						if (idx % 2 != 0) {
+							boxTwo = $(box);
+							if (boxOne.height() > boxTwo.height())
+								boxTwo.height(boxOne.height());
+							else if (boxTwo.height() > boxOne.height())
+								boxOne.height(boxTwo.height());
+					    }
+					    else
+					    	boxOne = $(box);
+					});
+				}
 			</script>
 		</c:if>
 		<div class="clearfix"></div><br />

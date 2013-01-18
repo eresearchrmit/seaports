@@ -217,7 +217,7 @@ public class WorkboardController {
 			//UserStory workboard = userStoryDao.find(workboardId);
 			
 			for (DataElement dataElement : updatedWorkboard.getDataElements())
-			{			
+			{
 				if (!(dataElement.getType().contains("jpg") || dataElement.getType().contains("jpeg") || dataElement.getType().contains("data"))) {
 					String stringContent = dataElement.getContent().toString();
 					dataElement.setContent(stringContent.getBytes());
@@ -236,7 +236,6 @@ public class WorkboardController {
 		return mav;		
 	}
 
-	
 	@RequestMapping(value = "/delete",method=RequestMethod.GET) 
 	public ModelAndView deleteWorkboard(@RequestParam(value="id", required=true) Integer userStoryId, Model model) {
 		logger.debug("Inside deleteWorkboard");
@@ -251,8 +250,7 @@ public class WorkboardController {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		return new ModelAndView();
-	}
-		
+	}	
 	
 	@RequestMapping(value = "/deletedataelement",method=RequestMethod.GET) 
 	public ModelAndView deleteDataElementFromUserStory(@RequestParam(value="dataelementid",required=true) Integer dataElementId, Model model) {
@@ -321,8 +319,7 @@ public class WorkboardController {
 		return mav;
 	}
 	
-	public static final String ERR_ALREADY_CURRENT_WORKBOARD = "There is already a current workboard. Delete it or make a User Story before creating a new Workboard.";
-	
+	public static final String ERR_ALREADY_CURRENT_WORKBOARD = "There is already a current workboard. Delete it or make a User Story before creating a new Workboard";
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";
 	public static final String ERR_DELETE_DATA_ELEMENT = "The Data Element could not be deleted";
 	public static final String MSG_CSIRO_DATA_ADDED = "The CSIRO Data has been added successfully to your workboard";

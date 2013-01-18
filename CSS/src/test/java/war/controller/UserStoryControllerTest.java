@@ -149,19 +149,16 @@ public class UserStoryControllerTest {
 		Assert.assertEquals(refUser, resUser);
 		
 		// Check that the result is a list of Data Elements and that they all belong to the user story
-		@SuppressWarnings("unchecked")
-		List<Object> resDataElements = (List<Object>)(result.getModelMap().get("dataelements"));
-		for (Object obj : resDataElements) {
-			if (obj instanceof DataElement) {
-				DataElement de = (DataElement)obj;
-				Assert.assertEquals(id, de.getUserStory().getId());
-				Assert.assertEquals(refUser.getLogin(), de.getUserStory().getOwner().getLogin());
-			}
-			else
-				Assert.fail();
+		UserStory resUserStory = (UserStory)(model.get("userstory"));
+		Assert.assertTrue(resUserStory.getDataElements().size() > 0);
+		for (DataElement de : resUserStory.getDataElements()) {
+			Assert.assertEquals(id, de.getUserStory().getId());
+			Assert.assertEquals(refUser.getLogin(), de.getUserStory().getOwner().getLogin());
 		}
-
 	}
 	
+	// TODO: Test saveUserStory
+	
 	// TODO: Test includeDataElementToUserStory
+	
 }

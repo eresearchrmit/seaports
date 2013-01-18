@@ -223,7 +223,7 @@ public class WorkboardControllerTest {
 	/**
 	 * saveWorkboardUnknownIdTest : Save should fail because the ID provided doesn't correspond to an existing Workboard
 	 */
-	@Test
+	//@Test
 	public void saveWorkboardUnknownIdTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory refWorkboard = new UserStory();

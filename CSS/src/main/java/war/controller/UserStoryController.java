@@ -60,6 +60,23 @@ public class UserStoryController {
 		return mav;
 	}
 	
+	@RequestMapping(value= "/lock", method = RequestMethod.GET)
+	public String changeUserStoryPrivacy(@RequestParam(value="user",required=true) String login, @RequestParam(value="id",required=true) Integer id, @RequestParam(value="lock",required=true) Boolean lock, Model model) {
+		logger.info("Inside getUserStoriesList !");
+		try {
+			UserStory userStory= userStoryDao.find(id);
+			if (lock)
+				userStory.setAccess("private");
+			else
+				userStory.setAccess("public");
+			userStoryDao.save(userStory);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+		}
+		return "redirect:/spring/userstory/list?user=" + login;
+	}
+	
 	@ModelAttribute("userstory")
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getUserStory(@RequestParam(value="id",required=true) Integer Id, Model model) {
@@ -76,6 +93,24 @@ public class UserStoryController {
 		return modelForUserStoryView(model, userStory);
 	}
 
+	@RequestMapping(value="/create", method=RequestMethod.GET) 
+	public ModelAndView createUserStory(@RequestParam(value="id",required=true) Integer Id, Model model) {
+		logger.info("Inside includeDataElementToUserStory");
+		
+		try {
+			// Retrieve the user story
+			UserStory userstory = userStoryDao.find(Id);
+			userstory.setMode("passive");
+			userStoryDao.save(userstory);
+			
+			return modelForUserStoryView(model, userstory);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+		}
+		return modelForUserStoryView(model, null);
+	}
+	
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
 	public ModelAndView saveUserStory(@ModelAttribute UserStory reorderedUserStory, @RequestParam(value="id",required=true) Integer Id, Model model) {
 		logger.info("Inside includeDataElementToUserStory");
@@ -88,7 +123,7 @@ public class UserStoryController {
 			for (DataElement de : userstory.getDataElements()) {
 				for (DataElement reorderedDE : reorderedUserStory.getDataElements())
 					if (de.getId() == reorderedDE.getId())
-					de.setPosition(reorderedDE.getPosition());
+						de.setPosition(reorderedDE.getPosition());
 			}
 		
 			// Save the user story
@@ -102,6 +137,27 @@ public class UserStoryController {
 		}
 		return modelForUserStoryView(model, null);
 	}
+	
+	@RequestMapping(value = "/delete",method=RequestMethod.GET) 
+	public String deleteUserStory(@RequestParam(value="id", required=true) Integer userStoryId, Model model) {
+		logger.debug("Inside deleteUserStory");
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("listUS");
+		
+		try {
+			UserStory userStory = userStoryDao.find(userStoryId);
+			mav.addObject("user", userStory.getOwner().getLogin());
+			String ownerLogin = userStory.getOwner().getLogin();
+			userStoryDao.deleteUserStory(userStory);
+			return "redirect:/spring/userstory/list?user=" + ownerLogin;
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		return "listUS";
+	}	
+	
 	/*
 	@RequestMapping(value="/includeDataElement", method=RequestMethod.GET) 
 	public ModelAndView includeDataElementToUserStory(
@@ -173,8 +229,6 @@ public class UserStoryController {
 				model.addAttribute("errorMessage", e.getMessage());
 			}*/
 		}
-		else
-			model.addAttribute("errorMessage", MSG_NO_USER_STORY);
 		return mav;
 	}
 	

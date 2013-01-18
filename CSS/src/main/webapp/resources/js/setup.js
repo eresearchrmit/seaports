@@ -455,6 +455,7 @@ function setupDialogBox(containerElement, associatedButton) {
     $.fx.speeds._default = 1000;
     $("#" + containerElement).dialog({
         autoOpen: false,
+        modal: true,
         show: "fade",
         hide: "fade",
         width:"auto"
@@ -466,8 +467,35 @@ function setupDialogBox(containerElement, associatedButton) {
     });
 }
 
-//setup accordion
+//setup confirm box
+function setupConfirmBox(containerElement, associatedLink) {
+	$.fx.speeds._default = 1000;
+	$("." + associatedLink).click(function(e) {
+		e.preventDefault();
+		var targetUrl = $(this).attr("href");
+		
+		$("#" + containerElement).dialog({
+	        autoOpen: false,
+	        show: "fade",
+	        hide: "fade",
+	        width: "auto",
+	        modal: true,
+	        resizable: false,
+			buttons : {
+				"Confirm" : function() {
+					window.location.href = targetUrl;
+				},
+				"Cancel" : function() {
+					$(this).dialog("close");
+				}
+			}
+		});
+		$("#" + containerElement).dialog("open");
+	});
+	$("#" + containerElement).hide();
+}
 
+//setup accordion
 function setupAccordion(containerElement) {
     $("#" + containerElement).accordion();
 }
