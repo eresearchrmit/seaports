@@ -179,9 +179,10 @@ public class DataElement {
 	 * @return The current binary content of the data element
 	 */
 	public byte[] getContent() {
+		if (this.content == null)
+			generateBinaryContent();
 		return content;
 	}
-	
 
 	/**
 	 * Setter for the binary content of the data element. 
@@ -204,13 +205,43 @@ public class DataElement {
 	}
 	
 	/**
+	 * Setter for the string content of the data element. 
+	 * It also sets the property binaryContent by converting the String content into binary.
+	 * @param content
+	 */
+	public void setStringContent(String stringContent) {
+		this.stringContent = stringContent;
+		generateBinaryContent();
+	}
+	
+	/**
 	 * Converts the binary content into a String and assign it to the stringContent property.
 	 */
 	public void generateStringContent() {
-		if (this.type.equals("jpg") || this.type.equals("jpeg"))
-			this.stringContent = Base64.encodeBase64String(this.content);
-		else
-			this.stringContent = new String(this.content);
+		if (this.content != null) {
+			if (this.type != null && (this.type.equals("jpg") || this.type.equals("jpeg")))
+				this.stringContent = Base64.encodeBase64String(this.content);
+			else
+				this.stringContent = new String(this.content);
+		}
+		else {
+			this.stringContent = null;
+		}
+	}
+	
+	/**
+	 * Converts the string content into binary and assign it to the content property.
+	 */
+	public void generateBinaryContent() {
+		if (this.stringContent != null) {
+			if (this.type != null && (this.type.equals("jpg") || this.type.equals("jpeg")))
+				this.content = Base64.decodeBase64(this.stringContent);
+			else
+				this.content = this.stringContent.getBytes();
+		}
+		else {
+			this.content = null;
+		}
 	}
 	
 	public static long getSerialversionuid() {

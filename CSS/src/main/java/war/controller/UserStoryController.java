@@ -1,7 +1,10 @@
 package war.controller;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import war.dao.*;
 import war.model.*;
@@ -10,10 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.ui.Model;
@@ -26,6 +31,9 @@ public class UserStoryController {
 
 	@Autowired
 	private UserStoryDao userStoryDao;
+	
+	@Autowired
+	private DataElementDao dataElementDao;
 	
 	@Autowired
 	private UserDao userDao;
@@ -112,25 +120,44 @@ public class UserStoryController {
 	}
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
-	public ModelAndView saveUserStory(@ModelAttribute UserStory reorderedUserStory, @RequestParam(value="id",required=true) Integer Id, Model model) {
-		logger.info("Inside includeDataElementToUserStory");
+	public ModelAndView saveUserStory(@Valid @ModelAttribute UserStory reorderedUserStory, @RequestParam(value="id",required=true) Integer Id, Model model) {
+		logger.info("Inside saveUserStory");
 		
 		try {
 			// Retrieve the original user story
-			UserStory userstory = userStoryDao.find(Id);
+			UserStory userStory = userStoryDao.find(Id);
 			
-			// Reorder the data elements
-			for (DataElement de : userstory.getDataElements()) {
-				for (DataElement reorderedDE : reorderedUserStory.getDataElements())
+			// Reorder the data elements in the user story
+			userStory = userStoryDao.find(Id);
+			for (DataElement de : userStory.getDataElements()) {
+				for (DataElement reorderedDE : reorderedUserStory.getDataElements()) {
+					// Reorder the existing data elements
 					if (de.getId() == reorderedDE.getId())
+					{
 						de.setPosition(reorderedDE.getPosition());
+						// Update the content if the data element is of type 'comment'
+						if (reorderedDE.getType().equals("comment"))
+							de.setStringContent(reorderedDE.getStringContent());
+						break;
+					}
+				}
 			}
-		
-			// Save the user story
-			userStoryDao.save(userstory);
+			
+			// Create the new 'comment' Data Elements and add them to the user story
+			List<DataElement> dataElements = userStory.getDataElements();
+			for (DataElement reorderedDE : reorderedUserStory.getDataElements()) {
+				if (reorderedDE.getId() == 0 && reorderedDE.getType().equals("comment")) {
+					reorderedDE.setUserStory(userStory);
+					dataElements.add(reorderedDE);
+				}
+			}
+			userStory.setDataElements(dataElements);
+			
+			// Save the user story after reordering
+			userStoryDao.save(userStory);
 			
 			model.addAttribute("successMessage", MSG_USERSTORY_SAVED);
-			return modelForUserStoryView(model, userstory);
+			return modelForUserStoryView(model, userStory);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
