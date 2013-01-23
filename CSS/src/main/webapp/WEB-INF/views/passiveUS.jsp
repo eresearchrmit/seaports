@@ -128,7 +128,7 @@
 									'<div class="clear"></div>' +
 								'</div>' +
 								'<input type="hidden" name="dataElements[' + index + '].id" value="0" id="dataElements[' + index + '].id" >' +
-								'<input type="hidden" name="dataElements[' + index + '].name" value="Story Text" id="dataElements[' + index + '].name">' +
+								'<input type="hidden" name="dataElements[' + index + '].name" value="Story text" id="dataElements[' + index + '].name">' +
 								'<input type="hidden" name="dataElements[' + index + '].type" value="comment" id="dataElements[' + index + '].type">' +
 								'<input type="hidden" name="dataElements[' + index + '].position" value="' + (index + 1) + '" id="dataElements' + index + '].position" class="dataElementPosition">' +
 						    '<textarea name="dataElements[' + index + '].stringContent" rows="12" onfocus="if ($(this).val() == \'Add text here...\') { $(this).val(\'\'); }" onblur="if ($(this).val() == \'\') { $(this).val(\'Add text here...\'); }">Add text here...</textarea>' +

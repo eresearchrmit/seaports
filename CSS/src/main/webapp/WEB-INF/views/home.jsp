@@ -13,10 +13,11 @@
 	<div class="box round first" style="text-align:center">
 		<h3>Connect Now</h3>
 		<div class="block">
-			<input type="button" class="btn btn-blue" value="Login" onclick="location.href='/CSS/spring/login'" />
+			<input type="button" class="btn btn-blue" value="Login" onclick="location.href='/CSS/spring/login'" />&nbsp;
+			<input type="button" class="btn btn-blue" value="Sign Up" onclick="location.href='/CSS/spring/register'" />
 		</div>
 	</div>
-	<h3>OR</h3>
+	<h3 style="text-align: center">OR</h3>
 	<div class="box round first" style="text-align:center">
 		<h3>Search for User Stories</h3>
 		Search <input type="text" width="400px" /> <input type="button" class="btn btn-grey" value="Search" />

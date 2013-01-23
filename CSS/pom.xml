@@ -273,6 +273,41 @@
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
+		
+		<!-- Apache POI to access MS Office files in Java 
+			http://poi.apache.org/
+			http://mvnrepository.com/artifact/org.apache.poi
+		-->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.9</version>
+		</dependency>
+           <dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>3.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>3.9</version>
+		</dependency>
+        <dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml-schemas</artifactId>
+			<version>3.9</version>
+		</dependency>
+        <dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-examples</artifactId>
+			<version>3.9</version>
+		</dependency>
+        <dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>ooxml-schemas</artifactId>
+			<version>1.1</version>
+		</dependency>               
 	</dependencies>
 
 	<repositories>

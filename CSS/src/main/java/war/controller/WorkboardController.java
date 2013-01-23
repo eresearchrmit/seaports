@@ -1,5 +1,6 @@
 package war.controller;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,6 +12,10 @@ import javax.persistence.NoResultException;
 import war.dao.*;
 import war.model.*;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,14 +84,59 @@ public class WorkboardController {
             String filename = uploadfile.getOriginalFilename();
             String [] tokens = filename.split("\\.");
             
-	        DataElement dataElement = new DataElement();
-			dataElement.setName(tokens[0]);
-			dataElement.setType(tokens[1]);
-			dataElement.setUserStory(userStory);
-        
-        	dataElement.setContent(uploadfile.getBytes());
-        	dataElementDao.save(dataElement);
-        	
+            if (tokens[1].equals("xls") || tokens[1].equals("xlsx")) {
+            	ByteArrayInputStream bis = new ByteArrayInputStream(uploadfile.getBytes());
+            	XSSFWorkbook workbook = new XSSFWorkbook(bis);
+            	
+            	int sheetIndex = 0;
+            	XSSFSheet sheet = workbook.getSheetAt(sheetIndex);
+            	
+            	/* ALGORITHM TO READ EXCEL FROM ENGINEERING MODEL OUTPUT:
+            	 * 1. Read columns B, C and D (index 1, 2 and 3) until an emission scenario, climate model and year are reached
+            	 * 
+            	 * 2. Retrieve this parameters combination in the Database
+            	 * 
+            	 * 3. If they exist, create an "Engineering Model Data" object and link it to the params retrieved above
+            	 * 
+            	 * 4. Add the Asset settings from columns H to U (index 7 to 20)
+            	 * Year built, Description, Zone, Dist from coast (km), Exposure class, Carbonation class, Chloride, class, Disabled (if any), h (mm), Dmember (mm), f'c (MPa), wc, Ce (kg/m3), Dbar (mm)
+            	 * 
+            	 * 5. Read all the generated data and save them in the "Engineering Model Data":
+            	 * Columns AA to AH (index 35 to 33) : ∆ xc(t') (mm), Initiation (%), Damage, Rebar loss (mm), C(h,t) (kg/m3), Initiation (%), Damage, Rebar loss (mm)
+            	 * Carbonation Model: columns AM to BY
+            	 * Chloride Ingress Model: columns CO to DB
+            	 * Crack Model: columns DU to ES
+            	 * 
+            	 * 6. Save the "Engineering Model Data" in the Database
+            	 */
+            	
+            	/*
+            	 * WORKING EXAMPLE, READING 3 COLUMNS FOR EACH ROW OF SHEET AT INDEX 0
+            	int sheetIndex = 0;
+            	XSSFSheet sheet = workbook.getSheetAt(sheetIndex);
+            	 
+            	for (Row tempRow : sheet) {
+            	    // print out the first three columns
+            	    for (int column = 1; column < 4; column++) {
+            	        Cell tempCell = tempRow.getCell(column);
+            	        
+            	        if (tempCell != null && tempCell.getCellType() == Cell.CELL_TYPE_STRING) {
+            	            System.out.print(tempCell.getStringCellValue() + "  ");
+            	        }
+            	    }
+            	    System.out.println();
+            	}*/
+            }
+            else {
+		        DataElement dataElement = new DataElement();
+				dataElement.setName(tokens[0]);
+				dataElement.setType(tokens[1]);
+				dataElement.setUserStory(userStory);
+	        
+	        	dataElement.setContent(uploadfile.getBytes());
+	            
+	        	dataElementDao.save(dataElement);
+            }
         	model.addAttribute("successMessage", "The file was uploaded successfully to your workboard");
         }
         catch (Exception e) {

@@ -44,7 +44,7 @@ public class UserControllerTest {
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
 		
-		Assert.assertEquals(UserController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
+		Assert.assertEquals(UserController.ERR_MISSING_LOGIN_PASSWORD, model.get("errorMessage"));
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class UserControllerTest {
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
 		
-		Assert.assertEquals(UserController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
+		Assert.assertEquals(UserController.ERR_MISSING_LOGIN_PASSWORD, model.get("errorMessage"));
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class UserControllerTest {
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
 		
-		Assert.assertEquals(UserController.ERR_MISSING_LOGIN_PASSWORD, model.get("controllerMessage"));
+		Assert.assertEquals(UserController.ERR_MISSING_LOGIN_PASSWORD, model.get("errorMessage"));
 	}
 	
 	/**
@@ -97,6 +97,6 @@ public class UserControllerTest {
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
 		
-		Assert.assertEquals(UserController.ERR_BAD_LOGIN_PASSWORD, model.get("controllerMessage"));
+		Assert.assertEquals(UserController.ERR_BAD_LOGIN_PASSWORD, model.get("errorMessage"));
 	}
 }
