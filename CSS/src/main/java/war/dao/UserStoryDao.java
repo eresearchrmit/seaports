@@ -21,6 +21,11 @@ public class UserStoryDao {
 	private EntityManager entityManager;
 	
 	/**
+	 * The name of the table in the database where the User Stories are stored
+	 */
+	private final static String TABLE_NAME = "UserStory";
+	
+	/**
 	 * Retrieve the user story in the database associated to a unique ID
 	 * @param id: the unique ID of the required user story
 	 * @return the user story associated to the given unique ID
@@ -39,7 +44,7 @@ public class UserStoryDao {
 	 * @return the list of all the user stories in the database
 	 */
 	public List<UserStory> getAllStories() {	
-		Query query = entityManager.createQuery("SELECT us FROM UserStory us");
+		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us");
 		return performQueryAndCheckResultList(query);
 	}
 	
@@ -49,7 +54,7 @@ public class UserStoryDao {
 	 * @return the list of the user's stories
 	 */
 	public List<UserStory> getUserStories(User user) {
-		Query query = entityManager.createQuery("SELECT us FROM UserStory us WHERE us.mode = :mode AND us.owner = :owner") ;
+		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us WHERE us.mode = :mode AND us.owner = :owner") ;
 		query.setParameter("mode", "passive");
 		query.setParameter("owner", user); // Only of this user
 		
@@ -62,7 +67,7 @@ public class UserStoryDao {
 	 * @return the list of the private stories of the given user
 	 */
 	public List<UserStory> getPrivateUserStories(User user) {
-		Query query = entityManager.createQuery("SELECT us FROM UserStory us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
+		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
 		query.setParameter("access", "private"); // Only Private
 		query.setParameter("mode", "active"); // All except active
 		query.setParameter("owner", user); // Only of this user
@@ -76,7 +81,7 @@ public class UserStoryDao {
 	 * @return the list of the public stories of the given user
 	 */
 	public List<UserStory> getPublicUserStories(User user) {
-		Query query = entityManager.createQuery("SELECT us FROM UserStory us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
+		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
 		query.setParameter("access", "public"); // Only public
 		query.setParameter("mode", "active"); // All except active
 		query.setParameter("owner", user); // Only of this user
@@ -90,7 +95,7 @@ public class UserStoryDao {
 	 * @return the list of the published stories of the given user
 	 */
 	public List<UserStory> getPublishedUserStories(User user) {
-		Query query = entityManager.createQuery("SELECT us FROM UserStory us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
+		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
 		query.setParameter("mode", "published");
 		query.setParameter("owner", user);
 		
@@ -106,7 +111,7 @@ public class UserStoryDao {
 		UserStory workboard = null ;
 		
 		try {
-			Query query = entityManager.createQuery("SELECT u FROM UserStory u WHERE u.mode = :mode AND u.owner = :owner") ;
+			Query query = entityManager.createQuery("SELECT u FROM " + TABLE_NAME + " u WHERE u.mode = :mode AND u.owner = :owner") ;
 			query.setParameter("mode", "active"); // Only the active one
 			query.setParameter("owner", user);
 			
@@ -144,10 +149,10 @@ public class UserStoryDao {
 	@Transactional
 	public void deleteUserStory(UserStory userStory) {
 		
-		Query query = entityManager.createQuery("DELETE FROM DataElement de WHERE de.userStory = :userStory") ;
+		Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.userStory = :userStory") ;
 		query.setParameter("userStory", userStory).executeUpdate();
 		
-		query = entityManager.createQuery("DELETE FROM UserStory us WHERE us.id = :id") ;
+		query = entityManager.createQuery("DELETE FROM " + TABLE_NAME + " us WHERE us.id = :id") ;
 		query.setParameter("id", userStory.getId()).executeUpdate();
 	}
 

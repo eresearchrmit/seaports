@@ -1,0 +1,197 @@
+package war.model;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+//import org.apache.commons.codec.binary.Base64;
+
+/**
+ * Class representing an uploaded file containing some data
+ * @author Guillaume Prevost
+ * @since 25th Jan. 2013
+ */
+@Entity
+@Table(name = "File")
+public class File {
+
+	private static final long serialVersionUID = -1308795024262635690L;
+    
+	/**
+	 * The unique ID of the File
+	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+
+	/**
+	 * The name of the file
+	 */
+	@Column
+    private String name;
+	
+	/**
+	 * The type of the file. 
+	 */
+	@Column
+	private String filetype;
+
+    /**
+     * The binary content of the file
+     */
+    @Column
+    private byte[] content;
+    
+    /**
+     * The string conversion of the file content
+     */
+    @Transient
+    private String stringContent; 
+
+	/**
+	 * Default constructor of file
+	 */
+	public File() {
+	}
+	
+	/**
+	 * Constructor of File specifying the name, login and password 
+	 * @param name: the name of the file
+	 * @param type: the type of the file
+	 * @param content: the binary content of the file
+	 */
+	public File(String name, String type, byte[] content) {
+		super();
+		this.name = name;
+		this.filetype = type;
+		this.content = content;
+		
+		this.generateStringContent();
+	}
+    
+	/**
+	 * Getter for the unique ID of the file
+	 * @return The unique ID of the file
+	 */
+	public int getId() {
+		return id;
+	}
+	
+	/**
+	 * Setter for the unique ID of the file
+	 * @param The unique ID of the file
+	 */
+	public void setId(int id) {
+		this.id = id ;
+	}
+	
+	/**
+	 * Getter for the name of the file
+	 * @return the current name of the file
+	 */
+	public String getName() {
+		return name;
+	}
+	
+	/**
+	 * Setter for the name of the file
+	 * @param name: the new name of the file
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	/**
+	 * Getter for the type of the file
+	 * @return The current type of the file
+	 */
+	public String getType() {
+		return filetype;
+	}
+	
+	/**
+	 * Setter for the type of the file in its user story
+	 * @param type: the new type of the file
+	 */
+	public void setFiletype(String filetype) {
+		this.filetype = filetype;
+	}
+
+	/**
+	 * Getter for the binary content of the file
+	 * @return The current binary content of the file
+	 */
+	public byte[] getContent() {
+		if (this.content == null)
+			generateBinaryContent();
+		return content;
+	}
+
+	/**
+	 * Setter for the binary content of the file. 
+	 * It also sets the property stringContent by converting the binary content into a String.
+	 * @param content
+	 */
+	public void setContent(byte[] content) {
+		this.content = content;
+		generateStringContent();
+	}
+	
+	/**
+	 * Getter for the string conversion of the file
+	 * @return The current string conversion of the file
+	 */
+	public String getStringContent() {
+		if (this.stringContent == null)
+			generateStringContent();
+		return this.stringContent;
+	}
+	
+	/**
+	 * Setter for the string content of the file. 
+	 * It also sets the property binaryContent by converting the String content into binary.
+	 * @param content
+	 */
+	public void setStringContent(String stringContent) {
+		this.stringContent = stringContent;
+		generateBinaryContent();
+	}
+	
+	/**
+	 * Converts the binary content into a String and assign it to the stringContent property.
+	 */
+	public void generateStringContent() {
+		if (this.content != null) {
+			/*if (this.filetype != null && (this.filetype.equals("jpg") || this.filetype.equals("jpeg")))
+				this.stringContent = Base64.encodeBase64String(this.content);
+			else*/
+				this.stringContent = new String(this.content);
+		}
+		else {
+			this.stringContent = null;
+		}
+	}
+	
+	/**
+	 * Converts the string content into binary and assign it to the content property.
+	 */
+	public void generateBinaryContent() {
+		if (this.stringContent != null) {
+			/*if (this.filetype != null && (this.filetype.equals("jpg") || this.filetype.equals("jpeg")))
+				this.content = Base64.decodeBase64(this.stringContent);
+			else*/
+				this.content = this.stringContent.getBytes();
+		}
+		else {
+			this.content = null;
+		}
+	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+}

@@ -20,6 +20,11 @@ public class RegionDao {
 	private EntityManager entityManager;
 
 	/**
+	 * The name of the table in the database where the Regions are stored
+	 */
+	private final static String TABLE_NAME = "Region";
+	
+	/**
 	 * Retrieve the region in the database associated to a unique ID 
 	 * @param id: the unique ID of the required region
 	 * @return the region associated to the given unique ID
@@ -41,7 +46,7 @@ public class RegionDao {
 	@Transactional
 	public Region find(String name) throws NoResultException {
 		try {
-			Query query = entityManager.createQuery("SELECT r FROM Region r WHERE r.name = :name");
+			Query query = entityManager.createQuery("SELECT r FROM " + TABLE_NAME + " r WHERE r.name = :name");
 			query.setParameter("name", name);
 			Region region = (Region)(query.getSingleResult());
 			return region;
@@ -58,7 +63,7 @@ public class RegionDao {
 	 */
 	@Transactional
 	public List<Region> getAllRegions() {
-		Query query = entityManager.createQuery("SELECT r FROM Region");
+		Query query = entityManager.createQuery("SELECT r FROM " + TABLE_NAME );
 	    return performQueryAndCheckResultList(query);
 	}
 	

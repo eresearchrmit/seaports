@@ -5,8 +5,9 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import war.dao.CsiroParamsDao;
-import war.dao.CsiroVariableDao;
+import war.dao.ClimateEmissionScenarioDao;
+import war.dao.ClimateParamsDao;
+import war.dao.ClimateVariableDao;
 import war.dao.DataElementDao;
 import war.dao.UserDao;
 import war.dao.UserStoryDao;
@@ -107,7 +108,7 @@ public class WorkboardControllerTest {
 	public void addCsiroDataToWorkBoardTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addCsiroDataToWorkBoard("Temperature", 
-				"A1B", "csiro_mk3_5", "2030", 1, model);
+				"A1B", "Hotter and Drier", "2030", 1, model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertNull(model.get("errorMessage"));
@@ -123,10 +124,10 @@ public class WorkboardControllerTest {
 		// UNKNOWN VARIABLE
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addCsiroDataToWorkBoard("UNKNOWN VARIABLE", 
-				"A1B", "csiro_mk3_5", "2030", 1, model);
+				"A1B", "Hotter and Drier", "2030", 1, model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(CsiroVariableDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertEquals(ClimateVariableDao.ERR_NO_RESULT, model.get("errorMessage"));
 		
 		// UNKNOWN SCENARIO
 		model = new ExtendedModelMap();
@@ -134,7 +135,7 @@ public class WorkboardControllerTest {
 				"UNKNOWN SCENARIO", "csiro_mk3_5", "2030", 1, model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(CsiroParamsDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertEquals(ClimateEmissionScenarioDao.ERR_NO_RESULT, model.get("errorMessage"));
 		
 		// UNKNOWN MODEL
 		model = new ExtendedModelMap();
@@ -142,7 +143,7 @@ public class WorkboardControllerTest {
 				"A1B", "UNKNOWN MODEL", "2030", 1, model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(CsiroParamsDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertEquals(ClimateParamsDao.ERR_NO_RESULT, model.get("errorMessage"));
 		
 		// UNKNOWN YEAR
 		/*model = new ExtendedModelMap();

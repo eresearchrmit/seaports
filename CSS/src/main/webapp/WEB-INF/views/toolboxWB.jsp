@@ -24,49 +24,36 @@
 			<p><strong>1. Choose a Data Source:</strong></p>
 			<table width="auto" height="auto" class="form">
 				<tr>
-					<td align="right" class="col1">Variable:</td>
+					<td align="right" class="col1">Source:</td>
 					<td class="col2">
 						<select id="cbbDataSource" name="dataSource">
-							<option value="None">- Select Data Source -</option>
-							<option value="CSIRO">CSIRO</option>
-							<option value="BoM">BoM</option>
-							<option value="CustomFile">Custom file</option>
+							<option value="none">- Select Data Source -</option>
+							<option value="csiro">CSIRO</option>
+							<option value="bom">BoM</option>
+							<option value="engineering">Engineering Model</option>
+							<option value="customFile">Custom file</option>
 						</select>
 					</td>
 				</tr>
 			</table>
 			<script type="text/javascript">
 				$('select#cbbDataSource').change(function() {
-					$('#csiroDataForm').hide();
-					$('#bomDataForm').hide();
-					$('#customFileDataForm').hide();
-					switch($('select#cbbDataSource').val())
-					{
-						case "CSIRO":
-							$('#csiroDataForm').show();
-							break;
-						case "BoM":
-							$('#bomDataForm').show();
-							break;
-						case "CustomFile":
-							$('#customFileDataForm').show();
-							break;
-						default:
-							$('#csiroDataForm').hide();
-							$('#bomDataForm').hide();
-							$('#customFileDataForm').hide();
-					}
+					$('.dataElementForm').hide();
+					var selectedValue = $('select#cbbDataSource').val();
+					if (selectedValue != "none")
+						$("#" + selectedValue + "DataForm").show();
 				});
 			</script>
 			<p>
-			<div id="csiroDataForm">
-				<form:form method="post" action="/CSS/spring/workboard/addCsiroData?id=${userstory.id}" modelAttribute="csiroData">
+			<div id="csiroDataForm" class="dataElementForm">
+				<form:form method="post" action="/CSS/spring/workboard/addCsiroData?id=${userstory.id}" modelAttribute="climateData">
+					<input type="hidden" name="userstoryid" value="${userstory.id}" />
 					<p><strong>2. CSIRO Data Options:</strong></p>
 					<table width="auto" height="auto" class="form">
 						<tr>
 							<td align="right" class="col1">Variable:</td>
 							<td class="col2">
-								<select id="cbbCsiroVariable" name="csiroVariable">
+								<select id="cbbClimateVariable" name="climateVariable">
 									<option value="All">All Variables</option>
 									<option value="Temperature">Temperature</option>
 									<option value="WindSpeed">Wind Speed</option>
@@ -78,7 +65,7 @@
 						<tr>
 							<td align="right" class="col1">Emission Scenario:</td>
 							<td class="col2">
-								<select id="cbbCsiroEmissionScenario" name="csiroEmissionScenario">
+								<select id="cbbClimateEmissionScenario" name="climateEmissionScenario">
 									<option value="A1B">A1B</option>
 									<option value="A1FI">A1FI</option>
 								</select>
@@ -87,17 +74,17 @@
 						<tr>
 							<td align="right" class="col1">Climate Model:</td>
 							<td class="col2">
-								<select id="cbbCsiroClimateModel" name="csiroClimateModel">
-									<option value="csiro_mk3_5">csiro_mk3_5</option>
-									<option value="ipsl_cm4">ipsl_cm4</option>
-									<option value="miroc_3_2_medres">miroc_3_2_medres</option>
+								<select id="cbbClimateClimateModel" name="climateModel">
+									<option value="Most Likely">Most Likely</option>
+									<option value="Hotter and Drier">Hotter and Drier</option>
+									<option value="Cooler and Wetter">Cooler &amp; Wetter</option>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td align="right" class="col1">Year:</td>
 							<td class="col2">
-								<select id="cbbassessmentYear" name="assessmentYear">
+								<select id="cbbYear" name="year">
 									<option value="2030">2030</option>
 									<option value="2055">2055</option>
 									<option value="2070">2070</option>
@@ -110,13 +97,13 @@
 					</button>
 				</form:form>
 			</div>
-			<div id="bomDataForm">
+			<div id="bomDataForm" class="dataElementForm">
 				<p><strong>2. BoM Data Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
 						<td align="right" class="col1">Year:</td>
 						<td class="col2">
-							<select id="cbbBomAssessmentYear" name="assessmentYear">
+							<select id="cbbBomYear" name="year">
 								<option value="2030">2030</option>
 								<option value="2055">2055</option>
 								<option value="2070">2070</option>
@@ -128,7 +115,36 @@
 					<span></span>Upload custom file
 				</button>
 			</div>
-			<div id="customFileDataForm">
+			<div id="engineeringDataForm" class="dataElementForm">
+				<form:form method="post" action="/CSS/spring/workboard/addEngineeringData?id=${userstory.id}" enctype="multipart/form-data">
+					<p><strong>2. Engineering Model Data Element Options:</strong></p>
+					<table width="auto" height="auto" class="form">
+						<tr>
+							<td align="right" class="col1">Select a file to upload:</td>
+							<td class="col2">
+								<input type="file" name="file" id="file" /><br />
+								<p style="width:300px; text-align:justify"><i>The file should be an Excel file, generated by the concrete deterioration engineering model tool available <a href="http://localhost/ccmit/" title="Go to the engineering model tool" target="blank">here</a>. Download the output from this tool and upload it here to get the data to your workboard.</i></p>
+							</td>
+						</tr>
+						<tr>
+							<td align="right" class="col1">Or choose a predefined example:</td>
+							<td class="col2">
+								<select id="cbbEngineeringModelExamples" name="engineeringModelExample">
+									<option value="None">- Select an example -</option>
+									<option value="Example 1">Example 1</option>
+									<option value="Example 2">Example 2</option>
+									<option value="Example 3">Example 3</option>
+								</select>
+								<p style="width:300px; text-align:justify"><i>Choose an example from the list above to display its description here.</i></p>
+							</td>
+						</tr>
+					</table>
+					<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+						<span></span>Add Engineering Model Data Element
+					</button>
+				</form:form>
+			</div>
+			<div id="customFileDataForm" class="dataElementForm">
 				<form:form method="post" action="/CSS/spring/workboard/upload?id=${userstory.id}" enctype="multipart/form-data">
 					<p><strong>2. Custom Data Element Options:</strong></p>
 					<table width="auto" height="auto" class="form">
@@ -140,16 +156,14 @@
 						</tr>
 					</table>
 					<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-						<span></span>Add CCustom Data Element
+						<span></span>Add Custom Data Element
 					</button>
 				</form:form>
 			</div>
 		</div>
 	</div>
 	<script type="text/javascript">
-		$('#csiroDataForm').hide();
-		$('#bomDataForm').hide();
-		$('#customFileDataForm').hide();
+		$('.dataElementForm').hide();
 		setupDialogBox("addDataElementModalWindow", "btnOpenAddDataElementModalWindow");
 	</script>
 	

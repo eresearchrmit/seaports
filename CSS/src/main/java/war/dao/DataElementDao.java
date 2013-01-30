@@ -22,7 +22,7 @@ public class DataElementDao {
 	/**
 	 * The name of the table in the database where the Data Elements are stored
 	 */
-	private final String TABLE_NAME = "DataElement";
+	public final static String TABLE_NAME = "DataElement";
 	
 	/**
 	 * Retrieve the data element in the database associated to a unique ID 
@@ -44,7 +44,7 @@ public class DataElementDao {
 	 */
 	@Transactional
 	public List<DataElement> getDataElements(UserStory userStory) {
-		Query query = entityManager.createQuery("select de from " + this.TABLE_NAME + " de where de.userStory = :userStory ");
+		Query query = entityManager.createQuery("SELECT de FROM " + DataElementDao.TABLE_NAME + " de WHERE de.userStory = :userStory ");
 		query.setParameter("userStory", userStory);
 		
 		return performQueryAndCheckResultList(query);		
@@ -73,7 +73,7 @@ public class DataElementDao {
 	 */
 	@Transactional
 	public void deleteDataElement(int id) {
-		Query query = entityManager.createQuery("delete from " + this.TABLE_NAME + " de where de.id = :id") ;
+		Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.id = :id") ;
 		query.setParameter("id", id).executeUpdate();
 	}
 	

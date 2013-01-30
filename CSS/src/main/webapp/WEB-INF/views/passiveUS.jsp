@@ -47,8 +47,8 @@
 			 			<div class="box round">
 							<div class="box-header<c:if test="${dataelement.type == 'comment'}"> box-header-white</c:if>" >
 								<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.type != 'data' && dataelement.type != 'comment'}">.${dataelement.type}</c:if></h5>
-								<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" onclick="location.href='/CSS/spring/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" >
-									<span></span>Remove
+								<button type="button" class="btn-mini btn-blue btn-check floatright" onclick="location.href='/CSS/spring/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" >
+									<span></span>Add/Remove
 								</button>
 								<div class="clear"></div>
 							</div>

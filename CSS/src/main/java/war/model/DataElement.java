@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.codec.binary.Base64;
+//import org.apache.commons.codec.binary.Base64;
 
 import war.model.UserStory;
 
@@ -26,7 +26,7 @@ public class DataElement {
 	private static final long serialVersionUID = -1308795024262635690L;
     
 	/**
-	 * the unique ID of the Data Element
+	 * The unique ID of the Data Element
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -54,7 +54,7 @@ public class DataElement {
      * The user story to which this data element belongs
      */
 	@ManyToOne
-	@JoinColumn(name="userstory_id")
+	@JoinColumn(name="user_story_id")
     private UserStory userStory;
 	
     /**
@@ -219,9 +219,9 @@ public class DataElement {
 	 */
 	public void generateStringContent() {
 		if (this.content != null) {
-			if (this.type != null && (this.type.equals("jpg") || this.type.equals("jpeg")))
+			/*if (this.type != null && (this.type.equals("jpg") || this.type.equals("jpeg")))
 				this.stringContent = Base64.encodeBase64String(this.content);
-			else
+			else*/
 				this.stringContent = new String(this.content);
 		}
 		else {
@@ -234,9 +234,9 @@ public class DataElement {
 	 */
 	public void generateBinaryContent() {
 		if (this.stringContent != null) {
-			if (this.type != null && (this.type.equals("jpg") || this.type.equals("jpeg")))
+			/*if (this.type != null && (this.type.equals("jpg") || this.type.equals("jpeg")))
 				this.content = Base64.decodeBase64(this.stringContent);
-			else
+			else*/
 				this.content = this.stringContent.getBytes();
 		}
 		else {

@@ -13,7 +13,7 @@
 
 <div class="grid_8">
 	<c:if test="${not empty successMessage}">
-		<div class="message success">
+		<div id="successMessage" class="message success">
 			<h5>Success !</h5>
 			<p>${successMessage}.</p>
 		</div>

@@ -20,6 +20,11 @@ public class UserDao {
 	private EntityManager entityManager;
 	
 	/**
+	 * The name of the table in the database where the Users are stored
+	 */
+	public final static String TABLE_NAME = "User";
+	
+	/**
 	 * Retrieve the user in the database associated to a login
 	 * @param id: the login of the required user
 	 * @return the user associated to the given login
@@ -37,7 +42,7 @@ public class UserDao {
 	 * @return the list of all the users in the Database
 	 */
 	public List<User> getPeople() {
-		Query query = entityManager.createQuery("SELECT u FROM User u");
+		Query query = entityManager.createQuery("SELECT u FROM " + TABLE_NAME + " u");
 		return performQueryAndCheckResultList(query);
 	}
 	

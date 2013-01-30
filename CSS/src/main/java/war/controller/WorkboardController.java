@@ -12,6 +12,9 @@ import javax.persistence.NoResultException;
 import war.dao.*;
 import war.model.*;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -49,6 +52,27 @@ public class WorkboardController {
 	@Autowired
 	private CsiroDataDao csiroDataDao;
 	
+	@Autowired
+	private ClimateParamsDao climateParamsDao;
+	
+	@Autowired
+	private ClimateVariableDao climateVariableDao;
+
+	@Autowired
+	private ClimateEmissionScenarioDao climateEmissionScenarioDao;
+	
+	@Autowired
+	private ClimateModelDao climateModelDao;
+	
+	@Autowired
+	private EngineeringModelAssetDao engineeringModelAssetDao;
+	
+	@Autowired
+	private EngineeringModelDataDao engineeringModelDataDao;
+	
+	@Autowired
+	private RegionDao regionDao;
+	
 	//@ModelAttribute("user")
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getUserWorkBoard(@RequestParam(value="user",required=true) String login, Model model) {
@@ -81,66 +105,26 @@ public class WorkboardController {
 		
 		UserStory userStory = userStoryDao.find(userStoryId);
         try {
-            String filename = uploadfile.getOriginalFilename();
-            String [] tokens = filename.split("\\.");
+            int lastIndex = uploadfile.getOriginalFilename().lastIndexOf('.');
+        	String fileName = uploadfile.getOriginalFilename().substring(0, lastIndex);
+            String fileExtension = uploadfile.getOriginalFilename().substring(lastIndex + 1);
+            String fileType = uploadfile.getContentType();
+            //String [] tokens = filename.split("\\.");
             
-            if (tokens[1].equals("xls") || tokens[1].equals("xlsx")) {
-            	ByteArrayInputStream bis = new ByteArrayInputStream(uploadfile.getBytes());
-            	XSSFWorkbook workbook = new XSSFWorkbook(bis);
-            	
-            	int sheetIndex = 0;
-            	XSSFSheet sheet = workbook.getSheetAt(sheetIndex);
-            	
-            	/* ALGORITHM TO READ EXCEL FROM ENGINEERING MODEL OUTPUT:
-            	 * 1. Read columns B, C and D (index 1, 2 and 3) until an emission scenario, climate model and year are reached
-            	 * 
-            	 * 2. Retrieve this parameters combination in the Database
-            	 * 
-            	 * 3. If they exist, create an "Engineering Model Data" object and link it to the params retrieved above
-            	 * 
-            	 * 4. Add the Asset settings from columns H to U (index 7 to 20)
-            	 * Year built, Description, Zone, Dist from coast (km), Exposure class, Carbonation class, Chloride, class, Disabled (if any), h (mm), Dmember (mm), f'c (MPa), wc, Ce (kg/m3), Dbar (mm)
-            	 * 
-            	 * 5. Read all the generated data and save them in the "Engineering Model Data":
-            	 * Columns AA to AH (index 35 to 33) : ∆ xc(t') (mm), Initiation (%), Damage, Rebar loss (mm), C(h,t) (kg/m3), Initiation (%), Damage, Rebar loss (mm)
-            	 * Carbonation Model: columns AM to BY
-            	 * Chloride Ingress Model: columns CO to DB
-            	 * Crack Model: columns DU to ES
-            	 * 
-            	 * 6. Save the "Engineering Model Data" in the Database
-            	 */
-            	
-            	/*
-            	 * WORKING EXAMPLE, READING 3 COLUMNS FOR EACH ROW OF SHEET AT INDEX 0
-            	int sheetIndex = 0;
-            	XSSFSheet sheet = workbook.getSheetAt(sheetIndex);
-            	 
-            	for (Row tempRow : sheet) {
-            	    // print out the first three columns
-            	    for (int column = 1; column < 4; column++) {
-            	        Cell tempCell = tempRow.getCell(column);
-            	        
-            	        if (tempCell != null && tempCell.getCellType() == Cell.CELL_TYPE_STRING) {
-            	            System.out.print(tempCell.getStringCellValue() + "  ");
-            	        }
-            	    }
-            	    System.out.println();
-            	}*/
-            }
-            else {
-		        DataElement dataElement = new DataElement();
-				dataElement.setName(tokens[0]);
-				dataElement.setType(tokens[1]);
-				dataElement.setUserStory(userStory);
-	        
-	        	dataElement.setContent(uploadfile.getBytes());
-	            
-	        	dataElementDao.save(dataElement);
-            }
-        	model.addAttribute("successMessage", "The file was uploaded successfully to your workboard");
+            // TODO: Define a list of allowed Extensions / MIME type
+            
+	        DataElement dataElement = new DataElement();
+			dataElement.setName(fileName);
+			dataElement.setType(fileExtension);
+			dataElement.setUserStory(userStory);
+        	dataElement.setContent(uploadfile.getBytes());
+            
+        	dataElementDao.save(dataElement);
+	        	
+        	model.addAttribute("successMessage", MSG_FILE_UPLOAD_SUCCESS);
         }
         catch (Exception e) {
-        	model.addAttribute("errorMessage", "Unable to upload the file to your workboard");
+        	model.addAttribute("errorMessage", ERR_FILE_UPLOAD);
         }
         
 		ModelAndView mav = modelForActiveWBview(model, userStory);
@@ -148,16 +132,195 @@ public class WorkboardController {
 		return mav;	
 	}
 	
+	@RequestMapping(value= "/addEngineeringData", method = RequestMethod.POST)
+	public ModelAndView addEngineeringDataToWorkBoard(
+			@RequestParam(value="file",required=true) MultipartFile uploadfile,
+			@RequestParam(value="id",required=true) Integer userStoryId, 
+			Model model) 
+	throws IOException {
+		logger.info("Inside addEngineeringDataToWorkBoard");
+		
+		int lastIndex = uploadfile.getOriginalFilename().lastIndexOf('.');
+    	String fileName = uploadfile.getOriginalFilename().substring(0, lastIndex);
+        String fileExtension = uploadfile.getOriginalFilename().substring(lastIndex + 1);
+    	String fileType = uploadfile.getContentType();
+        
+    	UserStory userStory = userStoryDao.find(userStoryId);
+    	try {
+	        // Checks the file extension & MIME type
+	        if (!(fileType.equals("application/vnd.ms-excel") || fileType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+	        		|| !(fileExtension.equals("xls") || fileExtension.equals("xlsx"))) {
+	        	throw new InvalidFormatException(ERR_INVALID_FILE_FORMAT);
+	        }
+        
+        	ByteArrayInputStream bis = new ByteArrayInputStream(uploadfile.getBytes());
+        	// HSSFWorkbook and HSSFSheet for XLS, XSSFWorkbook and XSSFSheet for XLSX
+        	HSSFWorkbook workbook = new HSSFWorkbook(bis);
+        	extractEngineeringOutputData(workbook);
+        	
+        	/*
+        	 * WORKING EXAMPLE, READING 3 COLUMNS FOR EACH ROW OF SHEET AT INDEX 0       	 
+        	
+        	ByteArrayInputStream bis = new ByteArrayInputStream(uploadfile.getBytes());
+        	XSSFWorkbook workbook = new XSSFWorkbook(bis);
+        	XSSFSheet sheet = workbook.getSheetAt(0);
+        	
+        	for (Row tempRow : sheet) {
+        	    // print out the first three columns
+        	    for (int column = 1; column < 4; column++) {
+        	        Cell tempCell = tempRow.getCell(column);
+        	        
+        	        if (tempCell != null && tempCell.getCellType() == Cell.CELL_TYPE_STRING) {
+        	            System.out.print(tempCell.getStringCellValue() + "  ");
+        	        }
+        	    }
+        	    System.out.println();
+        	}*/
+        }
+        catch (InvalidFormatException e) {
+        	model.addAttribute("errorMessage", ERR_INVALID_FILE_FORMAT);
+        }
+        catch (Exception e) {
+        	model.addAttribute("errorMessage", "Unable to upload the engineering model data to your workboard."  + e.getMessage());
+        }
+        
+		ModelAndView mav = modelForActiveWBview(model, userStory);
+		return mav;	
+	}
+	
+	/**
+	 * Extracts and construct an engineering model asset from the given Excel sheet
+	 * @return EngineeringModelAsset: the asset object extracted from the file
+	 */
+	public EngineeringModelAsset extractAssetData(HSSFWorkbook workbook) {
+		
+		HSSFSheet  sheet = workbook.getSheetAt(0); // Supposedly always 1 sheet only (index 0)
+		String assetCode = workbook.getSheetName(0); // The asset code is the name of the sheet
+		Row row = sheet.getRow(25); // Line 25 is the 1st row containing data
+    	
+    	// Extract data from columns H to U
+    	int assetYear = (int)(row.getCell(7).getNumericCellValue());
+    	String assetDescription = row.getCell(8).getStringCellValue();
+    	String assetZone = row.getCell(9).getStringCellValue();
+    	Double assetDistanceFromCoast = row.getCell(10).getNumericCellValue();
+    	String assetExposureClass = row.getCell(11).getStringCellValue();
+    	String assetCarbonationClass = row.getCell(12).getStringCellValue();
+    	String assetChlorideClass = row.getCell(13).getStringCellValue();
+    	int assetCover = (int)(row.getCell(15).getNumericCellValue());
+    	int assetDMember = (int)(row.getCell(16).getNumericCellValue());
+    	int assetFPrimeC = (int)(row.getCell(17).getNumericCellValue());
+    	int assetWc = (int)(row.getCell(18).getNumericCellValue());
+    	int assetCe = (int)(row.getCell(19).getNumericCellValue());
+    	int assetDbar = (int)(row.getCell(20).getNumericCellValue());
+    	
+    	// Creates the Asset object
+    	EngineeringModelAsset asset = new EngineeringModelAsset(assetCode, assetDescription, assetYear, assetZone, assetDistanceFromCoast, 
+    			assetExposureClass, assetCarbonationClass, assetChlorideClass, assetCover, assetDMember, assetFPrimeC, 
+    			assetWc, assetCe, assetDbar);
+    	
+    	return asset;
+	}
+	
+	/**
+	 * Extracts and construct an engineering model asset from the given Excel sheet, then saves it in the database
+	 * @return EngineeringModelAsset: the asset object extracted from the file
+	 */
+	private void extractEngineeringOutputData(HSSFWorkbook workbook) {
+		// Extract & save Asset data
+		EngineeringModelAsset asset = extractAssetData(workbook);
+    	asset = engineeringModelAssetDao.save(asset);
+    	
+		HSSFSheet  sheet = workbook.getSheetAt(0); // Supposedly always 1 sheet only (index 0)
+    	
+		// Iterate all rows from the sheet and process those which have a matching set of parameters in the Database
+		String climateModelName = null;
+		for (Row row : sheet) {
+    		// Change the name of the model if it is in column C
+			Cell cellInColA = row.getCell(0);
+    		if (cellInColA != null && cellInColA.getCellType() == Cell.CELL_TYPE_STRING) {
+    			climateModelName = cellInColA.getStringCellValue();
+    		}
+    		if (climateModelName == null) {
+    			System.out.println("Invalid Climate Model");
+    			continue;
+    		}
+    		
+    		// Read column D : the Year
+    		int year = 0;
+    		Cell cellInColD = row.getCell(3);
+    		if (cellInColD != null && cellInColD.getCellType() == Cell.CELL_TYPE_NUMERIC)
+    			year = (int)(cellInColD.getNumericCellValue());
+    		if (year != 2030 && year != 2055 && year != 2070) {
+    			System.out.println("Invalid Year: " + year);
+    			continue;
+    		}
+    		
+    		// Read column B : the emission scenario
+    		String emissionScenarioName = null;
+    		Cell cellInColB = row.getCell(1);
+    		if (cellInColD != null && cellInColD.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+    			emissionScenarioName = cellInColB.getStringCellValue();
+    		}
+    		if (emissionScenarioName == null) {
+    			System.out.println("Invalid Emission Scenario Name");
+    			continue;
+    		}
+    		
+    		System.out.println("Year:" + year + ", Emission Scenario:" + emissionScenarioName + ", Climate Model: " + climateModelName);
+    		
+			ClimateParams climateParams = null;
+       		try {
+       			climateParams = climateParamsDao.find("East Coast South", emissionScenarioName, climateModelName, year);
+       		}
+            catch (NoResultException e) {
+            	System.out.println("Could not find climate params in the database: " + year);
+            	continue;
+            }
+   			
+   			String [] varsList = {"Change in carbonation", "Carbonation Initiation", "Corrosion damage due to carbonation", 
+				"Rebar Loss due to carbonation", "Change in chloride concentration", "Chloride Initiation", 
+				"Corrosion damage due to chloride", "Rebar Loss due to chloride ingress"
+			};
+   			int i = 26;
+   			for (String variableName : varsList) { // Read Data in column AA to AH (indexes 26 to 33)
+   				
+   				// Read the value from the excel
+   				Cell tempCell = row.getCell(i);
+   				if (tempCell != null && tempCell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+   					Double value = tempCell.getNumericCellValue();
+   					
+       				// Retrieve the variable in the Database
+       				ClimateVariable variable = null;
+       				try {		
+           				variable = climateVariableDao.find(variableName);
+           				
+       					// Saves the data (asset, parameters, variable, value) in the Database
+       					EngineeringModelData data = new EngineeringModelData(asset, climateParams, variable, value);
+               	    	engineeringModelDataDao.save(data);
+           			}
+           			catch (NoResultException e) {
+           				System.out.println(e.getMessage() + "(" + variableName + ")");
+           			}
+   				}
+   				else {
+   					System.out.println("Error extracting the data for variable");
+   				}
+   				
+       	    	i++;
+	        }
+    	}
+	}
+	
 	//@ModelAttribute("csiroData")
 	@RequestMapping(value= "/addCsiroData", method = RequestMethod.POST)
 	public ModelAndView addCsiroDataToWorkBoard(
-		@RequestParam(value="csiroVariable",required=true) String csiroVariable,
-		@RequestParam(value="csiroEmissionScenario",required=true) String csiroEmissionScenario,
-		@RequestParam(value="csiroClimateModel",required=true) String csiroClimateModel,
-		@RequestParam(value="assessmentYear",required=true) String assessmentYear,
-		@RequestParam(value="id",required=true) Integer userStoryId, Model model)
+		@RequestParam(value="climateVariable",required=true) String climateVariable,
+		@RequestParam(value="climateEmissionScenario",required=true) String climateEmissionScenario,
+		@RequestParam(value="climateModel",required=true) String climateModel,
+		@RequestParam(value="year",required=true) String year,
+		@RequestParam(value="userstoryid",required=true) Integer userStoryId, Model model)
 	{
-		logger.info("Inside addDataToWorkBoard !");
+		logger.info("Inside addCsiroDataToWorkBoard");
 		UserStory userStory = userStoryDao.find(userStoryId);
         
 		DataElement dataElement = new DataElement();
@@ -168,16 +331,17 @@ public class WorkboardController {
 		try {
 	        // Retrieve CSIRO data in the database according to the variable & parameters
 			String content = "";
-			if (csiroVariable.equals("All"))
+			if (climateVariable.equals("All"))
 			{
-				List<CsiroData> dataList = csiroDataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear));
+				List<CsiroData> dataList = csiroDataDao.find("East Coast South", climateEmissionScenario, climateModel, Integer.valueOf(year));
 				
+				content += "<p>" + dataList.get(0).getParameters().getModelName() + " scenario in the region " + dataList.get(0).getParameters().getRegion().getName() + " (" + dataList.get(0).getParameters().getModel().getName() + ") for " + dataList.get(0).getParameters().getEmissionScenario().getDescription() + " (" + dataList.get(0).getParameters().getEmissionScenario().getName() + ")</p>";
 				content += "<table class=\"data display datatable\" id=\"example\">";
 				content += "	<thead>";
 				content += "		<tr>";
 				content += "			<th>Variable</th>";
 				content += "			<th>Value</th>";
-				content += "			<th>Asessement Year</th>";
+				content += "			<th>Year</th>";
 				content += "			<th>Emission Scenario</th>";
 				content += "			<th>Climate Model</th>";
 				content += "			<th>Region</th>";
@@ -194,10 +358,10 @@ public class WorkboardController {
 					
 					content += "			<td>" + data.getVariable().getName() + "</td>";
 					content += "			<td class=\"center\">" + data.getValue() + data.getVariable().getUom() + "</td>";
-					content += "			<td>" + data.getParameters().getAssessmentYear() + "</td>";
-					content += "			<td>" + data.getParameters().getEmissionScenario() + "</td>";
-					content += "			<td>" + data.getParameters().getModelName() + "</td>";
-					content += "			<td>" + data.getRegion().getName() + "</td>";
+					content += "			<td>" + data.getParameters().getYear() + "</td>";
+					content += "			<td>" + data.getParameters().getEmissionScenario().getDescription() + " (" + data.getParameters().getEmissionScenario().getName() + ")</td>";
+					content += "			<td>" + data.getParameters().getModelName() + " (" + data.getParameters().getModel().getName() + ")</td>";
+					content += "			<td>" + data.getParameters().getRegion().getName() + "</td>";
 					content += "		</tr>";
 				}
 				content += "	</tbody>";
@@ -206,7 +370,7 @@ public class WorkboardController {
 			else // Generate a text statement from the data & save it as the file content
 			{
 				// Retrieve the data for the specified variable
-				CsiroData data = csiroDataDao.find("East Coast South", csiroEmissionScenario, csiroClimateModel, Integer.valueOf(assessmentYear), csiroVariable);
+				CsiroData data = csiroDataDao.find("East Coast South", climateEmissionScenario, climateModel, Integer.valueOf(year), climateVariable);
 				String statementVerb = "not increase";
 				if (data.getValue() > 0)
 					statementVerb = "increase of <b>" + data.getValue() + " " + data.getVariable().getUom() + "</b>";
@@ -215,7 +379,7 @@ public class WorkboardController {
 				content += "<p>According to the <b>" + data.getParameters().getModelName() + "</b> climate model, ";
 				content += "if the <b>" + data.getParameters().getEmissionScenario() + "</b> emissions scenario happens,";
 				content += "the <b>" + data.getVariable().getName() + "</b> will " + statementVerb + " ";
-				content += "by <b>" + data.getParameters().getAssessmentYear() + "</b> in the <b>" + data.getRegion().getName() + "</b> region.</p>";
+				content += "by <b>" + data.getParameters().getYear() + "</b> in the <b>" + data.getParameters().getRegion().getName() + "</b> region.</p>";
 			}
 			
 			DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
@@ -324,7 +488,9 @@ public class WorkboardController {
 		{
 			model.addAttribute("errorMessage", ERR_DELETE_DATA_ELEMENT);
 		}
-		return new ModelAndView();
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("activeWB");
+		return mav;
 	}
 	
 
@@ -354,14 +520,23 @@ public class WorkboardController {
 		model.addAttribute("user", userStory.getOwner());
 		
 		try {
+			mav.setViewName("activeWB");
+			
 			List<DataElement> dataElements = dataElementDao.getDataElements(userStory);
 	 		for (DataElement dataElement : dataElements) {
 	 			dataElement.generateStringContent();
 			}
 	 		mav.addObject("dataelements", dataElements);
-	 		mav.addObject(new DataElement());  // This file object is for the userwbmenu.jsp
+	 		
+	 		// Empty data element to use as a "New Data Element"
+	 		mav.addObject(new DataElement());
 
-			mav.setViewName("activeWB");
+	 		/*List<ClimateEmissionScenario> emissionScenarios = climateEmissionScenarioDao.getAll(); 
+	 		mav.addObject("emissionScenarios", emissionScenarios);
+	 		List<ClimateModel> climateModels = climateModelDao.getAll();
+	 		mav.addObject("climateModels", climateModels);
+	 		List<ClimateVariable> climateVariables = climateVariableDao.getAll();
+	 		mav.addObject("climateVariables", climateVariables);*/
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -372,7 +547,13 @@ public class WorkboardController {
 	public static final String ERR_ALREADY_CURRENT_WORKBOARD = "There is already a current workboard. Delete it or make a User Story before creating a new Workboard";
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";
 	public static final String ERR_DELETE_DATA_ELEMENT = "The Data Element could not be deleted";
+	public static final String ERR_FILE_UPLOAD = "Unable to upload the file to your workboard";
+	public static final String ERR_INVALID_FILE_FORMAT = "Invalid file format. The type of the file you tried to upload is not allowed";
+	
 	public static final String MSG_CSIRO_DATA_ADDED = "The CSIRO Data has been added successfully to your workboard";
 	public static final String MSG_DATA_ELEMENT_DELETED = "The Data Element was deleted successfully from your Workboard";
 	public static final String MSG_WORKBOARD_SAVED = "Workboard saved";
+	public static final String MSG_FILE_UPLOAD_SUCCESS = "The file was uploaded successfully to your workboard";
+	
+	
 }

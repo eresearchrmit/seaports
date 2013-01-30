@@ -9,20 +9,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Class representing data from the dataset available from CSIRO. 
- * It associates values to the climate variables and climate parameters.
+ * Class representing data from the concrete deterioration engineering model output. 
+ * It associates values with the climate variables and climate parameters.
  * @author Guillaume Prevost
  * @since 20th Dec. 2012
  */
 @Entity
-@Table(name = "CSIROData")
-public class CsiroData
+@Table(name = "EngineeringModelData")
+public class EngineeringModelData
 {
 	private static final long serialVersionUID = -1308795024262635690L;
 	
 	
 	/**
-	 * The unique ID of the CSIRO Data
+	 * The unique ID of the Engineering Model Data
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -43,38 +43,47 @@ public class CsiroData
 	private ClimateVariable variable;
 
 	/**
-	 * The value of the data
+	 * The asset to which this data is related to
 	 */
-	private long value;
+	@ManyToOne
+	@JoinColumn(name="engineering_model_asset_id")
+	private EngineeringModelAsset asset;
 	
 	/**
-	 * Default constructor of CsiroData
+	 * The value of the data
 	 */
-	public CsiroData() {
+	private Double value;
+	
+	/**
+	 * Default constructor of EngineeringModelData
+	 */
+	public EngineeringModelData() {
 	}
 	
 	/**
-	 * Constructor of CsiroData
+	 * Constructor of EngineeringModelData
+	 * @param asset: the asset to which this data is related to
 	 * @param parameters: the parameters of the computed data
 	 * @param variable: the variable that this data represents
 	 * @param value: the value of the data
 	 */
-	public CsiroData(ClimateParams parameters, ClimateVariable variable, long value) {
+	public EngineeringModelData(EngineeringModelAsset asset, ClimateParams parameters, ClimateVariable variable, Double value) {
+		setAsset(asset);
 		setParameters(parameters);
 		setVariable(variable);
 		setValue(value);
 	}
 
 	/**
-	 * Getter for the unique ID of the CSIRO Data
-	 * @return: the unique ID of the CSIRO Data
+	 * Getter for the unique ID of the Engineering Model Data
+	 * @return: the unique ID of the Engineering Model Data
 	 */
 	public int getId() {
 		return id;
 	}
 	
 	/**
-	 * Getter for the parameters of the computed data (Climate model, Emission Scenario, Assessment Year)
+	 * Getter for the parameters of the computed data (Climate model, Emission Scenario, Year...)
 	 * @return: the parameters of the computed data
 	 */
 	public ClimateParams getParameters() {
@@ -82,7 +91,7 @@ public class CsiroData
 	}
 	
 	/**
-	 * Setter for the parameters of the computed data (Climate model, Emission Scenario, Assessment Year)
+	 * Setter for the parameters of the computed data (Climate model, Emission Scenario, Year...)
 	 * @param parameters: the new parameters of the computed data
 	 */
 	public void setParameters(ClimateParams parameters) {
@@ -106,10 +115,26 @@ public class CsiroData
 	}
 	
 	/**
+	 * Getter for the asset to which this data is related to
+	 * @return: the asset to which this data is related to
+	 */
+	public EngineeringModelAsset getAsset() {
+		return asset;
+	}
+	
+	/**
+	 * Setter for the asset to which this data is related to
+	 * @param asset: the new asset to which this data is related to
+	 */
+	public void setAsset(EngineeringModelAsset asset) {
+		this.asset = asset;
+	}
+	
+	/**
 	 * Getter for the value of the Data
 	 * @return: the value of the data
 	 */
-	public float getValue() {
+	public Double getValue() {
 		return value;
 	}
 	
@@ -117,7 +142,7 @@ public class CsiroData
 	 * Getter for the value of the Data
 	 * @param value: the new value of the Data
 	 */
-	public void setValue(long value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 }

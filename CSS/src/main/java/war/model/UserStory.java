@@ -11,11 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 
-import war.model.User ;
+import war.model.User;
+import war.model.Region;
 
 /**
  * Class representing
@@ -23,6 +26,7 @@ import war.model.User ;
  * @since 11th Jan. 2013
  */
 @Entity
+@Table(name = "UserStory")
 public class UserStory {
 	
 	private static final long serialVersionUID = -1308795024262635690L;
@@ -63,6 +67,13 @@ public class UserStory {
 	@ManyToOne
 	@JoinColumn(name="owner_login")
 	private User owner;
+	
+	/**
+	 * The region to which the user stories is related
+	 */
+	@ManyToOne
+	@JoinColumn(name="region_id")
+	private Region region;
 	
 	/**
 	 * The list of data elements contained in the user story
@@ -158,6 +169,22 @@ public class UserStory {
 	 */
 	public void setDataElements(List<DataElement> dataElements) {
 		this.dataElements = dataElements;
+	}
+	
+	/**
+	 * Getter for the region to which the user story is related
+	 * @return The region to which the user story is related
+	 */
+	public Region getRegion() {
+		return region;
+	}
+	
+	/**
+	 * Setter for the region to which the user story is related
+	 * @param region: the new region to which the user story is related
+	 */
+	public void setRegion(Region region) {
+		this.region = region;
 	}
 	
 	public static long getSerialversionuid() {
