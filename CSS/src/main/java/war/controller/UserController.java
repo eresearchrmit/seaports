@@ -45,7 +45,7 @@ public class UserController {
 			if (user.getLastname() == null || user.getLastname().length() < 1)
 				throw(new Exception("Invalid last name"));
 			
-			User userdb = userDao.save(user);
+			/*User userdb = */userDao.save(user);
 			return "login";
 		}
 		catch (Exception e) {

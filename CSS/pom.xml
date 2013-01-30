@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>edu.rmit.seaport.sprint1</groupId>
-	<artifactId>Sprint1</artifactId>
+	<groupId>edu.rmit.seaport.sprint4</groupId>
+	<artifactId>Sprint</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Sprint1</name>
@@ -12,7 +12,7 @@
 		<jetty.version>6.1.4</jetty.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<slf4j.version>1.5.10</slf4j.version>
-		<java.version>1.5</java.version>
+		<java.version>1.6</java.version>
 		<junit.version>4.8.2</junit.version>
 	</properties>
 
@@ -329,7 +329,7 @@
 	</repositories>
 
 	<build>
-		<finalName>Sprint1</finalName>
+		<finalName>Sprint4</finalName>
 		<plugins>
 
 			<!-- Facilitates downloading source and javadoc in Eclipse -->

@@ -17,8 +17,6 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -57,21 +54,12 @@ public class WorkboardController {
 	
 	@Autowired
 	private ClimateVariableDao climateVariableDao;
-
-	@Autowired
-	private ClimateEmissionScenarioDao climateEmissionScenarioDao;
-	
-	@Autowired
-	private ClimateModelDao climateModelDao;
 	
 	@Autowired
 	private EngineeringModelAssetDao engineeringModelAssetDao;
 	
 	@Autowired
 	private EngineeringModelDataDao engineeringModelDataDao;
-	
-	@Autowired
-	private RegionDao regionDao;
 	
 	//@ModelAttribute("user")
 	@RequestMapping(method = RequestMethod.GET)
@@ -108,7 +96,7 @@ public class WorkboardController {
             int lastIndex = uploadfile.getOriginalFilename().lastIndexOf('.');
         	String fileName = uploadfile.getOriginalFilename().substring(0, lastIndex);
             String fileExtension = uploadfile.getOriginalFilename().substring(lastIndex + 1);
-            String fileType = uploadfile.getContentType();
+            //String fileType = uploadfile.getContentType();
             //String [] tokens = filename.split("\\.");
             
             // TODO: Define a list of allowed Extensions / MIME type
@@ -141,7 +129,7 @@ public class WorkboardController {
 		logger.info("Inside addEngineeringDataToWorkBoard");
 		
 		int lastIndex = uploadfile.getOriginalFilename().lastIndexOf('.');
-    	String fileName = uploadfile.getOriginalFilename().substring(0, lastIndex);
+    	//String fileName = uploadfile.getOriginalFilename().substring(0, lastIndex);
         String fileExtension = uploadfile.getOriginalFilename().substring(lastIndex + 1);
     	String fileType = uploadfile.getContentType();
         
@@ -157,25 +145,6 @@ public class WorkboardController {
         	// HSSFWorkbook and HSSFSheet for XLS, XSSFWorkbook and XSSFSheet for XLSX
         	HSSFWorkbook workbook = new HSSFWorkbook(bis);
         	extractEngineeringOutputData(workbook);
-        	
-        	/*
-        	 * WORKING EXAMPLE, READING 3 COLUMNS FOR EACH ROW OF SHEET AT INDEX 0       	 
-        	
-        	ByteArrayInputStream bis = new ByteArrayInputStream(uploadfile.getBytes());
-        	XSSFWorkbook workbook = new XSSFWorkbook(bis);
-        	XSSFSheet sheet = workbook.getSheetAt(0);
-        	
-        	for (Row tempRow : sheet) {
-        	    // print out the first three columns
-        	    for (int column = 1; column < 4; column++) {
-        	        Cell tempCell = tempRow.getCell(column);
-        	        
-        	        if (tempCell != null && tempCell.getCellType() == Cell.CELL_TYPE_STRING) {
-        	            System.out.print(tempCell.getStringCellValue() + "  ");
-        	        }
-        	    }
-        	    System.out.println();
-        	}*/
         }
         catch (InvalidFormatException e) {
         	model.addAttribute("errorMessage", ERR_INVALID_FILE_FORMAT);
@@ -241,7 +210,7 @@ public class WorkboardController {
     			climateModelName = cellInColA.getStringCellValue();
     		}
     		if (climateModelName == null) {
-    			System.out.println("Invalid Climate Model");
+    			logger.info("Invalid Climate Model");
     			continue;
     		}
     		
@@ -251,7 +220,7 @@ public class WorkboardController {
     		if (cellInColD != null && cellInColD.getCellType() == Cell.CELL_TYPE_NUMERIC)
     			year = (int)(cellInColD.getNumericCellValue());
     		if (year != 2030 && year != 2055 && year != 2070) {
-    			System.out.println("Invalid Year: " + year);
+    			logger.info("Invalid Year: " + year);
     			continue;
     		}
     		
@@ -262,18 +231,18 @@ public class WorkboardController {
     			emissionScenarioName = cellInColB.getStringCellValue();
     		}
     		if (emissionScenarioName == null) {
-    			System.out.println("Invalid Emission Scenario Name");
+    			logger.info("Invalid Emission Scenario Name");
     			continue;
     		}
     		
-    		System.out.println("Year:" + year + ", Emission Scenario:" + emissionScenarioName + ", Climate Model: " + climateModelName);
+    		logger.info("Year:" + year + ", Emission Scenario:" + emissionScenarioName + ", Climate Model: " + climateModelName);
     		
 			ClimateParams climateParams = null;
        		try {
        			climateParams = climateParamsDao.find("East Coast South", emissionScenarioName, climateModelName, year);
        		}
             catch (NoResultException e) {
-            	System.out.println("Could not find climate params in the database: " + year);
+            	logger.info("Could not find climate params in the database: " + year);
             	continue;
             }
    			
@@ -281,17 +250,21 @@ public class WorkboardController {
 				"Rebar Loss due to carbonation", "Change in chloride concentration", "Chloride Initiation", 
 				"Corrosion damage due to chloride", "Rebar Loss due to chloride ingress"
 			};
+   			// Read Data in column AA to AH (indexes 26 to 33)
    			int i = 26;
-   			for (String variableName : varsList) { // Read Data in column AA to AH (indexes 26 to 33)
+   			for (String variableName : varsList) {
    				
-   				// Read the value from the excel
-   				Cell tempCell = row.getCell(i);
-   				if (tempCell != null && tempCell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+   				// Retrieve the cell at the column
+   				Cell tempCell = row.getCell(i); 
+   				
+   				if (tempCell != null && (tempCell.getCellType() == Cell.CELL_TYPE_NUMERIC) || (tempCell.getCellType() == Cell.CELL_TYPE_FORMULA)) {
+   					
+   					// Read the cell content
    					Double value = tempCell.getNumericCellValue();
    					
-       				// Retrieve the variable in the Database
        				ClimateVariable variable = null;
-       				try {		
+       				try {
+       					// Retrieve the variable in the Database
            				variable = climateVariableDao.find(variableName);
            				
        					// Saves the data (asset, parameters, variable, value) in the Database
@@ -299,13 +272,12 @@ public class WorkboardController {
                	    	engineeringModelDataDao.save(data);
            			}
            			catch (NoResultException e) {
-           				System.out.println(e.getMessage() + "(" + variableName + ")");
+           				logger.info(e.getMessage() + "(" + variableName + ")");
            			}
    				}
    				else {
-   					System.out.println("Error extracting the data for variable");
+   					logger.info("Error extracting the data for variable");
    				}
-   				
        	    	i++;
 	        }
     	}

@@ -35,7 +35,6 @@ public class EngineeringModelAssetDao {
 		return asset;
 	}
 	
-	
 	/**
 	 * Saves a given engineering model asset into the database, by adding it or updating it
 	 * @param asset: the engineering model asset to save in the database
