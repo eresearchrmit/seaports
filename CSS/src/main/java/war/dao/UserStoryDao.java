@@ -1,4 +1,6 @@
 package war.dao;
+import war.helpers.HibernateHelper;
+import war.model.DataElement;
 import war.model.User;
 
 import java.util.ArrayList;
@@ -11,6 +13,10 @@ import javax.persistence.Query;
 
 import war.model.UserStory;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +25,9 @@ public class UserStoryDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
+
+	@Autowired
+	private DataElementDao dataElementDao;
 	
 	/**
 	 * The name of the table in the database where the User Stories are stored
@@ -147,12 +156,20 @@ public class UserStoryDao {
 	 * @param userStory: the user story to delete
 	 */
 	@Transactional
-	public void deleteUserStory(UserStory userStory) {
+	public void delete(UserStory userStory) {
+		/*Session session = HibernateHelper.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+        session.delete(userStory);
+        session.getTransaction().commit();*/
+        
+		for (DataElement de : userStory.getDataElements()) {
+			dataElementDao.deleteDataElement(de);
+		}
 		
-		Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.userStory = :userStory") ;
-		query.setParameter("userStory", userStory).executeUpdate();
+		/*Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.userStory = :userStory");
+		query.setParameter("userStory", userStory).executeUpdate();*/
 		
-		query = entityManager.createQuery("DELETE FROM " + TABLE_NAME + " us WHERE us.id = :id") ;
+		Query query = entityManager.createQuery("DELETE FROM " + TABLE_NAME + " us WHERE us.id = :id") ;
 		query.setParameter("id", userStory.getId()).executeUpdate();
 	}
 

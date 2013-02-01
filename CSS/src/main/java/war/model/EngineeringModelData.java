@@ -1,10 +1,14 @@
 package war.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -52,7 +56,7 @@ public class EngineeringModelData
 	/**
 	 * The value of the data
 	 */
-	private Double value;
+	private float value;
 	
 	/**
 	 * Default constructor of EngineeringModelData
@@ -67,7 +71,7 @@ public class EngineeringModelData
 	 * @param variable: the variable that this data represents
 	 * @param value: the value of the data
 	 */
-	public EngineeringModelData(EngineeringModelAsset asset, ClimateParams parameters, ClimateVariable variable, Double value) {
+	public EngineeringModelData(EngineeringModelAsset asset, ClimateParams parameters, ClimateVariable variable, float value) {
 		setAsset(asset);
 		setParameters(parameters);
 		setVariable(variable);
@@ -84,7 +88,7 @@ public class EngineeringModelData
 	
 	/**
 	 * Getter for the parameters of the computed data (Climate model, Emission Scenario, Year...)
-	 * @return: the parameters of the computed data
+	 * @return: the current parameters of the computed data
 	 */
 	public ClimateParams getParameters() {
 		return parameters;
@@ -100,7 +104,7 @@ public class EngineeringModelData
 	
 	/**
 	 * Getter for the variable that this Data represent
-	 * @return: the variable represented by this data
+	 * @return: the current variable represented by this data
 	 */
 	public ClimateVariable getVariable() {
 		return variable;
@@ -116,7 +120,7 @@ public class EngineeringModelData
 	
 	/**
 	 * Getter for the asset to which this data is related to
-	 * @return: the asset to which this data is related to
+	 * @return: the current asset to which this data is related to
 	 */
 	public EngineeringModelAsset getAsset() {
 		return asset;
@@ -132,17 +136,22 @@ public class EngineeringModelData
 	
 	/**
 	 * Getter for the value of the Data
-	 * @return: the value of the data
+	 * @return: the current value of the data
 	 */
-	public Double getValue() {
+	public float getValue() {
 		return value;
 	}
 	
 	/**
-	 * Getter for the value of the Data
+	 * Setter for the value of the Data
 	 * @param value: the new value of the Data
 	 */
-	public void setValue(Double value) {
+	public void setValue(float value) {
 		this.value = value;
+	}
+	
+	@Override
+	public String toString() {
+		return (this.variable.getName() + " " + this.value + this.variable.getUom());
 	}
 }

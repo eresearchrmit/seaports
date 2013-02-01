@@ -50,14 +50,22 @@ public class ClimateVariable {
 	private String uom;
 	
 	/**
-	 * Default constructor of CsiroVariable
+	 * The unit of measure of the variation of the variable
+	 */
+	@Column
+	private String uomVariation;
+	
+	/**
+	 * Default constructor of ClimateVariable
 	 */
 	public ClimateVariable() {
 	}
 	
 	/**
-	 * Constructor of CsiroVariable
+	 * Constructor of ClimateVariable
 	 * @param name: the name of the variable
+	 * @param shortName: the short name for the variable
+	 * @param description: the description of the variable
 	 * @param uom: the unit of measure of the variable
 	 */
 	public ClimateVariable(String name, String shortName, String description, String uom) {
@@ -65,6 +73,23 @@ public class ClimateVariable {
 		this.shortName = shortName;
 		this.description = description;
 		this.uom = uom;
+		this.uomVariation = "%";
+	}
+	
+	/**
+	 * Constructor of ClimateVariable
+	 * @param name: the name of the variable
+	 * @param shortName: the short name for the variable
+	 * @param description: the description of the variable
+	 * @param uom: the unit of measure of the variable
+	 * @param uomVariation: the unit of measure of the variation of the variable
+	 */
+	public ClimateVariable(String name, String shortName, String description, String uom, String uomVariation) {
+		this.name = name;
+		this.shortName = shortName;
+		this.description = description;
+		this.uom = uom;
+		this.uomVariation = uomVariation;
 	}
 	
 	/**
@@ -133,9 +158,30 @@ public class ClimateVariable {
 	
 	/**
 	 * Setter for the unit of measure of the variable
-	 * @param uom
+	 * @param uom : the new unit of measure of the variable
 	 */
 	public void setUom(String uom) {
 		this.uom = uom;
+	}
+	
+	/**
+	 * Getter for the unit of measure of the variation of the variable
+	 * @return the unit of measure of the variation of the variable, as a String
+	 */
+	public String getUomVariation() {
+		return this.uomVariation;
+	}
+	
+	/**
+	 * Setter for the unit of measure of the variation of the variable
+	 * @param uomVariation : the new unit of measure of the variation of the variable
+	 */
+	public void setUomVariation(String uomVariation) {
+		this.uomVariation = uomVariation;
+	}
+	
+	@Override
+	public String toString() {
+		return (this.shortName + " (" + this.uom + ")");
 	}
 }

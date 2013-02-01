@@ -45,6 +45,20 @@ public class Region {
 	private List<Seaport> ports;
 	
 	/**
+	 * Default constructor of region
+	 */
+	public Region() {
+	}
+	
+	/**
+	 * Constructor of Region specifying the name
+	 * @param name: the name of the region
+	 */
+	public Region(String name) {
+		this.name = name;
+	}
+	
+	/**
 	 * Getter for the unique ID of the region
 	 * @return the unique ID of the parameters
 	 */

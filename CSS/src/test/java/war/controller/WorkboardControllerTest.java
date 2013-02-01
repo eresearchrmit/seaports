@@ -1,17 +1,18 @@
 package war.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import junit.framework.Assert;
 
 import war.dao.ClimateEmissionScenarioDao;
 import war.dao.ClimateParamsDao;
-import war.dao.ClimateVariableDao;
 import war.dao.DataElementDao;
 import war.dao.UserDao;
 import war.dao.UserStoryDao;
 import war.model.DataElement;
+import war.model.DataElementFile;
 import war.model.User;
 import war.model.UserStory;
 
@@ -122,16 +123,16 @@ public class WorkboardControllerTest {
 	@Test
 	public void addCsiroDataToWorkBoardBadParametersTest() {
 		// UNKNOWN VARIABLE
-		ExtendedModelMap model = new ExtendedModelMap();
+		/*ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addCsiroDataToWorkBoard("UNKNOWN VARIABLE", 
 				"A1B", "Hotter and Drier", "2030", 1, model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(ClimateVariableDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertEquals(ClimateVariableDao.ERR_NO_RESULT, model.get("errorMessage"));*/
 		
 		// UNKNOWN SCENARIO
-		model = new ExtendedModelMap();
-		result = workboardController.addCsiroDataToWorkBoard("Temperature", 
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addCsiroDataToWorkBoard("Temperature", 
 				"UNKNOWN SCENARIO", "csiro_mk3_5", "2030", 1, model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
@@ -248,8 +249,8 @@ public class WorkboardControllerTest {
 		UserStory refWorkboard = new UserStory();
 		String dummyContent = "Dummy Content"; 
 		List<DataElement> dataElements = new ArrayList<DataElement>();
-		DataElement de1 = new DataElement("Name1", "Type1", 0, refWorkboard, dummyContent.getBytes());
-		DataElement de2 = new DataElement("Name2", "Type2", 0, refWorkboard, dummyContent.getBytes());
+		DataElement de1 = new DataElementFile(new Date(), "Name1", "Type1", 0, refWorkboard, dummyContent.getBytes());
+		DataElement de2 = new DataElementFile(new Date(), "Name2", "Type2", 0, refWorkboard, dummyContent.getBytes());
 		dataElements.add(de1);
 		dataElements.add(de2);
 		refWorkboard.setDataElements(dataElements);
@@ -334,7 +335,7 @@ public class WorkboardControllerTest {
 	@Test
 	public void deleteDataElementTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		int id = 1; // ID of the data element to delete
+		int id = 7; // ID of the data element to delete
 		ModelAndView result = workboardController.deleteDataElementFromUserStory(id, model);
 		
 		// Check the success message

@@ -38,13 +38,28 @@ public class Seaport {
 	@JoinColumn(name="region_id")
 	private Region region;
 	
+	/**
+	 * Default constructor of Seaport
+	 */
+	public Seaport() {
+	}
+	
+	/**
+	 * Constructor of Seaport specifying the name
+	 * @param name: the name of the seaport
+	 * @param region: the region where the seaport is located
+	 */
+	public Seaport(String name, Region region) {
+		this.name = name;
+		this.region = region;
+	}
 	
 	/**
 	 * Getter for the unique ID of the parameters combination
 	 * @return the unique ID of the parameters
 	 */
 	public int getId() {
-		return id;
+		return this.id;
 	}
 	
 	/**
@@ -52,7 +67,7 @@ public class Seaport {
 	 * @return the name for the seaport
 	 */
 	public String getName() {
-		return name;
+		return this.name;
 	}
 	
 	/**
@@ -68,7 +83,7 @@ public class Seaport {
 	 * @return the region where the seaport is located
 	 */
 	public Region getRegion() {
-		return region;
+		return this.region;
 	}
 	
 	/**

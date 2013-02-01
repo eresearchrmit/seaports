@@ -130,19 +130,26 @@ public class UserStoryController {
 					{
 						de.setPosition(reorderedDE.getPosition());
 						// Update the content if the data element is of type 'comment'
-						if (reorderedDE.getType().equals("comment"))
-							de.setStringContent(reorderedDE.getStringContent());
+						if (de.getClass().equals(DataElementFile.class) && reorderedDE.getClass().equals(DataElementFile.class)) {
+							DataElementFile file = (DataElementFile)de;
+							DataElementFile reorderedFile = (DataElementFile)reorderedDE;
+							if (file.getFiletype().equals("comment") && reorderedFile.getFiletype().equals("comment"))
+								file.setStringContent(reorderedFile.getStringContent());
+						}
 						break;
 					}
 				}
 			}
 			
-			// Create the new 'comment' Data Elements and add them to the user story
+			// Create the new 'Comment' Data Elements and add them to the user story
 			List<DataElement> dataElements = userStory.getDataElements();
 			for (DataElement reorderedDE : reorderedUserStory.getDataElements()) {
-				if (reorderedDE.getId() == 0 && reorderedDE.getType().equals("comment")) {
-					reorderedDE.setUserStory(userStory);
-					dataElements.add(reorderedDE);
+				if (reorderedDE.getClass().equals(DataElementFile.class)) {
+					DataElementFile reorderedFile = (DataElementFile)reorderedDE;
+					if (reorderedDE.getId() == 0 && reorderedFile.getFiletype().equals("comment")) {
+						reorderedDE.setUserStory(userStory);
+						dataElements.add(reorderedDE);
+					}
 				}
 			}
 			userStory.setDataElements(dataElements);
@@ -170,7 +177,7 @@ public class UserStoryController {
 			UserStory userStory = userStoryDao.find(userStoryId);
 			mav.addObject("user", userStory.getOwner().getLogin());
 			String ownerLogin = userStory.getOwner().getLogin();
-			userStoryDao.deleteUserStory(userStory);
+			userStoryDao.delete(userStory);
 			return "redirect:/spring/userstory/list?user=" + ownerLogin;
 		}
 		catch (Exception e) {

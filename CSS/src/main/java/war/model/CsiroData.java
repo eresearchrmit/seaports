@@ -1,5 +1,7 @@
 package war.model;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,7 +22,6 @@ public class CsiroData
 {
 	private static final long serialVersionUID = -1308795024262635690L;
 	
-	
 	/**
 	 * The unique ID of the CSIRO Data
 	 */
@@ -36,6 +37,11 @@ public class CsiroData
 	private ClimateParams parameters;
 
 	/**
+	 * The date when this data has been created
+	 */
+	private Date creationDate;
+	
+	/**
 	 * The variable that this data represents
 	 */
 	@ManyToOne
@@ -45,21 +51,24 @@ public class CsiroData
 	/**
 	 * The value of the data
 	 */
-	private long value;
+	private Double value;
 	
 	/**
 	 * Default constructor of CsiroData
 	 */
 	public CsiroData() {
+		setCreationDate(new Date());
 	}
 	
 	/**
 	 * Constructor of CsiroData
+	 * @param creationDate: the date when this data has been created
 	 * @param parameters: the parameters of the computed data
 	 * @param variable: the variable that this data represents
 	 * @param value: the value of the data
 	 */
-	public CsiroData(ClimateParams parameters, ClimateVariable variable, long value) {
+	public CsiroData(Date creationDate, ClimateParams parameters, ClimateVariable variable, Double value) {
+		setCreationDate(creationDate);
 		setParameters(parameters);
 		setVariable(variable);
 		setValue(value);
@@ -71,6 +80,22 @@ public class CsiroData
 	 */
 	public int getId() {
 		return id;
+	}
+	
+	/**
+	 * Getter for the creation date of the Data
+	 * @return: the creation date of the data
+	 */
+	public Date getCreationDate() {
+		return creationDate;
+	}
+	
+	/**
+	 * Setter for the creation date of the Data
+	 * @param value: the new creation date of the Data
+	 */
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 	
 	/**
@@ -109,7 +134,7 @@ public class CsiroData
 	 * Getter for the value of the Data
 	 * @return: the value of the data
 	 */
-	public float getValue() {
+	public Double getValue() {
 		return value;
 	}
 	
@@ -117,7 +142,7 @@ public class CsiroData
 	 * Getter for the value of the Data
 	 * @param value: the new value of the Data
 	 */
-	public void setValue(long value) {
+	public void setValue(Double value) {
 		this.value = value;
 	}
 }

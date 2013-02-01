@@ -27,7 +27,7 @@ import war.model.Region;
  */
 @Entity
 @Table(name = "UserStory")
-public class UserStory {
+public class UserStory /*extends HibernateDaoSupport*/ {
 	
 	private static final long serialVersionUID = -1308795024262635690L;
 	
@@ -69,7 +69,7 @@ public class UserStory {
 	private User owner;
 	
 	/**
-	 * The region to which the user stories is related
+	 * The region to which the user story is related
 	 */
 	@ManyToOne
 	@JoinColumn(name="region_id")
@@ -82,6 +82,31 @@ public class UserStory {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<DataElement> dataElements;
 	
+	/**
+	 * Default constructor of User Story
+	 */
+	/*public UserStory() {
+		super();
+	}*/
+	
+	/**
+	 * Constructor of User Story specifying all its fields
+	 * @param name: the name of the user story
+	 * @param mode: the mode of the user story
+	 * @param access: the level of privacy for this suer story
+	 * @param owner: the user who created the user story
+	 * @param region: the region to which the user stories is related
+	 * @param dataElements: the list of data elements contained in the user story
+	 */
+	/*public UserStory(String name, String mode, String access, User owner, Region region, List<DataElement> dataElements) {
+		super();
+		this.name = name;
+		this.mode = mode;
+		this.access = access;
+		this.owner = owner;
+		this.region = region;
+		this.dataElements = dataElements;
+	}*/
 
 	/**
 	 * Getter for the ID of the user story
@@ -186,6 +211,11 @@ public class UserStory {
 	public void setRegion(Region region) {
 		this.region = region;
 	}
+
+	/*public void delete() throws DataAccessException {
+		this.getHibernateTemplate().clear();
+		this.getHibernateTemplate().delete(this);
+	}*/
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;

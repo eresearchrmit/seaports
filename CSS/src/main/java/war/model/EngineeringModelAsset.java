@@ -67,32 +67,32 @@ public class EngineeringModelAsset
 	/**
 	 * Depth of concrete cover (mm)
 	 */
-	private int cover;
+	private Double cover;
 	
 	/**
 	 * Size of concrete element, either width or Diameter (mm)
 	 */
-	private int dMember;
+	private Double dMember;
 	
 	/**
 	 * f'c : design strength (MPa)
 	 */
-	private int fPrimeC;
+	private Double fPrimeC;
 
 	/**
 	 * w/c: Water to cement ratio (0 to 1)
 	 */
-	private int wc;
+	private Double wc;
 	
 	/**
 	 * Ce: cement content (kg/m3)
 	 */
-	private int ce;
+	private Double ce;
 	
 	/**
 	 * Diameter of rebar (mm)
 	 */
-	private int dBar;
+	private Double dBar;
 	
 	/**
 	 * Default constructor of EngineeringModelAsset
@@ -108,7 +108,7 @@ public class EngineeringModelAsset
 	 */
 	public EngineeringModelAsset(String assetCode, String description, int yearBuilt, String zone, 
 			Double distanceFromCoast, String exposureClass, String carbonationClass, String chlorideClass, 
-			int cover, int dMember, int fPrimeC, int wc, int ce, int dBar) {
+			Double cover, Double dMember, Double fPrimeC, Double wc, Double ce, Double dBar) {
 		setAssetCode(assetCode);
 		setDescription(description);
 		setYearBuilt(yearBuilt);
@@ -265,7 +265,7 @@ public class EngineeringModelAsset
 	 * Getter for the depth of concrete cover (mm)
 	 * @return: the concrete cover of the asset
 	 */
-	public int getCover() {
+	public Double getCover() {
 		return this.cover;
 	}
 	
@@ -273,7 +273,7 @@ public class EngineeringModelAsset
 	 * Setter for the depth of concrete cover (mm)
 	 * @param cover: the new concrete cover of the asset
 	 */
-	public void setCover(int cover) {
+	public void setCover(Double cover) {
 		this.cover = cover;
 	}
 	
@@ -281,7 +281,7 @@ public class EngineeringModelAsset
 	 * Getter for the size of the concrete element
 	 * @return: the size of the concrete element
 	 */
-	public int getDMember() {
+	public Double getDMember() {
 		return this.dMember;
 	}
 	
@@ -289,7 +289,7 @@ public class EngineeringModelAsset
 	 * Setter for the size of the concrete element
 	 * @param dMember: the new size of the concrete element
 	 */
-	public void setDMember(int dMember) {
+	public void setDMember(Double dMember) {
 		this.dMember = dMember;
 	}
 	
@@ -297,7 +297,7 @@ public class EngineeringModelAsset
 	 * Getter for the design strength
 	 * @return: the design strength of the asset
 	 */
-	public int getFPrimeC() {
+	public Double getFPrimeC() {
 		return this.fPrimeC;
 	}
 	
@@ -305,7 +305,7 @@ public class EngineeringModelAsset
 	 * Setter for the design strength
 	 * @param fPrimeC: the new design strength of the asset
 	 */
-	public void setFPrimeC(int fPrimeC) {
+	public void setFPrimeC(Double fPrimeC) {
 		this.fPrimeC = fPrimeC;
 	}
 	
@@ -313,7 +313,7 @@ public class EngineeringModelAsset
 	 * Getter for the water to cement ratio
 	 * @return: the water to cement ratio of the asset
 	 */
-	public int getWc() {
+	public Double getWc() {
 		return this.wc;
 	}
 	
@@ -321,7 +321,7 @@ public class EngineeringModelAsset
 	 * Setter for the water to cement ratio
 	 * @param wc: the new water to cement ratio of the asset
 	 */
-	public void setWc(int wc) {
+	public void setWc(Double wc) {
 		this.wc = wc;
 	}
 	
@@ -329,7 +329,7 @@ public class EngineeringModelAsset
 	 * Getter for the cement content
 	 * @return: the cement content of the asset
 	 */
-	public int getCe() {
+	public Double getCe() {
 		return this.ce;
 	}
 	
@@ -337,7 +337,7 @@ public class EngineeringModelAsset
 	 * Setter for the cement content
 	 * @param ce: the new cement content of the asset
 	 */
-	public void setCe(int ce) {
+	public void setCe(Double ce) {
 		this.ce = ce;
 	}
 	
@@ -345,7 +345,7 @@ public class EngineeringModelAsset
 	 * Getter for the diameter of rebar
 	 * @return: the diameter of rebar of the asset
 	 */
-	public int getDBar() {
+	public Double getDBar() {
 		return this.dBar;
 	}
 	
@@ -353,7 +353,7 @@ public class EngineeringModelAsset
 	 * Setter for the diameter of rebar
 	 * @param dBar: the new diameter of rebar of the asset
 	 */
-	public void setDBar(int dBar) {
+	public void setDBar(Double dBar) {
 		this.dBar = dBar;
 	}
 }

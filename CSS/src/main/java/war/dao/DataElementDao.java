@@ -8,9 +8,15 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import war.helpers.HibernateHelper;
 import war.model.* ;
 
 @Repository
@@ -72,9 +78,28 @@ public class DataElementDao {
 	 * @param id: the unique ID of the data element to delete
 	 */
 	@Transactional
-	public void deleteDataElement(int id) {
-		Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.id = :id") ;
-		query.setParameter("id", id).executeUpdate();
+	public void deleteDataElement(DataElement de) {
+		/* Session session = HibernateHelper.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+        session.delete(de);
+        session.getTransaction().commit();*/
+		
+		// Delete the eventual data element children
+		if (de.getClass().equals(DataElementCsiro.class)) {
+			DataElementCsiro dec = (DataElementCsiro)(de);
+			dec.getCsiroDataList().clear();
+			dec.setCsiroDataList(new ArrayList<CsiroData>());
+			save(dec);
+		}
+		else if (de.getClass().equals(DataElementEngineeringModel.class)) {
+			DataElementEngineeringModel deem = (DataElementEngineeringModel)(de);
+			deem.getEngineeringModelDataList().clear();
+			deem.setEngineeringModelDataList(new ArrayList<EngineeringModelData>());
+			save(deem);
+		}
+		
+		Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.id = :id");
+		query.setParameter("id", de.getId()).executeUpdate();
 	}
 	
 	/**

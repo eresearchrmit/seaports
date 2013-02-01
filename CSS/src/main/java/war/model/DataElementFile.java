@@ -1,38 +1,26 @@
 package war.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-//import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Class representing an uploaded file containing some data
  * @author Guillaume Prevost
- * @since 25th Jan. 2013
+ * @since 31th Jan. 2013
  */
 @Entity
-@Table(name = "File")
-public class File {
+@Table(name = "DataElementFile")
+@DiscriminatorValue(value = "File")
+public class DataElementFile extends DataElement {
 
 	private static final long serialVersionUID = -1308795024262635690L;
-    
-	/**
-	 * The unique ID of the File
-	 */
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
-
-	/**
-	 * The name of the file
-	 */
-	@Column
-    private String name;
 	
 	/**
 	 * The type of the file. 
@@ -55,61 +43,31 @@ public class File {
 	/**
 	 * Default constructor of file
 	 */
-	public File() {
+	public DataElementFile() {
 	}
-	
+
 	/**
-	 * Constructor of File specifying the name, login and password 
-	 * @param name: the name of the file
-	 * @param type: the type of the file
+	 * Constructor of File specifying the name, login and password
+	 * @param creationDate: the date when the data element was created
+	 * @param name: the name of the data element
+	 * @param position: the position of the data element in the user story it belongs to
+	 * @param userStory: the user story to which this data element belongs
+	 * @param filetype: the type of the file. 
 	 * @param content: the binary content of the file
 	 */
-	public File(String name, String type, byte[] content) {
-		super();
-		this.name = name;
-		this.filetype = type;
+	public DataElementFile(Date creationDate, String name, String filetype, int position, UserStory userStory,  byte[] content) {
+		super(creationDate, name, position, userStory);
+		this.filetype = filetype;
 		this.content = content;
 		
 		this.generateStringContent();
 	}
     
 	/**
-	 * Getter for the unique ID of the file
-	 * @return The unique ID of the file
-	 */
-	public int getId() {
-		return id;
-	}
-	
-	/**
-	 * Setter for the unique ID of the file
-	 * @param The unique ID of the file
-	 */
-	public void setId(int id) {
-		this.id = id ;
-	}
-	
-	/**
-	 * Getter for the name of the file
-	 * @return the current name of the file
-	 */
-	public String getName() {
-		return name;
-	}
-	
-	/**
-	 * Setter for the name of the file
-	 * @param name: the new name of the file
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	/**
 	 * Getter for the type of the file
 	 * @return The current type of the file
 	 */
-	public String getType() {
+	public String getFiletype() {
 		return filetype;
 	}
 	
@@ -166,9 +124,9 @@ public class File {
 	 */
 	public void generateStringContent() {
 		if (this.content != null) {
-			/*if (this.filetype != null && (this.filetype.equals("jpg") || this.filetype.equals("jpeg")))
+			if (this.filetype != null && (this.filetype.equals("jpg") || this.filetype.equals("jpeg")))
 				this.stringContent = Base64.encodeBase64String(this.content);
-			else*/
+			else
 				this.stringContent = new String(this.content);
 		}
 		else {
@@ -181,9 +139,9 @@ public class File {
 	 */
 	public void generateBinaryContent() {
 		if (this.stringContent != null) {
-			/*if (this.filetype != null && (this.filetype.equals("jpg") || this.filetype.equals("jpeg")))
+			if (this.filetype != null && (this.filetype.equals("jpg") || this.filetype.equals("jpeg")))
 				this.content = Base64.decodeBase64(this.stringContent);
-			else*/
+			else
 				this.content = this.stringContent.getBytes();
 		}
 		else {
