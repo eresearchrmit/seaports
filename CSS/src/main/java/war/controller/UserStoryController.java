@@ -1,8 +1,10 @@
 package war.controller;
 
+import java.util.Date;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.validation.Valid;
 
 import war.dao.*;
@@ -27,11 +29,14 @@ public class UserStoryController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
 	private UserStoryDao userStoryDao;
 	
 	@Autowired
-	private UserDao userDao;
-
+	private DataElementDao dataElementDao;
+	
 	@RequestMapping(value= "/list", method = RequestMethod.GET)
 	public ModelAndView getUserStoriesList(@RequestParam(value="user",required=true) String login, Model model) {
 		logger.info("Inside getUserStoriesList !");
@@ -81,13 +86,13 @@ public class UserStoryController {
 	
 	@ModelAttribute("userstory")
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView getUserStory(@RequestParam(value="id",required=true) Integer Id, Model model) {
+	public ModelAndView getUserStory(@RequestParam(value="id",required=true) Integer id, Model model) {
 		logger.info("Inside getUserStoryFromUser");
 		
 		UserStory userStory = null;
 		
 		try {
-			userStory = userStoryDao.find(Id);
+			userStory = userStoryDao.find(id);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -96,12 +101,12 @@ public class UserStoryController {
 	}
 
 	@RequestMapping(value="/create", method=RequestMethod.GET) 
-	public ModelAndView createUserStory(@RequestParam(value="id",required=true) Integer Id, Model model) {
+	public ModelAndView createUserStory(@RequestParam(value="id",required=true) Integer id, Model model) {
 		logger.info("Inside includeDataElementToUserStory");
 		
 		try {
 			// Retrieve the user story
-			UserStory userstory = userStoryDao.find(Id);
+			UserStory userstory = userStoryDao.find(id);
 			userstory.setMode("passive");
 			userStoryDao.save(userstory);
 			
@@ -114,20 +119,18 @@ public class UserStoryController {
 	}
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
-	public ModelAndView saveUserStory(@Valid @ModelAttribute UserStory reorderedUserStory, @RequestParam(value="id",required=true) Integer Id, Model model) {
+	public ModelAndView saveUserStory(@Valid @ModelAttribute UserStory reorderedUserStory, @RequestParam(value="story",required=true) Integer id, Model model) {
 		logger.info("Inside saveUserStory");
 		
 		try {
 			// Retrieve the original user story
-			UserStory userStory = userStoryDao.find(Id);
+			UserStory userStory = userStoryDao.find(id);
 			
 			// Reorder the data elements in the user story
-			userStory = userStoryDao.find(Id);
 			for (DataElement de : userStory.getDataElements()) {
 				for (DataElement reorderedDE : reorderedUserStory.getDataElements()) {
 					// Reorder the existing data elements
-					if (de.getId() == reorderedDE.getId())
-					{
+					if (de.getId() == reorderedDE.getId()) {
 						de.setPosition(reorderedDE.getPosition());
 						// Update the content if the data element is of type 'comment'
 						if (de.getClass().equals(DataElementFile.class) && reorderedDE.getClass().equals(DataElementFile.class)) {
@@ -140,20 +143,6 @@ public class UserStoryController {
 					}
 				}
 			}
-			
-			// Create the new 'Comment' Data Elements and add them to the user story
-			List<DataElement> dataElements = userStory.getDataElements();
-			for (DataElement reorderedDE : reorderedUserStory.getDataElements()) {
-				if (reorderedDE.getClass().equals(DataElementFile.class)) {
-					DataElementFile reorderedFile = (DataElementFile)reorderedDE;
-					if (reorderedDE.getId() == 0 && reorderedFile.getFiletype().equals("comment")) {
-						reorderedDE.setUserStory(userStory);
-						dataElements.add(reorderedDE);
-					}
-				}
-			}
-			userStory.setDataElements(dataElements);
-			
 			// Save the user story after reordering
 			userStoryDao.save(userStory);
 			
@@ -185,52 +174,78 @@ public class UserStoryController {
 		}
 		return "listUS";
 	}	
+
+	@RequestMapping(value="/addText", method=RequestMethod.GET) 
+	public ModelAndView addTextToUserStory(@RequestParam(value="story",required=true) Integer id, Model model) {
+		logger.info("Inside saveUserStory");
+		
+		UserStory userStory = null;
+		try {
+			// Retrieve the original user story
+			userStory = userStoryDao.find(id);
+			
+			List<DataElement> dataElements = userStory.getDataElements();
+			
+			DataElementFile newDataElement = new DataElementFile(new Date(), "Story Text", "comment", 0, userStory, null);
+			dataElementDao.save(newDataElement);
+			
+			userStory = userStoryDao.find(id);
+			//dataElements.add(newDataElement);
+			//userStory.setDataElements(dataElements);
+		
+			// Save the user story after reordering
+			//userStoryDao.save(userStory);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+		}
+		return modelForUserStoryView(model, userStory);
+	}
 	
-	/*
+	@RequestMapping(value="/removeText", method=RequestMethod.GET) 
+	public ModelAndView removeTextFromUserStory(@RequestParam(value="text",required=true) Integer id, Model model) {
+		logger.info("Inside saveUserStory");
+		
+		UserStory userStory = null;
+		try {
+			DataElement de = dataElementDao.find(id);
+			
+			// Delete the DataElement if it is of class DataElementFile and it is a 'comment'
+			if (de.getClass().equals(DataElementFile.class)) {
+				DataElementFile deFile = (DataElementFile)de;
+				if (deFile.getFiletype().equals("comment"))
+					dataElementDao.deleteDataElement(de);
+			}
+			userStory = userStoryDao.find(de.getUserStory().getId());
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", ERR_REMOVE_TEXT);
+		}
+		return modelForUserStoryView(model, userStory);
+	}
+	
 	@RequestMapping(value="/includeDataElement", method=RequestMethod.GET) 
 	public ModelAndView includeDataElementToUserStory(
-			@ModelAttribute DataElement dataelement, 
 			@RequestParam(value="dataelement",required=true) Integer dataElementId, 
 			@RequestParam(value="story",required=true) Integer id, 
 			Model model) {
 		logger.info("Inside includeDataElementToUserStory");
 		
-		UserStory userstory = userStoryDao.find(id);
-		file = filesDao.find(fileid);
-		dataelement = new DataElement();
-		dataelement.setDataelement(file.getName()) ;
-		dataelement.setDataelementname(file.getName()) ;
-		dataelement.setExtension(file.getType()) ;
-		dataelement.setUserstory(userstory) ;
-		
-		String format = null ; 
-		List<DataElement> dataelements = new ArrayList<DataElement>() ;
- 		try {
- 			
- 			boolean TWO = false, THREE = false, FIVE = false, NONE = false ; 
-
-			dataelements = dataelementDao.getDataElements(userstory) ;
-			for (int i = 0, n = dataelements.size(); i < n; i++) {	
-				if (dataelements.get(i).getFormat().equalsIgnoreCase("TWO")) TWO = true ;
-				if (dataelements.get(i).getFormat().equalsIgnoreCase("THREE")) THREE = true ;
-				if (dataelements.get(i).getFormat().equalsIgnoreCase("FIVE")) FIVE = true ;
-			}
-			System.out.println("Inside the " + TWO + " " + THREE + " " + FIVE);
+		UserStory userStory = null;
+		try {
+			DataElement dataElement = dataElementDao.find(dataElementId);
+			dataElement.setIncluded(!dataElement.getIncluded());
+			dataElementDao.save(dataElement);
 			
-			format = TWO ? (THREE ? (FIVE ? "NONE" : "FIVE") : "THREE") : (THREE ? "TWO" : "TWO")  ;
-			System.out.println("The value in the data is : " + format);
-
- 		} catch (NullPointerException e) {
-				System.out.println ("No dataelement found") ;
+			userStory = userStoryDao.find(id);
+		}
+ 		catch (NoResultException e) {
+ 			model.addAttribute("errorMessage", e);
 		}
  		
- 		dataelement.setFormat(format) ;
- 		if (!format.equalsIgnoreCase("NONE")) dataelementDao.save(dataelement) ;
-		
-		ModelAndView mav = modelForUserStoryView(model, userstory);
-		return mav;	
-	}*/
-	
+ 		
+ 		return modelForUserStoryView(model, userStory);
+	}
 	
 	private ModelAndView modelForUserStoryView(Model model, UserStory userStory) {
 		logger.debug("Inside modelForUserStoryView");
@@ -263,5 +278,6 @@ public class UserStoryController {
 	public static final String ERR_RETRIEVE_USERSTORY_LIST = "Impossible to retrieve the list of your stories";
 	public static final String MSG_NO_USER_STORY = "There is no story to display";
 	public static final String MSG_USERSTORY_SAVED = "The story has been saved successfully";
-	public static final String ERR_SAVE_USERSTORY = "Error while saving the story. Please Try Again";
+	public static final String ERR_SAVE_USERSTORY = "Error saving the story. Please Try Again";
+	public static final String ERR_REMOVE_TEXT = "Error removing the text. Please Try Again";
 }

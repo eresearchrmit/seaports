@@ -16,7 +16,6 @@ import org.apache.commons.codec.binary.Base64;
  * @since 31th Jan. 2013
  */
 @Entity
-@Table(name = "DataElementFile")
 @DiscriminatorValue(value = "File")
 public class DataElementFile extends DataElement {
 
@@ -56,7 +55,7 @@ public class DataElementFile extends DataElement {
 	 * @param content: the binary content of the file
 	 */
 	public DataElementFile(Date creationDate, String name, String filetype, int position, UserStory userStory,  byte[] content) {
-		super(creationDate, name, position, userStory);
+		super(creationDate, name, true, position, userStory);
 		this.filetype = filetype;
 		this.content = content;
 		

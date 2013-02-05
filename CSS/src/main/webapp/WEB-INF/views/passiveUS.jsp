@@ -10,7 +10,8 @@
 <%@ page language="java" import="war.model.DataElement" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions' %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <div class="grid_12">
 	<h2>${userstory.name} </h2>
@@ -38,48 +39,100 @@
 		</div>
 	</c:if>
 	
-	<form:form method="post" action="/CSS/spring/userstory/save?id=${userstory.id}" modelAttribute="userstory">
+	<form:form id="userStoryForm" method="post" action="/CSS/spring/userstory/save?story=${userstory.id}" modelAttribute="userstory">
 	  	<form:input value="${userstory.id}" type="hidden" path="id" />
 	  	<c:if test="${not empty userstory.dataElements}">		
 		 	<ul id="sortable">
+		 	
+		 	<!-- Iteration on every element in the User Story -->
 		 	<c:forEach items="${userstory.dataElements}" var="dataelement" varStatus="status">
 		 			<li class="sortableItem" id="dataElement${dataelement.id}">
-			 			<div class="box round">
-							<div class="box-header<c:if test="${dataelement.type == 'comment'}"> box-header-white</c:if>" >
-								<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.type != 'data' && dataelement.type != 'comment'}">.${dataelement.type}</c:if></h5>
-								<button type="button" class="btn-mini btn-blue btn-check floatright" onclick="location.href='/CSS/spring/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" >
-									<span></span>Add/Remove
+			 			<div class="box round${dataelement.included == false ? ' box-disabled' : ''}">
+							
+							<div class="box-header<c:if test="${dataelement.class.simpleName == 'DataElementFile' && dataelement.filetype == 'comment'}"> box-header-white</c:if>" >
+								<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.class.simpleName == 'DataElementFile' && dataelement.filetype != 'comment'}">.${dataelement.filetype}</c:if></h5>
+								
+								<!-- 'Include/Exclude' button -->
+								<button type="button" class="btn-mini ${dataelement.included == false ? 'btn-grey btn-plus' : 'btn-blue btn-minus'} floatright" onclick="location.href='/CSS/spring/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" >
+									<span></span>Include/Exclude
 								</button>
+								
+								<!-- 'Remove Text' button -->
+								<c:if test="${dataelement.class.simpleName == 'DataElementFile' && dataelement.filetype == 'comment'}">
+									<a class="lnkRemoveTextFromStory" href="/CSS/spring/userstory/removeText?text=${dataelement.id}" >
+										<button type="button" class="btn btn-icon ${dataelement.included == false ? 'btn-grey' : 'btn-blue'} btn-small btn-cross floatright" style="margin-right:5px">
+											<span></span>Remove
+										</button>
+									</a>
+								</c:if>
 								<div class="clear"></div>
 							</div>
+							
 							<input type="hidden" name="dataElements[${status.index}].id" value="${dataelement.id}" id="dataElements[${status.index}].id" >
 							<input type="hidden" name="dataElements[${status.index}].name" value="${dataelement.name}" id="dataElements[${status.index}].name">
-							<input type="hidden" name="dataElements[${status.index}].type" value="${dataelement.type}" id="dataElements[${status.index}].type">
 							<input type="hidden" name="dataElements[${status.index}].position" value="${dataelement.position}" id="dataElements[${status.index}].position" class="dataElementPosition">
 							
-							<c:choose>
-								<c:when test="${dataelement.type == 'jpg'}">
+							<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
+		 					<!-- CSIRO Data Element -->
+		 					<c:choose>
+			 					<c:when test="${not empty dataelement.csiroDataList}">
+			 						<p><b>${dataelement.csiroDataList[0].parameters.modelName} model (${dataelement.csiroDataList[0].parameters.model.name}) in the region ${dataelement.csiroDataList[0].parameters.region.name} for ${dataelement.csiroDataList[0].parameters.emissionScenario.description} (${dataelement.csiroDataList[0].parameters.emissionScenario.name})</b></p>
+				 					
+				 					<table class="data display datatable" id="example">
+										<thead>
+											<tr>
+												<th>Variable</th>
+												<th>Year</th>
+												<th>Value</th>
+											</tr>
+										</thead>
+					 					<tbody>
+					 						<c:forEach items="${dataelement.csiroDataList}" var="csiroData" varStatus="dataLoopStatus">
+						 						<tr class="${dataLoopStatus.index % 2 == 0 ? 'even' : 'odd'}">
+							 						<td class="center">${csiroData.variable.name} (${csiroData.variable.uom})</td>
+							 						<td class="center">${csiroData.parameters.year}</td>
+							 						<td class="center">${csiroData.value} ${csiroData.variable.uomVariation}</td>
+						 						</tr>
+						 					</c:forEach>
+					 					</tbody>
+				 					</table>
+				 					<i>Data provided by CSIRO on <fmt:formatDate value="${dataelement.csiroDataList[0].creationDate}" pattern="dd MMM yyyy" /> was the best available to date</i>
+				 				</c:when>
+				 				<c:otherwise>
+				 					<div id="warningMessage" class="message warning">
+										<h5>No Data</h5>
+										<p>No data corresponding to the selected settings.</p>
+									</div>
+				 				</c:otherwise>
+		 					</c:choose>
+		 				</c:if>
+							
+						<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
+		 					<!-- Engineering Model Data Element -->
+		 					<p>ENGINEERING MODEL DATA ELEMENT</p>
+		 				</c:if>	
+
+						<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">
+		 					<!-- File Data Element, display a picture if JPEG, textarea with content otherwise -->
+		 					<input type="hidden" name="dataElements[${status.index}].filetype" value="${dataelement.filetype}" id="dataElements[${status.index}].filetype">
+		 					<c:choose>
+			 					<c:when test="${dataelement.filetype == 'jpg' || dataelement.filetype == 'jpeg'}">
 									<ul class="prettygallery clearfix">
 			                        	<li>
-			                        		<a href="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" rel="prettyPhoto[gallery2]" title="">
-			                            		<img name="dataElements[${status.index}].stringContent" src="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" class="dataElementThumb" />
+			                        		<a href="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" rel="prettyPhoto[gallery2]" title="${dataelement.name}">
+			                            		<img name="${dataelement.name}" src="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" class="dataElementThumb" />
 			                            	</a>
 			                            </li>
 									</ul>		
 			                 	</c:when>
-							
-								<c:when test="${dataelement.type == 'comment'}">
-									<textarea name="dataElements[${status.index}].stringContent" rows="12" onfocus="if ($(this).val() == 'Add text here...') { $(this).val(''); }" onblur="if ($(this).val() == '') { $(this).val('Add text here...'); }">${dataelement.stringContent}</textarea>
+			 					<c:when test="${dataelement.filetype == 'comment'}">
+									<textarea name="dataElements[${status.index}].stringContent" rows="12" onfocus="if ($(this).val() == 'Add text here...') { $(this).val(''); }" onblur="if ($(this).val() == '') { $(this).val('Add text here...'); }">${dataelement.stringContent}</textarea>		
 			                 	</c:when>
-							
-						  		<c:when test="${dataelement.type == 'data'}">
-									${dataelement.stringContent}
-			                 	</c:when>
-			                 	
 			                 	<c:otherwise>
-									<textarea class="no-border as-plain-text" rows="12" disabled>${dataelement.stringContent}</textarea>
+			                 		<textarea class="no-border as-plain-text" rows="12" disabled>${dataelement.stringContent}</textarea>
 								</c:otherwise>
 							</c:choose>
+						</c:if>
 						</div>
 					</li>
 					<c:if test="${status.index} % 2 != 0">
@@ -113,34 +166,6 @@
 					
 					// This is not a Jquery '$', but a JSTL tag to get the current number of data elements
 					var index = ${fn:length(userstory.dataElements)};
-					
-					// Enable the addition of Data Element into sortable list
-					$(".btnAddDataElement").click(function (e) {
-					    e.preventDefault();
-					    
-					    // Adds the new 'comment' Data Element as last element
-					    var $li = $('<li class="sortableItem" id="dataElement0"><div class="box round">' +
-						    	'<div class="box-header box-header-white">' +
-									'<h5 class="floatleft">Story text</h5>' +
-									'<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" onclick="confirm(\'Are you sure you want to remove this text from the user story ?\')" >' +
-										'<span></span>Remove' +
-									'</button>' +
-									'<div class="clear"></div>' +
-								'</div>' +
-								'<input type="hidden" name="dataElements[' + index + '].id" value="0" id="dataElements[' + index + '].id" >' +
-								'<input type="hidden" name="dataElements[' + index + '].name" value="Story text" id="dataElements[' + index + '].name">' +
-								'<input type="hidden" name="dataElements[' + index + '].type" value="comment" id="dataElements[' + index + '].type">' +
-								'<input type="hidden" name="dataElements[' + index + '].position" value="' + (index + 1) + '" id="dataElements' + index + '].position" class="dataElementPosition">' +
-						    '<textarea name="dataElements[' + index + '].stringContent" rows="12" onfocus="if ($(this).val() == \'Add text here...\') { $(this).val(\'\'); }" onblur="if ($(this).val() == \'\') { $(this).val(\'Add text here...\'); }">Add text here...</textarea>' +
-						    '</div>' +
-					    '</li>');
-					    $("#sortable").append($li);
-					    $("#sortable").sortable('refresh');
-					    index++;
-					    
-					    // Resize the sortable list items 2 by 2 to have a proper grid
-					    resizeListItems();
-					});
 				});
 				
 				// Resize the sortable list items 2 by 2 to have a proper grid
@@ -162,13 +187,24 @@
 			</script>
 		</c:if>
 		<div class="clearfix"></div><br />
-		<div id="dataElementAdder">
-			<button type="submit" class="btnAddDataElement btn btn-icon btn-blue btn-plus" >
-				<span></span>Add Text to Story
-			</button>
-		</div>
-		<button type="button" class="btn btn-icon btn-blue btn-check floatright" onclick="submit()">
+		<button type="button" class="btn btn-icon btn-blue btn-check floatright" onclick="$('#userStoryForm').submit();">
 			<span></span>Save
 		</button>
+		<div class="clearfix"></div><br />
 	</form:form>
+	
+	<div id="dataElementAdder">
+		<a href="/CSS/spring/userstory/addText?story=${userstory.id}">
+			<button class="btnAddDataElement btn btn-icon btn-blue btn-plus" >
+				<span></span>Add Text to Story
+			</button>
+		</a>
+	</div>
+		
+	<div id="confirmTextDeletionModalWindow" title="Permanently delete this text ?">
+		<p>Are you sure you want to permanently delete this text ?</p> 
+	</div>
+	<script type="text/javascript">
+		setupConfirmBox("confirmTextDeletionModalWindow", "lnkRemoveTextFromStory");
+	</script>
 </div>

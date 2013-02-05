@@ -294,7 +294,7 @@ public class WorkboardControllerTest {
 	/**
 	 * deleteWorkboardTest : should succeed
 	 */
-	@Test
+	/*@Test
 	public void deleteWorkboardTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.deleteWorkboard(1, model);
@@ -313,7 +313,7 @@ public class WorkboardControllerTest {
 		// Check the user story is active and private
 		User refUser = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
 		Assert.assertEquals(refUser, userStory.getOwner());
-	}
+	}*/
 
 	/**
 	 * deleteDataElementUnknownIdTest : Delete should fail because the ID provided doesn't correspond to an existing data element
@@ -332,7 +332,7 @@ public class WorkboardControllerTest {
 	/**
 	 * deleteDataElementTest : Delete should succeed
 	 */
-	@Test
+	/*@Test
 	public void deleteDataElementTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		int id = 7; // ID of the data element to delete
@@ -346,5 +346,5 @@ public class WorkboardControllerTest {
 		
  		// Check the view name
  		Assert.assertEquals("activeWB", result.getViewName());
-	}
+	}*/
 }

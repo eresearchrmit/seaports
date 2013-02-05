@@ -3,15 +3,9 @@ package war.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
@@ -23,7 +17,6 @@ import org.hibernate.annotations.LazyCollectionOption;
  * @since 25th Jan. 2013
  */
 @Entity
-@Table(name = "DataElementEngineeringModel")
 @DiscriminatorValue(value = "EngineeringModel")
 public class DataElementEngineeringModel extends DataElement {
 
@@ -32,9 +25,9 @@ public class DataElementEngineeringModel extends DataElement {
 	/**
 	 * The list of engineering model data contained in this data element
 	 */
-	/*@OneToMany(targetEntity=EngineeringModelData.class, cascade = CascadeType.ALL)
-	@LazyCollection(LazyCollectionOption.FALSE)*/
-	@ElementCollection(targetClass=EngineeringModelData.class, fetch=FetchType.LAZY)
+	/*@OneToMany(targetEntity=EngineeringModelData.class, cascade = CascadeType.ALL)*/
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@ElementCollection(targetClass=EngineeringModelData.class)
 	private List<EngineeringModelData> engineeringModelDataList;
 	
 	/**
@@ -53,7 +46,7 @@ public class DataElementEngineeringModel extends DataElement {
 	 * @param csiroDataList: the list of CSIRO data contained in this CSIRO data element
 	 */
 	public DataElementEngineeringModel(Date creationDate, String name, int position, UserStory userStory, List<EngineeringModelData> engineeringModelDataList) {
-		super(creationDate, name, position, userStory);
+		super(creationDate, name, true, position, userStory);
 		this.engineeringModelDataList = engineeringModelDataList;
 	}
 	

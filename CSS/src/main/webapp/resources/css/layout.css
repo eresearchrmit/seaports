@@ -129,6 +129,10 @@ h2#page-heading {
 	  border-radius: 5px 5px 0px 0px; /* CSS3 */
 }
 
+.box-disabled {
+	border: 1px solid rgb(201, 201, 201);
+}
+
 .box .box-header {
 	font-size:1.2em;
 	font-weight:bold;
@@ -141,6 +145,11 @@ h2#page-heading {
 	-moz-border-radius: 5px 5px 0px 0px; /* Firefox */
 	-webkit-border-radius: 5px 5px 0px 0px; /* Safari, Chrome */
 	border-radius: 5px 5px 0px 0px; /* CSS3 */
+}
+.box-disabled .box-header {
+	color: rgb(150, 150, 150);
+	background: rgb(243, 243, 243);
+	border-bottom: 1px solid rgb(201, 201, 201);
 }
 .box .box-header-white {
 	background: #FFFFFF;

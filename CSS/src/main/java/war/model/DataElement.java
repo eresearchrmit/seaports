@@ -43,7 +43,13 @@ public class DataElement {
 	 */
 	@Column
     private String name;
-    
+
+	/**
+	 * Whether the data element is included or not in the publication of its parent User Story.
+	 */
+    @Column
+    private boolean included;
+	
 	/**
 	 * The position of the data element in the user story it belongs to
 	 */
@@ -68,12 +74,14 @@ public class DataElement {
 	 * Constructor of User specifying the name, login and password 
 	 * @param creationDate: the date when the data element was created
 	 * @param name: the name of the data element
+	 * @param included: whether the data element is included or not in the publication of its parent User Story.
 	 * @param position: the position of the data element in the user story it belongs to
 	 * @param userStory: the user story to which this data element belongs
 	 */
-	public DataElement(Date creationDate, String name, int position, UserStory userStory) {
+	public DataElement(Date creationDate, String name, boolean included, int position, UserStory userStory) {
 		this.creationDate = creationDate;
 		this.name = name;
+		this.included = included;
 		this.position = position;
 		this.userStory = userStory;
 	}
@@ -126,6 +134,22 @@ public class DataElement {
 		this.name = name;
 	}
 
+	/**
+	 * Getter for the inclusion of the data element in its parent's publication
+	 * @return the current inclusion of the data element
+	 */
+	public boolean getIncluded() {
+		return this.included;
+	}
+	
+	/**
+	 * Setter for the inclusion of the data element in its parent's publication
+	 * @param position: the new inclusion of the data element
+	 */
+	public void setIncluded(boolean included) {
+		this.included = included;
+	}
+	
 	/**
 	 * Getter for the position of the data element in its user story
 	 * @return the current position of the data element
