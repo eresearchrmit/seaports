@@ -3,7 +3,6 @@ package war.model;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class representing data from the concrete deterioration engineering model output. 
@@ -32,6 +34,16 @@ public class EngineeringModelData
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
+    /*@ManyToMany(mappedBy="engineeringModelDataList")
+    private List<DataElementEngineeringModel> dataElements;
+	
+	public List<DataElementEngineeringModel> getDataElements() {
+		return dataElements;
+	}
+	public void setDataElements(List<DataElementEngineeringModel> dataElements) {
+		this.dataElements = dataElements;
+	}
+    */
 	/**
 	 * The parameters of the computed data (Region, Climate model, Emission Scenario, Year)
 	 */

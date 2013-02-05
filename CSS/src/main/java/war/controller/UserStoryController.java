@@ -137,7 +137,10 @@ public class UserStoryController {
 							DataElementFile file = (DataElementFile)de;
 							DataElementFile reorderedFile = (DataElementFile)reorderedDE;
 							if (file.getFiletype().equals("comment") && reorderedFile.getFiletype().equals("comment"))
+							{
 								file.setStringContent(reorderedFile.getStringContent());
+								dataElementDao.save(file);
+							}
 						}
 						break;
 					}
@@ -184,7 +187,7 @@ public class UserStoryController {
 			// Retrieve the original user story
 			userStory = userStoryDao.find(id);
 			
-			List<DataElement> dataElements = userStory.getDataElements();
+			//List<DataElement> dataElements = userStory.getDataElements();
 			
 			DataElementFile newDataElement = new DataElementFile(new Date(), "Story Text", "comment", 0, userStory, null);
 			dataElementDao.save(newDataElement);
@@ -202,7 +205,7 @@ public class UserStoryController {
 		return modelForUserStoryView(model, userStory);
 	}
 	
-	@RequestMapping(value="/removeText", method=RequestMethod.GET) 
+	@RequestMapping(value="/deleteText", method=RequestMethod.GET) 
 	public ModelAndView removeTextFromUserStory(@RequestParam(value="text",required=true) Integer id, Model model) {
 		logger.info("Inside saveUserStory");
 		

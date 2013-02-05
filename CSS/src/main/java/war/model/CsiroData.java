@@ -1,14 +1,19 @@
 package war.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class representing data from the dataset available from CSIRO. 
@@ -29,6 +34,16 @@ public class CsiroData
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
+    /*@ManyToMany(mappedBy="csiroDataList")
+    private List<DataElementCsiro> dataElements;
+	
+	public List<DataElementCsiro> getDataElements() {
+		return dataElements;
+	}
+	public void setDataElements(List<DataElementCsiro> dataElements) {
+		this.dataElements = dataElements;
+	}*/
+    
 	/**
 	 * The parameters of the computed data (Region, Climate model, Emission Scenario, Year)
 	 */

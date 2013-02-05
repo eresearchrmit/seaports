@@ -47,6 +47,9 @@ public class WorkboardController {
 	
 	@Autowired
 	private CsiroDataDao csiroDataDao;
+
+	@Autowired
+	private EngineeringModelDataDao engineeringModelDataDao;
 	
 	@Autowired
 	private ClimateParamsDao climateParamsDao;
@@ -412,6 +415,30 @@ public class WorkboardController {
 		try {
 			DataElement dataElement = dataElementDao.find(dataElementId);
 			UserStory userStory = dataElement.getUserStory();
+			
+			// Delete the eventual references to data
+			/*if (dataElement.getClass().equals(DataElementCsiro.class)) {
+				DataElementCsiro dec = (DataElementCsiro)(dataElement);
+				
+				for (CsiroData dataRef : dec.getCsiroDataList()) {
+					CsiroData data = csiroDataDao.find(dataRef.getId());
+					data.getDataElements().remove(dec);
+					csiroDataDao.save(data);
+				}
+				dec.getCsiroDataList().clear();
+				dataElementDao.save(dec);
+			}
+			else if (dataElement.getClass().equals(DataElementEngineeringModel.class)) {
+				DataElementEngineeringModel deem = (DataElementEngineeringModel)(dataElement);
+				
+				for (EngineeringModelData dataRef : deem.getEngineeringModelDataList()) {
+					EngineeringModelData data = engineeringModelDataDao.find(dataRef.getId());
+					data.getDataElements().remove(deem);
+					engineeringModelDataDao.save(data);
+				}
+				deem.getEngineeringModelDataList().clear();
+				dataElementDao.save(deem);
+			}*/
 			
 			dataElementDao.deleteDataElement(dataElement);
 			model.addAttribute("successMessage", MSG_DATA_ELEMENT_DELETED);

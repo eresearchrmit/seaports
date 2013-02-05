@@ -114,5 +114,22 @@ public class CsiroDataDao {
 		}
 	}
 	
+	/**
+	 * Saves a given CSIRO data into the database, by adding it or updating it
+	 * @param csiroData: the CSIRO data to save in the database
+	 * @return the saved data
+	 */
+	@Transactional
+	public CsiroData save(CsiroData csiroData) {
+		if (csiroData.getId() == 0) {
+			entityManager.persist(csiroData);
+			return csiroData;
+		}
+		else {
+			entityManager.merge(csiroData);
+			return csiroData;
+		}		
+	}
+	
 	public static final String ERR_NO_RESULT = "No CSIRO data found corresponding to the specified parameters";
 }

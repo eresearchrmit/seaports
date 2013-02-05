@@ -4,12 +4,18 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class representing a CSIRO Data Element
@@ -17,6 +23,7 @@ import org.hibernate.annotations.LazyCollectionOption;
  * @since 25th Jan. 2013
  */
 @Entity
+@Table(name = "DataElementCsiro")
 @DiscriminatorValue(value = "Csiro")
 public class DataElementCsiro extends DataElement {
 
@@ -25,11 +32,12 @@ public class DataElementCsiro extends DataElement {
 	/**
 	 * The list of CSIRO data contained in this CSIRO data element
 	 */
-	@ElementCollection(targetClass=CsiroData.class)
-	/*@OneToMany(targetEntity=CsiroData.class, cascade = CascadeType.ALL)*/
-	@LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany
+    @JoinTable(name="DataElement_CsiroData", joinColumns={@JoinColumn(name="DataElement_Id")}, inverseJoinColumns={@JoinColumn(name="CsiroData_Id")})
+    @Cascade(value = CascadeType.DELETE)
+    @LazyCollection(value=LazyCollectionOption.FALSE)
 	private List<CsiroData> csiroDataList;
-	
+    
 	/**
 	 * Default constructor of DataElementCsiro
 	 */
