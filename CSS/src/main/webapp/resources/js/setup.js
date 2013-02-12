@@ -536,3 +536,22 @@ function setupLeftMenu() {
 		
 		$('#section-menu .submenu').css('height','auto');
 }
+
+function setupBubblePopup(fieldId, htmlContent) {
+	$("#" + fieldId).CreateBubblePopup({
+		
+        position: 'right',
+        align: 'center',
+
+        innerHtml: htmlContent,
+        innerHtmlStyle: {
+            color: '#FFFFFF',
+            'text-align': 'justify',
+            'width': '300px'
+        },
+
+        themeName: 'all-blue',
+        themePath: 'resources/img/bubblepopup'
+
+    });
+}

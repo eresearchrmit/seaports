@@ -45,7 +45,7 @@ public class EngineeringModelAsset
 	private String zone;
 	
 	/**
-	 * The distance between the asset and the coast
+	 * The distance between the asset and the coast (km)
 	 */
 	private Double distanceFromCoast;
 	
@@ -72,12 +72,12 @@ public class EngineeringModelAsset
 	/**
 	 * Size of concrete element, either width or Diameter (mm)
 	 */
-	private Double dMember;
+	private Double dmember;
 	
 	/**
 	 * f'c : design strength (MPa)
 	 */
-	private Double fPrimeC;
+	private Double fprimec;
 
 	/**
 	 * w/c: Water to cement ratio (0 to 1)
@@ -92,7 +92,7 @@ public class EngineeringModelAsset
 	/**
 	 * Diameter of rebar (mm)
 	 */
-	private Double dBar;
+	private Double dbar;
 	
 	/**
 	 * Default constructor of EngineeringModelAsset
@@ -108,7 +108,7 @@ public class EngineeringModelAsset
 	 */
 	public EngineeringModelAsset(String assetCode, String description, int yearBuilt, String zone, 
 			Double distanceFromCoast, String exposureClass, String carbonationClass, String chlorideClass, 
-			Double cover, Double dMember, Double fPrimeC, Double wc, Double ce, Double dBar) {
+			Double cover, Double dmember, Double fprimec, Double wc, Double ce, Double dbar) {
 		setAssetCode(assetCode);
 		setDescription(description);
 		setYearBuilt(yearBuilt);
@@ -118,11 +118,11 @@ public class EngineeringModelAsset
 		setCarbonationClass(carbonationClass);
 		setChlorideClass(chlorideClass);
 		setCover(cover);
-		setDMember(dMember);
-		setFPrimeC(fPrimeC);
+		setDmember(dmember);
+		setFprimec(fprimec);
 		setWc(wc);
 		setCe(ce);
-		setDBar(dBar);
+		setDbar(dbar);
 	}
 
 	/**
@@ -281,32 +281,32 @@ public class EngineeringModelAsset
 	 * Getter for the size of the concrete element
 	 * @return: the size of the concrete element
 	 */
-	public Double getDMember() {
-		return this.dMember;
+	public Double getDmember() {
+		return this.dmember;
 	}
 	
 	/**
 	 * Setter for the size of the concrete element
-	 * @param dMember: the new size of the concrete element
+	 * @param dmember: the new size of the concrete element
 	 */
-	public void setDMember(Double dMember) {
-		this.dMember = dMember;
+	public void setDmember(Double dmember) {
+		this.dmember = dmember;
 	}
 	
 	/**
 	 * Getter for the design strength
 	 * @return: the design strength of the asset
 	 */
-	public Double getFPrimeC() {
-		return this.fPrimeC;
+	public Double getFprimec() {
+		return this.fprimec;
 	}
 	
 	/**
 	 * Setter for the design strength
-	 * @param fPrimeC: the new design strength of the asset
+	 * @param fprimec: the new design strength of the asset
 	 */
-	public void setFPrimeC(Double fPrimeC) {
-		this.fPrimeC = fPrimeC;
+	public void setFprimec(Double fprimec) {
+		this.fprimec = fprimec;
 	}
 	
 	/**
@@ -345,15 +345,15 @@ public class EngineeringModelAsset
 	 * Getter for the diameter of rebar
 	 * @return: the diameter of rebar of the asset
 	 */
-	public Double getDBar() {
-		return this.dBar;
+	public Double getDbar() {
+		return this.dbar;
 	}
 	
 	/**
 	 * Setter for the diameter of rebar
-	 * @param dBar: the new diameter of rebar of the asset
+	 * @param dbar: the new diameter of rebar of the asset
 	 */
-	public void setDBar(Double dBar) {
-		this.dBar = dBar;
+	public void setDbar(Double dbar) {
+		this.dbar = dbar;
 	}
 }

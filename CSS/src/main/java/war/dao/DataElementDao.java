@@ -8,9 +8,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +18,6 @@ public class DataElementDao {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
-	
-	@Autowired
-	private CsiroDataDao csiroDataDao;
 	
 	/**
 	 * The name of the table in the database where the Data Elements are stored
@@ -78,7 +72,7 @@ public class DataElementDao {
 	 * @param id: the unique ID of the data element to delete
 	 */
 	@Transactional
-	public void deleteDataElement(DataElement de) {
+	public void delete(DataElement de) {
 		
 		// Delete the data element itself
 		Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.id = :id");

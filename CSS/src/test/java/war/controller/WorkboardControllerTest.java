@@ -249,8 +249,8 @@ public class WorkboardControllerTest {
 		UserStory refWorkboard = new UserStory();
 		String dummyContent = "Dummy Content"; 
 		List<DataElement> dataElements = new ArrayList<DataElement>();
-		DataElement de1 = new DataElementFile(new Date(), "Name1", "Type1", 0, refWorkboard, dummyContent.getBytes());
-		DataElement de2 = new DataElementFile(new Date(), "Name2", "Type2", 0, refWorkboard, dummyContent.getBytes());
+		DataElement de1 = new DataElementFile(new Date(), "Name1", true, 0, refWorkboard, "Type1", dummyContent.getBytes());
+		DataElement de2 = new DataElementFile(new Date(), "Name2", true, 0, refWorkboard, "Type2", dummyContent.getBytes());
 		dataElements.add(de1);
 		dataElements.add(de2);
 		refWorkboard.setDataElements(dataElements);

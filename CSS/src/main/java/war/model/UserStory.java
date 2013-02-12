@@ -27,7 +27,7 @@ import war.model.Region;
  */
 @Entity
 @Table(name = "UserStory")
-public class UserStory /*extends HibernateDaoSupport*/ {
+public class UserStory {
 	
 	private static final long serialVersionUID = -1308795024262635690L;
 	
@@ -78,16 +78,15 @@ public class UserStory /*extends HibernateDaoSupport*/ {
 	/**
 	 * The list of data elements contained in the user story
 	 */
-	@OneToMany(targetEntity=DataElement.class, mappedBy="userStory",cascade=CascadeType.ALL)
+	@OneToMany(targetEntity=DataElement.class, mappedBy="userStory", cascade = CascadeType.ALL)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<DataElement> dataElements;
 	
 	/**
 	 * Default constructor of User Story
 	 */
-	/*public UserStory() {
-		super();
-	}*/
+	public UserStory() {
+	}
 	
 	/**
 	 * Constructor of User Story specifying all its fields
@@ -98,15 +97,14 @@ public class UserStory /*extends HibernateDaoSupport*/ {
 	 * @param region: the region to which the user stories is related
 	 * @param dataElements: the list of data elements contained in the user story
 	 */
-	/*public UserStory(String name, String mode, String access, User owner, Region region, List<DataElement> dataElements) {
-		super();
+	public UserStory(String name, String mode, String access, User owner, Region region, List<DataElement> dataElements) {
 		this.name = name;
 		this.mode = mode;
 		this.access = access;
 		this.owner = owner;
 		this.region = region;
 		this.dataElements = dataElements;
-	}*/
+	}
 
 	/**
 	 * Getter for the ID of the user story

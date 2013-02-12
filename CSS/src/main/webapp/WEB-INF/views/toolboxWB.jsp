@@ -120,6 +120,7 @@
 					<p><strong>2. Engineering Model Data Element Options:</strong></p>
 					<table width="auto" height="auto" class="form">
 						<tr>
+							<td><input type="radio" name="rdEngineeringSourceType" /></td>
 							<td align="right" class="col1">Select a file to upload:</td>
 							<td class="col2">
 								<input type="file" name="file" id="file" /><br />
@@ -127,21 +128,35 @@
 							</td>
 						</tr>
 						<tr>
-							<td align="right" class="col1">Or choose a predefined example:</td>
+							<td><input type="radio" name="rdEngineeringSourceType" /></td>
+							<td align="right" class="col1">Or use a predefined example for this region.</td>
+						</tr>
+						<tr>
+							<td align="right" class="col1" colspan="2">Select a variable to use for the Data Element:</td>
 							<td class="col2">
-								<select id="cbbEngineeringModelExamples" name="engineeringModelExample">
-									<option value="None">- Select an example -</option>
-									<option value="Example 1">Example 1</option>
-									<option value="Example 2">Example 2</option>
-									<option value="Example 3">Example 3</option>
-								</select>
-								<p style="width:300px; text-align:justify"><i>Choose an example from the list above to display its description here.</i></p>
+								<select id="cbbEngineeringVariable" name="engVariable">
+									<option value="var1">Variable 1</option>
+									<option value="var2">Variable 2</option>
+									<option value="var3">Variable 3</option>
+								</select>								
+								<a href="#" id="lnkHelpEngVariable" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>
+								<script type="text/javascript" language="javascript">
+							        $(document).ready(function () {
+							            setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.");
+							        });
+							    </script>
 							</td>
 						</tr>
 					</table>
-					<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+					<p id="loading">Loader here</p>
+					<button type="button" id="btnAddEngineeringModelDataElement" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
 						<span></span>Add Engineering Model Data Element
 					</button>
+					<script type="text/javascript">
+						$(function() {
+							$("#btnAddEngineeringModelDataElement").throbber({image: "<c:url value="/resources/img/ajax-loader.gif" />"});
+						});
+					</script>
 				</form:form>
 			</div>
 			<div id="customFileDataForm" class="dataElementForm">
@@ -165,6 +180,7 @@
 	<script type="text/javascript">
 		$('.dataElementForm').hide();
 		setupDialogBox("addDataElementModalWindow", "btnOpenAddDataElementModalWindow");
+		$('input[type="radio"]').fancybutton();
 	</script>
 	
 	<p>

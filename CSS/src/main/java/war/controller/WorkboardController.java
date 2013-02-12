@@ -37,19 +37,19 @@ public class WorkboardController {
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
-	private DataElementDao dataElementDao;
+	private UserDao userDao;
 	
 	@Autowired
 	private UserStoryDao userStoryDao;
 	
 	@Autowired
-	private UserDao userDao;
+	private RegionDao regionDao;
 	
 	@Autowired
-	private CsiroDataDao csiroDataDao;
+	private DataElementDao dataElementDao;
 
 	@Autowired
-	private EngineeringModelDataDao engineeringModelDataDao;
+	private CsiroDataDao csiroDataDao;
 	
 	@Autowired
 	private ClimateParamsDao climateParamsDao;
@@ -59,6 +59,17 @@ public class WorkboardController {
 	
 	@Autowired
 	private EngineeringModelAssetDao engineeringModelAssetDao;
+	
+	@Autowired
+	private EngineeringModelDataDao engineeringModelDataDao;
+	
+	@Autowired
+	private ClimateEmissionScenarioDao climateEmissionScenarioDao;
+	
+	@Autowired
+	private ClimateModelDao climateModelDao;
+	
+	
 	
 	//@ModelAttribute("user")
 	@RequestMapping(method = RequestMethod.GET)
@@ -100,11 +111,7 @@ public class WorkboardController {
             
             // TODO: Define a list of allowed Extensions / MIME type
             
-	        DataElementFile dataElement = new DataElementFile();
-			dataElement.setName(fileName);
-			dataElement.setFiletype(fileExtension);
-			dataElement.setUserStory(userStory);
-        	dataElement.setContent(uploadfile.getBytes());
+	        DataElementFile dataElement = new DataElementFile(new Date(), fileName, true, 0, userStory, fileExtension, uploadfile.getBytes());
             
         	dataElementDao.save(dataElement);
 	        	
@@ -149,7 +156,7 @@ public class WorkboardController {
         	asset = engineeringModelAssetDao.save(asset);
         	
         	// Extract and save Engineering Model Data
-        	List<EngineeringModelData> extractedDataList = extractEngineeringOutputData(workbook);
+        	List<EngineeringModelData> extractedDataList = extractEngineeringOutputData(workbook, 26, asset);
    			/*String content = "";
    			for (EngineeringModelData data : ExtractedDataList) {
    				data.setAsset(asset);
@@ -159,9 +166,14 @@ public class WorkboardController {
    			
    			// Create a data element using the extracted data if there is some
    			if (extractedDataList != null && extractedDataList.size() > 0) {
-	   			UserStory story = userStoryDao.find(userStoryId);
+	   			
+   				for (EngineeringModelData data : extractedDataList) {
+   					engineeringModelDataDao.save(data);
+   				}
+   				
+   				UserStory story = userStoryDao.find(userStoryId);
 	   			DataElementEngineeringModel de = new DataElementEngineeringModel(new Date(), 
-	   					"Concrete deterioration for " + asset.getAssetCode(),
+	   					"Concrete deterioration for " + asset.getAssetCode(), true,
 	   					0, story, extractedDataList);
 	   			dataElementDao.save(de);
    			}
@@ -170,12 +182,13 @@ public class WorkboardController {
         	model.addAttribute("errorMessage", ERR_INVALID_FILE_FORMAT);
         }
         catch (Exception e) {
-        	model.addAttribute("errorMessage", "Unable to upload the engineering model data to your workboard."  + e.getMessage());
+        	model.addAttribute("errorMessage", "Unable to upload the engineering model data to your workboard: "  + e.getMessage());
         }
         
 		ModelAndView mav = modelForActiveWBview(model, userStory);
 		return mav;	
 	}
+	
 	
 	/**
 	 * Extracts and construct an engineering model asset from the given Excel sheet
@@ -214,42 +227,59 @@ public class WorkboardController {
 	 * Extracts and construct an engineering model asset from the given Excel sheet, then saves it in the database
 	 * @return EngineeringModelAsset: the asset object extracted from the file
 	 */
-	private List<EngineeringModelData> extractEngineeringOutputData(HSSFWorkbook workbook) {
+	private List<EngineeringModelData> extractEngineeringOutputData(HSSFWorkbook workbook, int variableIndex, EngineeringModelAsset asset) {
     	
-    	List<EngineeringModelData> ExtractedDataList = new ArrayList<EngineeringModelData>();
+    	List<EngineeringModelData> extractedDataList = new ArrayList<EngineeringModelData>();
 		HSSFSheet  sheet = workbook.getSheetAt(0); // Supposedly always 1 sheet only (index 0)
     	
-		// Iterate all rows from the sheet and process those which have a matching set of parameters in the Database
 		String climateModelName = null;
-		for (Row row : sheet) {
-    		// Change the name of the model if it is in column C
+		ClimateModel climateModel = null;
+		for (int i = 24; i < 529; i++) {
+			Row row = sheet.getRow(i);
+			
+    		// Change the name of the model if it is in column A
 			Cell cellInColA = row.getCell(0);
-    		if (cellInColA != null && cellInColA.getCellType() == Cell.CELL_TYPE_STRING) {
+    		if (cellInColA != null && (cellInColA.getCellType() == Cell.CELL_TYPE_STRING || cellInColA.getCellType() == Cell.CELL_TYPE_FORMULA)) {
     			climateModelName = cellInColA.getStringCellValue();
-    		}
-    		if (climateModelName == null) {
-    			logger.info("Invalid Climate Model");
     			continue;
     		}
-    		
-    		// Read column D : the Year
-    		int year = 0;
-    		Cell cellInColD = row.getCell(3);
-    		if (cellInColD != null && cellInColD.getCellType() == Cell.CELL_TYPE_NUMERIC)
-    			year = (int)(cellInColD.getNumericCellValue());
-    		if (year != 2030 && year != 2055 && year != 2070) {
-    			logger.info("Invalid Year: " + year);
+    		if (climateModelName == null) {
+    			//logger.info("Invalid Climate Model");
     			continue;
     		}
     		
     		// Read column B : the emission scenario
     		String emissionScenarioName = null;
+    		ClimateEmissionScenario emissionScenario = null;
     		Cell cellInColB = row.getCell(1);
-    		if (cellInColD != null && cellInColD.getCellType() == Cell.CELL_TYPE_NUMERIC) {
+    		if (cellInColB != null && (cellInColB.getCellType() == Cell.CELL_TYPE_STRING || cellInColB.getCellType() == Cell.CELL_TYPE_FORMULA)) {
     			emissionScenarioName = cellInColB.getStringCellValue();
+    			emissionScenario = climateEmissionScenarioDao.find(emissionScenarioName);
     		}
     		if (emissionScenarioName == null) {
     			logger.info("Invalid Emission Scenario Name");
+    			continue;
+    		}
+    		
+    		// Read column C : the actual model name
+    		String actualModelName = null;
+    		Cell cellInColC = row.getCell(2);
+    		if (cellInColC != null && (cellInColC.getCellType() == Cell.CELL_TYPE_STRING || cellInColC.getCellType() == Cell.CELL_TYPE_FORMULA)) {
+    			actualModelName = cellInColC.getStringCellValue();
+    			climateModel = climateModelDao.find(actualModelName);
+    		}
+    		if (actualModelName == null) {
+    			logger.info("Invalid actual Climate Model Name: '" + actualModelName + "'");
+    			continue;
+    		}
+    		
+    		// Read column D : the year
+    		int year = 0;
+    		Cell cellInColD = row.getCell(3);
+    		if (cellInColD != null && cellInColD.getCellType() == Cell.CELL_TYPE_NUMERIC)
+    			year = (int)(cellInColD.getNumericCellValue());
+    		if (!(year >= 2000 && year <= 2070)) {
+    			logger.info("Invalid Year: '" + year + "'");
     			continue;
     		}
     		
@@ -257,47 +287,47 @@ public class WorkboardController {
     		
 			ClimateParams climateParams = null;
        		try {
-       			climateParams = climateParamsDao.find("East Coast South", emissionScenarioName, climateModelName, year);
+       			climateParams = climateParamsDao.find("East Coast South", emissionScenarioName, climateModelName);
        		}
             catch (NoResultException e) {
-            	logger.info("Could not find climate params in the database: " + year);
-            	continue;
+            	logger.info("Could not find climate params in the database: Year: " + year + ", Emission Scenario: " + emissionScenarioName + ", Climate Model: " + climateModelName);
+            	
+            	// If the set of parameters is not found, create it
+            	Region region = regionDao.find("East Coast South");
+            	climateParams = new ClimateParams(region, climateModel, climateModelName, emissionScenario);
+            	climateParams = climateParamsDao.save(climateParams);
             }
    			
-   			String [] varsList = {"Change in carbonation", "Carbonation Initiation", "Corrosion damage due to carbonation", 
-				"Rebar Loss due to carbonation", "Change in chloride concentration", "Chloride Initiation", 
-				"Corrosion damage due to chloride", "Rebar Loss due to chloride ingress"
-			};
-   			// Read Data in column AA to AH (indexes 26 to 33)
-   			int i = 26;
-   			for (String variableName : varsList) {
    				
-   				// Retrieve the cell at the column
-   				Cell tempCell = row.getCell(i); 
+            // Read column D : the value of the variable
+   			Cell valueCell = row.getCell(variableIndex);
+   			if (valueCell != null && ((valueCell.getCellType() == Cell.CELL_TYPE_NUMERIC) || (valueCell.getCellType() == Cell.CELL_TYPE_FORMULA))) {
    				
-   				if (tempCell != null && (tempCell.getCellType() == Cell.CELL_TYPE_NUMERIC) || (tempCell.getCellType() == Cell.CELL_TYPE_FORMULA)) {
-   					
-   					// Read the cell content
-   					float value = (float)(tempCell.getNumericCellValue());
-   					
-       				ClimateVariable variable = null;
-       				try {
-       					// Retrieve the variable in the Database
-           				variable = climateVariableDao.find(variableName);
-           				
-       					ExtractedDataList.add(new EngineeringModelData(null, climateParams, variable, value));
-           			}
-           			catch (NoResultException e) {
-           				logger.info(e.getMessage() + "(" + variableName + ")");
-           			}
+   				float value = 0;
+   				try {
+   				 value = (float)(valueCell.getNumericCellValue());
    				}
-   				else {
-   					logger.info("Error extracting the data for variable");
+   				catch (Exception e) {
+   					logger.info("Cell '" + i + "/" + variableIndex + "' in error: value set to 0.");
    				}
-       	    	i++;
-	        }
+   				
+       			ClimateVariable variable = null;
+       			try {
+       				// Retrieve the variable in the Database
+           			variable = climateVariableDao.find("Change in carbonation");
+           			
+       				extractedDataList.add(new EngineeringModelData(asset, climateParams, variable, year, value));
+           		}
+           		catch (NoResultException e) {
+           			logger.info(e.getMessage() + "(" + "Change in carbonation" + ")");
+           		}
+   			}
+   			else {
+   				logger.info("Error extracting the data for variable");
+   			}
+   			
     	}
-		return ExtractedDataList;
+		return extractedDataList;
 	}
 	
 	//@ModelAttribute("csiroData")
@@ -314,16 +344,11 @@ public class WorkboardController {
 		UserStory userStory = userStoryDao.find(userStoryId);
 		
 		try {
-	        
-			DataElementCsiro dataElement = new DataElementCsiro();
-			dataElement.setName("CSIRO Data");
-			dataElement.setUserStory(userStory);
-			
 			List<CsiroData> csiroDataList = csiroDataDao.find("East Coast South", climateEmissionScenario, climateModel, Integer.valueOf(year));
-			dataElement.setCsiroDataList(csiroDataList);
-		
-		
+			
+			DataElementCsiro dataElement = new DataElementCsiro(new Date(), "CSIRO Data", true, 0, userStory, csiroDataList);
 			dataElementDao.save(dataElement);
+			
 			model.addAttribute("successMessage", MSG_CSIRO_DATA_ADDED);
 		}
 		catch (Exception e) {
@@ -416,31 +441,7 @@ public class WorkboardController {
 			DataElement dataElement = dataElementDao.find(dataElementId);
 			UserStory userStory = dataElement.getUserStory();
 			
-			// Delete the eventual references to data
-			/*if (dataElement.getClass().equals(DataElementCsiro.class)) {
-				DataElementCsiro dec = (DataElementCsiro)(dataElement);
-				
-				for (CsiroData dataRef : dec.getCsiroDataList()) {
-					CsiroData data = csiroDataDao.find(dataRef.getId());
-					data.getDataElements().remove(dec);
-					csiroDataDao.save(data);
-				}
-				dec.getCsiroDataList().clear();
-				dataElementDao.save(dec);
-			}
-			else if (dataElement.getClass().equals(DataElementEngineeringModel.class)) {
-				DataElementEngineeringModel deem = (DataElementEngineeringModel)(dataElement);
-				
-				for (EngineeringModelData dataRef : deem.getEngineeringModelDataList()) {
-					EngineeringModelData data = engineeringModelDataDao.find(dataRef.getId());
-					data.getDataElements().remove(deem);
-					engineeringModelDataDao.save(data);
-				}
-				deem.getEngineeringModelDataList().clear();
-				dataElementDao.save(deem);
-			}*/
-			
-			dataElementDao.deleteDataElement(dataElement);
+			dataElementDao.delete(dataElement);
 			model.addAttribute("successMessage", MSG_DATA_ELEMENT_DELETED);
 			
 			ModelAndView mav = modelForActiveWBview(model, userStory);
@@ -493,6 +494,9 @@ public class WorkboardController {
 	 		for (DataElement dataElement : dataElements) {
 	 			if (dataElement.getClass().equals(DataElementFile.class)) {
 	 				((DataElementFile)dataElement).generateStringContent();
+	 			}
+	 			else if (dataElement.getClass().equals(DataElementEngineeringModel.class)) {
+	 				((DataElementEngineeringModel)dataElement).generateDistinctDataList();
 	 			}
 			}
 	 		mav.addObject("dataelements", dataElements);

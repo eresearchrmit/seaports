@@ -56,12 +56,6 @@ public class ClimateParams {
 	private ClimateEmissionScenario emissionScenario;
 	
 	/**
-	 * The year for which year the data is computed
-	 */
-	@Column
-	private int year;
-	
-	/**
 	 * Default Constructor of ClimateParams
 	 */
 	public ClimateParams() {
@@ -75,12 +69,11 @@ public class ClimateParams {
 	 * @param emissionScenario: the name of the emission scenario
 	 * @param year: the year for which the data are computed
 	 */
-	public ClimateParams(Region region, ClimateModel model, String modelName, ClimateEmissionScenario emissionScenario, int year) {
+	public ClimateParams(Region region, ClimateModel model, String modelName, ClimateEmissionScenario emissionScenario) {
 		this.region = region;
 		this.model = model;
 		this.modelName = modelName;
 		this.emissionScenario = emissionScenario;
-		this.year = year;
 	}
 	
 	/**
@@ -164,27 +157,11 @@ public class ClimateParams {
 		this.emissionScenario = emissionScenario;
 	}
 	
-	 /**
-	 * Getter for the year for which year the data is computed
-	 * @return the year for which year the data is computed
-	 */
-	public int getYear() {
-		return this.year;
-	}
-	
-
-	/**
-	 * Setter for the year for which year the data is computed
-	 * @param year: the new year for which year the data is computed
-	 */	public void setYear(int year) {
-		this.year = year;
-	}
-	
 	/**
 	 * String representation of the ClimateParams object
 	 */
 	@Override
 	public String toString() {
-		return new String(modelName + "(" + model + "), " + emissionScenario + ", " + year);
+		return new String(modelName + "(" + model + "), " + emissionScenario);
 	}
 }

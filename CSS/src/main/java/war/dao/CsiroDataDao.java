@@ -50,17 +50,18 @@ public class CsiroDataDao {
 	 * @param regionName: the name of the region to match
 	 * @param emissionScenario: the emission scenario to match
 	 * @param climateModel: the climate model to match
-	 * @param assessmentYear: the year to match
+	 * @param year: the year to match
 	 * @return the list of CsiroData that match all the given parameters
 	 * @throws NoResultException if no CsiroData matches the given parameters
 	 */
 	@Transactional
-	public List<CsiroData> find(String regionName, String emissionScenario, String climateModel, Integer assessmentYear) throws NoResultException {
-		ClimateParams parameters = climateParamsDao.find(regionName, emissionScenario, climateModel, assessmentYear);
+	public List<CsiroData> find(String regionName, String emissionScenario, String climateModel, Integer year) throws NoResultException {
+		ClimateParams parameters = climateParamsDao.find(regionName, emissionScenario, climateModel);
 		
 		try {
-			Query query = entityManager.createQuery("SELECT d FROM " + TABLE_NAME + " d WHERE d.parameters = :parameters");
+			Query query = entityManager.createQuery("SELECT d FROM " + TABLE_NAME + " d WHERE d.parameters = :parameters AND d.year = :year");
 			query.setParameter("parameters", parameters);
+			query.setParameter("year", year);
 			return performQueryAndCheckResultList(query);
 		}
 		catch (NoResultException e) {
@@ -73,20 +74,21 @@ public class CsiroDataDao {
 	 * @param regionName: the name of the region to match
 	 * @param emissionScenario: the emission scenario to match
 	 * @param climateModel: the climate model to match
-	 * @param assessmentYear: the year to match
+	 * @param year: the year to match
 	 * @param variableName: the name of the variable to match
 	 * @return the (unique) CsiroData that match all the given parameters
 	 * @throws NoResultException if no CsiroData matches the given parameters
 	 */
 	@Transactional
 	public CsiroData find(String regionName, String emissionScenarioName, String climateModelName, Integer year, String variableName) throws NoResultException {
-		ClimateParams parameters = climateParamsDao.find(regionName, emissionScenarioName, climateModelName, year);
+		ClimateParams parameters = climateParamsDao.find(regionName, emissionScenarioName, climateModelName);
 		ClimateVariable variable = climateVariableDao.find(variableName);
 		
 		try {
-			Query query = entityManager.createQuery("SELECT d FROM " + TABLE_NAME + " d WHERE d.parameters = :parameters AND d.variable = :variable");
+			Query query = entityManager.createQuery("SELECT d FROM " + TABLE_NAME + " d WHERE d.parameters = :parameters AND d.variable = :variable AND d.year = :year");
 			query.setParameter("parameters", parameters);
 			query.setParameter("variable", variable);
+			query.setParameter("year", year);
 			
 			return (CsiroData)(query.getSingleResult());
 		}

@@ -1,18 +1,13 @@
 package war.model;
 
-import java.util.List;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class representing data from the concrete deterioration engineering model output. 
@@ -34,16 +29,6 @@ public class EngineeringModelData
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-    /*@ManyToMany(mappedBy="engineeringModelDataList")
-    private List<DataElementEngineeringModel> dataElements;
-	
-	public List<DataElementEngineeringModel> getDataElements() {
-		return dataElements;
-	}
-	public void setDataElements(List<DataElementEngineeringModel> dataElements) {
-		this.dataElements = dataElements;
-	}
-    */
 	/**
 	 * The parameters of the computed data (Region, Climate model, Emission Scenario, Year)
 	 */
@@ -66,6 +51,12 @@ public class EngineeringModelData
 	private EngineeringModelAsset asset;
 	
 	/**
+	 * The year for which year the data is computed
+	 */
+	@Column
+	private int year;
+	
+	/**
 	 * The value of the data
 	 */
 	private float value;
@@ -81,12 +72,14 @@ public class EngineeringModelData
 	 * @param asset: the asset to which this data is related to
 	 * @param parameters: the parameters of the computed data
 	 * @param variable: the variable that this data represents
+	 * @param year: the year for which the data is computed
 	 * @param value: the value of the data
 	 */
-	public EngineeringModelData(EngineeringModelAsset asset, ClimateParams parameters, ClimateVariable variable, float value) {
+	public EngineeringModelData(EngineeringModelAsset asset, ClimateParams parameters, ClimateVariable variable, int year, float value) {
 		setAsset(asset);
 		setParameters(parameters);
 		setVariable(variable);
+		setYear(year);
 		setValue(value);
 	}
 
@@ -144,6 +137,21 @@ public class EngineeringModelData
 	 */
 	public void setAsset(EngineeringModelAsset asset) {
 		this.asset = asset;
+	}
+	
+	/**
+	 * Getter for the year for which year the data is computed
+	 * @return the year for which year the data is computed
+	 */
+	public int getYear() {
+		return this.year;
+	}
+	
+	/**
+	 * Setter for the year for which year the data is computed
+	 * @param year: the new year for which year the data is computed
+	 */	public void setYear(int year) {
+		this.year = year;
 	}
 	
 	/**

@@ -1,5 +1,4 @@
 package war.dao;
-import war.helpers.HibernateHelper;
 import war.model.DataElement;
 import war.model.User;
 
@@ -13,10 +12,7 @@ import javax.persistence.Query;
 
 import war.model.UserStory;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -163,7 +159,7 @@ public class UserStoryDao {
         session.getTransaction().commit();*/
         
 		for (DataElement de : userStory.getDataElements()) {
-			dataElementDao.deleteDataElement(de);
+			dataElementDao.delete(de);
 		}
 		
 		/*Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.userStory = :userStory");

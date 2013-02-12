@@ -5,7 +5,6 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.codec.binary.Base64;
@@ -30,7 +29,7 @@ public class DataElementFile extends DataElement {
     /**
      * The binary content of the file
      */
-    @Column
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] content;
     
     /**
@@ -54,8 +53,8 @@ public class DataElementFile extends DataElement {
 	 * @param filetype: the type of the file. 
 	 * @param content: the binary content of the file
 	 */
-	public DataElementFile(Date creationDate, String name, String filetype, int position, UserStory userStory,  byte[] content) {
-		super(creationDate, name, true, position, userStory);
+	public DataElementFile(Date creationDate, String name, boolean included, int position, UserStory userStory, String filetype, byte[] content) {
+		super(creationDate, name, included, position, userStory);
 		this.filetype = filetype;
 		this.content = content;
 		
@@ -91,7 +90,7 @@ public class DataElementFile extends DataElement {
 	/**
 	 * Setter for the binary content of the file. 
 	 * It also sets the property stringContent by converting the binary content into a String.
-	 * @param content
+	 * @param content: the new binary content of the file
 	 */
 	public void setContent(byte[] content) {
 		this.content = content;
@@ -111,7 +110,7 @@ public class DataElementFile extends DataElement {
 	/**
 	 * Setter for the string content of the file. 
 	 * It also sets the property binaryContent by converting the String content into binary.
-	 * @param content
+	 * @param content: the new string content of the file
 	 */
 	public void setStringContent(String stringContent) {
 		this.stringContent = stringContent;

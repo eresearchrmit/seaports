@@ -1,19 +1,15 @@
 package war.model;
 
 import java.util.Date;
-import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class representing data from the dataset available from CSIRO. 
@@ -33,16 +29,6 @@ public class CsiroData
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
-	
-    /*@ManyToMany(mappedBy="csiroDataList")
-    private List<DataElementCsiro> dataElements;
-	
-	public List<DataElementCsiro> getDataElements() {
-		return dataElements;
-	}
-	public void setDataElements(List<DataElementCsiro> dataElements) {
-		this.dataElements = dataElements;
-	}*/
     
 	/**
 	 * The parameters of the computed data (Region, Climate model, Emission Scenario, Year)
@@ -64,6 +50,12 @@ public class CsiroData
 	private ClimateVariable variable;
 
 	/**
+	 * The year for which year the data is computed
+	 */
+	@Column
+	private int year;
+	
+	/**
 	 * The value of the data
 	 */
 	private Double value;
@@ -80,12 +72,14 @@ public class CsiroData
 	 * @param creationDate: the date when this data has been created
 	 * @param parameters: the parameters of the computed data
 	 * @param variable: the variable that this data represents
+	 * @param year: the year for which the data is computed
 	 * @param value: the value of the data
 	 */
-	public CsiroData(Date creationDate, ClimateParams parameters, ClimateVariable variable, Double value) {
+	public CsiroData(Date creationDate, ClimateParams parameters, ClimateVariable variable, int year, Double value) {
 		setCreationDate(creationDate);
 		setParameters(parameters);
 		setVariable(variable);
+		setYear(year);
 		setValue(value);
 	}
 
@@ -143,6 +137,21 @@ public class CsiroData
 	 */
 	public void setVariable(ClimateVariable variable) {
 		this.variable = variable;
+	}
+	
+	 /**
+	 * Getter for the year for which year the data is computed
+	 * @return the year for which year the data is computed
+	 */
+	public int getYear() {
+		return this.year;
+	}
+	
+	/**
+	 * Setter for the year for which year the data is computed
+	 * @param year: the new year for which year the data is computed
+	 */	public void setYear(int year) {
+		this.year = year;
 	}
 	
 	/**

@@ -110,7 +110,11 @@
 						<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
 		 					<!-- Engineering Model Data Element -->
 		 					<p>ENGINEERING MODEL DATA ELEMENT</p>
-		 				</c:if>	
+		 				</c:if>
+		 				
+ 						<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
+							<textarea name="dataElements[${status.index}].text" rows="12" onfocus="if ($(this).val() == 'Add text here...') { $(this).val(''); }" onblur="if ($(this).val() == '') { $(this).val('Add text here...'); }">${dataelement.text}</textarea>	
+	                 	</c:if>
 
 						<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">
 		 					<!-- File Data Element, display a picture if JPEG, textarea with content otherwise -->
@@ -124,9 +128,6 @@
 			                            	</a>
 			                            </li>
 									</ul>		
-			                 	</c:when>
-			 					<c:when test="${dataelement.filetype == 'comment'}">
-									<textarea name="dataElements[${status.index}].stringContent" rows="12" onfocus="if ($(this).val() == 'Add text here...') { $(this).val(''); }" onblur="if ($(this).val() == '') { $(this).val('Add text here...'); }">${dataelement.stringContent}</textarea>		
 			                 	</c:when>
 			                 	<c:otherwise>
 			                 		<textarea class="no-border as-plain-text" rows="12" disabled>${dataelement.stringContent}</textarea>

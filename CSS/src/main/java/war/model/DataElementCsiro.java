@@ -8,14 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 /**
  * Class representing a CSIRO Data Element
@@ -23,7 +20,6 @@ import org.hibernate.annotations.OnDeleteAction;
  * @since 25th Jan. 2013
  */
 @Entity
-@Table(name = "DataElementCsiro")
 @DiscriminatorValue(value = "Csiro")
 public class DataElementCsiro extends DataElement {
 
@@ -53,8 +49,8 @@ public class DataElementCsiro extends DataElement {
 	 * @param userStory: the user story to which this data element belongs
 	 * @param csiroDataList: the list of CSIRO data contained in this CSIRO data element
 	 */
-	public DataElementCsiro(Date creationDate, String name, int position, UserStory userStory, List<CsiroData> csiroDataList) {
-		super(creationDate, name, true, position, userStory);
+	public DataElementCsiro(Date creationDate, String name, boolean included, int position, UserStory userStory, List<CsiroData> csiroDataList) {
+		super(creationDate, name, included, position, userStory);
 		this.csiroDataList = csiroDataList;
 	}
 	

@@ -50,22 +50,20 @@ public class ClimateParamsDao {
 	 * @param regionName: the name of the region to match
 	 * @param emissionScenarioName: the emission scenario to match
 	 * @param modelName: the climate model name to match
-	 * @param year: the year to match
 	 * @return the set of CSIRO parameters matching the given parameters
 	 * @throws NoResultException if no set of Climate parameters matches the given parameters
 	 */
 	@Transactional
-	public ClimateParams find(String regionName, String emissionScenarioName, String modelName, Integer year) throws NoResultException {
+	public ClimateParams find(String regionName, String emissionScenarioName, String modelName) throws NoResultException {
 		
 		Region region = regionDao.find(regionName);
 		ClimateEmissionScenario emissionScenario = climateEmissionScenarioDao.find(emissionScenarioName);
 		
 		try {
-			Query query = entityManager.createQuery("SELECT p FROM " + TABLE_NAME + " p WHERE p.region = :region AND p.emissionScenario = :emissionScenario AND p.modelName = :modelName AND p.year = :year");
+			Query query = entityManager.createQuery("SELECT p FROM " + TABLE_NAME + " p WHERE p.region = :region AND p.emissionScenario = :emissionScenario AND p.modelName = :modelName");
 			query.setParameter("region", region);
 			query.setParameter("emissionScenario", emissionScenario);
 			query.setParameter("modelName", modelName);
-			query.setParameter("year", year);
 			
 			return (ClimateParams)(query.getSingleResult());
 		}
@@ -80,19 +78,17 @@ public class ClimateParamsDao {
 	 * @param region: the region to match
 	 * @param emissionScenario: the emission scenario to match
 	 * @param modelName: the climate model to match
-	 * @param assessmentYear: the year to match
 	 * @return the set of CSIRO parameters matching the given parameters
 	 * @throws NoResultException if no set of Climate parameters matches the given parameters
 	 */
 	@Transactional
-	public ClimateParams find(Region region, ClimateEmissionScenario emissionScenario, ClimateModel model, Integer assessmentYear) throws NoResultException {
+	public ClimateParams find(Region region, ClimateEmissionScenario emissionScenario, ClimateModel model) throws NoResultException {
 
 		try {
-			Query query = entityManager.createQuery("SELECT p FROM " + TABLE_NAME + " p WHERE p.region = :region AND p.emissionScenario = :emissionScenario AND p.modelName = :modelName AND p.year = :year");
+			Query query = entityManager.createQuery("SELECT p FROM " + TABLE_NAME + " p WHERE p.region = :region AND p.emissionScenario = :emissionScenario AND p.modelName = :modelName");
 			query.setParameter("region", region);
 			query.setParameter("emissionScenario", emissionScenario);
 			query.setParameter("modelName", model);
-			query.setParameter("year", assessmentYear);
 			
 			return (ClimateParams)(query.getSingleResult());
 		}
@@ -145,6 +141,23 @@ public class ClimateParamsDao {
 		{
 			throw new NoResultException(ERR_NO_RESULT);
 		}
+	}
+	
+	/**
+	 * Saves a given climate parameters object into the database, by adding it or updating it
+	 * @param parameters: the climate parameters to save in the database
+	 * @return the saved climate parameters
+	 */
+	@Transactional
+	public ClimateParams save(ClimateParams parameters) {
+		if (parameters.getId() == 0) {
+			entityManager.persist(parameters);
+			return parameters;
+		}
+		else {
+			entityManager.merge(parameters);
+			return parameters;
+		}		
 	}
 	
 	public static final String ERR_NO_RESULT = "No climate parameters found corresponding to the specified parameters";

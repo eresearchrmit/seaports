@@ -39,7 +39,7 @@
 	<form:form method="post" action="/CSS/spring/workboard/save?id=${userstory.id}" modelAttribute="userstory">
 		
 	  	<c:if test="${not empty dataelements}">
-		 	<c:forEach items="${dataelements}" var="dataelement" varStatus="status"> 		 		
+		 	<c:forEach items="${dataelements}" var="dataelement" varStatus="status">
 		 			
 		 			<div class="box round">
 						<div class="box-header">
@@ -70,7 +70,7 @@
 					 						<c:forEach items="${dataelement.csiroDataList}" var="csiroData" varStatus="dataLoopStatus">
 						 						<tr class="${dataLoopStatus.index % 2 == 0 ? 'even' : 'odd'}">
 							 						<td class="center">${csiroData.variable.name} (${csiroData.variable.uom})</td>
-							 						<td class="center">${csiroData.parameters.year}</td>
+							 						<td class="center">${csiroData.year}</td>
 							 						<td class="center">${csiroData.value} ${csiroData.variable.uomVariation}</td>
 						 						</tr>
 						 					</c:forEach>
@@ -89,7 +89,113 @@
 		 				
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
 		 					<!-- Engineering Model Data Element -->
-		 					<p>ENGINEERING MODEL DATA ELEMENT</p>
+		 					
+		 					<div id="points-chart">
+                    		</div>
+                    		<br />
+                    		
+                    		<script type="text/javascript" language="javascript">
+								
+                    			var series = new Array();
+	                    		<c:forEach items="${dataelement.distinctEngineeringModelDataMap}" var="groupedData" varStatus="loop">
+		                		    series[${loop.index}] = new Array();
+		                		    <c:forEach items="${groupedData.value}" var="engModelData">
+		                		    	series[${loop.index}].push([${engModelData.year}, ${engModelData.value}]);
+		                		    </c:forEach>
+		                		</c:forEach>
+                    		
+                    		
+                    			var graphTitle = "${dataelement.engineeringModelDataList[0].variable.name} over time";
+                    			var yAxisTitle = "${dataelement.engineeringModelDataList[0].variable.shortName}";
+                    			
+		                        var plot = $.jqplot('points-chart', 
+		                        		[<c:forEach items="${dataelement.distinctEngineeringModelDataMap}" var="groupedData" varStatus="loop">
+											series[${loop.index}]<c:if test="${!loop.last}">,</c:if>
+										</c:forEach>],
+								{
+		                        	title: graphTitle,
+		                        	series: [<c:forEach items="${dataelement.distinctEngineeringModelDataMap}" var="groupedData" varStatus="loop">{
+					                        	label: "${groupedData.key}", 
+					                        	showMarker: false,
+					                        	lineWidth: 1
+					                        }<c:if test="${!loop.last}">,</c:if>
+		                        			</c:forEach>],
+		                        	axes: {
+		                                xaxis: {
+		                                  label: "Time",
+		                                  pad: 0
+		                                },
+		                                yaxis: {
+		                                  label: yAxisTitle
+		                                }
+		                        	},
+			                        legend: {
+			                            show: true,
+			                            location: "se"
+			                        }
+                        		});
+                    		</script>
+                    		
+		 					<table class="data display datatable" id="example">
+			 					<tbody>
+			 						<tr>
+				 						<th>Asset Code</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.assetCode}</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Description</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.description}</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Year Built</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.yearBuilt}</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Zone</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.zone}</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Distance from coast</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.distanceFromCoast} km</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Exposure class</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.exposureClass}</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Carbonation class</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.carbonationClass}</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Chloride class</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.chlorideClass}</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Concrete cover</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.cover} mm</td>
+				 					</tr>
+									<tr>
+				 						<th>Size of concrete element</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.dmember} mm</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Design strength</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.fprimec} MPa</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Water to cement ratio</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.wc}</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Cement content</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.ce} kg/m3</td>
+				 					</tr>
+				 					<tr>
+				 						<th>Diameter of rebar</th>
+				 						<td class="center">${dataelement.engineeringModelDataList[0].asset.dbar} mm</td>
+			 						</tr>
+			 					</tbody>
+		 					</table>
 		 				</c:if>
 		 				
 						<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">
