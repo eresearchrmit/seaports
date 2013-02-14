@@ -37,25 +37,25 @@
 		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
 	</definition>
 	
-	<definition name="createWB" extends="base.definition">
+	<definition name="workboardCreation" extends="base.definition">
 		<put-attribute name="title" value="New Workboard - Climate Smart Seaports" />
-        <put-attribute name="body" value="/WEB-INF/views/createWB.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/workboardCreation.jsp" />
 	</definition>
 	
-	<definition name="activeWB" extends="base.definition">
+	<definition name="workboard" extends="base.definition">
 		<put-attribute name="title" value="Workboard - Climate Smart Seaports" />
-		<put-attribute name="sidemenu" value="/WEB-INF/views/toolboxWB.jsp" />
-        <put-attribute name="body" value="/WEB-INF/views/activeWB.jsp" />
+		<put-attribute name="sidemenu" value="/WEB-INF/views/workboardToolbox.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/workboard.jsp" />
 	</definition>
 	
-	<definition name="passiveUS" extends="base.definition">
+	<definition name="userstory" extends="base.definition">
 		<put-attribute name="title" value="User Story - Climate Smart Seaports" />
-		<put-attribute name="sidemenu" value="/WEB-INF/views/passiveUS.jsp" />
+		<put-attribute name="sidemenu" value="/WEB-INF/views/userstory.jsp" />
 	</definition>
 	
-	<definition name="listUS" extends="base.definition">
+	<definition name="userstoryList" extends="base.definition">
 		<put-attribute name="title" value="User Stories - Climate Smart Seaports" />
-        <put-attribute name="body" value="/WEB-INF/views/listUS.jsp" />
+        <put-attribute name="body" value="/WEB-INF/views/userstoryList.jsp" />
 	</definition>
 	<!-- /PAGE SPECIFIC -->
 </tiles-definitions>

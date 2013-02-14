@@ -1,5 +1,7 @@
 package war.dao;
 
+import helpers.EngineeringModelHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +71,22 @@ public class ClimateVariableDao {
 		for (Object obj : query.getResultList()) {
 			if (obj instanceof ClimateVariable)
 			results.add((ClimateVariable)(obj));
+		}
+		
+		return results;
+	}
+	
+	/**
+	 * Returns a list of all the different engineering model variables (static listing, not actually querying the database)
+	 * @return the list of all the different engineering model variables in the Database
+	 */
+	public List<ClimateVariable> getEngineeringModelVariables() {
+		List<ClimateVariable> results = new ArrayList<ClimateVariable>();
+		
+		List<ClimateVariable> allVars = getAll();
+		for (ClimateVariable var : allVars) {
+			if (EngineeringModelHelper.ENGINEERING_MODEL_VARIABLES.containsKey(var.getName()))
+				results.add(var);
 		}
 		
 		return results;

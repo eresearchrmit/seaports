@@ -69,6 +69,7 @@ public class CsiroDataDao {
 		}
 	}
 	
+	
 	/**
 	 * Retrieve the CsiroData matching the required variable, region, emission scenario, climate model and year that are given as parameters
 	 * @param regionName: the name of the region to match
@@ -97,6 +98,7 @@ public class CsiroDataDao {
 		}
 	}
 	
+	
 	/**
 	 * Perform a query and check the result list is of the right type
 	 * @param query: the query to execute
@@ -115,6 +117,7 @@ public class CsiroDataDao {
 			return null;
 		}
 	}
+	
 	
 	/**
 	 * Saves a given CSIRO data into the database, by adding it or updating it

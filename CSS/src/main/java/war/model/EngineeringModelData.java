@@ -1,5 +1,9 @@
 package war.model;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Class representing data from the concrete deterioration engineering model output. 
@@ -21,6 +26,8 @@ public class EngineeringModelData
 {
 	private static final long serialVersionUID = -1308795024262635690L;
 	
+	public static final String PAIR_SEPARATOR = ";";
+	public static final String YEAR_VALUE_SEPARATOR = ",";
 	
 	/**
 	 * The unique ID of the Engineering Model Data
@@ -50,16 +57,15 @@ public class EngineeringModelData
 	@JoinColumn(name="engineering_model_asset_id")
 	private EngineeringModelAsset asset;
 	
-	/**
-	 * The year for which year the data is computed
-	 */
-	@Column
-	private int year;
-	
-	/**
-	 * The value of the data
-	 */
-	private float value;
+    /**
+     * The string content of the engineering model data
+     * Under the form "YYYY,VALUE1;YYYY,VALUE2;...YYYY,VALUE70"
+     */
+	@Column(columnDefinition = "TEXT")
+    private String data;
+    
+    @Transient
+    private Map<Integer, Float> values = new HashMap<Integer, Float>();
 	
 	/**
 	 * Default constructor of EngineeringModelData
@@ -75,12 +81,11 @@ public class EngineeringModelData
 	 * @param year: the year for which the data is computed
 	 * @param value: the value of the data
 	 */
-	public EngineeringModelData(EngineeringModelAsset asset, ClimateParams parameters, ClimateVariable variable, int year, float value) {
+	public EngineeringModelData(EngineeringModelAsset asset, ClimateParams parameters, ClimateVariable variable, Map<Integer, Float> values) {
 		setAsset(asset);
 		setParameters(parameters);
 		setVariable(variable);
-		setYear(year);
-		setValue(value);
+		setValues(values);
 	}
 
 	/**
@@ -140,38 +145,81 @@ public class EngineeringModelData
 	}
 	
 	/**
-	 * Getter for the year for which year the data is computed
-	 * @return the year for which year the data is computed
+	 * Getter for the data string (under the form "YYYY,VALUE1;YYYY,VALUE2;...YYYY,VALUE70")
+	 * @return: the current data string
 	 */
-	public int getYear() {
-		return this.year;
+	public String getData() {
+		if (this.data == null)
+			return generateData();
+		else
+			return this.data;
 	}
 	
 	/**
-	 * Setter for the year for which year the data is computed
-	 * @param year: the new year for which year the data is computed
-	 */	public void setYear(int year) {
-		this.year = year;
+	 * Setter for the data string (under the form "YYYY,VALUE1;YYYY,VALUE2;...YYYY,VALUE70")
+	 * @param data: the new data string
+	 */
+	public void setData(String data) {
+		this.data = data;
+		generateValues();
 	}
 	
 	/**
-	 * Getter for the value of the Data
-	 * @return: the current value of the data
+	 * Getter for the map of year & values of the data
+	 * @return: the current map of year & values of the data
 	 */
-	public float getValue() {
-		return value;
+	public Map<Integer, Float> getValues() {
+		if (this.values == null)
+			return generateValues();
+		else
+			return this.values;
 	}
 	
 	/**
-	 * Setter for the value of the Data
-	 * @param value: the new value of the Data
+	 * Setter for the map of year & values of the data
+	 * @param value: the new map of year & values of the data
 	 */
-	public void setValue(float value) {
-		this.value = value;
+	public void setValues(Map<Integer, Float> values) {
+		this.values = values;
+		generateData();
 	}
+	
+	/**
+	 * Generate the map of year & values from the data string
+	 * @return: the new generated map of year & values
+	 */
+	public Map<Integer, Float> generateValues() {
+		this.values.clear();
+		
+		String[] arrPairs = this.data.split(EngineeringModelData.PAIR_SEPARATOR);
+		for (String pair : arrPairs) {
+			String[] splittedPair = pair.split(EngineeringModelData.YEAR_VALUE_SEPARATOR);
+			this.values.put(Integer.valueOf(splittedPair[0]), Float.valueOf(splittedPair[1]));
+		}
+		return this.values;
+	}
+	
+	/**
+	 * Generate the data string from the map of year & values
+	 * @return the new generated data string
+	 */
+	public String generateData() {
+		String val = "";
+		Iterator<Map.Entry<Integer, Float>> it = this.values.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry<Integer, Float> pairs = (Map.Entry<Integer, Float>)it.next();
+	        val += pairs.getKey() + EngineeringModelData.YEAR_VALUE_SEPARATOR + pairs.getValue();
+	        if (it.hasNext())
+	        	val += EngineeringModelData.PAIR_SEPARATOR;
+	        it.remove();
+	    }
+	    this.data = val;
+	    return this.data;
+	}
+	
 	
 	@Override
 	public String toString() {
-		return (this.variable.getName() + " " + this.value + this.variable.getUom());
+		return (this.variable.getName() + "(" + this.variable.getUom() + ") " + this.data);
 	}
 }

@@ -1,17 +1,13 @@
 package war.model;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -37,9 +33,6 @@ public class DataElementEngineeringModel extends DataElement {
 	@Cascade(value = CascadeType.DELETE)
 	@LazyCollection(value=LazyCollectionOption.FALSE)
 	private List<EngineeringModelData> engineeringModelDataList;
-	
-    @Transient
-    private Map<String, List<EngineeringModelData>> distinctEngineeringModelDataMap;
     
 	/**
 	 * Default constructor of DataElementCsiro
@@ -75,30 +68,6 @@ public class DataElementEngineeringModel extends DataElement {
 	 */
 	public void setEngineeringModelDataList(List<EngineeringModelData> engineeringModelDataList) {
 		this.engineeringModelDataList = engineeringModelDataList;
-	}
-	
-	public void generateDistinctDataList() {
-		distinctEngineeringModelDataMap = new HashMap<String, List<EngineeringModelData>>();
-		
-		for (EngineeringModelData data : engineeringModelDataList) {
-			String key = data.getParameters().getEmissionScenario().getName() + " " + data.getParameters().getModel().getName();
-			if (distinctEngineeringModelDataMap.containsKey(key)) {
-				distinctEngineeringModelDataMap.get(key).add(data);
-			}
-			else {
-				distinctEngineeringModelDataMap.put(key, new ArrayList<EngineeringModelData>());
-				distinctEngineeringModelDataMap.get(key).add(data);
-			}
-		}
-	}
-	
-	/**
-	 * Getter for the map of engineering model data grouped by climate models & emission scenarios
-	 * This is used to sort out the data and be able to plot graphs from it
-	 * @return the map of engineering model data grouped by climate models & emission scenarios
-	 */
-	public Map<String, List<EngineeringModelData>> getDistinctEngineeringModelDataMap() {
-		return this.distinctEngineeringModelDataMap;
 	}
 	
 	public static long getSerialversionuid() {

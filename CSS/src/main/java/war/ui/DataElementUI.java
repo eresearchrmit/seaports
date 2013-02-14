@@ -3,14 +3,7 @@ package war.ui;
 import java.util.Date;
 import java.util.List;
 
-import war.model.CsiroData;
-import war.model.DataElement;
-import war.model.DataElementCsiro;
-import war.model.DataElementEngineeringModel;
-import war.model.DataElementFile;
-import war.model.DataElementText;
-import war.model.EngineeringModelData;
-import war.model.UserStory;
+import war.model.*;
 
 /**
  * Class representing a data element of a user story

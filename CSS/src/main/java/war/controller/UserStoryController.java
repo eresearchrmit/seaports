@@ -1,5 +1,7 @@
 package war.controller;
 
+import helpers.DateElementPositionComparator;
+
 import java.util.Date;
 import java.util.Collections;
 import java.util.List;
@@ -9,7 +11,6 @@ import javax.validation.Valid;
 
 import war.dao.*;
 import war.model.*;
-import war.ui.UserStoryUI;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,12 +39,15 @@ public class UserStoryController {
 	@Autowired
 	private DataElementDao dataElementDao;
 	
+	@Autowired
+	private CsiroDataBaselineDao csiroDataBaselineDao;
+	
 	@RequestMapping(value= "/list", method = RequestMethod.GET)
 	public ModelAndView getUserStoriesList(@RequestParam(value="user",required=true) String login, Model model) {
 		logger.info("Inside getUserStoriesList !");
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("listUS");
+		mav.setViewName("userstoryList");
 		
 		try {			
 			// Retrieve user
@@ -168,7 +172,7 @@ public class UserStoryController {
 		logger.debug("Inside deleteUserStory");
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("listUS");
+		mav.setViewName("userstoryList");
 		
 		try {
 			UserStory userStory = userStoryDao.find(userStoryId);
@@ -249,11 +253,29 @@ public class UserStoryController {
 		logger.debug("Inside modelForUserStoryView");
 
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("passiveUS");
+		mav.setViewName("userstory");
 		
 		if (userStory != null)
 		{
 			Collections.sort(userStory.getDataElements(), new DateElementPositionComparator());
+			
+			List<DataElement> dataElements = userStory.getDataElements();
+	 		for (DataElement dataElement : dataElements) {
+	 			if (dataElement.getClass().equals(DataElementFile.class)) {
+	 				((DataElementFile)dataElement).generateStringContent();
+	 			}
+	 			else if (dataElement.getClass().equals(DataElementCsiro.class)) {
+	 				for (CsiroData data : ((DataElementCsiro)dataElement).getCsiroDataList()) {
+	 					data.setBaseline(csiroDataBaselineDao.find(data.getParameters().getRegion(), data.getVariable()));
+	 				}
+	 			}
+	 			else if (dataElement.getClass().equals(DataElementEngineeringModel.class)) {
+	 				List<EngineeringModelData> engineeringModelDataList = ((DataElementEngineeringModel)dataElement).getEngineeringModelDataList();
+	 				for (EngineeringModelData data : engineeringModelDataList) {
+	 					data.generateValues();
+	 				}
+	 			}
+			}
 			
 			/*int i = 0;
 			for (DataElement de : userStory.getDataElements()) {

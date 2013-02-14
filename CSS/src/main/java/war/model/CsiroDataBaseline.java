@@ -2,7 +2,6 @@ package war.model;
 
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -48,12 +47,6 @@ public class CsiroDataBaseline
 	@ManyToOne
 	@JoinColumn(name="climate_variable_id")
 	private ClimateVariable variable;
-
-	/**
-	 * The year for which year the data is computed
-	 */
-	@Column
-	private int year;
 	
 	/**
 	 * The value of the data
@@ -70,15 +63,14 @@ public class CsiroDataBaseline
 	/**
 	 * Constructor of CsiroDataBaseline
 	 * @param creationDate: the date when this baseline data has been created
+	 * @param region: the region for which the data is computed
 	 * @param variable: the variable that this baseline data represents
-	 * @param year: the year for which the data is computed
 	 * @param value: the value of the baseline data
 	 */
 	public CsiroDataBaseline(Date creationDate, Region region, ClimateVariable variable, Double value) {
 		setCreationDate(creationDate);
 		setRegion(region);
 		setVariable(variable);
-		setValue(value);
 		setValue(value);
 	}
 
@@ -136,21 +128,6 @@ public class CsiroDataBaseline
 	 */
 	public void setVariable(ClimateVariable variable) {
 		this.variable = variable;
-	}
-	
-	/**
-	 * Getter for the year for which year the data is computed
-	 * @return the year for which year the data is computed
-	 */
-	public int getYear() {
-		return this.year;
-	}
-	
-	/**
-	 * Setter for the year for which year the data is computed
-	 * @param year: the new year for which year the data is computed
-	 */	public void setYear(int year) {
-		this.year = year;
 	}
 	
 	/**

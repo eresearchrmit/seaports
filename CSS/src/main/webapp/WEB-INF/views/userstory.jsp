@@ -5,9 +5,9 @@
 <%@ page import="org.apache.commons.codec.binary.*"%>
 <%@ page import= "org.springframework.web.servlet.tags.*" %>
 <%@ page import="org.apache.commons.lang.*" %>
-<%@ page language="java" import="war.ui.UserStoryUI" %>
+<%@ page language="java" import="war.model.UserStory" %>
 <%@ page language="java" import="war.model.User" %>
-<%@ page language="java" import="war.ui.DataElementUI" %>
+<%@ page language="java" import="war.model.DataElement" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -49,8 +49,8 @@
 		 			<li class="sortableItem" id="dataElement${dataelement.id}">
 			 			<div class="box round${dataelement.included == false ? ' box-disabled' : ''}">
 							
-							<div class="box-header<c:if test="${dataelement.type == 'text'"> box-header-white</c:if>" >
-								<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.type == 'file'">.${dataelement.filetype}</c:if></h5>
+							<div class="box-header<c:if test="${dataelement.class.simpleName == 'DataElementFile' && dataelement.filetype == 'comment'}"> box-header-white</c:if>" >
+								<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.class.simpleName == 'DataElementFile' && dataelement.filetype != 'comment'}">.${dataelement.filetype}</c:if></h5>
 								
 								<!-- 'Include/Exclude' button -->
 								<button type="button" class="btn-mini ${dataelement.included == false ? 'btn-grey btn-plus' : 'btn-blue btn-minus'} floatright" onclick="location.href='/CSS/spring/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" title="Include/Exclude from the story">
@@ -58,7 +58,7 @@
 								</button>
 								
 								<!-- 'Remove Text' button -->
-								<c:if test="${dataelement.type == 'text'}">
+								<c:if test="${dataelement.class.simpleName == 'DataElementFile' && dataelement.filetype == 'comment'}">
 									<a class="lnkRemoveTextFromStory" href="/CSS/spring/userstory/deleteText?text=${dataelement.id}" title="Delete the text from the story">
 										<button type="button" class="btn btn-icon ${dataelement.included == false ? 'btn-grey' : 'btn-blue'} btn-small btn-cross floatright" style="margin-right:5px">
 											<span></span>Delete
@@ -72,26 +72,26 @@
 							<input type="hidden" name="dataElements[${status.index}].name" value="${dataelement.name}" id="dataElements[${status.index}].name">
 							<input type="hidden" name="dataElements[${status.index}].position" value="${dataelement.position}" id="dataElements[${status.index}].position" class="dataElementPosition">
 							
-							<c:if test="${dataelement.type == 'csiro'}">
+							<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
 		 					<!-- CSIRO Data Element -->
 		 					<c:choose>
 			 					<c:when test="${not empty dataelement.csiroDataList}">
-			 						<p><b>${dataelement.csiroDataList[0].parameters.modelName} model (${dataelement.csiroDataList[0].parameters.model.name}) in the region ${dataelement.csiroDataList[0].parameters.region.name} for ${dataelement.csiroDataList[0].parameters.emissionScenario.description} (${dataelement.csiroDataList[0].parameters.emissionScenario.name})</b></p>
+			 						<p style="margin-top:10px; text-align:center; font-weight"><b>${dataelement.csiroDataList[0].parameters.modelName} model (${dataelement.csiroDataList[0].parameters.model.name}) in the region ${dataelement.csiroDataList[0].parameters.region.name} for ${dataelement.csiroDataList[0].parameters.emissionScenario.description} (${dataelement.csiroDataList[0].parameters.emissionScenario.name})</b></p>
 				 					
 				 					<table class="data display datatable" id="example">
 										<thead>
 											<tr>
 												<th>Variable</th>
-												<th>Year</th>
-												<th>Value</th>
+												<th>Base value</th>
+												<th>Variation in ${dataelement.csiroDataList[0].year}</th>
 											</tr>
 										</thead>
 					 					<tbody>
 					 						<c:forEach items="${dataelement.csiroDataList}" var="csiroData" varStatus="dataLoopStatus">
 						 						<tr class="${dataLoopStatus.index % 2 == 0 ? 'even' : 'odd'}">
-							 						<td class="center">${csiroData.variable.name} (${csiroData.variable.uom})</td>
-							 						<td class="center">${csiroData.parameters.year}</td>
-							 						<td class="center">${csiroData.value} ${csiroData.variable.uomVariation}</td>
+							 						<td class="center">${csiroData.variable.name}</td>
+							 						<td class="center">${csiroData.baseline.value} ${csiroData.baseline.variable.uom}</td>
+							 						<td class="center"><c:if test="${csiroData.value > 0}">+</c:if><c:if test="${csiroData.value < 0}">-</c:if>${csiroData.value} ${csiroData.variable.uomVariation}</td>
 						 						</tr>
 						 					</c:forEach>
 					 					</tbody>
@@ -107,13 +107,117 @@
 		 					</c:choose>
 		 				</c:if>
 							
-						<c:if test="${dataelement.type == 'engineeringmodel'}">
+						<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
 		 					<!-- Engineering Model Data Element -->
-		 					<p>ENGINEERING MODEL DATA ELEMENT</p>
+							<div id="points-chart">
+							</div>
+							<br />
+							
+							<script type="text/javascript" language="javascript">
+								var series = new Array();
+								<c:forEach items="${dataelement.engineeringModelDataList}" var="engModelData" varStatus="loop">
+								    series[${loop.index}] = new Array();
+								    <c:forEach items="${engModelData.values}" var="values">
+								    	series[${loop.index}].push([${values.key}, ${values.value}]);
+								    </c:forEach>
+								</c:forEach>
+								
+							
+								var graphTitle = "${dataelement.engineeringModelDataList[0].variable.name} over time";
+								var yAxisTitle = "${dataelement.engineeringModelDataList[0].variable.shortName}";
+								
+							    var plot = $.jqplot('points-chart', 
+							    		[<c:forEach items="${dataelement.engineeringModelDataList}" var="engModelData" varStatus="loop">
+											series[${loop.index}]<c:if test="${!loop.last}">,</c:if>
+										</c:forEach>],
+								{
+							    	title: graphTitle,
+							    	series: [<c:forEach items="${dataelement.engineeringModelDataList}" var="engModelData" varStatus="loop">{
+							                	label: "${engModelData.parameters.emissionScenario.name} ${engModelData.parameters.model.name}", 
+							                	showMarker: false,
+							                	lineWidth: 1
+							                }<c:if test="${!loop.last}">,</c:if>
+							    			</c:forEach>],
+							    	axes: {
+							            xaxis: {
+							              label: "Time",
+							              pad: 0
+							            },
+							            yaxis: {
+							              label: yAxisTitle
+							            }
+							    	},
+							        legend: {
+							            show: true,
+							            location: "se"
+							        }
+								});
+							</script>
+							
+							<table class="data display datatable" id="example">
+								<tbody>
+									<tr>
+										<th>Asset Code</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.assetCode}</td>
+									</tr>
+									<tr>
+										<th>Description</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.description}</td>
+									</tr>
+									<tr>
+										<th>Year Built</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.yearBuilt}</td>
+									</tr>
+									<tr>
+										<th>Zone</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.zone}</td>
+									</tr>
+									<tr>
+										<th>Distance from coast</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.distanceFromCoast} km</td>
+									</tr>
+									<tr>
+										<th>Exposure class</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.exposureClass}</td>
+									</tr>
+									<tr>
+										<th>Carbonation class</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.carbonationClass}</td>
+									</tr>
+									<tr>
+										<th>Chloride class</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.chlorideClass}</td>
+									</tr>
+									<tr>
+										<th>Concrete cover</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.cover} mm</td>
+									</tr>
+									<tr>
+										<th>Size of concrete element</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.dmember} mm</td>
+									</tr>
+									<tr>
+										<th>Design strength</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.fprimec} MPa</td>
+									</tr>
+									<tr>
+										<th>Water to cement ratio</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.wc}</td>
+									</tr>
+									<tr>
+										<th>Cement content</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.ce} kg/m3</td>
+									</tr>
+									<tr>
+										<th>Diameter of rebar</th>
+										<td class="center">${dataelement.engineeringModelDataList[0].asset.dbar} mm</td>
+									</tr>
+								</tbody>
+							</table>
 		 				</c:if>
 		 				
- 						<c:if test="${dataelement.type == 'text'}">
-							<textarea name="dataElements[${status.index}].text" rows="12" onfocus="if ($(this).val() == 'Add text here...') { $(this).val(''); }" onblur="if ($(this).val() == '') { $(this).val('Add text here...'); }">${dataelement.text}</textarea>
+ 						<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
+							<textarea name="dataElements[${status.index}].text" rows="12" onfocus="if ($(this).val() == 'Add text here...') { $(this).val(''); }" onblur="if ($(this).val() == '') { $(this).val('Add text here...'); }">${dataelement.text}</textarea>	
 	                 	</c:if>
 
 						<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">

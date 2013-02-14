@@ -40,8 +40,6 @@
 <script type="text/javascript" src="<c:url value="/resources/js/fancy-button/fancy-button.js" />"></script>
 <!-- jQuery Bubble Popup plugin -->
 <script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jquery.bubble-popup-v3.min.js" />"></script>
-<!-- jQuery Throbber plugin -->
-<script type="text/javascript" src="<c:url value="/resources/js/jquery.throbber.js" />"></script>
 <!-- END: load jquery -->
 
 

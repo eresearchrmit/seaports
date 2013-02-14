@@ -10,9 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
- * Class representing data from the dataset available from CSIRO. 
+ * Class representing variation data from the dataset available from CSIRO. 
  * It associates values to the climate variables and climate parameters.
  * @author Guillaume Prevost
  * @since 20th Dec. 2012
@@ -31,7 +32,7 @@ public class CsiroData
 	private int id;
     
 	/**
-	 * The parameters of the computed data (Region, Climate model, Emission Scenario, Year)
+	 * The parameters of the computed data (Region, Climate model, Emission Scenario)
 	 */
 	@ManyToOne
 	@JoinColumn(name="climate_params_id")
@@ -50,13 +51,21 @@ public class CsiroData
 	private ClimateVariable variable;
 
 	/**
+	 * The baseline value of the variable
+	 */
+	/*@ManyToOne
+	@JoinColumn(name="csiro_data_baseline_id")*/
+	@Transient
+	private CsiroDataBaseline baseline;
+	
+	/**
 	 * The year for which year the data is computed
 	 */
 	@Column
 	private int year;
 	
 	/**
-	 * The value of the data
+	 * The value of the variation of the variable
 	 */
 	private Double value;
 	
@@ -139,6 +148,22 @@ public class CsiroData
 		this.variable = variable;
 	}
 	
+	/**
+	 * Getter for the baseline value of the variable
+	 * @return: the current baseline value of the variable
+	 */
+	public CsiroDataBaseline getBaseline() {
+		return baseline;
+	}
+	
+	/**
+	 * Getter for the baseline value of the variable
+	 * @param value: the new baseline value of the variable
+	 */
+	public void setBaseline(CsiroDataBaseline baseline) {
+		this.baseline = baseline;
+	}
+	
 	 /**
 	 * Getter for the year for which year the data is computed
 	 * @return the year for which year the data is computed
@@ -155,16 +180,16 @@ public class CsiroData
 	}
 	
 	/**
-	 * Getter for the value of the Data
-	 * @return: the value of the data
+	 * Getter for the value of the variation of the variable
+	 * @return: the current value of the variation of the variable
 	 */
 	public Double getValue() {
 		return value;
 	}
 	
 	/**
-	 * Getter for the value of the Data
-	 * @param value: the new value of the Data
+	 * Getter for the value of the variation of the variable
+	 * @param value: the new value of the variation of the variable
 	 */
 	public void setValue(Double value) {
 		this.value = value;

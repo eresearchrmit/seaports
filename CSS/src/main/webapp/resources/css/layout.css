@@ -348,7 +348,7 @@ ul.section li.current > a.active:hover {
 /* table
 ----------------------------------------------- */
 table.form {
-	width:100%;
+	/*width:100%;*/
 }
 
 table.form td {
