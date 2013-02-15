@@ -22,7 +22,7 @@ public class CsiroDataBaselineDao {
 	private RegionDao regionDao;
 	
 	@Autowired
-	private ClimateVariableDao climateVariableDao;
+	private CsiroVariableDao climateVariableDao;
 	
 	/**
 	 * The name of the table in the database where the CSIRO Data are stored
@@ -51,7 +51,7 @@ public class CsiroDataBaselineDao {
 	 */
 	@Transactional
 	public CsiroDataBaseline find(String regionName, String variableName) throws NoResultException {
-		ClimateVariable variable = climateVariableDao.find(variableName);
+		Variable variable = climateVariableDao.find(variableName);
 		Region region = regionDao.find(regionName);
 		
 		try {
@@ -73,7 +73,7 @@ public class CsiroDataBaselineDao {
 	 * @throws NoResultException if no CsiroDataBaseline matches the given parameters
 	 */
 	@Transactional
-	public CsiroDataBaseline find(Region region, ClimateVariable variable) throws NoResultException {
+	public CsiroDataBaseline find(Region region, Variable variable) throws NoResultException {
 		
 		try {
 			Query query = entityManager.createQuery("SELECT d FROM " + TABLE_NAME + " d WHERE d.region = :region AND d.variable = :variable");

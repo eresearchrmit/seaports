@@ -1,5 +1,8 @@
 package war.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -35,6 +38,46 @@ public class EngineeringModelDataDao {
 		return data;
 	}
 	
+	/**
+	 * Retrieve an engineering model data matching the required variable and region
+	 * @param region: the unique ID of the required engineering model data
+	 * @param variable: the unique ID of the required engineering model data
+	 * @return the list of engineering model data matcing the given region and variable
+	 * @throws NoResultException if the search didn't return any result
+	 */
+	@Transactional
+	public List<EngineeringModelData> find(Region region, EngineeringModelVariable variable) throws NoResultException {
+		
+		try {
+			Query query = entityManager.createQuery("SELECT d FROM " + TABLE_NAME + " d WHERE d.region = :region AND d.variable = :variable");
+			query.setParameter("region", region);
+			query.setParameter("variable",variable);
+			return performQueryAndCheckResultList(query);
+		}
+		catch (NoResultException e) {
+			throw new NoResultException(ERR_NO_RESULT);
+		}
+	}
+	
+	/**
+	 * Perform a query and check the result list is of the right type
+	 * @param query: the query to execute
+	 * @return the list of EngineeringModelData returned by the query and checked
+	 */
+	private List<EngineeringModelData> performQueryAndCheckResultList(Query query) {
+		try {
+			List<EngineeringModelData> engineeringModelData = new ArrayList<EngineeringModelData>();
+			for (Object obj : query.getResultList()) {
+				if (obj instanceof EngineeringModelData)
+					engineeringModelData.add((EngineeringModelData)(obj));
+			}
+			return engineeringModelData;
+		}
+		catch (NoResultException e) {
+			return null;
+		}
+	}
+	
 	
 	/**
 	 * Saves a given engineering model data into the database, by adding it or updating it
@@ -59,8 +102,18 @@ public class EngineeringModelDataDao {
 	 */
 	@Transactional
 	public void delete(int id) {
-		Query query = entityManager.createQuery("DELETE FROM " + EngineeringModelDataDao.TABLE_NAME + " asset WHERE asset.id = :id") ;
+		Query query = entityManager.createQuery("DELETE FROM " + EngineeringModelDataDao.TABLE_NAME + " d WHERE d.id = :Id") ;
 		query.setParameter("id", id).executeUpdate();
+	}
+	
+	/**
+	 * Delete from the database the engineering model data associated to an asset
+	 * @param id: the unique ID of the asset to engineering model data to delete
+	 */
+	@Transactional
+	public void deleteForAsset(EngineeringModelAsset asset) {
+		Query query = entityManager.createQuery("DELETE FROM " + EngineeringModelDataDao.TABLE_NAME + " d WHERE d.asset = :asset") ;
+		query.setParameter("asset", asset).executeUpdate();
 	}
 	
 	public static final String ERR_NO_RESULT = "No Engineering Model data found corresponding to the specified parameters";

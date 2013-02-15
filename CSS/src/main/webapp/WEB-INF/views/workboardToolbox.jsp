@@ -42,18 +42,18 @@
 					<input type="hidden" name="userstoryid" value="${userstory.id}" />
 					<p><strong>2. CSIRO Data Options:</strong></p>
 					<table width="auto" height="auto" class="form">
-						<!-- <tr>
+						<tr>
 							<td align="right" class="col1">Variable:</td>
 							<td class="col2">
 								<select id="cbbClimateVariable" name="climateVariable">
 									<option value="All">All Variables</option>
 									<option value="Temperature">Temperature</option>
-									<option value="WindSpeed">Wind Speed</option>
+									<option value="Wind speed">Wind speed</option>
 									<option value="Rainfall">Rainfall</option>
-									<option value="RelativeHumidity">Relative Humidity</option>
+									<option value="Relative humidity">Relative humidity</option>
 								</select>
 							</td>
-						</tr>-->
+						</tr>
 						<tr>
 							<td align="right">Emission Scenario:</td>
 							<td>
@@ -128,9 +128,15 @@
 						<tr>
 							<td align="right" colspan="2">Select a variable to use for the Data Element:</td>
 							<td>
+								<input type="hidden" id="hdnEngVariableCategory" name="engVariableCategory" value="${chlorideEngineeringModelVariables[0].category}" />
 								<select id="cbbEngineeringVariable" name="engVariable">
-									<c:forEach items="${engineeringModelVariables}" var="engineeringModelVariable" varStatus="loop">
-										<option value="${engineeringModelVariable.name}">${engineeringModelVariable.name}</option>
+									<option disabled class="dropDownTitle">${chlorideEngineeringModelVariables[0].category}</option>
+									<c:forEach items="${chlorideEngineeringModelVariables}" var="engineeringModelVariable" varStatus="loop">
+										<option value="${engineeringModelVariable.name}" title="${engineeringModelVariable.category}">${engineeringModelVariable.name}</option>
+									</c:forEach>
+									<option disabled class="dropDownTitle">${carbonationEngineeringModelVariables[0].category}</option>
+									<c:forEach items="${carbonationEngineeringModelVariables}" var="engineeringModelVariable" varStatus="loop">
+										<option value="${engineeringModelVariable.name}" title="${engineeringModelVariable.category}">${engineeringModelVariable.name}</option>
 									</c:forEach>
 								</select>								
 								<a href="#" id="lnkHelpEngVariable" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>
@@ -139,9 +145,11 @@
 					</table>
 					<button type="button" id="btnAddEngineeringModelDataElement" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
 						<span></span>Add Engineering Model Data Element
-					</button>
-					<div id="loading">
-						<img src="<c:url value="/resources/img/ajax-loader.gif" />" alt="Loading..." title="Loading..." /> Extracting data and preparing your data element... please don't refresh the page.
+					</button><br />
+					<div id="loading" class="center">
+						<p>Extracting data and preparing your data element...</p>
+						<img src="<c:url value="/resources/img/ajax-loader.gif" />" alt="Loading..." title="Loading..." /><br />
+						<p>Please don't refresh the page.</p>
 					</div>
 				</form:form>
 			</div>
@@ -184,6 +192,14 @@
 			$("input[name='rdEngineeringSourceType']").change(function(){
 				var selectedRadio = $("input[name='rdEngineeringSourceType']:checked").val();
 				$("#hdnEngineeringSourceType").val(selectedRadio);
+			});
+			
+			// Variable selection updates the category
+			$("#cbbEngineeringVariable").change(function(){
+				alert('ok');
+				var selectedCategory = $("#cbbEngineeringVariable option:selected").attr("title");
+				alert(selectedCategory);
+				$("#hdnEngVariableCategory").val(selectedCategory);
 			});
 		});
 	

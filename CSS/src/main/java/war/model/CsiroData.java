@@ -48,7 +48,7 @@ public class CsiroData
 	 */
 	@ManyToOne
 	@JoinColumn(name="climate_variable_id")
-	private ClimateVariable variable;
+	private CsiroVariable variable;
 
 	/**
 	 * The baseline value of the variable
@@ -84,7 +84,7 @@ public class CsiroData
 	 * @param year: the year for which the data is computed
 	 * @param value: the value of the data
 	 */
-	public CsiroData(Date creationDate, ClimateParams parameters, ClimateVariable variable, int year, Double value) {
+	public CsiroData(Date creationDate, ClimateParams parameters, CsiroVariable variable, int year, Double value) {
 		setCreationDate(creationDate);
 		setParameters(parameters);
 		setVariable(variable);
@@ -136,7 +136,7 @@ public class CsiroData
 	 * Getter for the variable that this Data represent
 	 * @return: the variable represented by this data
 	 */
-	public ClimateVariable getVariable() {
+	public CsiroVariable getVariable() {
 		return variable;
 	}
 	
@@ -144,7 +144,7 @@ public class CsiroData
 	 * Setter for the variable that this Data represent
 	 * @param variable: the new variable represented by this data
 	 */
-	public void setVariable(ClimateVariable variable) {
+	public void setVariable(CsiroVariable variable) {
 		this.variable = variable;
 	}
 	

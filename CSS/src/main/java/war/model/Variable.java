@@ -1,20 +1,18 @@
 package war.model;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 
 /**
  * Class representing a climate variable
  * @author Guillaume Prevost
  * @since 20th Dec. 2012
  */
-@Entity
-@Table(name = "ClimateVariable")
-public class ClimateVariable {
+@MappedSuperclass
+public abstract class Variable {
 	
 	private static final long serialVersionUID = -1308795024262635690L;
 	
@@ -23,74 +21,37 @@ public class ClimateVariable {
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	protected int id;
 	
 	/**
 	 * The name of the variable
 	 */
 	@Column
-	private String name;
+	protected String name;
 	
 	/**
 	 * The short name of the variable
 	 */
 	@Column
-	private String shortName;
+	protected String shortName;
 
 	/**
 	 * The description of the variable
 	 */
 	@Column
-	private String description;
+	protected String description;
 	
 	/**
 	 * The unit of measure of the variable
 	 */
 	@Column
-	private String uom;
+	protected String uom;
 	
 	/**
 	 * The unit of measure of the variation of the variable
 	 */
 	@Column
-	private String uomVariation;
-	
-	/**
-	 * Default constructor of ClimateVariable
-	 */
-	public ClimateVariable() {
-	}
-	
-	/**
-	 * Constructor of ClimateVariable
-	 * @param name: the name of the variable
-	 * @param shortName: the short name for the variable
-	 * @param description: the description of the variable
-	 * @param uom: the unit of measure of the variable
-	 */
-	public ClimateVariable(String name, String shortName, String description, String uom) {
-		this.name = name;
-		this.shortName = shortName;
-		this.description = description;
-		this.uom = uom;
-		this.uomVariation = "%";
-	}
-	
-	/**
-	 * Constructor of ClimateVariable
-	 * @param name: the name of the variable
-	 * @param shortName: the short name for the variable
-	 * @param description: the description of the variable
-	 * @param uom: the unit of measure of the variable
-	 * @param uomVariation: the unit of measure of the variation of the variable
-	 */
-	public ClimateVariable(String name, String shortName, String description, String uom, String uomVariation) {
-		this.name = name;
-		this.shortName = shortName;
-		this.description = description;
-		this.uom = uom;
-		this.uomVariation = uomVariation;
-	}
+	protected String uomVariation;
 	
 	/**
 	 * Getter for the unique ID of the variable

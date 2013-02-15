@@ -372,6 +372,12 @@ table.form input, table.form select{
 
 }
 
+option.dropDownTitle {
+	font-weight: bold;
+	font-size:1em;
+	text-indent: 5px;
+}
+
 input.mini{width: 30%;	}
 
 input.medium
@@ -495,7 +501,8 @@ textarea.no-border {
 
 /* AJAX sliding shelf
 ----------------------------------------------- */
-#loading {float:right; margin-right:14px; margin-top:-2px;}
+#loading-ajax {float:right; margin-right:14px; margin-top:-2px;}
+#loading {margin-right:auto; margin-left:auto; width:500px; margin-top:-2px; text-align:center}
 .block {padding-bottom:1px; /* background-color:red; margin-left:-10px; padding-left:10px;*/}
 
 

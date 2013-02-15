@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,12 @@ public class DataElementDao {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
+
+	@Autowired
+	private EngineeringModelDataDao engineeringModelDataDao;
+	
+	@Autowired
+	private EngineeringModelAssetDao engineeringModelAssetDao;
 	
 	/**
 	 * The name of the table in the database where the Data Elements are stored
@@ -77,6 +84,12 @@ public class DataElementDao {
 		// Delete the data element itself
 		Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.id = :id");
 		query.setParameter("id", de.getId()).executeUpdate();
+		
+		if (de instanceof DataElementEngineeringModel) {
+			List<EngineeringModelData> dataList = ((DataElementEngineeringModel)de).getEngineeringModelDataList();
+			engineeringModelDataDao.deleteForAsset(dataList.get(0).getAsset());
+			engineeringModelAssetDao.delete(dataList.get(0).getAsset().getId());
+		}
 	}
 	
 	/**

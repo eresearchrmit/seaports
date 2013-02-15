@@ -60,7 +60,7 @@ public class WorkboardController {
 	private CsiroDataBaselineDao csiroDataBaselineDao;
 	
 	@Autowired
-	private ClimateVariableDao climateVariableDao;
+	private EngineeringModelVariableDao engineeringModelVariableDao;
 	
 	@Autowired
 	private EngineeringModelAssetDao engineeringModelAssetDao;
@@ -118,9 +118,9 @@ public class WorkboardController {
             // TODO: Define a list of allowed Extensions / MIME type
             
 	        DataElementFile dataElement = new DataElementFile(new Date(), fileName, true, 0, userStory, fileExtension, uploadfile.getBytes());
-            
         	dataElementDao.save(dataElement);
-	        	
+        	userStory.getDataElements().add(dataElement);
+        	
         	model.addAttribute("successMessage", MSG_FILE_UPLOAD_SUCCESS);
         }
         catch (Exception e) {
@@ -137,6 +137,7 @@ public class WorkboardController {
 			@RequestParam(value="file",required=true) MultipartFile uploadfile,
 			@RequestParam(value="sourceType",required=true) String sourceType,
 			@RequestParam(value="engVariable",required=true) String engVariableName,
+			@RequestParam(value="engVariableCategory",required=true) String engVariableCategory,
 			@RequestParam(value="id",required=true) Integer userStoryId, 
 			Model model)
 	throws IOException {
@@ -144,7 +145,18 @@ public class WorkboardController {
 		
     	UserStory userStory = userStoryDao.find(userStoryId);
     	try {
+    		EngineeringModelVariable engVariable = null;
+			try {
+				engVariable = engineeringModelVariableDao.find(engVariableName, engVariableCategory);
+			}
+			catch (NoResultException e) {
+				logger.info(e.getMessage() + "(" + engVariableName + ")");
+				throw (e);
+			}
+    		
     		if (sourceType.equals("upload")) {
+    			logger.info("Excel File Upload");
+    			
     			int lastIndex = uploadfile.getOriginalFilename().lastIndexOf('.');
     	    	//String fileName = uploadfile.getOriginalFilename().substring(0, lastIndex);
     	        String fileExtension = uploadfile.getOriginalFilename().substring(lastIndex + 1);
@@ -155,15 +167,6 @@ public class WorkboardController {
     	        		|| !(fileExtension.equals("xls") || fileExtension.equals("xlsx"))) {
     	        	throw new InvalidFormatException(ERR_INVALID_FILE_FORMAT);
     	        }
-    	    
-    			ClimateVariable engVariable = null;
-    			try {
-    				engVariable = climateVariableDao.find(engVariableName);
-    			}
-    			catch (NoResultException e) {
-    				logger.info(e.getMessage() + "(" + engVariableName + ")");
-    				throw (e);
-    			}
     	        
     	    	ByteArrayInputStream bis = new ByteArrayInputStream(uploadfile.getBytes());
     	    	// HSSFWorkbook and HSSFSheet for XLS, XSSFWorkbook and XSSFSheet for XLSX
@@ -183,10 +186,8 @@ public class WorkboardController {
     					engineeringModelDataDao.save(data);
     				}
     				
-    				DataElementEngineeringModel de = new DataElementEngineeringModel(new Date(), 
-    					"Concrete deterioration for " + asset.getAssetCode(), true, 0, userStory, extractedDataList);
+    				DataElementEngineeringModel de = new DataElementEngineeringModel(new Date(), "Concrete deterioration for " + asset.getAssetCode(), true, 0, userStory, extractedDataList);
     				dataElementDao.save(de);
-    				
     				userStory.getDataElements().add(de);
     				model.addAttribute("successMessage", MSG_ENG_DATA_ADDED);
     			}
@@ -194,9 +195,23 @@ public class WorkboardController {
     				throw new NoResultException(ERR_NO_DATA_ENG_MODEL);
     			}
     		}
-    		else if (sourceType.equals("example")) {
-    			// TODO: use an example to create data element
-    			throw new NotImplementedException();
+    		else if (sourceType.equals("example")) { // TODO: use an example to create data element
+    			logger.info("Example selected");
+    			
+    			//Find the Data
+    			List<EngineeringModelData> engineeringModelDataList = engineeringModelDataDao.find(userStory.getRegion(), engVariable);
+    			
+    			// Create the data element
+    			if (engineeringModelDataList != null && engineeringModelDataList.size() > 0) {
+    				String dataElementTitle = "Concrete deterioration for " + engineeringModelDataList.get(0).getAsset().getAssetCode();
+					DataElementEngineeringModel de = new DataElementEngineeringModel(new Date(), dataElementTitle, true, 0, userStory, engineeringModelDataList);
+					dataElementDao.save(de);
+					userStory.getDataElements().add(de);
+					model.addAttribute("successMessage", MSG_ENG_DATA_ADDED);
+    			}
+    			else {
+    				throw new NoResultException(ERR_NO_DATA_ENG_MODEL_EXAMPLE);
+    			}
     		}
         }
         catch (Exception e) {
@@ -244,7 +259,7 @@ public class WorkboardController {
 	 * Extracts and construct an engineering model asset from the given Excel sheet, then saves it in the database
 	 * @return EngineeringModelAsset: the asset object extracted from the file
 	 */
-	private List<EngineeringModelData> extractEngineeringOutputData(HSSFWorkbook workbook, UserStory userStory, ClimateVariable engVariable, EngineeringModelAsset asset) {
+	private List<EngineeringModelData> extractEngineeringOutputData(HSSFWorkbook workbook, UserStory userStory, EngineeringModelVariable engVariable, EngineeringModelAsset asset) {
     	
     	List<EngineeringModelData> extractedDataList = new ArrayList<EngineeringModelData>();
 		HSSFSheet  sheet = workbook.getSheetAt(0); // Supposedly always 1 sheet only (index 0)
@@ -360,10 +375,18 @@ public class WorkboardController {
 		UserStory userStory = userStoryDao.find(userStoryId);
 		
 		try {
-			List<CsiroData> csiroDataList = csiroDataDao.find(userStory.getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year));
+			List<CsiroData> csiroDataList = null;
+			if (climateVariable.equals("All"))
+				csiroDataList = csiroDataDao.find(userStory.getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year));
+			else {
+				csiroDataList = new ArrayList<CsiroData>();
+				csiroDataList.add(csiroDataDao.find(userStory.getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year), climateVariable));
+			}
 			
 			DataElementCsiro dataElement = new DataElementCsiro(new Date(), "CSIRO Data", true, 0, userStory, csiroDataList);
 			dataElementDao.save(dataElement);
+			
+			userStory.getDataElements().add(dataElement);
 			
 			model.addAttribute("successMessage", MSG_CSIRO_DATA_ADDED);
 		}
@@ -377,7 +400,7 @@ public class WorkboardController {
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST) 
 	public ModelAndView addWorkboard(@ModelAttribute("userstory") UserStory userStory, @RequestParam(value="login",required=true) String login, Model model) {
-		logger.debug("Received object for workboard  " + userStory);
+		logger.info("Received object for workboard  " + userStory);
         
 		try {
 			User user = userDao.find(login);
@@ -406,7 +429,7 @@ public class WorkboardController {
 	
 	@RequestMapping(value ="/save",method=RequestMethod.POST)
 	public ModelAndView saveWorkboard(@ModelAttribute("userstory") UserStory updatedWorkboard, @RequestParam(value="id",required=true) Integer workboardId, Model model) {
-		logger.debug("Inside saveWorkboard");
+		logger.info("Inside saveWorkboard");
 		
 		try {
 			//UserStory workboard = userStoryDao.find(workboardId);
@@ -454,13 +477,14 @@ public class WorkboardController {
 	
 	@RequestMapping(value = "/deletedataelement",method=RequestMethod.GET) 
 	public ModelAndView deleteDataElementFromUserStory(@RequestParam(value="dataelementid",required=true) Integer dataElementId, Model model) {
-		logger.debug("Inside deleteDataElementFromUserStory");
+		logger.info("Inside deleteDataElementFromUserStory");
 		
 		try {
 			DataElement dataElement = dataElementDao.find(dataElementId);
 			UserStory userStory = dataElement.getUserStory();
 			
 			dataElementDao.delete(dataElement);
+			userStory.getDataElements().remove(dataElement);
 			model.addAttribute("successMessage", MSG_DATA_ELEMENT_DELETED);
 			
 			ModelAndView mav = modelForActiveWBview(model, userStory);
@@ -500,7 +524,7 @@ public class WorkboardController {
 	
 	
 	private ModelAndView modelForActiveWBview(Model model, UserStory userStory) {
-		logger.debug("Inside modelForActiveWBview");
+		logger.info("Inside modelForActiveWBview");
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("userstory", userStory);
@@ -532,8 +556,10 @@ public class WorkboardController {
 	 		// Empty data element to use as a "New Data Element"
 	 		mav.addObject(new DataElement());
 
-	 		List<ClimateVariable> engineeringModelVariables = climateVariableDao.getEngineeringModelVariables(); 
-	 		mav.addObject("engineeringModelVariables", engineeringModelVariables);
+	 		List<EngineeringModelVariable> chlorideEngineeringModelVariables = engineeringModelVariableDao.getAll("Chloride"); 
+	 		mav.addObject("chlorideEngineeringModelVariables", chlorideEngineeringModelVariables);
+	 		List<EngineeringModelVariable> carbonationEngineeringModelVariables = engineeringModelVariableDao.getAll("Carbonation"); 
+	 		mav.addObject("carbonationEngineeringModelVariables", carbonationEngineeringModelVariables);
 	 		
 	 		/*List<ClimateEmissionScenario> emissionScenarios = climateEmissionScenarioDao.getAll(); 
 	 		mav.addObject("emissionScenarios", emissionScenarios);
@@ -561,6 +587,7 @@ public class WorkboardController {
 	
 	public static final String ERR_UPLOAD_ENG_MODEL = "Unable to upload the engineering model data to your workboard";
 	public static final String ERR_NO_DATA_ENG_MODEL = "No data could be extracted from the provided Excel file";
+	public static final String ERR_NO_DATA_ENG_MODEL_EXAMPLE = "No example data found for the required variable";
 	public static final String ERR_INVALID_FILE_FORMAT = "Invalid file format. The type of the file you tried to upload is not allowed";
 
 }

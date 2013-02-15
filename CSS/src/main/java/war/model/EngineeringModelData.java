@@ -2,6 +2,7 @@ package war.model;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -48,7 +50,7 @@ public class EngineeringModelData
 	 */
 	@ManyToOne
 	@JoinColumn(name="climate_variable_id")
-	private ClimateVariable variable;
+	private EngineeringModelVariable variable;
 
 	/**
 	 * The asset to which this data is related to
@@ -56,6 +58,12 @@ public class EngineeringModelData
 	@ManyToOne
 	@JoinColumn(name="engineering_model_asset_id")
 	private EngineeringModelAsset asset;
+	
+	/**
+	 * The Data Elements using this data
+	 */
+	@ManyToMany(mappedBy="engineeringModelDataList")
+	private List<DataElementEngineeringModel> dataElementEngineeringModelList;
 	
     /**
      * The string content of the engineering model data
@@ -81,7 +89,7 @@ public class EngineeringModelData
 	 * @param year: the year for which the data is computed
 	 * @param value: the value of the data
 	 */
-	public EngineeringModelData(EngineeringModelAsset asset, ClimateParams parameters, ClimateVariable variable, Map<Integer, Float> values) {
+	public EngineeringModelData(EngineeringModelAsset asset, ClimateParams parameters, EngineeringModelVariable variable, Map<Integer, Float> values) {
 		setAsset(asset);
 		setParameters(parameters);
 		setVariable(variable);
@@ -116,7 +124,7 @@ public class EngineeringModelData
 	 * Getter for the variable that this Data represent
 	 * @return: the current variable represented by this data
 	 */
-	public ClimateVariable getVariable() {
+	public EngineeringModelVariable getVariable() {
 		return variable;
 	}
 	
@@ -124,7 +132,7 @@ public class EngineeringModelData
 	 * Setter for the variable that this Data represent
 	 * @param variable: the new variable represented by this data
 	 */
-	public void setVariable(ClimateVariable variable) {
+	public void setVariable(EngineeringModelVariable variable) {
 		this.variable = variable;
 	}
 	
@@ -143,6 +151,23 @@ public class EngineeringModelData
 	public void setAsset(EngineeringModelAsset asset) {
 		this.asset = asset;
 	}
+	
+	/**
+	 * Getter for the list of Data Element using this data
+	 * @return: the current list of Data Element using this data
+	 */
+	public List<DataElementEngineeringModel> getDataElementEngineeringModelList() {
+		return dataElementEngineeringModelList;
+	}
+	
+	/**
+	 * Setter for the list of Data Element using this data
+	 * @param asset: the new list of Data Element using this data
+	 */
+	public void setDataElementEngineeringModelList(List<DataElementEngineeringModel> dataElementEngineeringModelList) {
+		this.dataElementEngineeringModelList = dataElementEngineeringModelList;
+	}
+	
 	
 	/**
 	 * Getter for the data string (under the form "YYYY,VALUE1;YYYY,VALUE2;...YYYY,VALUE70")

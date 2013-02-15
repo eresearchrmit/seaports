@@ -25,7 +25,7 @@ public class CsiroDataDao {
 	private ClimateParamsDao climateParamsDao;
 	
 	@Autowired
-	private ClimateVariableDao climateVariableDao;
+	private CsiroVariableDao climateVariableDao;
 	
 	/**
 	 * The name of the table in the database where the CSIRO Data are stored
@@ -69,7 +69,6 @@ public class CsiroDataDao {
 		}
 	}
 	
-	
 	/**
 	 * Retrieve the CsiroData matching the required variable, region, emission scenario, climate model and year that are given as parameters
 	 * @param regionName: the name of the region to match
@@ -83,7 +82,7 @@ public class CsiroDataDao {
 	@Transactional
 	public CsiroData find(String regionName, String emissionScenarioName, String climateModelName, Integer year, String variableName) throws NoResultException {
 		ClimateParams parameters = climateParamsDao.find(regionName, emissionScenarioName, climateModelName);
-		ClimateVariable variable = climateVariableDao.find(variableName);
+		Variable variable = climateVariableDao.find(variableName);
 		
 		try {
 			Query query = entityManager.createQuery("SELECT d FROM " + TABLE_NAME + " d WHERE d.parameters = :parameters AND d.variable = :variable AND d.year = :year");
@@ -97,7 +96,6 @@ public class CsiroDataDao {
 			throw new NoResultException(ERR_NO_RESULT);
 		}
 	}
-	
 	
 	/**
 	 * Perform a query and check the result list is of the right type
@@ -117,7 +115,6 @@ public class CsiroDataDao {
 			return null;
 		}
 	}
-	
 	
 	/**
 	 * Saves a given CSIRO data into the database, by adding it or updating it

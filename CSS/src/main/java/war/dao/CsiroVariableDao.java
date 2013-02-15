@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import war.model.* ;
 
 @Repository
-public class ClimateVariableDao {
+public class CsiroVariableDao {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -25,7 +25,7 @@ public class ClimateVariableDao {
 	/**
 	 * The name of the table in the database where the Climate Variables are stored
 	 */
-	public final static String TABLE_NAME = "ClimateVariable";
+	public final static String TABLE_NAME = "CsiroVariable";
 	
 	/**
 	 * Retrieve the climate variable in the database associated to a unique ID
@@ -33,8 +33,8 @@ public class ClimateVariableDao {
 	 * @return the climate variable associated to the given unique ID
 	 * @throws NoResultException if the search didn't return any result
 	 */
-	public ClimateVariable find(Integer id) {
-		ClimateVariable climateVariable = entityManager.find(ClimateVariable.class, id);
+	public Variable find(Integer id) {
+		Variable climateVariable = entityManager.find(Variable.class, id);
 		if (climateVariable == null)
 			throw new NoResultException(ERR_NO_RESULT);
 		return climateVariable;
@@ -47,11 +47,11 @@ public class ClimateVariableDao {
 	 * @throws NoResultException if no variable matches the given name 
 	 */
 	@Transactional
-	public ClimateVariable find(String variableName) throws NoResultException {
+	public Variable find(String variableName) throws NoResultException {
 		try {
 			Query query = entityManager.createQuery("SELECT v FROM " + TABLE_NAME + " v WHERE v.name = :variableName");
 			query.setParameter("variableName", variableName);
-			return (ClimateVariable)(query.getSingleResult());
+			return (Variable)(query.getSingleResult());
 		}
 		catch (Exception e)
 		{
@@ -64,13 +64,13 @@ public class ClimateVariableDao {
 	 * @return the list of all the different climate variables in the Database
 	 */
 	@Transactional
-	public List<ClimateVariable> getAll() {
+	public List<Variable> getAll() {
 		Query query = entityManager.createQuery("SELECT v FROM " + TABLE_NAME + " v");
 		
-		List<ClimateVariable> results = new ArrayList<ClimateVariable>();
+		List<Variable> results = new ArrayList<Variable>();
 		for (Object obj : query.getResultList()) {
-			if (obj instanceof ClimateVariable)
-			results.add((ClimateVariable)(obj));
+			if (obj instanceof Variable)
+			results.add((Variable)(obj));
 		}
 		
 		return results;
@@ -80,11 +80,11 @@ public class ClimateVariableDao {
 	 * Returns a list of all the different engineering model variables (static listing, not actually querying the database)
 	 * @return the list of all the different engineering model variables in the Database
 	 */
-	public List<ClimateVariable> getEngineeringModelVariables() {
-		List<ClimateVariable> results = new ArrayList<ClimateVariable>();
+	public List<Variable> getEngineeringModelVariables() {
+		List<Variable> results = new ArrayList<Variable>();
 		
-		List<ClimateVariable> allVars = getAll();
-		for (ClimateVariable var : allVars) {
+		List<Variable> allVars = getAll();
+		for (Variable var : allVars) {
 			if (EngineeringModelHelper.ENGINEERING_MODEL_VARIABLES.containsKey(var.getName()))
 				results.add(var);
 		}
