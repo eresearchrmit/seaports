@@ -1,6 +1,6 @@
 package war.controller;
 
-import helpers.DateElementPositionComparator;
+import helpers.DataElementPositionComparator;
 
 import java.util.Date;
 import java.util.Collections;
@@ -72,6 +72,38 @@ public class UserStoryController {
 		return mav;
 	}
 	
+	@RequestMapping(value= "/view", method = RequestMethod.GET)
+	public ModelAndView getUserStoryView(@RequestParam(value="id",required=true) Integer id, Model model) {
+		logger.info("Inside getUserStoryView !");
+		
+		UserStory userStory = null;
+		
+		try {
+			userStory = userStoryDao.find(id);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		ModelAndView mav = modelForUserStoryView(model, userStory);
+		mav.setViewName("userstoryView");
+		return mav;
+	}
+	
+	@ModelAttribute("userstory")
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView getUserStory(@RequestParam(value="id",required=true) Integer id, Model model) {
+		logger.info("Inside getUserStory");
+		
+		UserStory userStory = null;
+		
+		try {
+			userStory = userStoryDao.find(id);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		return modelForUserStoryView(model, userStory);
+	}
 	
 	@RequestMapping(value= "/lock", method = RequestMethod.GET)
 	public String changeUserStoryPrivacy(@RequestParam(value="user",required=true) String login, @RequestParam(value="id",required=true) Integer id, @RequestParam(value="lock",required=true) Boolean lock, Model model) {
@@ -88,23 +120,6 @@ public class UserStoryController {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
 		return "redirect:/spring/userstory/list?user=" + login;
-	}
-	
-	
-	@ModelAttribute("userstory")
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView getUserStory(@RequestParam(value="id",required=true) Integer id, Model model) {
-		logger.info("Inside getUserStoryFromUser");
-		
-		UserStory userStory = null;
-		
-		try {
-			userStory = userStoryDao.find(id);
-		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
-		return modelForUserStoryView(model, userStory);
 	}
 
 	
@@ -128,14 +143,15 @@ public class UserStoryController {
 	
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
-	public ModelAndView saveUserStory(@RequestParam(value="story",required=true) Integer id, 
+	public ModelAndView saveUserStory(
+			@RequestParam(value="comments",required=true) String[] updatedTexts, 
 			@Valid @ModelAttribute("userstory") UserStory updatedUserStory, 
 			Model model) {
 		logger.info("Inside saveUserStory");
 		
 		try {
 			// Retrieve the original user story
-			UserStory userStory = userStoryDao.find(id);
+			UserStory userStory = userStoryDao.find(updatedUserStory.getId());
 			
 			// Reorder the data elements in the user story
 			for (DataElement de : userStory.getDataElements()) {
@@ -149,14 +165,19 @@ public class UserStoryController {
 			// Save the user story after reordering
 			userStoryDao.save(userStory);
 			
-			// Update content of the text item
-			/*for (DataElementText updatedTextItem : userStory.getTextItems()) {
-				if (updatedTextItem != null) {
-					DataElementText textItem = (DataElementText) dataElementDao.find(updatedTextItem.getId());
-					textItem.setText(updatedTextItem.getText());
-					dataElementDao.save(textItem);
+			// Update content of the text data elements if they have been changed
+			Collections.sort(userStory.getDataElements(), new DataElementPositionComparator());
+			int i = 0;
+			for (DataElement dataElement : userStory.getDataElements()) {
+				if (dataElement.getClass().equals(DataElementText.class)) {
+					DataElementText dataElementText = (DataElementText)(dataElement);
+					if (updatedTexts.length > i && updatedTexts[i] != null && !updatedTexts[i].equals(dataElementText.getText())) {
+						dataElementText.setText(updatedTexts[i]);
+						dataElementDao.save(dataElementText);
+					}
+					i++;
 				}
-			}*/
+			}
 			
 			model.addAttribute("successMessage", MSG_USERSTORY_SAVED);
 			return modelForUserStoryView(model, userStory);
@@ -257,7 +278,7 @@ public class UserStoryController {
 		
 		if (userStory != null)
 		{
-			Collections.sort(userStory.getDataElements(), new DateElementPositionComparator());
+			Collections.sort(userStory.getDataElements(), new DataElementPositionComparator());
 			
 			List<DataElement> dataElements = userStory.getDataElements();
 	 		for (DataElement dataElement : dataElements) {
@@ -276,14 +297,6 @@ public class UserStoryController {
 	 				}
 	 			}
 			}
-			
-			/*int i = 0;
-			for (DataElement de : userStory.getDataElements()) {
-				if (de instanceof DataElementText) {
-					userStory.getDataElements().set(i, (DataElementText)de);
-				}
-				i++;
-			}*/
 			
 			model.addAttribute("userstory", userStory);
 			model.addAttribute("user", userStory.getOwner());

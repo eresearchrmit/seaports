@@ -15,7 +15,6 @@ import javax.persistence.NoResultException;
 import war.dao.*;
 import war.model.*;
 
-import org.apache.commons.lang.NotImplementedException;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -213,6 +212,9 @@ public class WorkboardController {
     				throw new NoResultException(ERR_NO_DATA_ENG_MODEL_EXAMPLE);
     			}
     		}
+        }
+    	catch (NoResultException e) {
+    		model.addAttribute("warningMessage", e.getMessage());
         }
         catch (Exception e) {
         	model.addAttribute("errorMessage", e.getMessage());
@@ -504,25 +506,6 @@ public class WorkboardController {
 	}
 	
 
-	private ModelAndView CreateWorkBoard(User user, Model model) {
-		ModelAndView mav = new ModelAndView();
-		try {
-			model.addAttribute("user", user);
-			
-			UserStory userStory = new UserStory();
-			userStory.setOwner(user);
-			userStory.setRegion(new Region(""));
-			mav.addObject("userstory", userStory);
-			
-			mav.setViewName("workboardCreation");
-		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
-		return mav;
-	}
-	
-	
 	private ModelAndView modelForActiveWBview(Model model, UserStory userStory) {
 		logger.info("Inside modelForActiveWBview");
 		
@@ -555,7 +538,7 @@ public class WorkboardController {
 	 		
 	 		// Empty data element to use as a "New Data Element"
 	 		mav.addObject(new DataElement());
-
+	
 	 		List<EngineeringModelVariable> chlorideEngineeringModelVariables = engineeringModelVariableDao.getAll("Chloride"); 
 	 		mav.addObject("chlorideEngineeringModelVariables", chlorideEngineeringModelVariables);
 	 		List<EngineeringModelVariable> carbonationEngineeringModelVariables = engineeringModelVariableDao.getAll("Carbonation"); 
@@ -573,6 +556,25 @@ public class WorkboardController {
 		}
 		return mav;
 	}
+
+	private ModelAndView CreateWorkBoard(User user, Model model) {
+		ModelAndView mav = new ModelAndView();
+		try {
+			model.addAttribute("user", user);
+			
+			UserStory userStory = new UserStory();
+			userStory.setOwner(user);
+			userStory.setRegion(new Region(""));
+			mav.addObject("userstory", userStory);
+			
+			mav.setViewName("workboardCreation");
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		return mav;
+	}
+	
 	
 	public static final String ERR_ALREADY_CURRENT_WORKBOARD = "There is already a current workboard. Delete it or make a User Story before creating a new Workboard";
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";

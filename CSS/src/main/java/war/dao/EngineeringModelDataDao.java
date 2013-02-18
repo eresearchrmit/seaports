@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,9 @@ public class EngineeringModelDataDao {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	@Autowired
+	ClimateParamsDao climateParamsDao;
 	
 	/**
 	 * The name of the table in the database where the Engineering Model Data is stored
@@ -47,16 +51,23 @@ public class EngineeringModelDataDao {
 	 */
 	@Transactional
 	public List<EngineeringModelData> find(Region region, EngineeringModelVariable variable) throws NoResultException {
+		List<EngineeringModelData> results = new ArrayList<EngineeringModelData>();
+		List<ClimateParams> parametersList = climateParamsDao.getAllInRegion(region.getName()); 
 		
-		try {
-			Query query = entityManager.createQuery("SELECT d FROM " + TABLE_NAME + " d WHERE d.region = :region AND d.variable = :variable");
-			query.setParameter("region", region);
-			query.setParameter("variable",variable);
-			return performQueryAndCheckResultList(query);
+		for (ClimateParams parameters : parametersList) {
+			try {
+				Query query = entityManager.createQuery("SELECT d FROM " + TABLE_NAME + " d WHERE d.parameters = :parameters AND d.variable = :variable");
+				query.setParameter("parameters", parameters);
+				query.setParameter("variable",variable);
+				results.addAll(performQueryAndCheckResultList(query));
+			}
+			catch (NoResultException e) {
+				continue;
+			}
 		}
-		catch (NoResultException e) {
+		if (results.isEmpty())
 			throw new NoResultException(ERR_NO_RESULT);
-		}
+		return results;
 	}
 	
 	/**

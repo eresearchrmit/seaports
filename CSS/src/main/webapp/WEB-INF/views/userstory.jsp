@@ -15,7 +15,8 @@
 
 <div class="grid_12">
 	<h2>${userstory.name} </h2>
-	
+	<h6>${userstory.region.name}</h6>
+	<br />
 	<c:if test="${not empty successMessage}">
 		<div id="successMessage" class="message success">
 			<h5>Success !</h5>
@@ -39,7 +40,7 @@
 		</div>
 	</c:if>
 	
-	<form:form id="userStoryForm" method="post" action="/CSS/spring/userstory/save?story=${userstory.id}" modelAttribute="userstory">
+	<form:form id="userStoryForm" method="post" action="/CSS/spring/userstory/save" modelAttribute="userstory">
 	  	<form:input value="${userstory.id}" type="hidden" path="id" />
 	  	<c:if test="${not empty userstory.dataElements}">		
 		 	<ul id="sortable">
@@ -109,7 +110,7 @@
 							
 						<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
 		 					<!-- Engineering Model Data Element -->
-							<div id="points-chart">
+							<div id="points-chart-${status.index}">
 							</div>
 							<br />
 							
@@ -126,7 +127,7 @@
 								var graphTitle = "${dataelement.engineeringModelDataList[0].variable.name} over time";
 								var yAxisTitle = "${dataelement.engineeringModelDataList[0].variable.shortName}";
 								
-							    var plot = $.jqplot('points-chart', 
+							    var plot = $.jqplot('points-chart-${status.index}', 
 							    		[<c:forEach items="${dataelement.engineeringModelDataList}" var="engModelData" varStatus="loop">
 											series[${loop.index}]<c:if test="${!loop.last}">,</c:if>
 										</c:forEach>],
@@ -217,7 +218,7 @@
 		 				</c:if>
 		 				
  						<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
-							<textarea name="dataElements[${status.index}].text" rows="12" onfocus="if ($(this).val() == 'Add text here...') { $(this).val(''); }" onblur="if ($(this).val() == '') { $(this).val('Add text here...'); }">${dataelement.text}</textarea>	
+							<textarea name="comments" rows="12" onfocus="if ($(this).val() == 'Add text here...') { $(this).val(''); }" onblur="if ($(this).val() == '') { $(this).val('Add text here...'); }">${dataelement.text}</textarea>	
 	                 	</c:if>
 
 						<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">

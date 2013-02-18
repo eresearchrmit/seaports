@@ -115,6 +115,14 @@ public class UserStory {
 	}
 	
 	/**
+	 * Setter for the unique ID of the user story
+	 * @return The new unique ID of the user story
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	/**
 	 * Getter for the name of the user story
 	 * @return The current name of the user story
 	 */

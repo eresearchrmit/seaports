@@ -29,6 +29,12 @@
 			});
 		</script>
 	</c:if>
+	<c:if test="${not empty warningMessage}">
+		<div class="message warning">
+			<h5>Warning</h5>
+			<p>${warningMessage}.</p>
+		</div>
+	</c:if>
 	<c:if test="${not empty errorMessage}">
 		<div class="message error">
 			<h5>Error</h5>
@@ -44,10 +50,18 @@
 		 			<div class="box round">
 						<div class="box-header">
 						<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">.${dataelement.filetype}</c:if></h5>
-							<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" onclick="location.href='/CSS/spring/workboard/deletedataelement?dataelementid=${dataelement.id}'" >
+							<a class="lnkDeleteDataElement" href="/CSS/spring/workboard/deletedataelement?dataelementid=${dataelement.id}">
+							<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" >
 								<span></span>Delete
 							</button>
+							</a>
 							<div class="clear"></div>
+							<div id="confirmDataElementDeletionModalWindow" title="Delete this data element ?">
+								<p>Are you sure you want to delete this data element from your Workboard ?</p> 
+							</div>
+							<script type="text/javascript">
+								setupConfirmBox("confirmDataElementDeletionModalWindow", "lnkDeleteDataElement");
+							</script>
 						</div>
 						<input name="dataElements[${status.index}].fileid" value="${dataelement.id}" type="hidden">
 						<input name="dataElements[${status.index}].filename" value="${dataelement.name}" type="hidden">
@@ -209,7 +223,7 @@
 									</ul>		
 			                 	</c:when>
 			                 	<c:otherwise>
-									<textarea name="dataelements[${status.index}].name" rows="12">${dataelement.stringContent}</textarea>
+									<textarea name="dataelements[${status.index}].name" rows="12" disabled>${dataelement.stringContent}</textarea>
 								</c:otherwise>
 							</c:choose>
 						</c:if>
