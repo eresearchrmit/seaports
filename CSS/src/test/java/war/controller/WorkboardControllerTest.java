@@ -13,6 +13,7 @@ import war.dao.UserDao;
 import war.dao.UserStoryDao;
 import war.model.DataElement;
 import war.model.DataElementFile;
+import war.model.Region;
 import war.model.User;
 import war.model.UserStory;
 
@@ -63,7 +64,7 @@ public class WorkboardControllerTest {
  		refWorkboard.setOwner(refUser);
  		
  		// Check the view name
- 		Assert.assertEquals("createWB", result.getViewName());
+ 		Assert.assertEquals("workboardCreation", result.getViewName());
  		
  		// Check the user set in the model
  		Assert.assertTrue(model.get("user").getClass().equals(User.class));
@@ -90,7 +91,7 @@ public class WorkboardControllerTest {
 		Assert.assertNull(model.get("errorMessage"));
 		
  		// Check the view name
- 		Assert.assertEquals("activeWB", result.getViewName());
+ 		Assert.assertEquals("workboard", result.getViewName());
 		
 		// Check the return UserStory
 		Assert.assertTrue(result.getModelMap().get("userstory").getClass().equals(UserStory.class));
@@ -172,7 +173,7 @@ public class WorkboardControllerTest {
 		Assert.assertEquals(WorkboardController.ERR_ALREADY_CURRENT_WORKBOARD, model.get("errorMessage"));
 		
  		// Check the view name
- 		Assert.assertEquals("activeWB", result.getViewName());
+ 		Assert.assertEquals("workboard", result.getViewName());
 	}
 	
 	/**
@@ -184,6 +185,7 @@ public class WorkboardControllerTest {
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
+		userStory.setRegion(new Region("East Coast South"));
 		userStory.setName("addWorkBoardTest");
 		ModelAndView result = workboardController.addWorkboard(userStory, refUser.getLogin(), model);
 
@@ -202,6 +204,7 @@ public class WorkboardControllerTest {
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory refUserStory = new UserStory();
+		refUserStory.setRegion(new Region("East Coast South"));
 		refUserStory.setName("addWorkBoardTest");
 		ModelAndView result = workboardController.addWorkboard(refUserStory, refUser.getLogin(), model);
 
@@ -210,7 +213,7 @@ public class WorkboardControllerTest {
 		Assert.assertNull(model.get("errorMessage"));
  		
  		// Check the view name
- 		Assert.assertEquals("activeWB", result.getViewName());
+ 		Assert.assertEquals("workboard", result.getViewName());
  		
  		// Check the user story is set in the model
 		Assert.assertTrue(result.getModelMap().get("userstory").getClass().equals(UserStory.class));
@@ -304,7 +307,7 @@ public class WorkboardControllerTest {
 		Assert.assertNull(model.get("errorMessage"));
 		
  		// Check the view name
- 		Assert.assertEquals("createWB", result.getViewName());
+ 		Assert.assertEquals("workboardCreation", result.getViewName());
  		
  		// Check the user story is set in the model
 		Assert.assertTrue(result.getModelMap().get("userstory").getClass().equals(UserStory.class));
@@ -345,6 +348,6 @@ public class WorkboardControllerTest {
 		Assert.assertEquals(WorkboardController.MSG_DATA_ELEMENT_DELETED, model.get("successMessage"));
 		
  		// Check the view name
- 		Assert.assertEquals("activeWB", result.getViewName());
+ 		Assert.assertEquals("workboard", result.getViewName());
 	}
 }

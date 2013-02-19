@@ -30,4 +30,6 @@ public class EngineeringModelHelper {
 		ENGINEERING_MODEL_VARIABLES.put("Carbonation induced corrosion probability to severe cracking", 141); // Column EL
 		ENGINEERING_MODEL_VARIABLES.put("Reduction or loss in reinforcing bar", 142); // Column EM
 	}
+	
+	public static final int ENGINEERING_MODEL_EXAMPLE_ASSETS_COUNT = 3;
 }

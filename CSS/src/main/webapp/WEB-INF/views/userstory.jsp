@@ -92,7 +92,7 @@
 						 						<tr class="${dataLoopStatus.index % 2 == 0 ? 'even' : 'odd'}">
 							 						<td class="center">${csiroData.variable.name}</td>
 							 						<td class="center">${csiroData.baseline.value} ${csiroData.baseline.variable.uom}</td>
-							 						<td class="center"><c:if test="${csiroData.value > 0}">+</c:if><c:if test="${csiroData.value < 0}">-</c:if>${csiroData.value} ${csiroData.variable.uomVariation}</td>
+							 						<td class="center"><c:if test="${csiroData.value > 0}">+</c:if>${csiroData.value} ${csiroData.variable.uomVariation}</td>
 						 						</tr>
 						 					</c:forEach>
 					 					</tbody>

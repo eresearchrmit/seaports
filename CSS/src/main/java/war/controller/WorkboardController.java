@@ -400,7 +400,7 @@ public class WorkboardController {
 	}
 	
 	
-	@RequestMapping(value="/add", method=RequestMethod.POST) 
+	@RequestMapping(value="/create", method=RequestMethod.POST) 
 	public ModelAndView addWorkboard(@ModelAttribute("userstory") UserStory userStory, @RequestParam(value="login",required=true) String login, Model model) {
 		logger.info("Received object for workboard  " + userStory);
         

@@ -1,5 +1,7 @@
 package war.dao;
 
+import helpers.EngineeringModelHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,10 +87,15 @@ public class DataElementDao {
 		Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.id = :id");
 		query.setParameter("id", de.getId()).executeUpdate();
 		
-		if (de instanceof DataElementEngineeringModel) {
+		if (de instanceof DataElementEngineeringModel) {		
 			List<EngineeringModelData> dataList = ((DataElementEngineeringModel)de).getEngineeringModelDataList();
-			engineeringModelDataDao.deleteForAsset(dataList.get(0).getAsset());
-			engineeringModelAssetDao.delete(dataList.get(0).getAsset().getId());
+			EngineeringModelAsset asset = dataList.get(0).getAsset();
+			
+			// This prevents the deletion of the pre-loaded examples of the engineering model data
+			if (asset.getId() > EngineeringModelHelper.ENGINEERING_MODEL_EXAMPLE_ASSETS_COUNT) {
+				engineeringModelDataDao.deleteForAsset(asset);
+				engineeringModelAssetDao.delete(asset.getId());
+			}
 		}
 	}
 	

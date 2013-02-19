@@ -30,6 +30,11 @@ public class EngineeringModelDataDao {
 	public final static String TABLE_NAME = "EngineeringModelData";
 	
 	/**
+	 * The name of the table in the database where the Engineering Model Data is stored
+	 */
+	public final static int EXAMPLE_ASSET_COUNT = 3;//(3 * 16 * 7); // 3 Regions, 16 variables, 7 climate parameters 
+	
+	/**
 	 * Retrieve an engineering model data in the CSS Database from it's unique ID
 	 * @param id: the unique ID of the required engineering model data
 	 * @return the engineering model data object corresponding to the given unique ID

@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+ 
+<hibernate-configuration>
+    <session-factory>
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/Seaports</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">P@ssw0rd</property>
+
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="connection.pool_size">2</property>
+
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+
+        <!-- Enable Hibernate's current session context -->
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Disable the second-level cache  -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property> 
+        
+        <mapping class="war.model.User" />
+		<mapping class="war.model.UserStory" />
+		<mapping class="war.model.DataElement" />
+		<mapping class="war.model.DataElementFile" />
+		<mapping class="war.model.DataElementCsiro" />
+		<mapping class="war.model.DataElementEngineeringModel" />
+		<mapping class="war.model.DataElementText" />
+		
+		<mapping class="war.model.Region" />
+		<mapping class="war.model.Seaport" />
+		<mapping class="war.model.EngineeringModelAsset" />
+		
+		<mapping class="war.model.ClimateModel" />
+		<mapping class="war.model.ClimateEmissionScenario" />
+		<mapping class="war.model.ClimateParams" />
+		<mapping class="war.model.Variable" />
+		
+		<mapping class="war.model.CsiroVariable" />
+		<mapping class="war.model.CsiroData" />
+		<mapping class="war.model.CsiroDataBaseline" />
+		
+		<mapping class="war.model.EngineeringModelVariable" />
+		<mapping class="war.model.EngineeringModelData" />
+    </session-factory>
+</hibernate-configuration>

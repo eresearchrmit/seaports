@@ -41,7 +41,7 @@ public class UserStoryControllerTest {
 		Assert.assertEquals(UserDao.ERR_NO_SUCH_USER, model.get("errorMessage"));
 		
 		// Check the view name
-		Assert.assertEquals("listUS", result.getViewName());
+		Assert.assertEquals("userstoryList", result.getViewName());
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class UserStoryControllerTest {
 		Assert.assertNull(model.get("errorMessage"));
 		
 		// Check the view name
-		Assert.assertEquals("listUS", result.getViewName());
+		Assert.assertEquals("userstoryList", result.getViewName());
 		
 		// Check the UserStory set in the ModelAndView's ModelMap
 		Assert.assertTrue(result.getModelMap().get("user").getClass().equals(User.class));
@@ -87,7 +87,7 @@ public class UserStoryControllerTest {
 		Assert.assertNull(model.get("errorMessage"));
 		
 		// Check the view name
-		Assert.assertEquals("listUS", result.getViewName());
+		Assert.assertEquals("userstoryList", result.getViewName());
 		
 		// Check the User set in the ModelAndView's ModelMap
 		Assert.assertTrue(result.getModelMap().get("user").getClass().equals(User.class));
@@ -123,7 +123,7 @@ public class UserStoryControllerTest {
 		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
 		
  		// Check the view name
- 		Assert.assertEquals("passiveUS", result.getViewName());
+ 		Assert.assertEquals("userstory", result.getViewName());
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class UserStoryControllerTest {
 		Assert.assertNull(model.get("errorMessage"));
 		
  		// Check the view name
- 		Assert.assertEquals("passiveUS", result.getViewName());
+ 		Assert.assertEquals("userstory", result.getViewName());
  		
 		// Check the User set in the ModelAndView's ModelMap
 		Assert.assertTrue(model.get("user").getClass().equals(User.class));
