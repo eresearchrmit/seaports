@@ -219,7 +219,7 @@ public class User implements Serializable {
 	public enum Privilege {
 		ANONYMOUS,
 		USER,
-		RESEARCHER,
+		LIBRARIAN,
 		ADMIN
 	}
 }

@@ -59,8 +59,8 @@ public class UserStoryDao {
 	 * @return the list of the user's stories
 	 */
 	public List<UserStory> getUserStories(User user) {
-		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us WHERE us.mode = :mode AND us.owner = :owner") ;
-		query.setParameter("mode", "passive");
+		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us WHERE us.mode != :mode AND us.owner = :owner") ;
+		query.setParameter("mode", "active"); // All except active
 		query.setParameter("owner", user); // Only of this user
 		
 		return performQueryAndCheckResultList(query);
@@ -101,6 +101,7 @@ public class UserStoryDao {
 	 */
 	public List<UserStory> getPublishedUserStories(User user) {
 		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
+		query.setParameter("access", "public");
 		query.setParameter("mode", "published");
 		query.setParameter("owner", user);
 		
@@ -112,7 +113,7 @@ public class UserStoryDao {
 	 * @param user: the user to retrieve the workboard of
 	 * @return the Workboard of the given user
 	 */
-	public UserStory getWorkBoard(User user) {
+	public UserStory getWorkboard(User user) {
 		UserStory workboard = null ;
 		
 		try {
@@ -138,6 +139,14 @@ public class UserStoryDao {
 	 */
 	@Transactional
 	public UserStory save(UserStory userStory) {
+		if (userStory == null || userStory.getName() == null || userStory.getName().isEmpty())
+			throw new IllegalArgumentException();
+		
+		if (userStory.getMode() == null)
+			userStory.setMode("active");
+		if (userStory.getAccess() == null)
+			userStory.setAccess("private");
+		
 		if (userStory.getId() == 0) {
 			entityManager.persist(userStory);
 			return userStory;
@@ -153,17 +162,12 @@ public class UserStoryDao {
 	 */
 	@Transactional
 	public void delete(UserStory userStory) {
-		/*Session session = HibernateHelper.getSessionFactory().getCurrentSession();
-		session.beginTransaction();
-        session.delete(userStory);
-        session.getTransaction().commit();*/
+		if (userStory == null)
+			throw new IllegalArgumentException();
         
 		for (DataElement de : userStory.getDataElements()) {
 			dataElementDao.delete(de);
 		}
-		
-		/*Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.userStory = :userStory");
-		query.setParameter("userStory", userStory).executeUpdate();*/
 		
 		Query query = entityManager.createQuery("DELETE FROM " + TABLE_NAME + " us WHERE us.id = :id") ;
 		query.setParameter("id", userStory.getId()).executeUpdate();

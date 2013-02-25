@@ -42,6 +42,22 @@ public class UserStoryController {
 	@Autowired
 	private CsiroDataBaselineDao csiroDataBaselineDao;
 	
+	@ModelAttribute("userstory")
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView getUserStory(@RequestParam(value="id",required=true) Integer id, Model model) {
+		logger.info("Inside getUserStory");
+		
+		UserStory userStory = null;
+		
+		try {
+			userStory = userStoryDao.find(id);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		return modelForUserStoryView(model, userStory);
+	}
+	
 	@RequestMapping(value= "/list", method = RequestMethod.GET)
 	public ModelAndView getUserStoriesList(@RequestParam(value="user",required=true) String login, Model model) {
 		logger.info("Inside getUserStoriesList !");
@@ -76,33 +92,9 @@ public class UserStoryController {
 	public ModelAndView getUserStoryView(@RequestParam(value="id",required=true) Integer id, Model model) {
 		logger.info("Inside getUserStoryView !");
 		
-		UserStory userStory = null;
-		
-		try {
-			userStory = userStoryDao.find(id);
-		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
-		ModelAndView mav = modelForUserStoryView(model, userStory);
+		ModelAndView mav = getUserStory(id, model);
 		mav.setViewName("userstoryView");
 		return mav;
-	}
-	
-	@ModelAttribute("userstory")
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView getUserStory(@RequestParam(value="id",required=true) Integer id, Model model) {
-		logger.info("Inside getUserStory");
-		
-		UserStory userStory = null;
-		
-		try {
-			userStory = userStoryDao.find(id);
-		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
-		return modelForUserStoryView(model, userStory);
 	}
 	
 	@RequestMapping(value= "/lock", method = RequestMethod.GET)
@@ -110,9 +102,9 @@ public class UserStoryController {
 		logger.info("Inside getUserStoriesList !");
 		try {
 			UserStory userStory= userStoryDao.find(id);
-			if (lock)
+			if (lock) // true == locked == private
 				userStory.setAccess("private");
-			else
+			else // false == unlocked == public
 				userStory.setAccess("public");
 			userStoryDao.save(userStory);
 		}
@@ -122,16 +114,20 @@ public class UserStoryController {
 		return "redirect:/spring/userstory/list?user=" + login;
 	}
 
-	
 	@RequestMapping(value="/create", method=RequestMethod.GET) 
 	public ModelAndView createUserStory(@RequestParam(value="id",required=true) Integer id, Model model) {
-		logger.info("Inside includeDataElementToUserStory");
+		logger.info("Inside createUserStory");
 		
 		try {
 			// Retrieve the user story
 			UserStory userstory = userStoryDao.find(id);
-			userstory.setMode("passive");
-			userStoryDao.save(userstory);
+			if (!(userstory.getMode().equals("published")))
+			{
+				userstory.setMode("passive");
+				userStoryDao.save(userstory);
+			}
+			else
+				model.addAttribute("errorMessage", ERR_STORY_ALREADY_PUBLISHED);
 			
 			return modelForUserStoryView(model, userstory);
 		}
@@ -140,8 +136,7 @@ public class UserStoryController {
 		}
 		return modelForUserStoryView(model, null);
 	}
-	
-	
+		
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
 	public ModelAndView saveUserStory(
 			@RequestParam(value="comments",required=true) String[] updatedTexts, 
@@ -203,7 +198,7 @@ public class UserStoryController {
 			return "redirect:/spring/userstory/list?user=" + ownerLogin;
 		}
 		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);
 		}
 		return "listUS";
 	}	
@@ -231,14 +226,14 @@ public class UserStoryController {
 	
 	@RequestMapping(value="/deleteText", method=RequestMethod.GET) 
 	public ModelAndView removeTextFromUserStory(@RequestParam(value="text",required=true) Integer id, Model model) {
-		logger.info("Inside saveUserStory");
+		logger.info("Inside removeTextFromUserStory");
 		
 		UserStory userStory = null;
 		try {
-			DataElement textItem = dataElementDao.find(id);
-			dataElementDao.delete(textItem);
+			DataElement dataElement = dataElementDao.find(id);
+			dataElementDao.delete(dataElement);
 			
-			userStory = userStoryDao.find(textItem.getUserStory().getId());
+			userStory = userStoryDao.find(dataElement.getUserStory().getId());
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_REMOVE_TEXT);
@@ -248,8 +243,7 @@ public class UserStoryController {
 	
 	@RequestMapping(value="/includeDataElement", method=RequestMethod.GET) 
 	public ModelAndView includeDataElementToUserStory(
-			@RequestParam(value="dataelement",required=true) Integer dataElementId, 
-			@RequestParam(value="story",required=true) Integer id, 
+			@RequestParam(value="dataelement",required=true) Integer dataElementId,
 			Model model) {
 		logger.info("Inside includeDataElementToUserStory");
 		
@@ -259,12 +253,11 @@ public class UserStoryController {
 			dataElement.setIncluded(!dataElement.getIncluded());
 			dataElementDao.save(dataElement);
 			
-			userStory = userStoryDao.find(id);
+			userStory = userStoryDao.find(dataElement.getUserStory().getId());
 		}
  		catch (NoResultException e) {
- 			model.addAttribute("errorMessage", e);
+ 			model.addAttribute("errorMessage", e.getMessage());
 		}
- 		
  		
  		return modelForUserStoryView(model, userStory);
 	}
@@ -309,5 +302,7 @@ public class UserStoryController {
 	public static final String MSG_NO_USER_STORY = "There is no story to display";
 	public static final String MSG_USERSTORY_SAVED = "The story has been saved successfully";
 	public static final String ERR_SAVE_USERSTORY = "Error saving the story. Please Try Again";
+	public static final String ERR_DELETE_USERSTORY = "Error deleting the story. Please Try Again";
 	public static final String ERR_REMOVE_TEXT = "Error removing the text. Please Try Again";
+	public static final String ERR_STORY_ALREADY_PUBLISHED = "This story is already published";
 }

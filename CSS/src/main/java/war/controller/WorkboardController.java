@@ -15,6 +15,7 @@ import javax.persistence.NoResultException;
 import war.dao.*;
 import war.model.*;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -83,7 +84,7 @@ public class WorkboardController {
 		
 		try {
 			User user = userDao.find(login);
-			UserStory userStory = userStoryDao.getWorkBoard(user); 
+			UserStory userStory = userStoryDao.getWorkboard(user); 
 			if (userStory == null) {
 				return CreateWorkBoard(user, model);
 			}
@@ -102,8 +103,7 @@ public class WorkboardController {
 	public ModelAndView uploadfileinWorkBoard(
 			@RequestParam(value="file",required=true) MultipartFile uploadfile,
 			@RequestParam(value="id",required=true) Integer userStoryId, 
-			Model model) 
-	throws IOException {
+			Model model) {
 		logger.info("Inside uploadfileinWorkBoard");
 		
 		UserStory userStory = userStoryDao.find(userStoryId);
@@ -111,23 +111,24 @@ public class WorkboardController {
             int lastIndex = uploadfile.getOriginalFilename().lastIndexOf('.');
         	String fileName = uploadfile.getOriginalFilename().substring(0, lastIndex);
             String fileExtension = uploadfile.getOriginalFilename().substring(lastIndex + 1);
-            //String fileType = uploadfile.getContentType();
-            //String [] tokens = filename.split("\\.");
             
-            // TODO: Define a list of allowed Extensions / MIME type
-            
-	        DataElementFile dataElement = new DataElementFile(new Date(), fileName, true, 0, userStory, fileExtension, uploadfile.getBytes());
-        	dataElementDao.save(dataElement);
-        	userStory.getDataElements().add(dataElement);
-        	
-        	model.addAttribute("successMessage", MSG_FILE_UPLOAD_SUCCESS);
+            // TODO: Confirm the list of allowed Extensions / MIME type
+            String[] arrAllowedFiletypes = {"image/jpeg", "image/gif", "image/png", "text/plain", "text/html", "text/csv", "text/xml"};
+            if(ArrayUtils.contains(arrAllowedFiletypes, uploadfile.getContentType())) {
+            	DataElementFile dataElement = new DataElementFile(new Date(), fileName, true, 0, userStory, fileExtension, uploadfile.getBytes());
+            	dataElementDao.save(dataElement);
+            	userStory.getDataElements().add(dataElement);
+            	
+            	model.addAttribute("successMessage", MSG_FILE_UPLOAD_SUCCESS);
+            }
+            else
+            	model.addAttribute("errorMessage", ERR_INVALID_FILETYPE);
         }
         catch (Exception e) {
         	model.addAttribute("errorMessage", ERR_FILE_UPLOAD);
         }
         
 		ModelAndView mav = modelForActiveWBview(model, userStory);
-		
 		return mav;	
 	}
 	
@@ -228,7 +229,7 @@ public class WorkboardController {
 	 * Extracts and construct an engineering model asset from the given Excel sheet
 	 * @return EngineeringModelAsset: the asset object extracted from the file
 	 */
-	public EngineeringModelAsset extractEngineeringOutputAsset(HSSFWorkbook workbook) {
+	private EngineeringModelAsset extractEngineeringOutputAsset(HSSFWorkbook workbook) {
 		
 		HSSFSheet  sheet = workbook.getSheetAt(0); // Supposedly always 1 sheet only (index 0)
 		String assetCode = workbook.getSheetName(0); // The asset code is the name of the sheet
@@ -406,7 +407,7 @@ public class WorkboardController {
         
 		try {
 			User user = userDao.find(login);
-			UserStory currentWorkboard = userStoryDao.getWorkBoard(user);
+			UserStory currentWorkboard = userStoryDao.getWorkboard(user);
 			if (currentWorkboard != null)
 			{
 				model.addAttribute("errorMessage", ERR_ALREADY_CURRENT_WORKBOARD);
@@ -580,6 +581,7 @@ public class WorkboardController {
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";
 	public static final String ERR_DELETE_DATA_ELEMENT = "The Data Element could not be deleted";
 	public static final String ERR_FILE_UPLOAD = "Unable to upload the file to your workboard";
+	public static final String ERR_INVALID_FILETYPE = "This file format is not handled by the application (only text, xml, html, jpeg, png and gif files are allowed).";
 	
 	public static final String MSG_CSIRO_DATA_ADDED = "The CSIRO Data has been added successfully to your workboard";
 	public static final String MSG_DATA_ELEMENT_DELETED = "The Data Element was deleted successfully from your Workboard";

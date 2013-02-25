@@ -15,7 +15,7 @@ public class DatabaseLoader {
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
-		config.configure("war/db/hibernate.cfg.xml");
+		config.configure("database/hibernate.cfg.xml");
 		new SchemaExport(config).create(true,true);
 
 		SessionFactory factory = config.buildSessionFactory();
@@ -23,7 +23,7 @@ public class DatabaseLoader {
 		session.beginTransaction();	
 
 		User p1 = new User("gprevost", "password", "Guillaume", "Prevost", User.Privilege.ADMIN);
-		User p2 = new User("jmullet", "jane123", "Jane", "Mullett", User.Privilege.RESEARCHER);
+		User p2 = new User("jmullet", "jane123", "Jane", "Mullett", User.Privilege.USER);
 		User p3 = new User("rsrini", "ravi123", "Ravi", "Srini", User.Privilege.USER);
 		User p4 = new User("user", "password", "user", "user", User.Privilege.USER);
 		User p5 = new User("vbala", "nara", "Venki", "Bala", User.Privilege.ADMIN);

@@ -18,7 +18,7 @@ public class TestDatabaseLoader {
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
-		config.configure("war/db/hibernate-test.cfg.xml");
+		config.configure("database/hibernate-test.cfg.xml");
 		new SchemaExport(config).create(true,true);
 
 		SessionFactory factory = config.buildSessionFactory();
@@ -57,9 +57,9 @@ public class TestDatabaseLoader {
 		
 		
 		// Add Users
-		User p1 = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.RESEARCHER);
-		User p2 = new User("testuser2", "password", "testuser2", "testuser2", User.Privilege.RESEARCHER);
-		User p3 = new User("testuser3", "password", "testuser3", "testuser3", User.Privilege.RESEARCHER);
+		User p1 = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
+		User p2 = new User("testuser2", "password", "testuser2", "testuser2", User.Privilege.USER);
+		User p3 = new User("testuser3", "password", "testuser3", "testuser3", User.Privilege.USER);
 		User p4 = new User("testuser4", "password", "testuser4", "testuser4", User.Privilege.USER);
 		User p5 = new User("testadmin1", "password", "testadmin1", "testadmin1", User.Privilege.ADMIN);
 		User p6 = new User("testadmin2", "password", "testadmin2", "testadmin2", User.Privilege.ADMIN);
@@ -92,6 +92,13 @@ public class TestDatabaseLoader {
 		user1us2.setOwner(p1);
 		user1us2.setRegion(r1);
 		
+		UserStory user1us3 = new UserStory();
+		user1us3.setName("User 1 Story 3 (Published)");
+		user1us3.setMode("published");
+		user1us3.setAccess("public");
+		user1us3.setOwner(p1);
+		user1us3.setRegion(r1);
+		
 		UserStory user2wb = new UserStory();
 		user2wb.setName("User 2 Workboard (Empty)");
 		user2wb.setMode("active");
@@ -109,6 +116,7 @@ public class TestDatabaseLoader {
 		session.save(user1wb);
 		session.save(user1us1);
 		session.save(user1us2);
+		session.save(user1us3);
 		session.save(user2wb);
 		session.save(user2us);
 		

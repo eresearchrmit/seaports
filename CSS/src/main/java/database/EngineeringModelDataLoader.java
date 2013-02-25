@@ -14,7 +14,7 @@ public class EngineeringModelDataLoader {
 	
 	public static void main(String[] args) {
 		AnnotationConfiguration config = new AnnotationConfiguration();
-		config.configure("war/db/hibernate.cfg.xml");
+		config.configure("database/hibernate.cfg.xml");
 		new SchemaExport(config).create(true,true);
 
 		SessionFactory factory = config.buildSessionFactory();

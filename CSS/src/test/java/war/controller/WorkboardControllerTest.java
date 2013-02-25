@@ -8,6 +8,7 @@ import junit.framework.Assert;
 
 import war.dao.ClimateEmissionScenarioDao;
 import war.dao.ClimateParamsDao;
+import war.dao.CsiroVariableDao;
 import war.dao.DataElementDao;
 import war.dao.UserDao;
 import war.dao.UserStoryDao;
@@ -20,6 +21,7 @@ import war.model.UserStory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -103,6 +105,48 @@ public class WorkboardControllerTest {
 
 	// TODO: Test uploadfileinWorkBoard
 	
+	@Test
+	public void uploadfileinWorkBoardSuccessTest() {
+		ExtendedModelMap model = new ExtendedModelMap();
+		MockMultipartFile mockMultipartFileText = new MockMultipartFile("content", "test.txt", "text/plain", "Hello World".getBytes());
+		workboardController.uploadfileinWorkBoard(mockMultipartFileText, 1, model);
+		Assert.assertNull(model.get("errorMessage"));
+		
+		MockMultipartFile mockMultipartFileXml = new MockMultipartFile("content", "test.xml", "text/xml", "Hello World".getBytes());
+		workboardController.uploadfileinWorkBoard(mockMultipartFileXml, 1, model);
+		Assert.assertNull(model.get("errorMessage"));
+
+		MockMultipartFile mockMultipartFileHtml = new MockMultipartFile("content", "test.html", "text/html", "Hello World".getBytes());
+		workboardController.uploadfileinWorkBoard(mockMultipartFileHtml, 1, model);
+		
+		MockMultipartFile mockMultipartFileCsv = new MockMultipartFile("content", "test.csv", "text/csv", "Hello World".getBytes());
+		workboardController.uploadfileinWorkBoard(mockMultipartFileCsv, 1, model);
+		
+
+		MockMultipartFile mockMultipartFileJpeg = new MockMultipartFile("content", "test.jpeg", "image/jpeg", "Hello World".getBytes());
+		workboardController.uploadfileinWorkBoard(mockMultipartFileJpeg, 1, model);
+		Assert.assertNull(model.get("errorMessage"));
+		
+		MockMultipartFile mockMultipartFileGif = new MockMultipartFile("content", "test.gif", "image/gif", "Hello World".getBytes());
+		workboardController.uploadfileinWorkBoard(mockMultipartFileGif, 1, model);
+		Assert.assertNull(model.get("errorMessage"));
+		
+		MockMultipartFile mockMultipartFilePng = new MockMultipartFile("content", "test.png", "image/png", "Hello World".getBytes());
+		workboardController.uploadfileinWorkBoard(mockMultipartFilePng, 1, model);
+		Assert.assertNull(model.get("errorMessage"));
+	}
+	
+	@Test
+	public void uploadfileinWorkBoardInvalidTypeTest() {
+		ExtendedModelMap model = new ExtendedModelMap();
+		MockMultipartFile mockMultipartFileText = new MockMultipartFile("content", "test.css", "text/css", "Hello World".getBytes());
+		workboardController.uploadfileinWorkBoard(mockMultipartFileText, 1, model);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(WorkboardController.ERR_INVALID_FILETYPE, model.get("errorMessage"));
+	}
+	
+	// TODO: Test addEngineeringDataToWorkBoard
+	
 	/**
 	 * addCsiroDataToWorkBoardTest should succeed & return a confirmation message
 	 */
@@ -124,17 +168,17 @@ public class WorkboardControllerTest {
 	@Test
 	public void addCsiroDataToWorkBoardBadParametersTest() {
 		// UNKNOWN VARIABLE
-		/*ExtendedModelMap model = new ExtendedModelMap();
+		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addCsiroDataToWorkBoard("UNKNOWN VARIABLE", 
 				"A1B", "Hotter and Drier", "2030", 1, model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(ClimateVariableDao.ERR_NO_RESULT, model.get("errorMessage"));*/
+		Assert.assertEquals(CsiroVariableDao.ERR_NO_RESULT, model.get("errorMessage"));
 		
 		// UNKNOWN SCENARIO
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addCsiroDataToWorkBoard("Temperature", 
-				"UNKNOWN SCENARIO", "csiro_mk3_5", "2030", 1, model);
+		model = new ExtendedModelMap();
+		result = workboardController.addCsiroDataToWorkBoard("Temperature", 
+				"UNKNOWN SCENARIO", "Hotter and Drier", "2030", 1, model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(ClimateEmissionScenarioDao.ERR_NO_RESULT, model.get("errorMessage"));
@@ -146,14 +190,6 @@ public class WorkboardControllerTest {
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(ClimateParamsDao.ERR_NO_RESULT, model.get("errorMessage"));
-		
-		// UNKNOWN YEAR
-		/*model = new ExtendedModelMap();
-		result = workboardController.addCsiroDataToWorkBoard("Temperature", 
-				"A1B", "csiro_mk3_5", "UNKNOWN YEAR", 1, model);
-		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(CsiroParamsDao.ERR_NO_RESULT, model.get("errorMessage"));*/
 	}
 
 	/**

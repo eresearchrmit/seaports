@@ -17,7 +17,7 @@ public class CsiroDataLoader {
 	
 	public static void main(String[] args) {
 		AnnotationConfiguration config = new AnnotationConfiguration();
-		config.configure("war/db/hibernate.cfg.xml");
+		config.configure("database/hibernate.cfg.xml");
 		new SchemaExport(config).create(true,true);
 
 		SessionFactory factory = config.buildSessionFactory();
@@ -90,7 +90,7 @@ public class CsiroDataLoader {
 		// Baseline data for the 3 regions
 		CsiroDataBaseline baselineData = new CsiroDataBaseline(date, r1, te, 16.1);
 		session.save(baselineData);
-		baselineData = new CsiroDataBaseline(date, r1, ws, 0.0); // TODO: Replace with actual Value
+		baselineData = new CsiroDataBaseline(date, r1, ws, 4.6);
 		session.save(baselineData);
 		baselineData = new CsiroDataBaseline(date, r1, rf, 1029.8);
 		session.save(baselineData);
@@ -99,7 +99,7 @@ public class CsiroDataLoader {
 		
 		baselineData = new CsiroDataBaseline(date, r2, te, 12.8);
 		session.save(baselineData);
-		baselineData = new CsiroDataBaseline(date, r2, ws, 0.0); // TODO: Replace with actual Value
+		baselineData = new CsiroDataBaseline(date, r2, ws, 5.3);
 		session.save(baselineData);
 		baselineData = new CsiroDataBaseline(date, r2, rf, 870.0);
 		session.save(baselineData);
@@ -108,7 +108,7 @@ public class CsiroDataLoader {
 		
 		baselineData = new CsiroDataBaseline(date, r3, te, 17.6);
 		session.save(baselineData);
-		baselineData = new CsiroDataBaseline(date, r3, ws, 0.0); // TODO: Replace with actual Value
+		baselineData = new CsiroDataBaseline(date, r3, ws, 5.4);
 		session.save(baselineData);
 		baselineData = new CsiroDataBaseline(date, r3, rf, 441.4);
 		session.save(baselineData);

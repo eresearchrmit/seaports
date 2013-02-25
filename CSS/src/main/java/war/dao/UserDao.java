@@ -52,13 +52,18 @@ public class UserDao {
 	 * @return the saved user
 	 */
 	@Transactional
-	public User save(User user) {
-		if (user.getLogin() == null) {
+	public User save(User user) throws IllegalArgumentException {
+		if (user.getLogin() == null || user.getLogin().equals("") || user.getPassword() == null || user.getPassword().equals("")) {
+			throw new IllegalArgumentException(ERR_REQUIRED_INFORMATION);
+		}
+		
+		try {
+			find(user.getLogin());
+			return entityManager.merge(user);
+		}
+		catch (NoResultException e) {
 			entityManager.persist(user);
 			return user;
-		}
-		else {
-			return entityManager.merge(user);
 		}		
 	}
 	
@@ -82,4 +87,5 @@ public class UserDao {
 	}
 	
 	public static final String ERR_NO_SUCH_USER = "No user could be found with this login";
+	public static final String ERR_REQUIRED_INFORMATION = "Please provide the minimal required user information";
 }

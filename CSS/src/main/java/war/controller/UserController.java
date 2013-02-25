@@ -36,16 +36,16 @@ public class UserController {
 		logger.debug("Inside registerNewUser");
 		
 		try {
-			if (user.getLogin() == null || user.getLogin().length() < 1)
-				throw(new Exception("Invalid login"));
+			if (user.getLogin() == null || user.getLogin().isEmpty())
+				throw(new Exception(ERR_SIGNUP_INVALID_LOGIN));
 			if (user.getPassword() == null || user.getPassword().length() < 5)
-				throw(new Exception("Invalid password"));
-			if (user.getFirstname() == null || user.getFirstname().length() < 1)
-				throw(new Exception("Invalid first name"));
-			if (user.getLastname() == null || user.getLastname().length() < 1)
-				throw(new Exception("Invalid last name"));
+				throw(new Exception(ERR_SIGNUP_INVALID_PASSWORD));
+			if (user.getFirstname() == null || user.getFirstname().isEmpty())
+				throw(new Exception(ERR_SIGNUP_INVALID_FIRSTNAME));
+			if (user.getLastname() == null || user.getLastname().isEmpty())
+				throw(new Exception(ERR_SIGNUP_INVALID_LASTNAME));
 			
-			/*User userdb = */userDao.save(user);
+			userDao.save(user);
 			return "login";
 		}
 		catch (Exception e) {
@@ -88,6 +88,11 @@ public class UserController {
 	}
 	
 	public static final String ERR_SIGNUP = "The application wasn't able to create your account. Please try again later";
+	public static final String ERR_SIGNUP_INVALID_LOGIN = "Invalid login";
+	public static final String ERR_SIGNUP_INVALID_PASSWORD = "Invalid password";
+	public static final String ERR_SIGNUP_INVALID_FIRSTNAME = "Invalid first name";
+	public static final String ERR_SIGNUP_INVALID_LASTNAME = "Invalid last name";
+	
 	public static final String ERR_BAD_LOGIN_PASSWORD = "Invalid login and/or password";
 	public static final String ERR_MISSING_LOGIN_PASSWORD = "Please enter a login and/or a password";
 }
