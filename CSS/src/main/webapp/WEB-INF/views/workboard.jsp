@@ -60,7 +60,9 @@
 								<p>Are you sure you want to delete this data element from your Workboard ?</p> 
 							</div>
 							<script type="text/javascript">
-								setupConfirmBox("confirmDataElementDeletionModalWindow", "lnkDeleteDataElement");
+								$(document).ready() {
+									setupConfirmBox("confirmDataElementDeletionModalWindow", "lnkDeleteDataElement");
+								}
 							</script>
 						</div>
 						<input name="dataElements[${status.index}].fileid" value="${dataelement.id}" type="hidden">

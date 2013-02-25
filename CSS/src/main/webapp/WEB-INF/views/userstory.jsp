@@ -59,7 +59,7 @@
 								</button>
 								
 								<!-- 'Remove Text' button -->
-								<c:if test="${dataelement.class.simpleName == 'DataElementFile' && dataelement.filetype == 'comment'}">
+								<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
 									<a class="lnkRemoveTextFromStory" href="/CSS/spring/userstory/deleteText?text=${dataelement.id}" title="Delete the text from the story">
 										<button type="button" class="btn btn-icon ${dataelement.included == false ? 'btn-grey' : 'btn-blue'} btn-small btn-cross floatright" style="margin-right:5px">
 											<span></span>Delete
@@ -281,6 +281,8 @@
 					listItems.each(function(idx, box) {
 						if (idx % 2 != 0) {
 							boxTwo = $(box);
+							boxOne.css('height','auto');
+							boxTwo.css('height','auto');
 							if (boxOne.height() > boxTwo.height())
 								boxTwo.height(boxOne.height());
 							else if (boxTwo.height() > boxOne.height())

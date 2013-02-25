@@ -29,7 +29,7 @@
 				<c:forEach items="${userStoriesList}" var="story" varStatus="status"> 
 				<tr>
 					<td>${story.name}</td>
-					<td class="center"><a href="/CSS/spring/userstory/view?id=${story.id}" title="View this Story"><img src="<c:url value="/resources/img/icons/page_white.png" />" alt="View"/></a></td>
+					<td class="center"><a href="/CSS/spring/userstory/view?id=${story.id}" title="View this Story" target="_blank"><img src="<c:url value="/resources/img/icons/page_white.png" />" alt="View" /></a></td>
 					<td class="center"><a href="/CSS/spring/userstory?id=${story.id}" title="Edit this Story"><img src="<c:url value="/resources/img/icons/pencil.png" />" alt="Edit"/></a></td>
 					<c:choose>
 						<c:when test="${story.access == 'private'}">

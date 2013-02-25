@@ -77,7 +77,6 @@ public class WorkboardController {
 	@Autowired
 	private ClimateParamsDao climateParamsDao;
 	
-	//@ModelAttribute("user")
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView getUserWorkBoard(@RequestParam(value="user",required=true) String login, Model model) {
 		logger.info("Inside getUserWorkBoard");
@@ -188,14 +187,15 @@ public class WorkboardController {
     				
     				DataElementEngineeringModel de = new DataElementEngineeringModel(new Date(), "Concrete deterioration for " + asset.getAssetCode(), true, 0, userStory, extractedDataList);
     				dataElementDao.save(de);
-    				userStory.getDataElements().add(de);
+    				
+    				userStory = userStoryDao.find(userStoryId);
     				model.addAttribute("successMessage", MSG_ENG_DATA_ADDED);
     			}
     			else {
     				throw new NoResultException(ERR_NO_DATA_ENG_MODEL);
     			}
     		}
-    		else if (sourceType.equals("example")) { // TODO: use an example to create data element
+    		else if (sourceType.equals("example")) {
     			logger.info("Example selected");
     			
     			//Find the Data
@@ -206,7 +206,8 @@ public class WorkboardController {
     				String dataElementTitle = "Concrete deterioration for " + engineeringModelDataList.get(0).getAsset().getAssetCode();
 					DataElementEngineeringModel de = new DataElementEngineeringModel(new Date(), dataElementTitle, true, 0, userStory, engineeringModelDataList);
 					dataElementDao.save(de);
-					userStory.getDataElements().add(de);
+					
+					userStory = userStoryDao.find(userStoryId);
 					model.addAttribute("successMessage", MSG_ENG_DATA_ADDED);
     			}
     			else {
@@ -364,7 +365,6 @@ public class WorkboardController {
 		return extractedDataList;
 	}
 	
-	//@ModelAttribute("csiroData")
 	@RequestMapping(value= "/addCsiroData", method = RequestMethod.POST)
 	public ModelAndView addCsiroDataToWorkBoard(
 		@RequestParam(value="climateVariable",required=true) String climateVariable,
@@ -399,7 +399,6 @@ public class WorkboardController {
 		ModelAndView mav = modelForActiveWBview(model, userStory);
 		return mav;
 	}
-	
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST) 
 	public ModelAndView addWorkboard(@ModelAttribute("userstory") UserStory userStory, @RequestParam(value="login",required=true) String login, Model model) {
@@ -593,5 +592,4 @@ public class WorkboardController {
 	public static final String ERR_NO_DATA_ENG_MODEL = "No data could be extracted from the provided Excel file";
 	public static final String ERR_NO_DATA_ENG_MODEL_EXAMPLE = "No example data found for the required variable";
 	public static final String ERR_INVALID_FILE_FORMAT = "Invalid file format. The type of the file you tried to upload is not allowed";
-
 }

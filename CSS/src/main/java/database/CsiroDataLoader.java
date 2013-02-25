@@ -54,13 +54,13 @@ public class CsiroDataLoader {
 		
 		
 		// Climate models
-		ClimateModel csiro_mk3_5 = new ClimateModel("csiro_mk3_5", "CSIRO Mk3.5", "The CSIRO MK 3.5 climate model");
+		ClimateModel csiro_mk3_5 = new ClimateModel("csiro_mk3_5", "CSIRO Mk3.5", "The CSIRO Mk3.5 climate model");
 		session.save(csiro_mk3_5);
 		ClimateModel mri_cgcm2_3_2 = new ClimateModel("mri_cgcm2_3_2", "MRI-CGCM2.3.2", "The MRI-CGCM 2.3.2 climate model");
 		session.save(mri_cgcm2_3_2);
-		ClimateModel ipsl_cm4 = new ClimateModel("ipsl_cm4", "IPSL CM4", "The IPSL CM4 climate model");
+		ClimateModel ipsl_cm4 = new ClimateModel("ipsl_cm4", "IPSL-CM4", "The IPSL-CM4 climate model");
 		session.save(ipsl_cm4);
-		ClimateModel miroc_3_2_medres = new ClimateModel("miroc_3_2_medres", "MIROC-Medres", "The Miroc 3.2 MedRes climate model"); 
+		ClimateModel miroc_3_2_medres = new ClimateModel("miroc_3_2_medres", "MIROC 3.2 (medres)", "The Miroc 3.2 MedRes climate model"); 
 		session.save(miroc_3_2_medres);
 		ClimateModel cccma_cgcm3_1_t63 = new ClimateModel("cccma_cgcm3_1_t63", "CCCMA CGCM 3.1 T63", "The CCCMA CGCM 3.1 T63 climate model"); 
 		session.save(cccma_cgcm3_1_t63);
@@ -76,7 +76,7 @@ public class CsiroDataLoader {
 		session.save(base);
 		
 		// Climate Variables
-		CsiroVariable te = new CsiroVariable("Temperature", "T", "Forecasted hange of temperature from now", "�C", "�C");
+		CsiroVariable te = new CsiroVariable("Temperature", "T", "Forecasted hange of temperature from now", "&#181;", "&#181;");
 		CsiroVariable ws = new CsiroVariable("Wind speed", "WS", "Forecasted wind speed", "km/h");
 		CsiroVariable rf = new CsiroVariable("Rainfall", "RF", "Forecasted rain fall", "mm/y");
 		CsiroVariable rh = new CsiroVariable("Relative humidity", "RH", "Forecasted relative humidity", "%");

@@ -30,7 +30,7 @@
 						<select id="cbbDataSource" name="dataSource">
 							<option value="none">- Select Data Source -</option>
 							<option value="csiro">CSIRO</option>
-							<option value="bom">BoM</option>
+							<!--<option value="bom">BoM</option>-->
 							<option value="engineering">Engineering Model</option>
 							<option value="customFile">Custom file</option>
 						</select>
@@ -172,6 +172,28 @@
 			</div>
 		</div>
 	</div>
+	<p>
+		<a class="lnkDeleteWorkboard" href="/CSS/spring/workboard/delete?id=${userstory.id}">
+		<button id="btnDeleteWorkboard" type="button" class="btn btn-icon btn-blue btn-cross" >
+			<span></span>Delete WorkBoard
+		</button>
+		</a>
+	</p>
+	<div id="confirmWorkboardDeletionModalWindow" title="Delete your workboard ?">
+		<p>Deleting your workboard will also delete all the data elements it contains. This action cannot be undone.</p> 
+		<p>Are you sure you want to permanently delete your current workboard ?</p> 
+	</div>
+	<p>
+		<a class="lnkConvertToUserStory" href="/CSS/spring/userstory/create?id=${userstory.id}">
+		<button id="btnConvertToUserStory" type="button" class="btn btn-icon btn-blue btn-arrow-right" >
+			<span></span>Create User Story
+		</button>
+		</a>
+	</p>
+	<div id="confirmConvertToUserStoryModalWindow" title="Delete this data element ?">
+		<p>This will create a Story based on your Workboard. Once the Workboard becomes a Story, no more data element can be added to it.</p> 
+		<p>Are you sure you want to create a Story from your Workboard now ?</p>
+	</div>
 	<script type="text/javascript">
 		$(document).ready(function () {
 			// Dynamic forms display from the Data Source" dropdownlist
@@ -200,42 +222,12 @@
 				var selectedCategory = $("#cbbEngineeringVariable option:selected").attr("title");
 				$("#hdnEngVariableCategory").val(selectedCategory);
 			});
+			
+			$('.dataElementForm').hide();
+			setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.");
+			setupDialogBox("addDataElementModalWindow", "btnOpenAddDataElementModalWindow");
+			setupConfirmBox("confirmConvertToUserStoryModalWindow", "lnkConvertToUserStory");
+			setupConfirmBox("confirmWorkboardDeletionModalWindow", "lnkDeleteWorkboard");
 		});
-	
-		$('.dataElementForm').hide();
-		setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.");
-		setupDialogBox("addDataElementModalWindow", "btnOpenAddDataElementModalWindow");
-		
-		//$('input[type="radio"]').fancybutton();
-	</script>
-	
-	<p>
-		<a class="lnkDeleteWorkboard" href="/CSS/spring/workboard/delete?id=${userstory.id}">
-		<button id="btnDeleteWorkboard" type="button" class="btn btn-icon btn-blue btn-cross" >
-			<span></span>Delete WorkBoard
-		</button>
-		</a>
-	</p>
-	<div id="confirmWorkboardDeletionModalWindow" title="Delete your workboard ?">
-		<p>Deleting your workboard will also delete all the data elements it contains. This action cannot be undone.</p> 
-		<p>Are you sure you want to permanently delete your current workboard ?</p> 
-	</div>
-	<script type="text/javascript">
-		setupConfirmBox("confirmWorkboardDeletionModalWindow", "lnkDeleteWorkboard");
-	</script>
-	
-	<p>
-		<a class="lnkConvertToUserStory" href="/CSS/spring/userstory/create?id=${userstory.id}">
-		<button id="btnConvertToUserStory" type="button" class="btn btn-icon btn-blue btn-arrow-right" >
-			<span></span>Create User Story
-		</button>
-		</a>
-	</p>
-	<div id="confirmConvertToUserStoryModalWindow" title="Delete this data element ?">
-		<p>This will create a Story based on your Workboard. Once the Workboard becomes a Story, no more data element can be added to it.</p> 
-		<p>Are you sure you want to create a Story from your Workboard now ?</p>
-	</div>
-	<script type="text/javascript">
-		setupConfirmBox("confirmConvertToUserStoryModalWindow", "lnkConvertToUserStory");
 	</script>
 </div>
