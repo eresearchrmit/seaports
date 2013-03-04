@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.ui.Model;
 
 @Controller
-@RequestMapping("public")
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -36,9 +35,13 @@ public class UserController {
 	public String loginFailed(Model model) {
 		logger.debug("Inside loginFailed");
 		model.addAttribute("error", true);
-		
-		return "public/login";
+		return "login";
 	}
+	
+	@RequestMapping(value = "/accessDenied")
+    public String accessDenied() {
+          return "accessDenied";
+     }
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerNewUser(@ModelAttribute User user, Model model) {

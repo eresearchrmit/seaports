@@ -6,7 +6,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import services.UserLoginService;
+import security.UserLoginService;
 import war.dao.ClimateEmissionScenarioDao;
 import war.dao.ClimateParamsDao;
 import war.dao.CsiroVariableDao;

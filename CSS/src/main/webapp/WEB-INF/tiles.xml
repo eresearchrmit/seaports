@@ -27,14 +27,19 @@
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
 	</definition>
 	
-	<definition name="public/register" extends="public.base.definition">
+	<definition name="register" extends="public.base.definition">
 		<put-attribute name="title" value="Sign Up - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/register.jsp" />
 	</definition>
 	
-	<definition name="public/login" extends="public.base.definition">
+	<definition name="login" extends="public.base.definition">
 		<put-attribute name="title" value="Login - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
+	</definition>
+	
+	<definition name="accessDenied" extends="public.base.definition">
+		<put-attribute name="title" value="Access Denied - Climate Smart Seaports" />
+		<put-attribute name="body" value="/WEB-INF/views/accessDenied.jsp" />
 	</definition>
 	
 	<definition name="workboardCreation" extends="base.definition">
@@ -61,6 +66,11 @@
 	<definition name="userstoryView" extends="base.definition">
 		<put-attribute name="title" value="User Story - Climate Smart Seaports" />
 		<put-attribute name="sidemenu" value="/WEB-INF/views/userstoryView.jsp" />
+	</definition>
+	
+	<definition name="userList" extends="base.definition">
+		<put-attribute name="title" value="Users list - Climate Smart Seaports" />
+		<put-attribute name="sidemenu" value="/WEB-INF/views/userList.jsp" />
 	</definition>
 	<!-- /PAGE SPECIFIC -->
 </tiles-definitions>

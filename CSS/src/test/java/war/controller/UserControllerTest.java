@@ -2,7 +2,7 @@ package war.controller;
 
 import junit.framework.Assert;
 
-import services.UserLoginService;
+import security.UserLoginService;
 import war.model.UserAuthority;
 import war.model.User;
 

@@ -20,7 +20,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = {"/", "/public"}, method = RequestMethod.GET)
 	public String home(Model model) {
-		logger.info("Welcome home eResearch!");
+		logger.info("Welcome to Climate Smart Seaports !");
 		model.addAttribute("controllerMessage", "Please Login to Create Workboard");
 		return "home";
 	}

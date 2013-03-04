@@ -4,7 +4,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import services.UserLoginService;
+import security.UserLoginService;
 import war.dao.DataElementDao;
 import war.dao.UserDao;
 import war.dao.UserStoryDao;

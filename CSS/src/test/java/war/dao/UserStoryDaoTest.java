@@ -13,7 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import services.UserLoginService;
+import security.UserLoginService;
 
 import war.model.UserAuthority;
 import war.model.Region;

@@ -1,1 +1,1 @@
-<p>Copyright &copy; RMIT University</p>
+<p>Copyright &copy; RMIT University</p> <a href="/CSS/admin/users/list">Administration</a>

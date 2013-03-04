@@ -1,4 +1,4 @@
-package services;
+package security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,28 +32,25 @@ public class UserLoginService implements UserDetailsService
     }
  
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
+    	logger.info("Inside loadUserByUsername");
+    	logger.info("Trying to authenticate '" + username + "'");
+    	
     	User user;
-        logger.info("Inside loadUserByUsername");
-        logger.info("STEP 1 - username = " + username);
-    	if (username != null && !username.equals("")) {
-    		logger.info("Username is not null or empty");	
+    	if (username != null && !username.equals("")) {	
 	    	try {
 	    		user = userDao.loadUserByName(username);
 	        }
 	        catch (Exception e) {
-	        	logger.info("Exception caught: " + e.getMessage());
 	        	throw new UsernameNotFoundException("getUserByUserName returned null.");
 	        }
 	
-	        logger.info(" STEP 2 - User= " + user);
 	        if (user == null) {
 	        	return null;
 	        }
 	        
-	        logger.info("User Role= " + user.getRole());
 	        GrantedAuthority userAuth = new UserAuthority(user.getRole());
 	        UserCustom customUser = new UserCustom(user.getUsername(), user.getPassword(), new GrantedAuthority[]{ userAuth });
-	        logger.info("customUser= " + customUser.getUsername() + "," + customUser.getPassword() + "," + customUser.getAuthorities());
+	        
 	        return customUser;
     	}
     	else {

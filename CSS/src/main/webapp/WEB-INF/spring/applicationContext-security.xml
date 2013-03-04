@@ -10,15 +10,17 @@
 
 	<http auto-config="true" use-expressions="true">
 		<intercept-url pattern="/public/**" access="permitAll" />
-        <intercept-url pattern="/auth/**" access="hasRole('ROLE_ADMIN')" />
-        <form-login login-page="/public/login" default-target-url="/auth/workboard?username=gprevost" authentication-failure-url="/public/loginfailed"/>
+        <intercept-url pattern="/auth/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
+        <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
+        <form-login login-page="/login" authentication-failure-url="/loginfailed"/>
         <logout logout-success-url="/" />
+        <access-denied-handler error-page="/accessDenied" />
     </http>
 
 	<beans:bean id="userDao" class="war.dao.UserDao">
 	</beans:bean>
 
-	<beans:bean id="userService" class="services.UserLoginService">
+	<beans:bean id="userService" class="security.UserLoginService">
 		<beans:property name="userDao" ref="userDao"></beans:property>
 	</beans:bean> 
     

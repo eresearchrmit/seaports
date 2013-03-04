@@ -43,12 +43,10 @@ public class UserDao {
 	
 	// TODO: Duplicate method with find(String username)
 	public User loadUserByName(String username) {
-		logger.info("Inside the DAO");
-		logger.info("username=" + username);
 		User user = entityManager.find(User.class, username);
-		logger.info("user corresponding to the username: " + user);
 		if (user == null)
 			throw new NoResultException(ERR_NO_SUCH_USER);
+		
 		return user;
 	}
 	
