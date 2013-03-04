@@ -61,7 +61,7 @@ public class UserStoryControllerTest {
 	@Transactional
 	public void getUserStoryTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		int id = 1; // ID of a User Story owned by testuser1
 		ModelAndView result = userStoryController.getUserStory(id, model);
 		
@@ -111,7 +111,7 @@ public class UserStoryControllerTest {
 	@Transactional
 	public void getUserStoriesListNoStoryTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		User refUser = new User("testuser3", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
+		User refUser = new User("testuser3", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
 		ModelAndView result = userStoryController.getUserStoriesList(refUser.getUsername(), model);
 		
 		// Check there is no error
@@ -141,7 +141,7 @@ public class UserStoryControllerTest {
 	@Transactional
 	public void getUserStoriesListTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		ModelAndView result = userStoryController.getUserStoriesList(refUser.getUsername(), model);
 		
 		// Check there is no error
@@ -196,7 +196,7 @@ public class UserStoryControllerTest {
 	@Transactional
 	public void getUserStoryViewTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		int id = 1; // ID of a User Story owned by testuser1
 		ModelAndView result = userStoryController.getUserStoryView(id, model);
 		

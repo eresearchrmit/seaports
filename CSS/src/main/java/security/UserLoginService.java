@@ -4,15 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import war.dao.UserDao;
 import war.model.User;
-import war.model.UserAuthority;
-import war.model.UserCustom;
 
 public class UserLoginService implements UserDetailsService
 {
@@ -39,19 +36,11 @@ public class UserLoginService implements UserDetailsService
     	if (username != null && !username.equals("")) {	
 	    	try {
 	    		user = userDao.loadUserByName(username);
+	    		return user;
 	        }
 	        catch (Exception e) {
-	        	throw new UsernameNotFoundException("getUserByUserName returned null.");
+	        	throw new UsernameNotFoundException(e.getMessage());
 	        }
-	
-	        if (user == null) {
-	        	return null;
-	        }
-	        
-	        GrantedAuthority userAuth = new UserAuthority(user.getRole());
-	        UserCustom customUser = new UserCustom(user.getUsername(), user.getPassword(), new GrantedAuthority[]{ userAuth });
-	        
-	        return customUser;
     	}
     	else {
     		return null;

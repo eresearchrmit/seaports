@@ -36,8 +36,8 @@ public class UserStoryDaoTest {
 
 	@Before
 	public void prepareData() {		
-		userForTest = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
-		userWithoutStory = new User("testuser4", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4");
+		userForTest = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		userWithoutStory = new User("testuser4", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4");
 		
 		userStoryForTest = new UserStory("User 1 WorkBoard", "active", "private", userForTest, new Region("East Coast South"), null);
 	}

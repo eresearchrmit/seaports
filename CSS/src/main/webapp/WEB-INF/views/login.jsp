@@ -25,6 +25,7 @@
 				    	<td class="col2" align="left"><input type="password" name="j_password" /></td>
 				    </tr>
 				</table>
+				<p><a href="/CSS/register">Don't have an account ? Click here to sign up and start</a></p>
 				<input name="submit" type="submit" value="Log In" class="btn btn-blue" />
 			</form:form>
 		</div>

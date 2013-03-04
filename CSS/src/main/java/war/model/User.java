@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 /**
  * Class representing a user of the application
  * @author Guillaume Prevost
@@ -18,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="user")
-public class User implements Serializable {
+public class User implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = -1308795024262635690L;
 	
@@ -36,12 +39,18 @@ public class User implements Serializable {
 	/**
 	 * Whether the user account is enabled or not
 	 */
-    private String enabled;
+    private Boolean enabled;
  
+    /**
+     * Whether the user account is locked or not. A locked user account cannot login and access his work.
+     * True = unlocked, False = locked
+     */
+    private Boolean nonLocked;
+    
     /**
      * The role of the user within the application
      */
-    private String role;
+    private String roles;
     
     /**
      * The email address of the user
@@ -63,7 +72,7 @@ public class User implements Serializable {
 	 */
 	@OneToMany(targetEntity=UserStory.class, mappedBy="owner",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<UserStory> userstories;
-
+	
 	/**
 	 * Default constructor of user
 	 */
@@ -80,12 +89,13 @@ public class User implements Serializable {
 	 * @param firstname: the first name of the user
 	 * @param lastname: the last name of the user
 	 */
-	public User(String username, String password, String enabled, String role, String email, String firstname, String lastname) {
+	public User(String username, String password, Boolean enabled, Boolean nonLocked, String roles, String email, String firstname, String lastname) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.enabled = enabled;
-		this.role = role;
+		this.nonLocked = nonLocked;
+		this.roles = roles;
 		this.email = email;
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -115,7 +125,6 @@ public class User implements Serializable {
 		return password;
 	}
 	
-
 	/**
 	 * Setter for the password of the user
 	 * @param name: the new password of the user
@@ -124,40 +133,52 @@ public class User implements Serializable {
 		this.password = password;
 	}	
 
-	
-	
 	/**
 	 * Getter for the status of the user account
 	 * @return the current status of the user account
 	 */
-	public String getEnabled() {
+	public Boolean getEnabled() {
 		return this.enabled;
 	}
-	
 	
 	/**
 	 * Setter for the status of the user account
 	 * @param name: the new status of the user account
 	 */
-	public void setEnabled(String enabled) {
+	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
 	
-	
 	/**
-	 * Getter for the role of the user in the application
-	 * @return the current role of the user in the application
+	 * Getter for whether the user account is locked or not
+	 * @return the current lock status of the user account (true = unlocked, false = locked)
 	 */
-	public String getRole() {
-		return this.role;
+	public Boolean getNonLocked() {
+		return this.nonLocked;
 	}
 	
 	/**
-	 * Setter for the role of the user in the application
-	 * @param name: the new role of the user in the application
+	 * Setter for whether the user account is locked or not
+	 * @param name: the new lock status of the user account (true = unlocked, false = locked)
 	 */
-	public void setRole(String role) {
-		this.role = role;
+	public void setNonLocked(Boolean nonLocked) {
+		this.nonLocked = nonLocked;
+	}
+	
+	/**
+	 * Getter for the roles of the user in the application
+	 * @return the current roles of the user in the application
+	 */
+	public String getRoles() {
+		return this.roles;
+	}
+	
+	/**
+	 * Setter for the roles of the user in the application
+	 * @param name: the new roles of the user in the application
+	 */
+	public void setRoles(String roles) {
+		this.roles = roles;
 	}
 	
 	/**
@@ -226,6 +247,41 @@ public class User implements Serializable {
 	public void setUserStories(List<UserStory> userstories) {
 		this.userstories = userstories;
 	}
+
+	@Override
+	public Collection<GrantedAuthority> getAuthorities() {
+		Collection<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
+		
+		String[] arrRoles = this.roles.split(",");
+		for (String role : arrRoles) {
+			auth.add(new UserAuthority(role));
+		}
+		return auth;
+	}
+	
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+	
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return this.nonLocked;
+	}
+	
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+	
+
+	@Override
+	public boolean isEnabled() {
+		return this.enabled;
+	}
 	
 	/**
 	 * Returns the string representation of the user
@@ -234,14 +290,6 @@ public class User implements Serializable {
 	@Override
 	public String toString() {
 		return this.firstname + " " + this.lastname + " (" + this.username + ")";
-	}
-
-	/**
-	 * Returns the hashcode of the user
-	 */
-	@Override
-	public int hashCode() {
-		return username.hashCode();
 	}
 
 	/**
@@ -258,5 +306,13 @@ public class User implements Serializable {
 		
 		User other = (User)obj;
 		return (this.username.equals(other.getUsername()));
+	}
+	
+	/**
+	 * Returns the hashcode of the user
+	 */
+	@Override
+	public int hashCode() {
+		return username.hashCode();
 	}
 }

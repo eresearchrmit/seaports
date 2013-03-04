@@ -50,7 +50,7 @@
 	                 	</c:when>
 	                 	<c:otherwise>
 	                 		<td class="center"><a href="#" class="lnkPublishUserStory" ><img src="<c:url value="/resources/img/icons/world_go.png" />" alt="Publish" title="Publish" /></a></td>
-							<td class="center"><a href="/CSS/spring/userstory/delete?id=${story.id}" class="lnkDeleteUserStory" title="Delete this Story"><img src="<c:url value="/resources/img/icons/delete.png" />" alt="Delete" /></a></td>
+							<td class="center"><a href="/CSS/auth/userstory/delete?id=${story.id}" class="lnkDeleteUserStory" title="Delete this Story"><img src="<c:url value="/resources/img/icons/delete.png" />" alt="Delete" /></a></td>
 	                 	</c:otherwise>
 					</c:choose>
 				</tr>

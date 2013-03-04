@@ -10,8 +10,6 @@ import javax.persistence.Query;
 
 import war.model.User;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,15 +19,13 @@ public class UserDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	private Logger logger = LoggerFactory.getLogger(UserDao.class);
-	
 	/**
 	 * The name of the table in the database where the Users are stored
 	 */
 	public final static String TABLE_NAME = "User";
 
 	/**
-	 * Retrieve the user in the database associated to a login
+	 * Retrieve the user in the database associated to a username
 	 * @param id: the login of the required user
 	 * @return the user associated to the given login
 	 * @throws NoResultException if the search didn't return any result

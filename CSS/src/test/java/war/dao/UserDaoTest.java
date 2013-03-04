@@ -29,18 +29,18 @@ public class UserDaoTest {
 
 	@Before
 	public void prepareData() {
-		usersForTest.add(new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1"));
-		usersForTest.add(new User("testuser2", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser2", "testuser2"));
-		usersForTest.add(new User("testuser3", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3"));
-		usersForTest.add(new User("testuser4", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4"));
-		usersForTest.add(new User("testadmin1", "password", "enabled", UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin1", "testadmin1"));
-		usersForTest.add(new User("testadmin2", "password", "enabled", UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin2", "testadmin2"));
+		usersForTest.add(new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1"));
+		usersForTest.add(new User("testuser2", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser2", "testuser2"));
+		usersForTest.add(new User("testuser3", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3"));
+		usersForTest.add(new User("testuser4", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4"));
+		usersForTest.add(new User("testadmin1", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin1", "testadmin1"));
+		usersForTest.add(new User("testadmin2", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin2", "testadmin2"));
 	}
 
 	@Test
 	public void userSaveNewUserTest() {
 		try {
-			User savedUser = userDao.save(new User("login", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "firstname", "lastname"));
+			User savedUser = userDao.save(new User("login", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "firstname", "lastname"));
 		
 			Assert.assertNotNull(savedUser.getUsername());
 			Assert.assertNotNull(savedUser.getPassword());
@@ -64,12 +64,12 @@ public class UserDaoTest {
 	
 	@Test(expected = IllegalArgumentException.class) 
 	public void userSaveNullLoginTest() throws IllegalArgumentException {
-		userDao.save(new User(null, "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "firstname", "lastname"));
+		userDao.save(new User(null, "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "firstname", "lastname"));
 	}
 	
 	@Test(expected = IllegalArgumentException.class) 
 	public void userSaveNullPasswordTest() throws IllegalArgumentException {
-		userDao.save(new User("login", null, "enabled", UserLoginService.ROLE_USER, "email@company.com", "firstname", "lastname"));
+		userDao.save(new User("login", null, true, true, UserLoginService.ROLE_USER, "email@company.com", "firstname", "lastname"));
 	}
 	
 	@Test

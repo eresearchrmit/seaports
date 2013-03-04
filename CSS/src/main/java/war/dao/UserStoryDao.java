@@ -48,7 +48,7 @@ public class UserStoryDao {
 	 * WARNING: the use of this method can be time and resource consuming !
 	 * @return the list of all the user stories in the database
 	 */
-	public List<UserStory> getAllStories() {	
+	public List<UserStory> getAllStories() {
 		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us");
 		return performQueryAndCheckResultList(query);
 	}
@@ -58,7 +58,7 @@ public class UserStoryDao {
 	 * @param user: the user to retrieve the stories of
 	 * @return the list of the user's stories
 	 */
-	public List<UserStory> getUserStories(User user) {
+	public List<UserStory> getUserStories(User user) {		
 		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us WHERE us.mode != :mode AND us.owner = :owner") ;
 		query.setParameter("mode", "active"); // All except active
 		query.setParameter("owner", user); // Only of this user
@@ -85,7 +85,7 @@ public class UserStoryDao {
 	 * @param user: the user to retrieve the public stories
 	 * @return the list of the public stories of the given user
 	 */
-	public List<UserStory> getPublicUserStories(User user) {
+	public List<UserStory> getPublicUserStories(User user) {		
 		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
 		query.setParameter("access", "public"); // Only public
 		query.setParameter("mode", "active"); // All except active
@@ -99,7 +99,7 @@ public class UserStoryDao {
 	 * @param user: the user to retrieve the published stories
 	 * @return the list of the published stories of the given user
 	 */
-	public List<UserStory> getPublishedUserStories(User user) {
+	public List<UserStory> getPublishedUserStories(User user) {		
 		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us WHERE us.mode != :mode AND us.access = :access AND us.owner = :owner") ;
 		query.setParameter("access", "public");
 		query.setParameter("mode", "published");
@@ -113,9 +113,8 @@ public class UserStoryDao {
 	 * @param user: the user to retrieve the workboard of
 	 * @return the Workboard of the given user
 	 */
-	public UserStory getWorkboard(User user) {
-		UserStory workboard = null ;
-		
+	public UserStory getWorkboard(User user) {		
+		UserStory workboard = null;
 		try {
 			Query query = entityManager.createQuery("SELECT u FROM " + TABLE_NAME + " u WHERE u.mode = :mode AND u.owner = :owner") ;
 			query.setParameter("mode", "active"); // Only the active one
@@ -141,7 +140,7 @@ public class UserStoryDao {
 	public UserStory save(UserStory userStory) {
 		if (userStory == null || userStory.getName() == null || userStory.getName().isEmpty())
 			throw new IllegalArgumentException();
-		
+				
 		if (userStory.getMode() == null)
 			userStory.setMode("active");
 		if (userStory.getAccess() == null)

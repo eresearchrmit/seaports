@@ -63,7 +63,7 @@ public class WorkboardControllerTest {
 		Assert.assertNotNull(result);
 		Assert.assertNull(model.get("errorMessage"));
 				
-		User refUser = new User("testuser3", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
+		User refUser = new User("testuser3", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
  		UserStory refWorkboard = new UserStory();
  		refWorkboard.setOwner(refUser);
  		
@@ -85,7 +85,7 @@ public class WorkboardControllerTest {
 	 */
 	@Test
 	public void getUserWorkBoardTest() {
-		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.getUserWorkBoard("testuser1", model);
@@ -199,12 +199,12 @@ public class WorkboardControllerTest {
 	 */
 	@Test
 	public void addWorkBoardAlreadyCurrentWorkboardTest() {
-		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTest");
-		ModelAndView result = workboardController.addWorkboard(userStory, refUser.getUsername(), model);
+		ModelAndView result = workboardController.addWorkboard(userStory, model);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
@@ -219,13 +219,13 @@ public class WorkboardControllerTest {
 	 */
 	@Test
 	public void addWorkBoardUnknownUserTest() {
-		User refUser = new User("UNKNOWNUSERNAME", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		User refUser = new User("UNKNOWNUSERNAME", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
 		userStory.setRegion(new Region("East Coast South"));
 		userStory.setName("addWorkBoardTest");
-		ModelAndView result = workboardController.addWorkboard(userStory, refUser.getUsername(), model);
+		ModelAndView result = workboardController.addWorkboard(userStory, model);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
@@ -238,13 +238,13 @@ public class WorkboardControllerTest {
 	@Test
 	public void addWorkBoardTest() {
 		// This user has no Workboard (= active user story) so a new workboard can be created
-		User refUser = new User("testuser3", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
+		User refUser = new User("testuser3", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory refUserStory = new UserStory();
 		refUserStory.setRegion(new Region("East Coast South"));
 		refUserStory.setName("addWorkBoardTest");
-		ModelAndView result = workboardController.addWorkboard(refUserStory, refUser.getUsername(), model);
+		ModelAndView result = workboardController.addWorkboard(refUserStory, model);
 
 		// Check there was no error
 		Assert.assertNotNull(result);
@@ -257,59 +257,6 @@ public class WorkboardControllerTest {
 		Assert.assertTrue(result.getModelMap().get("userstory").getClass().equals(UserStory.class));
 		UserStory userStory = (UserStory)(result.getModelMap().get("userstory"));
 		Assert.assertEquals(refUserStory.getName(), userStory.getName());
-		
-		// Check the user story is active and private
-		Assert.assertEquals("active", userStory.getMode());
-		Assert.assertEquals("private", userStory.getAccess());
-	}
-
-	/**
-	 * saveWorkboardUnknownIdTest : Save should fail because the ID provided doesn't correspond to an existing Workboard
-	 */
-	//@Test
-	public void saveWorkboardUnknownIdTest() {
-		ExtendedModelMap model = new ExtendedModelMap();
-		UserStory refWorkboard = new UserStory();
-		refWorkboard.setName("addWorkBoardTest");
-		ModelAndView result = workboardController.saveWorkboard(refWorkboard, 99999, model);
-		
-		// Check the error message
-		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
-	}
-	
-	/**
-	 * saveWorkboardTest : should succeed
-	 */
-	//@Test
-	public void saveWorkboardTest() {
-		ExtendedModelMap model = new ExtendedModelMap();
-		
-		// Creating dummy Data Elements for the workboard to be saved
-		UserStory refWorkboard = new UserStory();
-		String dummyContent = "Dummy Content"; 
-		List<DataElement> dataElements = new ArrayList<DataElement>();
-		DataElement de1 = new DataElementFile(new Date(), "Name1", true, 0, refWorkboard, "Type1", dummyContent.getBytes());
-		DataElement de2 = new DataElementFile(new Date(), "Name2", true, 0, refWorkboard, "Type2", dummyContent.getBytes());
-		dataElements.add(de1);
-		dataElements.add(de2);
-		refWorkboard.setDataElements(dataElements);
-		
-		ModelAndView result = workboardController.saveWorkboard(refWorkboard, 1, model);
-		
-		// Check there was no error
-		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
-		Assert.assertNotNull(model.get("successMessage"));
-		Assert.assertEquals(WorkboardController.MSG_WORKBOARD_SAVED, model.get("successMessage"));
-		
- 		// Check the view name
- 		Assert.assertEquals("activeWB", result.getViewName());
- 		
- 		// Check the user story is set in the model
-		Assert.assertTrue(result.getModelMap().get("userstory").getClass().equals(UserStory.class));
-		UserStory userStory = (UserStory)(result.getModelMap().get("userstory"));
 		
 		// Check the user story is active and private
 		Assert.assertEquals("active", userStory.getMode());
@@ -352,7 +299,7 @@ public class WorkboardControllerTest {
 		UserStory userStory = (UserStory)(result.getModelMap().get("userstory"));
 		
 		// Check the user story is active and private
-		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		Assert.assertEquals(refUser, userStory.getOwner());
 	}
 

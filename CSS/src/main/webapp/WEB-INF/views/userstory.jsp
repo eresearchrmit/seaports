@@ -54,13 +54,13 @@
 								<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.class.simpleName == 'DataElementFile' && dataelement.filetype != 'comment'}">.${dataelement.filetype}</c:if></h5>
 								
 								<!-- 'Include/Exclude' button -->
-								<button type="button" class="btn-mini ${dataelement.included == false ? 'btn-grey btn-plus' : 'btn-blue btn-minus'} floatright" onclick="location.href='/CSS/spring/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" title="Include/Exclude from the story">
+								<button type="button" class="btn-mini ${dataelement.included == false ? 'btn-grey btn-plus' : 'btn-blue btn-minus'} floatright" onclick="location.href='/CSS/auth/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" title="Include/Exclude from the story">
 									<span></span>Include/Exclude
 								</button>
 								
 								<!-- 'Remove Text' button -->
 								<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
-									<a class="lnkRemoveTextFromStory" href="/CSS/spring/userstory/deleteText?text=${dataelement.id}" title="Delete the text from the story">
+									<a class="lnkRemoveTextFromStory" href="/CSS/auth/userstory/deleteText?text=${dataelement.id}" title="Delete the text from the story">
 										<button type="button" class="btn btn-icon ${dataelement.included == false ? 'btn-grey' : 'btn-blue'} btn-small btn-cross floatright" style="margin-right:5px">
 											<span></span>Delete
 										</button>
@@ -302,7 +302,7 @@
 	</form:form>
 	
 	<div id="dataElementAdder">
-		<a href="/CSS/spring/userstory/addText?story=${userstory.id}">
+		<a href="/CSS/auth/userstory/addText?story=${userstory.id}">
 			<button class="btnAddDataElement btn btn-icon btn-blue btn-plus" >
 				<span></span>Add Text to Story
 			</button>

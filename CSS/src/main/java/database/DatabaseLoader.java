@@ -24,11 +24,11 @@ public class DatabaseLoader {
 		Session session = factory.getCurrentSession();
 		session.beginTransaction();	
 
-		User p1 = new User("gprevost", "password", "enabled", UserLoginService.ROLE_ADMINISTRATOR,"guillaume.prevost@live.com", "Guillaume", "Prevost");
-		User p2 = new User("jmullet", "jane123", "enabled", UserLoginService.ROLE_USER, "email", "Jane", "Mullett");
-		User p3 = new User("rsrini", "ravi123", "enabled", UserLoginService.ROLE_USER, "email", "Ravi", "Srini");
-		User p4 = new User("user", "password", "enabled", UserLoginService.ROLE_USER, "email", "user", "user");
-		User p5 = new User("vbala", "nara", "enabled", UserLoginService.ROLE_ADMINISTRATOR, "email", "Venki", "Bala");
+		User p1 = new User("gprevost", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR,"guillaume.prevost@live.com", "Guillaume", "Prevost");
+		User p2 = new User("jmullet", "jane123", true, true, UserLoginService.ROLE_USER, "email", "Jane", "Mullett");
+		User p3 = new User("rsrini", "ravi123", true, true, UserLoginService.ROLE_USER, "email", "Ravi", "Srini");
+		User p4 = new User("user", "password", true, true, UserLoginService.ROLE_USER, "email", "user", "user");
+		User p5 = new User("vbala", "nara", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email", "Venki", "Bala");
 		session.save(p1);
 		session.save(p2);
 		session.save(p3);

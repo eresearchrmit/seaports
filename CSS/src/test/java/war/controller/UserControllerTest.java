@@ -27,7 +27,7 @@ public class UserControllerTest {
 	
 	@Before
 	public void prepareData() {
-		userForTest = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		userForTest = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 	}
 	
 	/**
@@ -204,7 +204,7 @@ public class UserControllerTest {
 		User p = new User();
 		// Login not set ON PURPOSE
 		p.setPassword("password");
-		p.setRole(UserLoginService.ROLE_USER);
+		p.setRoles(UserLoginService.ROLE_USER);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		String result = personController.loginValidation(p, model);
@@ -223,7 +223,7 @@ public class UserControllerTest {
 		User p = new User();
 		p.setUsername("testuser1");
 		// Password not set ON PURPOSE
-		p.setRole(UserLoginService.ROLE_USER);
+		p.setRoles(UserLoginService.ROLE_USER);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		String result = personController.loginValidation(p, model);
@@ -239,7 +239,7 @@ public class UserControllerTest {
 	 */
 	@Test
 	public void loginValidationPasswordInvalidTest() {
-		User u= new User("testuser1", "WRONGPASSWORD", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		User u= new User("testuser1", "WRONGPASSWORD", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		ExtendedModelMap model = new ExtendedModelMap();
 		String result = personController.loginValidation(u, model);
 		

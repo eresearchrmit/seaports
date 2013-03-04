@@ -42,7 +42,7 @@
 		</div>
 	</c:if>
 
-	<form:form method="post" action="/CSS/spring/workboard/save?id=${userstory.id}" modelAttribute="userstory">
+	<form:form method="post" action="/CSS/auth/workboard/save?id=${userstory.id}" modelAttribute="userstory">
 		
 	  	<c:if test="${not empty dataelements}">
 		 	<c:forEach items="${dataelements}" var="dataelement" varStatus="status">
@@ -50,7 +50,7 @@
 		 			<div class="box round">
 						<div class="box-header">
 						<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">.${dataelement.filetype}</c:if></h5>
-							<a class="lnkDeleteDataElement" href="/CSS/spring/workboard/deletedataelement?dataelementid=${dataelement.id}">
+							<a class="lnkDeleteDataElement" href="/CSS/auth/workboard/deletedataelement?dataelementid=${dataelement.id}">
 							<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" >
 								<span></span>Delete
 							</button>

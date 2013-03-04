@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page session="true"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ page session="true" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page language="java" import="war.model.UserStory" %>
 <%@ page language="java" import="war.model.User" %>
 <%@ page language="java" import="war.model.DataElement" %>
 
+<c:if test="${not empty userstory}">
 <div class="grid_12">
 	<h2>${userstory.name}</h2>
 	<h6>${userstory.region.name}</h6>
@@ -39,7 +39,7 @@
 			</table>
 			<p>
 			<div id="csiroDataForm" class="dataElementForm">
-				<form:form method="post" action="/CSS/spring/workboard/addCsiroData?id=${userstory.id}" modelAttribute="climateData">
+				<form:form method="post" action="/CSS/auth/workboard/addCsiroData?id=${userstory.id}" modelAttribute="climateData">
 					<input type="hidden" name="userstoryid" value="${userstory.id}" />
 					<p><strong>2. CSIRO Data Options:</strong></p>
 					<table width="auto" height="auto" class="form">
@@ -109,7 +109,7 @@
 				</button>
 			</div>
 			<div id="engineeringDataForm" class="dataElementForm">
-				<form:form id="formEngineeringData" method="post" action="/CSS/spring/workboard/addEngineeringData?id=${userstory.id}" enctype="multipart/form-data">
+				<form:form id="formEngineeringData" method="post" action="/CSS/auth/workboard/addEngineeringData?id=${userstory.id}" enctype="multipart/form-data">
 					<p><strong>2. Engineering Model Data Element Options:</strong></p>
 					<input type="hidden" name="sourceType" id="hdnEngineeringSourceType" value="upload" />
 					
@@ -155,7 +155,7 @@
 				</form:form>
 			</div>
 			<div id="customFileDataForm" class="dataElementForm">
-				<form:form method="post" action="/CSS/spring/workboard/upload?id=${userstory.id}" enctype="multipart/form-data">
+				<form:form method="post" action="/CSS/auth/workboard/upload?id=${userstory.id}" enctype="multipart/form-data">
 					<p><strong>2. Custom Data Element Options:</strong></p>
 					<table width="auto" height="auto" class="form">
 						<tr>
@@ -173,7 +173,7 @@
 		</div>
 	</div>
 	<p>
-		<a class="lnkDeleteWorkboard" href="/CSS/spring/workboard/delete?id=${userstory.id}">
+		<a class="lnkDeleteWorkboard" href="/CSS/auth/workboard/delete?id=${userstory.id}">
 		<button id="btnDeleteWorkboard" type="button" class="btn btn-icon btn-blue btn-cross" >
 			<span></span>Delete WorkBoard
 		</button>
@@ -184,7 +184,7 @@
 		<p>Are you sure you want to permanently delete your current workboard ?</p> 
 	</div>
 	<p>
-		<a class="lnkConvertToUserStory" href="/CSS/spring/userstory/create?id=${userstory.id}">
+		<a class="lnkConvertToUserStory" href="/CSS/auth/userstory/create?id=${userstory.id}">
 		<button id="btnConvertToUserStory" type="button" class="btn btn-icon btn-blue btn-arrow-right" >
 			<span></span>Create User Story
 		</button>
@@ -231,3 +231,4 @@
 		});
 	</script>
 </div>
+</c:if>
