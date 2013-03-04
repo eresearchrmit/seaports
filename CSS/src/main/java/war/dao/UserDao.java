@@ -10,28 +10,43 @@ import javax.persistence.Query;
 
 import war.model.User;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserDao {
-
+	
 	@PersistenceContext
 	private EntityManager entityManager;
+	
+	private Logger logger = LoggerFactory.getLogger(UserDao.class);
 	
 	/**
 	 * The name of the table in the database where the Users are stored
 	 */
 	public final static String TABLE_NAME = "User";
-	
+
 	/**
 	 * Retrieve the user in the database associated to a login
 	 * @param id: the login of the required user
 	 * @return the user associated to the given login
 	 * @throws NoResultException if the search didn't return any result
 	 */
-	public User find(String login) throws NoResultException {
-		User user = entityManager.find(User.class, login);
+	public User find(String username) throws NoResultException {
+		User user = entityManager.find(User.class, username);
+		if (user == null)
+			throw new NoResultException(ERR_NO_SUCH_USER);
+		return user;
+	}
+	
+	// TODO: Duplicate method with find(String username)
+	public User loadUserByName(String username) {
+		logger.info("Inside the DAO");
+		logger.info("username=" + username);
+		User user = entityManager.find(User.class, username);
+		logger.info("user corresponding to the username: " + user);
 		if (user == null)
 			throw new NoResultException(ERR_NO_SUCH_USER);
 		return user;
@@ -46,6 +61,16 @@ public class UserDao {
 		return performQueryAndCheckResultList(query);
 	}
 	
+	// TODO: Check if still useful
+    /*public List<String> getAuthoritiesByUserName(String username) {
+    	User user = entityManager.find(User.class, username);
+        
+        List<String> authorities = new ArrayList<String>();
+        authorities.add(user.getAuthority().getAuthority());
+        
+        return authorities;
+    }*/
+	
 	/**
 	 * Save a user in the Database. It adds a new user or update an existing user
 	 * @param user: the user to save
@@ -53,12 +78,12 @@ public class UserDao {
 	 */
 	@Transactional
 	public User save(User user) throws IllegalArgumentException {
-		if (user.getLogin() == null || user.getLogin().equals("") || user.getPassword() == null || user.getPassword().equals("")) {
+		if (user.getUsername() == null || user.getUsername().equals("") || user.getPassword() == null || user.getPassword().equals("")) {
 			throw new IllegalArgumentException(ERR_REQUIRED_INFORMATION);
 		}
 		
 		try {
-			find(user.getLogin());
+			find(user.getUsername());
 			return entityManager.merge(user);
 		}
 		catch (NoResultException e) {

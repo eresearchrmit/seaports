@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * Class representing a user of the application
@@ -16,21 +17,37 @@ import javax.persistence.OneToMany;
  * @since 11th Jan. 2013
  */
 @Entity
+@Table(name="user")
 public class User implements Serializable {
 
 	private static final long serialVersionUID = -1308795024262635690L;
-
+	
 	/**
 	 * The login of the user. This is the unique identifier of the user
 	 */
 	@Id
-	private String login;
+    private String username;
 	
 	/**
 	 * The password of the user
 	 */
 	private String password;
 	
+	/**
+	 * Whether the user account is enabled or not
+	 */
+    private String enabled;
+ 
+    /**
+     * The role of the user within the application
+     */
+    private String role;
+    
+    /**
+     * The email address of the user
+     */
+    private String email;
+    
 	/**
 	 * The first name of the user
 	 */
@@ -40,12 +57,7 @@ public class User implements Serializable {
 	 * The last name of the user
 	 */
 	private String lastname;
-	
-	/**
-	 * The privilege level of the user in the application
-	 */
-	private Privilege privilege;
-	
+    
 	/**
 	 * The stories of the user
 	 */
@@ -60,34 +72,39 @@ public class User implements Serializable {
 
 	/**
 	 * Constructor of User specifying the name, login and password 
-	 * @param login: the login of the user. This is the unique identifier of the user
+	 * @param username: the username of the user. This is the unique identifier of the user
 	 * @param password: the password of the user
+	 * @param enabled: whether the user account is enabled or disabled
+	 * @param role: the role of the user in the application
+	 * @param email: the email address of the user
 	 * @param firstname: the first name of the user
 	 * @param lastname: the last name of the user
 	 */
-	public User(String login, String password, String firstname, String lastname, Privilege privilege) {
+	public User(String username, String password, String enabled, String role, String email, String firstname, String lastname) {
 		super();
-		this.login = login;
+		this.username = username;
+		this.password = password;
+		this.enabled = enabled;
+		this.role = role;
+		this.email = email;
 		this.firstname = firstname;
 		this.lastname = lastname;
-		this.password = password;
-		this.privilege = privilege;
 	}
 	
 	/**
-	 * Getter for the login of the user
-	 * @return the login of the user
+	 * Getter for the username of the user
+	 * @return the username of the user
 	 */
-	public String getLogin() {
-		return login;
+	public String getUsername() {
+		return username;
 	}
 	
 	/**
-	 * Setter for the login of the user
-	 * @param name: the new login of the user
+	 * Setter for the username of the user
+	 * @param name: the new username of the user
 	 */
-	public void setLogin(String login) {
-		this.login = login;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	
 	/**
@@ -97,6 +114,7 @@ public class User implements Serializable {
 	public String getPassword() {
 		return password;
 	}
+	
 
 	/**
 	 * Setter for the password of the user
@@ -104,6 +122,58 @@ public class User implements Serializable {
 	 */
 	public void setPassword(String password) {
 		this.password = password;
+	}	
+
+	
+	
+	/**
+	 * Getter for the status of the user account
+	 * @return the current status of the user account
+	 */
+	public String getEnabled() {
+		return this.enabled;
+	}
+	
+	
+	/**
+	 * Setter for the status of the user account
+	 * @param name: the new status of the user account
+	 */
+	public void setEnabled(String enabled) {
+		this.enabled = enabled;
+	}
+	
+	
+	/**
+	 * Getter for the role of the user in the application
+	 * @return the current role of the user in the application
+	 */
+	public String getRole() {
+		return this.role;
+	}
+	
+	/**
+	 * Setter for the role of the user in the application
+	 * @param name: the new role of the user in the application
+	 */
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
+	/**
+	 * Getter for the e-mail address of the user in the application
+	 * @return the current e-mail address of the user in the application
+	 */
+	public String getEmail() {
+		return this.email;
+	}
+	
+	/**
+	 * Setter for the e-mail address of the user in the application
+	 * @param name: the new e-mail address of the user in the application
+	 */
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	/**
@@ -113,6 +183,7 @@ public class User implements Serializable {
 	public String getFirstname() {
 		return firstname;
 	}
+	
 
 	/**
 	 * Setter for the first name of the user
@@ -121,6 +192,7 @@ public class User implements Serializable {
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
+	
 
 	/**
 	 * Getter for the last name of the user
@@ -129,6 +201,7 @@ public class User implements Serializable {
 	public String getLastname() {
 		return lastname;
 	}
+	
 
 	/**
 	 * Setter for the last name of the user
@@ -136,22 +209,6 @@ public class User implements Serializable {
 	 */
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
-	}
-	
-	/**
-	 * Getter for the privilege level of the user in the application
-	 * @return the privilege level of the user in the application
-	 */
-	public Privilege getPrivilege() {
-		return privilege;
-	}
-	
-	/**
-	 * Setter for the privilege level of the user in the application
-	 * @param name: the new privilege level of the user in the application
-	 */
-	public void setRole(Privilege privilege) {
-		this.privilege = privilege;
 	}
 	
 	/**
@@ -169,10 +226,6 @@ public class User implements Serializable {
 	public void setUserStories(List<UserStory> userstories) {
 		this.userstories = userstories;
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 	
 	/**
 	 * Returns the string representation of the user
@@ -180,7 +233,7 @@ public class User implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return this.firstname + " " + this.lastname + " (" + this.login + ")";
+		return this.firstname + " " + this.lastname + " (" + this.username + ")";
 	}
 
 	/**
@@ -188,11 +241,7 @@ public class User implements Serializable {
 	 */
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
-		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
-		return result;
+		return username.hashCode();
 	}
 
 	/**
@@ -208,18 +257,6 @@ public class User implements Serializable {
 			return false;
 		
 		User other = (User)obj;
-		return (this.login.equals(other.getLogin()));
-	}
-
-	/**
-	 * The enumeration of user's privileges in the application
-	 * @author Guillaume Prevost
-	 * @since 4th Jan. 2013
-	 */
-	public enum Privilege {
-		ANONYMOUS,
-		USER,
-		LIBRARIAN,
-		ADMIN
+		return (this.username.equals(other.getUsername()));
 	}
 }

@@ -1,4 +1,7 @@
 package database;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.hibernate.Session;
@@ -11,11 +14,12 @@ import war.model.*;
 @SuppressWarnings("deprecation")
 public class CsiroDataLoader {
 
-	public static final String HOTTER_DRIER = "Hotter and Drier";
+	public static final String HOTTER_DRIER = "Hotter & Drier";
 	public static final String MOST_LIKELY = "Most Likely";
-	public static final String COOLER_WETTER = "Cooler and Wetter";
+	public static final String COOLER_WETTER = "Cooler & Wetter";
 	
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
 		config.configure("database/hibernate.cfg.xml");
 		new SchemaExport(config).create(true,true);
@@ -85,7 +89,13 @@ public class CsiroDataLoader {
 		session.save(rf);
 		session.save(rh);
 		
-		Date date = new Date();
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date date;
+		try {
+			date = formatter.parse("01/02/2013");
+		} catch (ParseException e) {
+			date = new Date();
+		}
 		
 		// Baseline data for the 3 regions
 		CsiroDataBaseline baselineData = new CsiroDataBaseline(date, r1, te, 16.1);

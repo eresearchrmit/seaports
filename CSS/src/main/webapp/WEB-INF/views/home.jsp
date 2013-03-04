@@ -13,8 +13,8 @@
 	<div class="box round first" style="text-align:center">
 		<h3>Connect Now</h3>
 		<div class="block">
-			<input type="button" class="btn btn-blue" value="Login" onclick="location.href='/CSS/spring/login'" />&nbsp;
-			<input type="button" class="btn btn-blue" value="Sign Up" onclick="location.href='/CSS/spring/register'" />
+			<input type="button" class="btn btn-blue" value="Log In" onclick="location.href='/CSS/auth/workboard'" />&nbsp;
+			<input type="button" class="btn btn-blue" value="Sign Up" onclick="location.href='/CSS/public/register'" />
 		</div>
 	</div>
 	<h3 style="text-align: center">OR</h3>

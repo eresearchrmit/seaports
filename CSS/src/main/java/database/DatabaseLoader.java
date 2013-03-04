@@ -6,6 +6,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
+import services.UserLoginService;
+
 
 import war.model.*;
 
@@ -22,11 +24,11 @@ public class DatabaseLoader {
 		Session session = factory.getCurrentSession();
 		session.beginTransaction();	
 
-		User p1 = new User("gprevost", "password", "Guillaume", "Prevost", User.Privilege.ADMIN);
-		User p2 = new User("jmullet", "jane123", "Jane", "Mullett", User.Privilege.USER);
-		User p3 = new User("rsrini", "ravi123", "Ravi", "Srini", User.Privilege.USER);
-		User p4 = new User("user", "password", "user", "user", User.Privilege.USER);
-		User p5 = new User("vbala", "nara", "Venki", "Bala", User.Privilege.ADMIN);
+		User p1 = new User("gprevost", "password", "enabled", UserLoginService.ROLE_ADMINISTRATOR,"guillaume.prevost@live.com", "Guillaume", "Prevost");
+		User p2 = new User("jmullet", "jane123", "enabled", UserLoginService.ROLE_USER, "email", "Jane", "Mullett");
+		User p3 = new User("rsrini", "ravi123", "enabled", UserLoginService.ROLE_USER, "email", "Ravi", "Srini");
+		User p4 = new User("user", "password", "enabled", UserLoginService.ROLE_USER, "email", "user", "user");
+		User p5 = new User("vbala", "nara", "enabled", UserLoginService.ROLE_ADMINISTRATOR, "email", "Venki", "Bala");
 		session.save(p1);
 		session.save(p2);
 		session.save(p3);

@@ -12,7 +12,7 @@
 	<i>There is no active workboard. Create a new workboard using the page below:</i>
 	
 	
-	<form:form method="POST" action="/CSS/spring/workboard/create?login=${user.login}"  modelAttribute="userstory" >
+	<form:form method="POST" action="/CSS/auth/workboard/create?username=${user.username}"  modelAttribute="userstory" >
 	<table class="form">
 		<tr>
 			<td class="col1">

@@ -6,12 +6,14 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import services.UserLoginService;
 import war.dao.ClimateEmissionScenarioDao;
 import war.dao.ClimateParamsDao;
 import war.dao.CsiroVariableDao;
 import war.dao.DataElementDao;
 import war.dao.UserDao;
 import war.dao.UserStoryDao;
+import war.model.UserAuthority;
 import war.model.DataElement;
 import war.model.DataElementFile;
 import war.model.Region;
@@ -61,7 +63,7 @@ public class WorkboardControllerTest {
 		Assert.assertNotNull(result);
 		Assert.assertNull(model.get("errorMessage"));
 				
- 		User refUser = new User("testuser3", "password", "testuser3", "testuser3", User.Privilege.USER);
+		User refUser = new User("testuser3", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
  		UserStory refWorkboard = new UserStory();
  		refWorkboard.setOwner(refUser);
  		
@@ -83,7 +85,7 @@ public class WorkboardControllerTest {
 	 */
 	@Test
 	public void getUserWorkBoardTest() {
-		User refUser = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
+		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.getUserWorkBoard("testuser1", model);
@@ -197,12 +199,12 @@ public class WorkboardControllerTest {
 	 */
 	@Test
 	public void addWorkBoardAlreadyCurrentWorkboardTest() {
-		User refUser = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
+		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTest");
-		ModelAndView result = workboardController.addWorkboard(userStory, refUser.getLogin(), model);
+		ModelAndView result = workboardController.addWorkboard(userStory, refUser.getUsername(), model);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
@@ -217,13 +219,13 @@ public class WorkboardControllerTest {
 	 */
 	@Test
 	public void addWorkBoardUnknownUserTest() {
-		User refUser = new User("UNKNOWN USER", "password", "testuser1", "testuser1", User.Privilege.USER);
+		User refUser = new User("UNKNOWNUSERNAME", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
 		userStory.setRegion(new Region("East Coast South"));
 		userStory.setName("addWorkBoardTest");
-		ModelAndView result = workboardController.addWorkboard(userStory, refUser.getLogin(), model);
+		ModelAndView result = workboardController.addWorkboard(userStory, refUser.getUsername(), model);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
@@ -236,13 +238,13 @@ public class WorkboardControllerTest {
 	@Test
 	public void addWorkBoardTest() {
 		// This user has no Workboard (= active user story) so a new workboard can be created
-		User refUser = new User("testuser3", "password", "testuser3", "testuser3", User.Privilege.USER);
+		User refUser = new User("testuser3", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory refUserStory = new UserStory();
 		refUserStory.setRegion(new Region("East Coast South"));
 		refUserStory.setName("addWorkBoardTest");
-		ModelAndView result = workboardController.addWorkboard(refUserStory, refUser.getLogin(), model);
+		ModelAndView result = workboardController.addWorkboard(refUserStory, refUser.getUsername(), model);
 
 		// Check there was no error
 		Assert.assertNotNull(result);
@@ -350,7 +352,7 @@ public class WorkboardControllerTest {
 		UserStory userStory = (UserStory)(result.getModelMap().get("userstory"));
 		
 		// Check the user story is active and private
-		User refUser = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
+		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		Assert.assertEquals(refUser, userStory.getOwner());
 	}
 

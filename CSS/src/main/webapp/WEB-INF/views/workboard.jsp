@@ -56,14 +56,6 @@
 							</button>
 							</a>
 							<div class="clear"></div>
-							<div id="confirmDataElementDeletionModalWindow" title="Delete this data element ?">
-								<p>Are you sure you want to delete this data element from your Workboard ?</p> 
-							</div>
-							<script type="text/javascript">
-								$(document).ready() {
-									setupConfirmBox("confirmDataElementDeletionModalWindow", "lnkDeleteDataElement");
-								}
-							</script>
 						</div>
 						<input name="dataElements[${status.index}].fileid" value="${dataelement.id}" type="hidden">
 						<input name="dataElements[${status.index}].filename" value="${dataelement.name}" type="hidden">
@@ -232,6 +224,12 @@
 					</div>
 			</c:forEach>
 			<!-- <button class="floatright btn btn-icon btn-check btn-blue btn-big" ><span></span>Save Workboard</button> -->
+			<div id="confirmDataElementDeletionModalWindow" title="Delete this data element ?">
+				<p>Are you sure you want to delete this data element from your Workboard ?</p> 
+			</div>
+			<script type="text/javascript">
+				setupConfirmBox("confirmDataElementDeletionModalWindow", "lnkDeleteDataElement");
+			</script>
 		</c:if>
 	</form:form>
 </div>

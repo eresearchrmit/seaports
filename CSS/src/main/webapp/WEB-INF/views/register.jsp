@@ -17,9 +17,9 @@
 			<form:form method="POST" modelAttribute="user" >
 				<table class="form">
 				    <tr>
-				    	<td class="col1" align="right">Login:</td>
+				    	<td class="col1" align="right">Username:</td>
 				    	<td class="col2" align="left">
-				    		<form:input id="txtLogin" path="login" onblur="checkLogin()" />*&nbsp;
+				    		<form:input id="txtLogin" path="username" onblur="checkLogin()" />*&nbsp;
 				    		<span id="loginErrorMessage" style="color:red;"></span>
 				    	</td>
 				    </tr>

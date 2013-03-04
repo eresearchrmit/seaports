@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.ui.Model;
 
 @Controller
+@RequestMapping("public")
 public class UserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -31,12 +32,20 @@ public class UserController {
 		return new User(); 
 	}
 	
+	@RequestMapping(value = "/loginfailed", method = RequestMethod.GET)
+	public String loginFailed(Model model) {
+		logger.debug("Inside loginFailed");
+		model.addAttribute("error", true);
+		
+		return "public/login";
+	}
+	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String registerNewUser(@ModelAttribute User user, Model model) {
 		logger.debug("Inside registerNewUser");
 		
 		try {
-			if (user.getLogin() == null || user.getLogin().isEmpty())
+			if (user.getUsername() == null || user.getUsername().isEmpty())
 				throw(new Exception(ERR_SIGNUP_INVALID_LOGIN));
 			if (user.getPassword() == null || user.getPassword().length() < 5)
 				throw(new Exception(ERR_SIGNUP_INVALID_PASSWORD));
@@ -54,18 +63,18 @@ public class UserController {
 		}
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String loginValidation(@ModelAttribute User user, Model model) {
 		logger.debug("Inside loginValidation");
 		
 		User userdb = null;
 		try {
-			if (user.getLogin() != null && user.getPassword() != null) {	
-				userdb = userDao.find(user.getLogin());
+			if (user.getUsername() != null && user.getPassword() != null) {	
+				userdb = userDao.find(user.getUsername());
 					
 				// Check password
 				if (userdb.getPassword().equalsIgnoreCase(user.getPassword())) {						
-					return "redirect:/spring/workboard?user=" + userdb.getLogin();
+					return "redirect:/auth/workboard?user=" + userdb.getUsername();
 				}
 				else {
 					model.addAttribute("errorMessage", ERR_BAD_LOGIN_PASSWORD);

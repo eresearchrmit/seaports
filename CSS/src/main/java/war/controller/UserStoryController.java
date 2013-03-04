@@ -25,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.Model;
 
 @Controller
-@RequestMapping("/userstory")
+@RequestMapping("auth/userstory")
 public class UserStoryController {
 		
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -111,7 +111,7 @@ public class UserStoryController {
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
-		return "redirect:/spring/userstory/list?user=" + login;
+		return "redirect:/auth/userstory/list?user=" + login;
 	}
 
 	@RequestMapping(value="/create", method=RequestMethod.GET) 
@@ -192,10 +192,10 @@ public class UserStoryController {
 		
 		try {
 			UserStory userStory = userStoryDao.find(userStoryId);
-			mav.addObject("user", userStory.getOwner().getLogin());
-			String ownerLogin = userStory.getOwner().getLogin();
+			mav.addObject("user", userStory.getOwner().getUsername());
+			String ownerLogin = userStory.getOwner().getUsername();
 			userStoryDao.delete(userStory);
-			return "redirect:/spring/userstory/list?user=" + ownerLogin;
+			return "redirect:/auth/userstory/list?user=" + ownerLogin;
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);

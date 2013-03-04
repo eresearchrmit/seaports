@@ -22,7 +22,7 @@ function checkLogin() {
 		return true;
 	}
 	else {
-		$("#loginErrorMessage").html("Login is required.");
+		$("#loginErrorMessage").html("Username is required.");
 	}
 	$("#txtLogin").addClass("error");
 	$("#loginErrorMessage").show();

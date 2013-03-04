@@ -24,6 +24,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +38,7 @@ import org.springframework.ui.Model;
 
 
 @Controller
-@RequestMapping("/workboard")
+@RequestMapping("auth/workboard")
 public class WorkboardController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -77,12 +79,26 @@ public class WorkboardController {
 	@Autowired
 	private ClimateParamsDao climateParamsDao;
 	
+	@RequestMapping(value= "", method = RequestMethod.GET)
+	public ModelAndView getWorkBoard(Model model) {
+		logger.info("Inside getWorkBoard");
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails userDetails = null;
+		if (principal instanceof UserDetails) {
+		  userDetails = (UserDetails) principal;
+		}
+		String username = userDetails.getUsername();
+		
+		return getUserWorkBoard(username, model);
+	}
+	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView getUserWorkBoard(@RequestParam(value="user",required=true) String login, Model model) {
+	public ModelAndView getUserWorkBoard(@RequestParam(value="user",required=true) String username, Model model) {
 		logger.info("Inside getUserWorkBoard");
 		
 		try {
-			User user = userDao.find(login);
+			User user = userDao.find(username);
 			UserStory userStory = userStoryDao.getWorkboard(user); 
 			if (userStory == null) {
 				return CreateWorkBoard(user, model);
@@ -90,7 +106,7 @@ public class WorkboardController {
 			return modelForActiveWBview(model, userStory);
 		}
 		catch (NullPointerException e) {
-			model.addAttribute("errorMessage", ERR_RETRIEVE_WORKBOARD);
+			model.addAttribute("errorMessage", WorkboardController.ERR_RETRIEVE_WORKBOARD);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -164,7 +180,7 @@ public class WorkboardController {
     			// Checks the file extension & MIME type
     	        if (!(fileType.equals("application/vnd.ms-excel") || fileType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
     	        		|| !(fileExtension.equals("xls") || fileExtension.equals("xlsx"))) {
-    	        	throw new InvalidFormatException(ERR_INVALID_FILE_FORMAT);
+    	        	throw new InvalidFormatException(WorkboardController.ERR_INVALID_FILE_FORMAT);
     	        }
     	        
     	    	ByteArrayInputStream bis = new ByteArrayInputStream(uploadfile.getBytes());
@@ -189,10 +205,10 @@ public class WorkboardController {
     				dataElementDao.save(de);
     				
     				userStory = userStoryDao.find(userStoryId);
-    				model.addAttribute("successMessage", MSG_ENG_DATA_ADDED);
+    				model.addAttribute("successMessage", WorkboardController.MSG_ENG_DATA_ADDED);
     			}
     			else {
-    				throw new NoResultException(ERR_NO_DATA_ENG_MODEL);
+    				throw new NoResultException(WorkboardController.ERR_NO_DATA_ENG_MODEL);
     			}
     		}
     		else if (sourceType.equals("example")) {
@@ -208,10 +224,10 @@ public class WorkboardController {
 					dataElementDao.save(de);
 					
 					userStory = userStoryDao.find(userStoryId);
-					model.addAttribute("successMessage", MSG_ENG_DATA_ADDED);
+					model.addAttribute("successMessage", WorkboardController.MSG_ENG_DATA_ADDED);
     			}
     			else {
-    				throw new NoResultException(ERR_NO_DATA_ENG_MODEL_EXAMPLE);
+    				throw new NoResultException(WorkboardController.ERR_NO_DATA_ENG_MODEL_EXAMPLE);
     			}
     		}
         }
@@ -391,7 +407,7 @@ public class WorkboardController {
 			
 			userStory.getDataElements().add(dataElement);
 			
-			model.addAttribute("successMessage", MSG_CSIRO_DATA_ADDED);
+			model.addAttribute("successMessage", WorkboardController.MSG_CSIRO_DATA_ADDED);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -401,15 +417,15 @@ public class WorkboardController {
 	}
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST) 
-	public ModelAndView addWorkboard(@ModelAttribute("userstory") UserStory userStory, @RequestParam(value="login",required=true) String login, Model model) {
+	public ModelAndView addWorkboard(@ModelAttribute("userstory") UserStory userStory, @RequestParam(value="username",required=true) String username, Model model) {
 		logger.info("Received object for workboard  " + userStory);
         
 		try {
-			User user = userDao.find(login);
+			User user = userDao.find(username);
 			UserStory currentWorkboard = userStoryDao.getWorkboard(user);
 			if (currentWorkboard != null)
 			{
-				model.addAttribute("errorMessage", ERR_ALREADY_CURRENT_WORKBOARD);
+				model.addAttribute("errorMessage", WorkboardController.ERR_ALREADY_CURRENT_WORKBOARD);
 				return modelForActiveWBview(model, currentWorkboard);
 			}
 			
@@ -448,7 +464,7 @@ public class WorkboardController {
 				}
 				else
 					dataElementDao.save(dataElement);
-				model.addAttribute("successMessage", MSG_WORKBOARD_SAVED);
+				model.addAttribute("successMessage", WorkboardController.MSG_WORKBOARD_SAVED);
 			}
 			return modelForActiveWBview(model, updatedWorkboard);
 		}
@@ -468,13 +484,15 @@ public class WorkboardController {
 		try {
 			UserStory userStory = userStoryDao.find(userStoryId);
 			userStoryDao.delete(userStory);
-			
+
 			return CreateWorkBoard(userStory.getOwner(), model);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
-		return new ModelAndView();
+		ModelAndView mav = new ModelAndView(); 
+		mav.setViewName("workboard");
+		return mav;
 	}	
 	
 	@RequestMapping(value = "/deletedataelement",method=RequestMethod.GET) 
@@ -514,6 +532,7 @@ public class WorkboardController {
 		model.addAttribute("user", userStory.getOwner());
 		
 		try {
+			logger.info("Setting View Name: workboard");
 			mav.setViewName("workboard");
 			
 			//List<DataElement> dataElements = dataElementDao.getDataElements(userStory);
@@ -567,6 +586,7 @@ public class WorkboardController {
 			userStory.setRegion(new Region(""));
 			mav.addObject("userstory", userStory);
 			
+			logger.info("Setting View Name: workboardCreation");
 			mav.setViewName("workboardCreation");
 		}
 		catch (Exception e) {

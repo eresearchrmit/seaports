@@ -40,7 +40,7 @@
 		</div>
 	</c:if>
 	
-	<form:form id="userStoryForm" method="post" action="/CSS/spring/userstory/save" modelAttribute="userstory">
+	<form:form id="userStoryForm" method="post" action="/CSS/auth/userstory/save" modelAttribute="userstory">
 	  	<form:input value="${userstory.id}" type="hidden" path="id" />
 	  	<c:if test="${not empty userstory.dataElements}">		
 		 	<ul id="sortable">

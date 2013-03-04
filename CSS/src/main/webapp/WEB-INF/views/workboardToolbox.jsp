@@ -69,8 +69,8 @@
 							<td>
 								<select id="cbbClimateClimateModel" name="climateModel">
 									<option value="Most Likely">Most Likely</option>
-									<option value="Hotter and Drier">Hotter and Drier</option>
-									<option value="Cooler and Wetter">Cooler &amp; Wetter</option>
+									<option value="Hotter &amp; Drier">Hotter &amp; Drier</option>
+									<option value="Cooler &amp; Wetter">Cooler &amp; Wetter</option>
 								</select>
 							</td>
 						</tr>

@@ -4,9 +4,11 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import services.UserLoginService;
 import war.dao.DataElementDao;
 import war.dao.UserDao;
 import war.dao.UserStoryDao;
+import war.model.UserAuthority;
 import war.model.DataElement;
 import war.model.DataElementText;
 import war.model.User;
@@ -59,7 +61,7 @@ public class UserStoryControllerTest {
 	@Transactional
 	public void getUserStoryTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		User refUser = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
+		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		int id = 1; // ID of a User Story owned by testuser1
 		ModelAndView result = userStoryController.getUserStory(id, model);
 		
@@ -80,7 +82,7 @@ public class UserStoryControllerTest {
 		Assert.assertTrue(resUserStory.getDataElements().size() > 0);
 		for (DataElement de : resUserStory.getDataElements()) {
 			Assert.assertEquals(id, de.getUserStory().getId());
-			Assert.assertEquals(refUser.getLogin(), de.getUserStory().getOwner().getLogin());
+			Assert.assertEquals(refUser.getUsername(), de.getUserStory().getOwner().getUsername());
 		}
 	}
 	
@@ -109,8 +111,8 @@ public class UserStoryControllerTest {
 	@Transactional
 	public void getUserStoriesListNoStoryTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		User refUser = new User("testuser3", "password", "testuser3", "testuser3", User.Privilege.USER);
-		ModelAndView result = userStoryController.getUserStoriesList(refUser.getLogin(), model);
+		User refUser = new User("testuser3", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
+		ModelAndView result = userStoryController.getUserStoriesList(refUser.getUsername(), model);
 		
 		// Check there is no error
 		Assert.assertNotNull(result);
@@ -139,8 +141,8 @@ public class UserStoryControllerTest {
 	@Transactional
 	public void getUserStoriesListTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		User refUser = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
-		ModelAndView result = userStoryController.getUserStoriesList(refUser.getLogin(), model);
+		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		ModelAndView result = userStoryController.getUserStoriesList(refUser.getUsername(), model);
 		
 		// Check there is no error
 		Assert.assertNotNull(result);
@@ -194,7 +196,7 @@ public class UserStoryControllerTest {
 	@Transactional
 	public void getUserStoryViewTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		User refUser = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
+		User refUser = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		int id = 1; // ID of a User Story owned by testuser1
 		ModelAndView result = userStoryController.getUserStoryView(id, model);
 		
@@ -215,7 +217,7 @@ public class UserStoryControllerTest {
 		Assert.assertTrue(resUserStory.getDataElements().size() > 0);
 		for (DataElement de : resUserStory.getDataElements()) {
 			Assert.assertEquals(id, de.getUserStory().getId());
-			Assert.assertEquals(refUser.getLogin(), de.getUserStory().getOwner().getLogin());
+			Assert.assertEquals(refUser.getUsername(), de.getUserStory().getOwner().getUsername());
 		}
 	}
 	
@@ -233,7 +235,7 @@ public class UserStoryControllerTest {
 		Assert.assertEquals("private", refUserstory.getAccess());
 		
 		String result = userStoryController.changeUserStoryPrivacy(login, id, false, model);
-		Assert.assertEquals("redirect:/spring/userstory/list?user=" + login, result);
+		Assert.assertEquals("redirect:/auth/userstory/list?user=" + login, result);
 		Assert.assertNull(model.get("errorMessage"));
 		
 		UserStory changedUserstory = userStoryDao.find(id);
@@ -254,7 +256,7 @@ public class UserStoryControllerTest {
 		Assert.assertEquals("public", refUserstory.getAccess());
 		
 		String result = userStoryController.changeUserStoryPrivacy(login, id, true, model);
-		Assert.assertEquals("redirect:/spring/userstory/list?user=" + login, result);
+		Assert.assertEquals("redirect:/auth/userstory/list?user=" + login, result);
 		Assert.assertNull(model.get("errorMessage"));
 		
 		UserStory changedUserstory = userStoryDao.find(id);
@@ -387,7 +389,7 @@ public class UserStoryControllerTest {
 		
 		String result = userStoryController.deleteUserStory(id, model);
 		Assert.assertNull(model.get("errorMessage"));
-		Assert.assertEquals("redirect:/spring/userstory/list?user=" + refUserStory.getOwner().getLogin(), result);
+		Assert.assertEquals("redirect:/auth/userstory/list?user=" + refUserStory.getOwner().getUsername(), result);
 		
 		/*try {
 			userStoryDao.find(id);

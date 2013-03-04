@@ -18,7 +18,7 @@ public class HomeController {
 	/**
 	 * Selects the home page and populates the model with a message
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = {"/", "/public"}, method = RequestMethod.GET)
 	public String home(Model model) {
 		logger.info("Welcome home eResearch!");
 		model.addAttribute("controllerMessage", "Please Login to Create Workboard");

@@ -29,14 +29,14 @@
 				<c:forEach items="${userStoriesList}" var="story" varStatus="status"> 
 				<tr>
 					<td>${story.name}</td>
-					<td class="center"><a href="/CSS/spring/userstory/view?id=${story.id}" title="View this Story" target="_blank"><img src="<c:url value="/resources/img/icons/page_white.png" />" alt="View" /></a></td>
-					<td class="center"><a href="/CSS/spring/userstory?id=${story.id}" title="Edit this Story"><img src="<c:url value="/resources/img/icons/pencil.png" />" alt="Edit"/></a></td>
+					<td class="center"><a href="/CSS/auth/userstory/view?id=${story.id}" title="View this Story" target="_blank"><img src="<c:url value="/resources/img/icons/page_white.png" />" alt="View" /></a></td>
+					<td class="center"><a href="/CSS/auth/userstory?id=${story.id}" title="Edit this Story"><img src="<c:url value="/resources/img/icons/pencil.png" />" alt="Edit"/></a></td>
 					<c:choose>
 						<c:when test="${story.access == 'private'}">
-							<td class="center"><a href="/CSS/spring/userstory/lock?user=${user.login}&id=${story.id}&lock=0" class="lnkUnlockUserStory" title="Click to make public"><img src="<c:url value="/resources/img/icons/lock.png" />" alt="Private" /> Private</a></td>
+							<td class="center"><a href="/CSS/auth/userstory/lock?user=${user.username}&id=${story.id}&lock=0" class="lnkUnlockUserStory" title="Click to make public"><img src="<c:url value="/resources/img/icons/lock.png" />" alt="Private" /> Private</a></td>
 	                 	</c:when>
 				  		<c:when test="${story.access == 'public'}">
-				  			<td class="center"><a href="/CSS/spring/userstory/lock?user=${user.login}&id=${story.id}&lock=1" class="lnkLockUserStory" title="Click to make private"><img src="<c:url value="/resources/img/icons/lock_open.png" />" alt="Public"/> Public</a></td>
+				  			<td class="center"><a href="/CSS/auth/userstory/lock?user=${user.username}&id=${story.id}&lock=1" class="lnkLockUserStory" title="Click to make private"><img src="<c:url value="/resources/img/icons/lock_open.png" />" alt="Public"/> Public</a></td>
 	                 	</c:when>
 	                 	<c:otherwise>
 	                 		<td></td>

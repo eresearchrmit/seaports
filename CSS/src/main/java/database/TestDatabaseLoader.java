@@ -1,4 +1,5 @@
 package database;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +10,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
+
+import services.UserLoginService;
 
 import war.model.*;
 
@@ -57,12 +60,12 @@ public class TestDatabaseLoader {
 		
 		
 		// Add Users
-		User p1 = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
-		User p2 = new User("testuser2", "password", "testuser2", "testuser2", User.Privilege.USER);
-		User p3 = new User("testuser3", "password", "testuser3", "testuser3", User.Privilege.USER);
-		User p4 = new User("testuser4", "password", "testuser4", "testuser4", User.Privilege.USER);
-		User p5 = new User("testadmin1", "password", "testadmin1", "testadmin1", User.Privilege.ADMIN);
-		User p6 = new User("testadmin2", "password", "testadmin2", "testadmin2", User.Privilege.ADMIN);
+		User p1 = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		User p2 = new User("testuser2", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser2", "testuser2");
+		User p3 = new User("testuser3", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
+		User p4 = new User("testuser4", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4");
+		User p5 = new User("testadmin1", "password", "enabled", UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin1", "testadmin1");
+		User p6 = new User("testadmin2", "password", "enabled", UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin2", "testadmin2");
 		session.save(p1);
 		session.save(p2);
 		session.save(p3);

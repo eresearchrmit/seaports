@@ -7,25 +7,25 @@
 	<div class="box round first" style="text-align:center">
 		<h2>Sign In</h2>
 		<div class="block">
-			<c:if test="${not empty errorMessage}"> 
+			<c:if test="${not empty error}"> 
 			<div class="message error">
-				<h5>Error</h5>
-				<p>${errorMessage}</p>
+				<h5>Authentication Error</h5>
+				<p>${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</p>
 			</div>
 			</c:if>
 			
-			<form:form method="POST" modelAttribute="user" >
+			<form:form method="POST" action="/CSS/j_spring_security_check" >
 				<table class="form">
 				    <tr>
-				    	<td class="col1" align="right">Login:</td>
-				    	<td class="col2" align="left"><form:input path="login" /></td>
+				    	<td class="col1" align="right">User name:</td>
+				    	<td class="col2" align="left"><input type="text" name="j_username" value=""></td>
 				    </tr>
 				    <tr>
 				    	<td class="col1" align="right">Password:</td>
-				    	<td class="col2" align="left"><form:password path="password" /></td>
+				    	<td class="col2" align="left"><input type="password" name="j_password" /></td>
 				    </tr>
 				</table>
-				<input type="submit" value="Sign In" class="btn btn-blue" />
+				<input name="submit" type="submit" value="Log In" class="btn btn-blue" />
 			</form:form>
 		</div>
 	</div>

@@ -2,6 +2,8 @@ package war.controller;
 
 import junit.framework.Assert;
 
+import services.UserLoginService;
+import war.model.UserAuthority;
 import war.model.User;
 
 import org.junit.Before;
@@ -25,7 +27,7 @@ public class UserControllerTest {
 	
 	@Before
 	public void prepareData() {
-		userForTest = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
+		userForTest = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 	}
 	
 	/**
@@ -47,7 +49,7 @@ public class UserControllerTest {
 	public void registerNewUserNullLoginTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		User user = userForTest;
-		user.setLogin(null);
+		user.setUsername(null);
 		String result = personController.registerNewUser(user, model);
 		
 		Assert.assertNotNull(result);		
@@ -63,7 +65,7 @@ public class UserControllerTest {
 	public void registerNewUserEmptyLoginTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		User user = userForTest;
-		user.setLogin("");
+		user.setUsername("");
 		String result = personController.registerNewUser(user, model);
 		
 		Assert.assertNotNull(result);		
@@ -177,7 +179,7 @@ public class UserControllerTest {
 		String result = personController.loginValidation(userForTest, model);
 		
 		Assert.assertNotNull(result);		
-		Assert.assertEquals("redirect:/spring/workboard?user=" + userForTest.getLogin(), result);
+		Assert.assertEquals("redirect:/auth/workboard?user=" + userForTest.getUsername(), result);
 	}
 	
 	/**
@@ -202,7 +204,7 @@ public class UserControllerTest {
 		User p = new User();
 		// Login not set ON PURPOSE
 		p.setPassword("password");
-		p.setRole(User.Privilege.USER);
+		p.setRole(UserLoginService.ROLE_USER);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		String result = personController.loginValidation(p, model);
@@ -219,9 +221,9 @@ public class UserControllerTest {
 	@Test
 	public void loginValidationPasswordMissingTest() {
 		User p = new User();
-		p.setLogin("testuser1");
+		p.setUsername("testuser1");
 		// Password not set ON PURPOSE
-		p.setRole(User.Privilege.USER);
+		p.setRole(UserLoginService.ROLE_USER);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		String result = personController.loginValidation(p, model);
@@ -237,9 +239,9 @@ public class UserControllerTest {
 	 */
 	@Test
 	public void loginValidationPasswordInvalidTest() {
-		User p = new User("testuser1", "WRONGPASSWORD", "testuser1", "testuser1", User.Privilege.USER);
+		User u= new User("testuser1", "WRONGPASSWORD", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		ExtendedModelMap model = new ExtendedModelMap();
-		String result = personController.loginValidation(p, model);
+		String result = personController.loginValidation(u, model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);

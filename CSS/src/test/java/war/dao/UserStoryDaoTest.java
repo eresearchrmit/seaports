@@ -13,6 +13,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import services.UserLoginService;
+
+import war.model.UserAuthority;
 import war.model.Region;
 import war.model.User;
 import war.model.UserStory;
@@ -32,9 +35,9 @@ public class UserStoryDaoTest {
 	private UserStoryDao userStoryDao;
 
 	@Before
-	public void prepareData() {
-		userForTest = new User("testuser1", "password", "testuser1", "testuser1", User.Privilege.USER);
-		userWithoutStory = new User("testuser4", "password", "testuser4", "testuser4", User.Privilege.USER);
+	public void prepareData() {		
+		userForTest = new User("testuser1", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		userWithoutStory = new User("testuser4", "password", "enabled", UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4");
 		
 		userStoryForTest = new UserStory("User 1 WorkBoard", "active", "private", userForTest, new Region("East Coast South"), null);
 	}
@@ -52,7 +55,7 @@ public class UserStoryDaoTest {
 		Assert.assertEquals("User 1 WorkBoard", story.getName());
 		Assert.assertEquals("active", story.getMode());
 		Assert.assertEquals("private", story.getAccess());
-		Assert.assertEquals("testuser1", story.getOwner().getLogin());
+		Assert.assertEquals("testuser1", story.getOwner().getUsername());
 		Assert.assertEquals("East Coast South", story.getRegion().getName());
 	}
 	
@@ -205,7 +208,7 @@ public class UserStoryDaoTest {
 		Assert.assertEquals("private", savedUserStory.getAccess());
 		
 		Assert.assertNotNull(savedUserStory.getOwner());
-		Assert.assertEquals("testuser1", savedUserStory.getOwner().getLogin());
+		Assert.assertEquals("testuser1", savedUserStory.getOwner().getUsername());
 		
 		Assert.assertNotNull(savedUserStory.getRegion());
 		Assert.assertEquals("East Coast South", savedUserStory.getRegion().getName());

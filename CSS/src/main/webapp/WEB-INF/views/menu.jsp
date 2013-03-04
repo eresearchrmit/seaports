@@ -1,9 +1,9 @@
 <ul class="nav main">
 	<li class="ic-home"><a href="/CSS"><span>Home</span></a> </li>
-	<li class="ic-workboard"><a href="/CSS/spring/workboard?user=${user.login}"><span>My Workboard</span></a></li>
-	<li class="ic-story"><a href="/CSS/spring/userstory/list?user=${user.login}"><span>My Stories</span></a>
+	<li class="ic-workboard"><a href="/CSS/auth/workboard?user=${user.username}"><span>My Workboard</span></a></li>
+	<li class="ic-story"><a href="/CSS/auth/userstory/list?user=${user.username}"><span>My Stories</span></a>
 		<!-- <ul>
-			<li><a href="/CSS/spring/userstory/list?user=${user.login}">My Stories</a></li>
+			<li><a href="/CSS/spring/userstory/list?user=${user.username}">My Stories</a></li>
 			<li><a href="#">Stories shared with me</a></li>
 		</ul> -->
 	</li>
