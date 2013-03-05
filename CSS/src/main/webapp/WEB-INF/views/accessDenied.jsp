@@ -4,14 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div class="grid_12">
-	<div class="box round first" style="text-align:center">
-		<h2>Access Denied</h2>
-		<div class="block">
-			<div class="message error">
-				<h5>Access Denied</h5>
-				<p>You don't have the rights to access this page.</p>
-			</div>
-		</div>
+	<div class="message error" style="text-align:center">
+		<h5>Access Denied</h5>
+		<p>You don't have the rights to access this page.</p>
 	</div>
 </div>
-

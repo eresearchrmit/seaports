@@ -1,6 +1,7 @@
 package war.controller;
 
 import helpers.DataElementPositionComparator;
+import helpers.SecurityHelper;
 
 import java.util.Date;
 import java.util.Collections;
@@ -15,6 +16,7 @@ import war.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,32 +44,17 @@ public class UserStoryController {
 	@Autowired
 	private CsiroDataBaselineDao csiroDataBaselineDao;
 	
-	@ModelAttribute("userstory")
-	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView getUserStory(@RequestParam(value="id",required=true) Integer id, Model model) {
-		logger.info("Inside getUserStory");
-		
-		UserStory userStory = null;
-		
-		try {
-			userStory = userStoryDao.find(id);
-		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
-		return modelForUserStoryView(model, userStory);
-	}
-	
 	@RequestMapping(value= "/list", method = RequestMethod.GET)
-	public ModelAndView getUserStoriesList(@RequestParam(value="user",required=true) String login, Model model) {
-		logger.info("Inside getUserStoriesList !");
+	public ModelAndView getUserStoriesList(@RequestParam(value="user",required=true) String username, Model model) {
+		logger.info("Inside getUserStoriesList");
 		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("userstoryList");
-		
-		try {			
+		ModelAndView mav = new ModelAndView("userstoryList");
+		try {
+			if (!(SecurityHelper.IsCurrentUserMatching(username))) // Security: ownership check
+				throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
 			// Retrieve user
-			User user = userDao.find(login);
+			User user = userDao.find(username);
 			mav.addObject("user", user);
 			
 			// Retrieve user's Stories
@@ -78,19 +65,42 @@ public class UserStoryController {
 	 		model.addAttribute("listingTitle", "My User Stories");
 
 		}
+		catch (AccessDeniedException e) {
+			return ModelForUserStoryAccessDenied(model);
+		}
 		catch (NullPointerException e) {
 			model.addAttribute("errorMessage", ERR_RETRIEVE_USERSTORY_LIST);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
-		
 		return mav;
+	}
+	
+	@ModelAttribute("userstory")
+	@RequestMapping(method = RequestMethod.GET)
+	public ModelAndView getUserStory(@RequestParam(value="id",required=true) Integer id, Model model) {
+		logger.info("Inside getUserStory");
+		
+		UserStory userStory = null;
+		try {
+			userStory = userStoryDao.find(id);
+			
+			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+		}
+		catch (AccessDeniedException e) {
+			return ModelForUserStoryAccessDenied(model);
+		}
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		return ModelForUserStory(model, userStory);
 	}
 	
 	@RequestMapping(value= "/view", method = RequestMethod.GET)
 	public ModelAndView getUserStoryView(@RequestParam(value="id",required=true) Integer id, Model model) {
-		logger.info("Inside getUserStoryView !");
+		logger.info("Inside getUserStoryView");
 		
 		ModelAndView mav = getUserStory(id, model);
 		mav.setViewName("userstoryView");
@@ -98,43 +108,56 @@ public class UserStoryController {
 	}
 	
 	@RequestMapping(value= "/lock", method = RequestMethod.GET)
-	public String changeUserStoryPrivacy(@RequestParam(value="user",required=true) String login, @RequestParam(value="id",required=true) Integer id, @RequestParam(value="lock",required=true) Boolean lock, Model model) {
+	public String changeUserStoryPrivacy(@RequestParam(value="id",required=true) Integer id, @RequestParam(value="lock",required=true) Boolean lock, Model model) {
 		logger.info("Inside getUserStoriesList !");
 		try {
 			UserStory userStory= userStoryDao.find(id);
+			
+			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
 			if (lock) // true == locked == private
 				userStory.setAccess("private");
 			else // false == unlocked == public
 				userStory.setAccess("public");
 			userStoryDao.save(userStory);
 		}
+		catch (AccessDeniedException e) {
+        	return "redirect:/accessDenied";
+        }
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
-		return "redirect:/auth/userstory/list?user=" + login;
+		return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}
 
 	@RequestMapping(value="/create", method=RequestMethod.GET) 
 	public ModelAndView createUserStory(@RequestParam(value="id",required=true) Integer id, Model model) {
 		logger.info("Inside createUserStory");
 		
+		UserStory userStory = null;
 		try {
 			// Retrieve the user story
-			UserStory userstory = userStoryDao.find(id);
-			if (!(userstory.getMode().equals("published")))
+			userStory = userStoryDao.find(id);
+			
+			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+			if (!(userStory.getMode().equals("published")))
 			{
-				userstory.setMode("passive");
-				userStoryDao.save(userstory);
+				userStory.setMode("passive");
+				userStoryDao.save(userStory);
 			}
 			else
 				model.addAttribute("errorMessage", ERR_STORY_ALREADY_PUBLISHED);
-			
-			return modelForUserStoryView(model, userstory);
 		}
+		catch (AccessDeniedException e) {
+        	return ModelForUserStoryAccessDenied(model);
+        }
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
-		return modelForUserStoryView(model, null);
+		return ModelForUserStory(model, userStory);
 	}
 		
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
@@ -144,9 +167,13 @@ public class UserStoryController {
 			Model model) {
 		logger.info("Inside saveUserStory");
 		
+		UserStory userStory = null;
 		try {
 			// Retrieve the original user story
-			UserStory userStory = userStoryDao.find(updatedUserStory.getId());
+			userStory = userStoryDao.find(updatedUserStory.getId());
+			
+			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
 			// Reorder the data elements in the user story
 			for (DataElement de : userStory.getDataElements()) {
@@ -173,34 +200,38 @@ public class UserStoryController {
 					i++;
 				}
 			}
-			
 			model.addAttribute("successMessage", MSG_USERSTORY_SAVED);
-			return modelForUserStoryView(model, userStory);
 		}
+		catch (AccessDeniedException e) {
+        	return ModelForUserStoryAccessDenied(model);
+        }
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
-		return modelForUserStoryView(model, null);
+		return ModelForUserStory(model, userStory);
 	}
 	
 	@RequestMapping(value = "/delete",method=RequestMethod.GET) 
 	public String deleteUserStory(@RequestParam(value="id", required=true) Integer userStoryId, Model model) {
 		logger.debug("Inside deleteUserStory");
 		
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("userstoryList");
-		
 		try {
 			UserStory userStory = userStoryDao.find(userStoryId);
-			mav.addObject("user", userStory.getOwner().getUsername());
-			String ownerLogin = userStory.getOwner().getUsername();
+			
+			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
 			userStoryDao.delete(userStory);
-			return "redirect:/auth/userstory/list?user=" + ownerLogin;
+			
+			return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 		}
+		catch (AccessDeniedException e) {
+        	return "redirect:/accessDenied";
+        }
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);
 		}
-		return "listUS";
+		return "userstoryList";
 	}	
 
 	
@@ -210,18 +241,22 @@ public class UserStoryController {
 		
 		UserStory userStory = null;
 		try {
-			// Retrieve the original user story
 			userStory = userStoryDao.find(id);
+			
+			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
 			DataElementText newTextItem = new DataElementText(new Date(), "Story Text", true, 0, userStory, "Add some text here...");
 			dataElementDao.save(newTextItem);
-			
 			userStory = userStoryDao.find(id);
 		}
+		catch (AccessDeniedException e) {
+        	return ModelForUserStoryAccessDenied(model);
+        }
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
-		return modelForUserStoryView(model, userStory);
+		return ModelForUserStory(model, userStory);
 	}
 	
 	@RequestMapping(value="/deleteText", method=RequestMethod.GET) 
@@ -231,43 +266,52 @@ public class UserStoryController {
 		UserStory userStory = null;
 		try {
 			DataElement dataElement = dataElementDao.find(id);
-			dataElementDao.delete(dataElement);
 			
+			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+			dataElementDao.delete(dataElement);
 			userStory = userStoryDao.find(dataElement.getUserStory().getId());
 		}
+		catch (AccessDeniedException e) {
+        	return ModelForUserStoryAccessDenied(model);
+        }
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_REMOVE_TEXT);
 		}
-		return modelForUserStoryView(model, userStory);
+		return ModelForUserStory(model, userStory);
 	}
 	
 	@RequestMapping(value="/includeDataElement", method=RequestMethod.GET) 
-	public ModelAndView includeDataElementToUserStory(
-			@RequestParam(value="dataelement",required=true) Integer dataElementId,
-			Model model) {
+	public ModelAndView includeDataElementToUserStory(@RequestParam(value="dataelement",required=true) Integer dataElementId, Model model) {
 		logger.info("Inside includeDataElementToUserStory");
 		
 		UserStory userStory = null;
 		try {
 			DataElement dataElement = dataElementDao.find(dataElementId);
+			
+			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(dataElement.getUserStory()))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
 			dataElement.setIncluded(!dataElement.getIncluded());
 			dataElementDao.save(dataElement);
-			
 			userStory = userStoryDao.find(dataElement.getUserStory().getId());
 		}
+		catch (AccessDeniedException e) {
+        	return ModelForUserStoryAccessDenied(model);
+        }
  		catch (NoResultException e) {
  			model.addAttribute("errorMessage", e.getMessage());
 		}
  		
- 		return modelForUserStoryView(model, userStory);
+ 		return ModelForUserStory(model, userStory);
 	}
 	
 	
-	private ModelAndView modelForUserStoryView(Model model, UserStory userStory) {
-		logger.debug("Inside modelForUserStoryView");
+	private ModelAndView ModelForUserStory(Model model, UserStory userStory) {
+		logger.debug("Inside ModelForUserStory");
 
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("userstory");
+		model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
 		
 		if (userStory != null)
 		{
@@ -290,13 +334,21 @@ public class UserStoryController {
 	 				}
 	 			}
 			}
-			
 			model.addAttribute("userstory", userStory);
-			model.addAttribute("user", userStory.getOwner());
 		}
-		return mav;
+		
+		return new ModelAndView("userstory");
 	}
 	
+	private ModelAndView ModelForUserStoryAccessDenied(Model model) {
+		logger.debug("Inside ModelForUserStoryAccessDenied");
+
+		model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
+		
+		return new ModelAndView("accessDenied");
+	}
+	
+	public static final String ERR_ACCESS_DENIED = "You are not allowed to access this Story";
 	
 	public static final String ERR_RETRIEVE_USERSTORY_LIST = "Impossible to retrieve the list of your stories";
 	public static final String MSG_NO_USER_STORY = "There is no story to display";

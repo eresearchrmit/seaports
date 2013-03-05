@@ -38,7 +38,7 @@
 		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
 	</definition>
 	
-	<definition name="accessDenied" extends="public.base.definition">
+	<definition name="accessDenied" extends="base.definition">
 		<put-attribute name="title" value="Access Denied - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/accessDenied.jsp" />
 	</definition>

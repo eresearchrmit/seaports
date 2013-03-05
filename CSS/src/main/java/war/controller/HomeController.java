@@ -14,16 +14,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class HomeController {
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-
+	
 	/**
 	 * Selects the home page and populates the model with a message
 	 */
 	@RequestMapping(value = {"/", "/public"}, method = RequestMethod.GET)
 	public String home(Model model) {
 		logger.info("Welcome to Climate Smart Seaports !");
-		model.addAttribute("controllerMessage", "Please Login to Create Workboard");
+		
 		return "home";
 	}
-	
-
 }

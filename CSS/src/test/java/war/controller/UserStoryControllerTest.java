@@ -8,7 +8,6 @@ import security.UserLoginService;
 import war.dao.DataElementDao;
 import war.dao.UserDao;
 import war.dao.UserStoryDao;
-import war.model.UserAuthority;
 import war.model.DataElement;
 import war.model.DataElementText;
 import war.model.User;
@@ -93,7 +92,7 @@ public class UserStoryControllerTest {
 	@Transactional
 	public void getUserStoriesListUnknownUserTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = userStoryController.getUserStoriesList("UNKNOWN USER", model);
+		ModelAndView result = userStoryController.getUserStoriesList("UNKNOWNUSER", model);
 		
 		// Check the error message
 		Assert.assertNotNull(result);
@@ -234,7 +233,8 @@ public class UserStoryControllerTest {
 		UserStory refUserstory = userStoryDao.find(id);
 		Assert.assertEquals("private", refUserstory.getAccess());
 		
-		String result = userStoryController.changeUserStoryPrivacy(login, id, false, model);
+		//TODO : Fake Authentication with testuser1
+		String result = userStoryController.changeUserStoryPrivacy(id, false, model);
 		Assert.assertEquals("redirect:/auth/userstory/list?user=" + login, result);
 		Assert.assertNull(model.get("errorMessage"));
 		
@@ -255,7 +255,8 @@ public class UserStoryControllerTest {
 		UserStory refUserstory = userStoryDao.find(id);
 		Assert.assertEquals("public", refUserstory.getAccess());
 		
-		String result = userStoryController.changeUserStoryPrivacy(login, id, true, model);
+		//TODO : Fake Authentication with testuser1
+		String result = userStoryController.changeUserStoryPrivacy(id, true, model);
 		Assert.assertEquals("redirect:/auth/userstory/list?user=" + login, result);
 		Assert.assertNull(model.get("errorMessage"));
 		

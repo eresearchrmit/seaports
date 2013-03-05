@@ -1,5 +1,6 @@
 package helpers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -62,15 +63,16 @@ public class SecurityHelper {
 	
 	/**
 	 * Retrieve the username of the currently logged user
-	 * @return the username of the currently logged user
+	 * @return the username of the currently logged user, null otherwise
 	 */
 	public static String getCurrentlyLoggedInUsername() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDetails userDetails = null;
 		if (principal instanceof UserDetails) {
 		  userDetails = (UserDetails) principal;
+		  return userDetails.getUsername();
 		}
-		return userDetails.getUsername();
+		return (String)principal;
 	}
 	
 	/**
@@ -82,7 +84,8 @@ public class SecurityHelper {
 		UserDetails userDetails = null;
 		if (principal instanceof UserDetails) {
 		  userDetails = (UserDetails) principal;
+		  return userDetails.getAuthorities();
 		}
-		return userDetails.getAuthorities();
+		return new ArrayList<GrantedAuthority>();
 	}
 }

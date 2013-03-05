@@ -82,17 +82,17 @@ public class WorkboardController {
 	private ClimateParamsDao climateParamsDao;
 
 	
-	@RequestMapping(value= "my-workboard", method = RequestMethod.GET)
-	public ModelAndView getWorkBoard(Model model) {
+	@RequestMapping(value= "/my-workboard", method = RequestMethod.GET)
+	public String getWorkBoard(Model model) {
 		logger.info("Inside getWorkBoard");
-		
+				
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDetails userDetails = null;
 		if (principal instanceof UserDetails) {
 		  userDetails = (UserDetails) principal;
 		}
 		
-		return getUserWorkBoard(userDetails.getUsername(), model);
+		return "redirect:/auth/workboard?user=" + userDetails.getUsername();
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -106,9 +106,12 @@ public class WorkboardController {
 			User user = userDao.find(username);
 			UserStory userStory = userStoryDao.getWorkboard(user); 
 			if (userStory == null) {
-				return CreateWorkBoard(user, model);
+				return ModelForWorkboardCreation(model, user);
 			}
-			return modelForActiveWBview(model, userStory);
+			return ModelForWorkboard(model, userStory);
+		}
+		catch (AccessDeniedException e) {
+			return ModelForWorkboardAccessDenied(model);
 		}
 		catch (NullPointerException e) {
 			model.addAttribute("errorMessage", WorkboardController.ERR_RETRIEVE_WORKBOARD);
@@ -116,7 +119,7 @@ public class WorkboardController {
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
-		return modelForActiveWBview(model, null);
+		return ModelForWorkboard(model, null);
 	}
 	
 	@RequestMapping(value= "/upload", method = RequestMethod.POST)
@@ -150,14 +153,13 @@ public class WorkboardController {
             	model.addAttribute("errorMessage", ERR_INVALID_FILETYPE);
         }
         catch (AccessDeniedException e) {
-        	model.addAttribute("errorMessage", e.getMessage());
+        	return ModelForWorkboardAccessDenied(model);
         }
         catch (Exception e) {
         	model.addAttribute("errorMessage", ERR_FILE_UPLOAD);
         }
         
-		ModelAndView mav = modelForActiveWBview(model, userStory);
-		return mav;	
+		return ModelForWorkboard(model, userStory);	
 	}
 	
 	@RequestMapping(value= "/addEngineeringData", method = RequestMethod.POST)
@@ -249,6 +251,9 @@ public class WorkboardController {
     			}
     		}
         }
+    	catch (AccessDeniedException e) {
+    		return ModelForWorkboardAccessDenied(model);
+        }
     	catch (NoResultException e) {
     		model.addAttribute("warningMessage", e.getMessage());
         }
@@ -256,7 +261,7 @@ public class WorkboardController {
         	model.addAttribute("errorMessage", e.getMessage());
         }
         
-		return modelForActiveWBview(model, userStory);	
+		return ModelForWorkboard(model, userStory);	
 	}
 	
 	/**
@@ -430,12 +435,14 @@ public class WorkboardController {
 			
 			model.addAttribute("successMessage", WorkboardController.MSG_CSIRO_DATA_ADDED);
 		}
+		catch (AccessDeniedException e) {
+			return ModelForWorkboardAccessDenied(model);
+		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		
-		ModelAndView mav = modelForActiveWBview(model, userStory);
-		return mav;
+		return ModelForWorkboard(model, userStory);
 	}
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST) 
@@ -448,7 +455,7 @@ public class WorkboardController {
 			if (currentWorkboard != null)
 			{
 				model.addAttribute("errorMessage", WorkboardController.ERR_ALREADY_CURRENT_WORKBOARD);
-				return modelForActiveWBview(model, currentWorkboard);
+				return ModelForWorkboard(model, currentWorkboard);
 			}
 			
 			Region region = regionDao.find(userStory.getRegion().getName());
@@ -459,12 +466,12 @@ public class WorkboardController {
 			userStory.setAccess("private");
 			userStoryDao.save(userStory);
 			
-			return modelForActiveWBview(model, userStory);
+			return ModelForWorkboard(model, userStory);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
-		return modelForActiveWBview(model, null);
+		return ModelForWorkboard(model, null);
 	}
 
 	@RequestMapping(value = "/delete",method=RequestMethod.GET) 
@@ -477,14 +484,15 @@ public class WorkboardController {
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
 				throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
-			userStoryDao.delete(userStory);
-
-			return CreateWorkBoard(userStory.getOwner(), model);
+			userStoryDao.delete(userStory); // Deletes the Workboard
+			return ModelForWorkboardCreation(model, userStory.getOwner()); // Starts the creation of a new workboard
+		}
+		catch (AccessDeniedException e) {
+			return ModelForWorkboardAccessDenied(model);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
-		
 		return new ModelAndView("workboard");
 	}	
 	
@@ -499,80 +507,88 @@ public class WorkboardController {
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
 				throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
-			dataElementDao.delete(dataElement);
-			userStory.getDataElements().remove(dataElement);
-			model.addAttribute("successMessage", MSG_DATA_ELEMENT_DELETED);
-			
-			ModelAndView mav = modelForActiveWBview(model, userStory);
-			return mav;
-		}
-		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			// Delete the Data Element if it belongs to the user's workboard
+			if (userStory.getMode().equals("active")) {
+				dataElementDao.delete(dataElement);
+				userStory.getDataElements().remove(dataElement);
+				model.addAttribute("successMessage", MSG_DATA_ELEMENT_DELETED);
+				return ModelForWorkboard(model, userStory);
+			}
+			else { // If the Data Element belogns to a User Story, don't delete and retrieve the actual workboard
+				UserStory workboard = userStoryDao.getWorkboard(userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
+				model.addAttribute("errorMessage", ERR_DELETE_DATA_ELEMENT);
+				return ModelForWorkboard(model, workboard);
+			}
 		}
 		catch (AccessDeniedException e) {
+			return ModelForWorkboardAccessDenied(model);
+		}
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_DELETE_DATA_ELEMENT);
 		}
-		
 		return new ModelAndView("workboard");
 	}
 	
 
-	private ModelAndView modelForActiveWBview(Model model, UserStory userStory) {
-		logger.info("Inside modelForActiveWBview");
+	private ModelAndView ModelForWorkboard(Model model, UserStory userStory) {
+		logger.info("Inside ModelForWorkboard");
 		
-		ModelAndView mav = new ModelAndView();
-		logger.info("Setting View Name: workboard");
-		mav.setViewName("workboard");
-		
-		mav.addObject("userstory", userStory);
 		model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
+		ModelAndView mav = new ModelAndView("workboard");
 		
-		try {		
-			//List<DataElement> dataElements = dataElementDao.getDataElements(userStory);
-			List<DataElement> dataElements = userStory.getDataElements();
-	 		for (DataElement dataElement : dataElements) {
-	 			if (dataElement.getClass().equals(DataElementFile.class)) {
-	 				((DataElementFile)dataElement).generateStringContent();
-	 			}
-	 			else if (dataElement.getClass().equals(DataElementCsiro.class)) {
-	 				for (CsiroData data : ((DataElementCsiro)dataElement).getCsiroDataList()) {
-	 					data.setBaseline(csiroDataBaselineDao.find(data.getParameters().getRegion(), data.getVariable()));
-	 				}
-	 			}
-	 			else if (dataElement.getClass().equals(DataElementEngineeringModel.class)) {
-	 				List<EngineeringModelData> engineeringModelDataList = ((DataElementEngineeringModel)dataElement).getEngineeringModelDataList();
-	 				for (EngineeringModelData data : engineeringModelDataList) {
-	 					data.generateValues();
-	 				}
-	 			}
+		if (userStory != null) {	
+			mav.addObject("userstory", userStory);
+			
+			try {		
+				// Prepare the data elements
+				List<DataElement> dataElements = userStory.getDataElements();
+		 		for (DataElement dataElement : dataElements) {
+		 			if (dataElement.getClass().equals(DataElementFile.class)) {
+		 				((DataElementFile)dataElement).generateStringContent();
+		 			}
+		 			else if (dataElement.getClass().equals(DataElementCsiro.class)) {
+		 				for (CsiroData data : ((DataElementCsiro)dataElement).getCsiroDataList()) {
+		 					data.setBaseline(csiroDataBaselineDao.find(data.getParameters().getRegion(), data.getVariable()));
+		 				}
+		 			}
+		 			else if (dataElement.getClass().equals(DataElementEngineeringModel.class)) {
+		 				List<EngineeringModelData> engineeringModelDataList = ((DataElementEngineeringModel)dataElement).getEngineeringModelDataList();
+		 				for (EngineeringModelData data : engineeringModelDataList) {
+		 					data.generateValues();
+		 				}
+		 			}
+				}
+		 		mav.addObject("dataelements", dataElements);
+		 		
+		 		// Empty data element to use as a "New Data Element"
+		 		mav.addObject(new DataElement());
+		
+		 		// Prepares the various Comboboxes for new data element creation
+		 		List<EngineeringModelVariable> chlorideEngineeringModelVariables = engineeringModelVariableDao.getAll("Chloride"); 
+		 		mav.addObject("chlorideEngineeringModelVariables", chlorideEngineeringModelVariables);
+		 		List<EngineeringModelVariable> carbonationEngineeringModelVariables = engineeringModelVariableDao.getAll("Carbonation"); 
+		 		mav.addObject("carbonationEngineeringModelVariables", carbonationEngineeringModelVariables);
+		 		/*List<ClimateEmissionScenario> emissionScenarios = climateEmissionScenarioDao.getAll(); 
+		 		mav.addObject("emissionScenarios", emissionScenarios);
+		 		List<ClimateModel> climateModels = climateModelDao.getAll();
+		 		mav.addObject("climateModels", climateModels);
+		 		List<ClimateVariable> climateVariables = climateVariableDao.getAll();
+		 		mav.addObject("climateVariables", climateVariables);*/
 			}
-	 		mav.addObject("dataelements", dataElements);
-	 		
-	 		// Empty data element to use as a "New Data Element"
-	 		mav.addObject(new DataElement());
-	
-	 		List<EngineeringModelVariable> chlorideEngineeringModelVariables = engineeringModelVariableDao.getAll("Chloride"); 
-	 		mav.addObject("chlorideEngineeringModelVariables", chlorideEngineeringModelVariables);
-	 		List<EngineeringModelVariable> carbonationEngineeringModelVariables = engineeringModelVariableDao.getAll("Carbonation"); 
-	 		mav.addObject("carbonationEngineeringModelVariables", carbonationEngineeringModelVariables);
-	 		
-	 		/*List<ClimateEmissionScenario> emissionScenarios = climateEmissionScenarioDao.getAll(); 
-	 		mav.addObject("emissionScenarios", emissionScenarios);
-	 		List<ClimateModel> climateModels = climateModelDao.getAll();
-	 		mav.addObject("climateModels", climateModels);
-	 		List<ClimateVariable> climateVariables = climateVariableDao.getAll();
-	 		mav.addObject("climateVariables", climateVariables);*/
+			catch (Exception e) {
+				model.addAttribute("errorMessage", e.getMessage());
+			}
 		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
+		
 		return mav;
 	}
 
-	private ModelAndView CreateWorkBoard(User user, Model model) {
+	private ModelAndView ModelForWorkboardCreation(Model model, User user) {
+		logger.info("Inside ModelForWorkboardCreation");
+		
 		ModelAndView mav = new ModelAndView();
 		try {
 			model.addAttribute("user", user);
@@ -582,13 +598,20 @@ public class WorkboardController {
 			userStory.setRegion(new Region(""));
 			mav.addObject("userstory", userStory);
 			
-			logger.info("Setting View Name: workboardCreation");
 			mav.setViewName("workboardCreation");
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		return mav;
+	}
+	
+	private ModelAndView ModelForWorkboardAccessDenied(Model model) {
+		logger.info("Inside ModelForWorkboardAccessDenied");
+		
+		model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
+		
+		return new ModelAndView("accessDenied");
 	}
 	
 	public static final String ERR_ACCESS_DENIED = "You are not allowed to access this Workboard";

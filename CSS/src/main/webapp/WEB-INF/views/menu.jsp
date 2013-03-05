@@ -9,7 +9,7 @@
 			<li><a href="#">Stories shared with me</a></li>
 		</ul> -->
 	</li>
-	<sec:authorize url="/CSS/admin/users/list">
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
 		<li><a href="/CSS/admin/users/list"><span>Administration</span></a></li>
 	</sec:authorize>
 	<!-- <li class="ic-data-element"><a href="#" title="Manage the favorite data elements that you saved"><span>My Data Elements</span></a></li> -->

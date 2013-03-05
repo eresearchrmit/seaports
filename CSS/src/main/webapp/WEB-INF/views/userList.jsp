@@ -13,6 +13,36 @@
 
 <div class="grid_12">
 	<h2>${listingTitle}</h2>
+	
+	<c:if test="${not empty successMessage}">
+		<div id="successMessage" class="message success">
+			<h5>Success !</h5>
+			<p>${successMessage}.</p>
+		</div>
+		<!-- Makes the success messages fade out after 3 seconds -->
+		<script type="text/javascript">
+			$(document).ready(function(){
+				setTimeout(function(){
+					$("#successMessage").fadeOut("slow", function () {
+						$("#successMessage").remove();
+					});
+				}, 3000);
+			});
+		</script>
+	</c:if>
+	<c:if test="${not empty warningMessage}">
+		<div class="message warning">
+			<h5>Warning</h5>
+			<p>${warningMessage}.</p>
+		</div>
+	</c:if>
+	<c:if test="${not empty errorMessage}">
+		<div class="message error">
+			<h5>Error</h5>
+			<p>${errorMessage}.</p>
+		</div>
+	</c:if>
+	
 	<c:if test="${not empty usersList}">
 		<table class="data display datatable" id="tblUserList">
 			<thead>
@@ -32,11 +62,14 @@
 					<td class="center"><a href="/CSS/auth/workboard?user=${user.username}" title="View the Workboard of this user"><img src="<c:url value="/resources/img/icons/application_side_boxes.png" />" alt="View" /></a></td>
 					<td class="center"><a href="/CSS/auth/userstory/list?user=${user.username}" title="View the Stories of this user"><img src="<c:url value="/resources/img/icons/application_view_list.png" />" alt="View" /></a></td>
 					<c:choose>
-						<c:when test="${user.enabled == 'enabled'}">
+						<c:when test="${user.roles != 'ROLE_ADMIN' && user.enabled}">
 							<td class="center"><a href="/CSS/admin/users/list/disable?user=${user.username}" class="lnkDisableUser" title="Click to disable account"><img src="<c:url value="/resources/img/icons/user.png" />" alt="Enabled" /> Enabled</a></td>
 	                 	</c:when>
-				  		<c:when test="${user.enabled == 'disabled'}">
+				  		<c:when test="${user.roles != 'ROLE_ADMIN' && !(user.enabled)}">
 				  			<td class="center"><a href="/CSS/admin/users/list/enable?user=${user.username}" class="lnkLockUserStory" title="Click to enable account"><img src="<c:url value="/resources/img/icons/lock.png" />" alt="Disabled"/> Disabled</a></td>
+	                 	</c:when>
+	                 	<c:when test="${user.roles == 'ROLE_ADMIN'}">
+				  			<td class="center"><img src="<c:url value="/resources/img/icons/user_green.png" />" alt="Enabled"/> Administrator account (cannot be disabled)</td>
 	                 	</c:when>
 	                 	<c:otherwise>
 	                 		<td></td>
