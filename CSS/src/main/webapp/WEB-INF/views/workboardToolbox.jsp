@@ -190,7 +190,7 @@
 		</button>
 		</a>
 	</p>
-	<div id="confirmConvertToUserStoryModalWindow" title="Delete this data element ?">
+	<div id="confirmConvertToUserStoryModalWindow" title="Create a story from this workboard ?">
 		<p>This will create a Story based on your Workboard. Once the Workboard becomes a Story, no more data element can be added to it.</p> 
 		<p>Are you sure you want to create a Story from your Workboard now ?</p>
 	</div>
@@ -224,7 +224,7 @@
 			});
 			
 			$('.dataElementForm').hide();
-			setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.");
+			setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.", "${pageContext.request.contextPath}/resources/img/bubblepopup");
 			setupDialogBox("addDataElementModalWindow", "btnOpenAddDataElementModalWindow");
 			setupConfirmBox("confirmConvertToUserStoryModalWindow", "lnkConvertToUserStory");
 			setupConfirmBox("confirmWorkboardDeletionModalWindow", "lnkDeleteWorkboard");

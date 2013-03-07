@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.codec.binary.Base64;
+
 /**
  * Class representing variation data from the dataset available from CSIRO. 
  * It associates values to the climate variables and climate parameters.
@@ -70,6 +72,12 @@ public class CsiroData
 	private Double value;
 	
 	/**
+	 * The picture representing the value
+	 */
+	@Column(columnDefinition = "BLOB")
+	private byte[] picture;
+	
+	/**
 	 * Default constructor of CsiroData
 	 */
 	public CsiroData() {
@@ -83,13 +91,15 @@ public class CsiroData
 	 * @param variable: the variable that this data represents
 	 * @param year: the year for which the data is computed
 	 * @param value: the value of the data
+	 * @param picture: the picture representing the value
 	 */
-	public CsiroData(Date creationDate, ClimateParams parameters, CsiroVariable variable, int year, Double value) {
+	public CsiroData(Date creationDate, ClimateParams parameters, CsiroVariable variable, int year, Double value, byte[] picture) {
 		setCreationDate(creationDate);
 		setParameters(parameters);
 		setVariable(variable);
 		setYear(year);
 		setValue(value);
+		setPicture(picture);
 	}
 
 	/**
@@ -175,7 +185,8 @@ public class CsiroData
 	/**
 	 * Setter for the year for which year the data is computed
 	 * @param year: the new year for which year the data is computed
-	 */	public void setYear(int year) {
+	 */
+	public void setYear(int year) {
 		this.year = year;
 	}
 	
@@ -193,5 +204,28 @@ public class CsiroData
 	 */
 	public void setValue(Double value) {
 		this.value = value;
+	}
+
+	/**
+	 * Getter for the picture representing the value
+	 * @return: the current picture representing the value
+	 */
+	public byte[] getPicture() {
+		return picture;
+	}
+	
+	/**
+	 * Getter for the picture representing the value
+	 * @param value: the new picture representing the value
+	 */
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+	
+	public String getStringPicture() {
+		if (this.picture != null && this.picture.length > 0)
+			return Base64.encodeBase64String(this.picture);
+		else
+			return "";
 	}
 }

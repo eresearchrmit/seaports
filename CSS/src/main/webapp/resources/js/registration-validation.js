@@ -4,13 +4,15 @@
 	$("#passwordConfirmErrorMessage").hide();
 	$("#firsnameErrorMessage").hide();
 	$("#lastnameErrorMessage").hide();
+	$("#emailErrorMessage").hide();
 	
 	$("#btnSignUp").click(function (e) {
 		if (checkLogin() == false || 
 			checkPassword() == false || 
 			checkPasswordConfirm() == false || 
 			checkFirstname() == false || 
-			checkLastname() == false)
+			checkLastname() == false || 
+			checkEmail() == false)
 			e.preventDefault();
 	});
 });
@@ -92,5 +94,24 @@ function checkLastname() {
 	}
 	$("#txtLastname").addClass("error");
 	$("#lastnameErrorMessage").show();
+	return false;
+}
+
+function checkEmail() {
+	var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	if ($("#txtEmail").val().length > 0) {
+		if (filter.test($("#txtEmail").val())) {
+			$("#txtEmail").removeClass("error");
+			$("#emailErrorMessage").hide();
+			return true;
+		}
+		else {			$("#emailErrorMessage").html("Please enter a valid e-mail address.");
+		}
+	}
+	else {
+		$("#emailErrorMessage").html("E-mail address is required.");
+	}
+	$("#txtEmail").addClass("error");
+	$("#emailErrorMessage").show();
 	return false;
 }

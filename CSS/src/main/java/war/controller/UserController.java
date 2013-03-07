@@ -2,9 +2,11 @@ package war.controller;
 
 //import java.util.List;
 
+import security.UserLoginService;
 import war.dao.*;
 import war.model.*;
 
+import org.apache.commons.validator.routines.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,12 @@ public class UserController {
 				throw(new Exception(ERR_SIGNUP_INVALID_FIRSTNAME));
 			if (user.getLastname() == null || user.getLastname().isEmpty())
 				throw(new Exception(ERR_SIGNUP_INVALID_LASTNAME));
+			if (user.getEmail() == null || user.getEmail().isEmpty() || !(EmailValidator.getInstance().isValid(user.getEmail())))
+				throw(new Exception(ERR_SIGNUP_INVALID_EMAIL));
+			
+			user.setRoles(UserLoginService.ROLE_USER);
+			user.setNonLocked(true);
+			user.setEnabled(true);
 			
 			userDao.save(user);
 			return "login";
@@ -104,6 +112,7 @@ public class UserController {
 	public static final String ERR_SIGNUP_INVALID_PASSWORD = "Invalid password";
 	public static final String ERR_SIGNUP_INVALID_FIRSTNAME = "Invalid first name";
 	public static final String ERR_SIGNUP_INVALID_LASTNAME = "Invalid last name";
+	public static final String ERR_SIGNUP_INVALID_EMAIL = "Invalid e-mail address";
 	
 	public static final String ERR_BAD_LOGIN_PASSWORD = "Invalid login and/or password";
 	public static final String ERR_MISSING_LOGIN_PASSWORD = "Please enter a login and/or a password";

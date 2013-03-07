@@ -12,7 +12,7 @@
 		<jetty.version>6.1.4</jetty.version>
 		<spring.version>3.0.5.RELEASE</spring.version>
 		<slf4j.version>1.5.10</slf4j.version>
-		<java.version>1.6</java.version>
+		<java.version>1.7</java.version>
 		<junit.version>4.8.2</junit.version>
 	</properties>
 
@@ -312,7 +312,14 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>ooxml-schemas</artifactId>
 			<version>1.1</version>
-		</dependency>               
+		</dependency>
+		
+		<!-- Apache Commons validator -->
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.4.0</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>
@@ -359,7 +366,7 @@
 				</configuration>
 			</plugin>
 
-			<!-- Ensures we are compiling at 1.6 level -->
+			<!-- Ensures we are compiling at 1.7 level -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

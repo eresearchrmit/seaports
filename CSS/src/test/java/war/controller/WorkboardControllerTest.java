@@ -1,9 +1,5 @@
 package war.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import junit.framework.Assert;
 
 import security.UserLoginService;
@@ -13,17 +9,19 @@ import war.dao.CsiroVariableDao;
 import war.dao.DataElementDao;
 import war.dao.UserDao;
 import war.dao.UserStoryDao;
-import war.model.UserAuthority;
-import war.model.DataElement;
-import war.model.DataElementFile;
 import war.model.Region;
 import war.model.User;
 import war.model.UserStory;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,12 +36,35 @@ public class WorkboardControllerTest {
 	@Autowired
 	private WorkboardController workboardController;
 	
+	User loggedInUser;
+	User loggedInAdmin;
+	SecurityContext securityContextUserLoggedIn;
+	SecurityContext securityContextAdminLoggedIn;
+	
+	@Before
+	public void prepareData() {
+		SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL); // Optional
+		
+		loggedInUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		Authentication userAuth = new ConcreteAuthentication(loggedInUser);
+		securityContextUserLoggedIn = new SecurityContextImpl();
+		securityContextUserLoggedIn.setAuthentication(userAuth);
+		
+		loggedInAdmin = new User("testadmin1", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin1", "testadmin1");
+		Authentication adminAuth = new ConcreteAuthentication(loggedInAdmin);
+		securityContextAdminLoggedIn = new SecurityContextImpl();
+		securityContextAdminLoggedIn.setAuthentication(adminAuth);
+	}
+	
 	/**
 	 * getUserWorkBoard should fail because User is Unknown: the model is filled with an error message
 	 */
 	@Test
 	public void getUserWorkBoardUnknownUserTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
+		
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ModelAndView result = workboardController.getUserWorkBoard("UNKNOWN USER", model);
 		
 		Assert.assertNull(result);

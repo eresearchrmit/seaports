@@ -239,9 +239,9 @@ public class TestDatabaseLoader {
 		ArrayList<CsiroData> csirodata = new ArrayList<CsiroData>(); 
 		for (ClimateParams parameter : paramsList) {
 			for (CsiroVariable variable : climVarsList) {
-				csirodata.add(new CsiroData(date, parameter, variable, 2030, randomGenerator.nextDouble()));
-				csirodata.add(new CsiroData(date, parameter, variable, 2055, randomGenerator.nextDouble()));
-				csirodata.add(new CsiroData(date, parameter, variable, 2070, randomGenerator.nextDouble()));
+				csirodata.add(new CsiroData(date, parameter, variable, 2030, randomGenerator.nextDouble(), null));
+				csirodata.add(new CsiroData(date, parameter, variable, 2055, randomGenerator.nextDouble(), null));
+				csirodata.add(new CsiroData(date, parameter, variable, 2070, randomGenerator.nextDouble(), null));
 			}
 		}
 		for (CsiroData data : csirodata) {

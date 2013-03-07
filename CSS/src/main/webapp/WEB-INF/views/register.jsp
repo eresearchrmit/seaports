@@ -40,15 +40,22 @@
 					<tr>
 				    	<td class="col1" align="right">First name:</td>
 				    	<td class="col2" align="left">
-				    		<form:password id="txtFirstname" path="firstname" onblur="checkFirstname()" />*&nbsp;
+				    		<form:input id="txtFirstname" path="firstname" onblur="checkFirstname()" />*&nbsp;
 				    		<span id="firstnameErrorMessage" style="color:red;"></span>
 				    	</td>
 				    </tr>
 					<tr>
 				    	<td class="col1" align="right">Last name:</td>
 				    	<td class="col2" align="left">
-				    		<form:password id="txtLastname" path="lastname" onblur="checkLastname()" />*&nbsp;
+				    		<form:input id="txtLastname" path="lastname" onblur="checkLastname()" />*&nbsp;
 				    		<span id="lastnameErrorMessage" style="color:red;"></span>
+				    	</td>
+				    </tr>
+					<tr>
+				    	<td class="col1" align="right">E-mail address:</td>
+				    	<td class="col2" align="left">
+				    		<form:input id="txtEmail" path="email" onblur="checkEmail()" />*&nbsp;
+				    		<span id="emailErrorMessage" style="color:red;"></span>
 				    	</td>
 				    </tr>
 					<tr>

@@ -3,7 +3,6 @@ package war.controller;
 import junit.framework.Assert;
 
 import security.UserLoginService;
-import war.model.UserAuthority;
 import war.model.User;
 
 import org.junit.Before;

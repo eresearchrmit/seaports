@@ -6,7 +6,7 @@
 <div class="grid_12">
 
 	<div class="pitch">
-		<h3 class="lightblue">Australia's climate is changing, and it will pose challenges to the successful operation of ports over coming decades.</h3>
+		<h3 class="lightblue">Pitch sentence.</h3>
 		<div class="pitch-link"><a href="#">Read more...</a></div>
 	</div>
 	
@@ -22,4 +22,10 @@
 		<h3>Search for User Stories</h3>
 		Search <input type="text" width="400px" /> <input type="button" class="btn btn-grey" value="Search" />
 	</div>
+	<p>
+		<center>
+			<h4>Detailed presentation of the application</h4>
+			Text, pictures, etc.
+		</center>
+	</p>
 </div>

@@ -1,5 +1,7 @@
 package war.controller;
 
+import helpers.SecurityHelper;
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -36,8 +38,10 @@ public class AdminController {
 		
 		ModelAndView mav = new ModelAndView("userList");
 		
-		try {			
-			// Retrieve user
+		try {
+			model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
+			
+			// Retrieve users list
 			List<User> usersList = userDao.getPeople();
 			mav.addObject("usersList", usersList);
 			
