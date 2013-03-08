@@ -2,7 +2,7 @@
 <%@ page session="true" %>
 <%@ page import= "org.springframework.web.servlet.tags.*" %>
 <%@ page import="war.model.DataElementCsiro" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <c:choose>
 	<c:when test="${not empty dataelement.csiroDataList}">
@@ -20,13 +20,13 @@
 			<tbody>
 				<c:forEach items="${dataelement.csiroDataList}" var="csiroData" varStatus="dataLoopStatus">
 					<tr class="${dataLoopStatus.index % 2 == 0 ? 'even' : 'odd'}">
-						<td class="center">${csiroData.variable.name}</td>
+						<td>${csiroData.variable.name}</td>
 						<td class="center">${csiroData.baseline.value} ${csiroData.baseline.variable.uom}</td>
 						<td class="center"><c:if test="${csiroData.value > 0}">+</c:if>${csiroData.value} ${csiroData.variable.uomVariation}</td>
 						<td class="center">
 							<c:choose>
 							<c:when test="${not empty csiroData.stringPicture}">
-								<img name="${csiroData.variable.name}" src="data:image/png;charset=utf-8;base64,${csiroData.stringPicture}" />
+								<img name="${csiroData.variable.name}" src="data:image/png;charset=utf-8;base64,${csiroData.stringPicture}" class="csiroPicture" />
 							</c:when>
 							<c:otherwise>
 								No picture available

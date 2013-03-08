@@ -29,9 +29,10 @@
 			<tiles:insertAttribute name="menu" ignore="true" />
         </div>
         <div class="clear"></div>
-		<tiles:insertAttribute name="sidemenu" ignore="true" />
+        
 		<tiles:insertAttribute name="body" ignore="true" />
         <div class="clear"></div>
+        
 	    <div id="site_info">
 			<tiles:insertAttribute name="footer" ignore="true" />
 	    </div>

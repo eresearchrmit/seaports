@@ -1,4 +1,18 @@
-﻿ul.sorting
+.ui-widget-content {
+	border: 1px solid #1B548D;
+}
+
+ul.ui-widget-header {
+	background: #1B548D /*url(../img/tabs-background_1x100.png)*/ 50% 50% repeat-x;
+}
+
+li.ui-state-default {
+	border: 1px solid #1B548D;
+	background: #E6F0F3 url(images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+	color: #555555;
+}
+
+/*ul.sorting
 {
    
     list-style-type: none;
@@ -71,4 +85,4 @@ h2 span
     padding: 1px 7px 3px 7px;
     line-height: 1.5;
     color: #A2A2A2;
-}
+}*/

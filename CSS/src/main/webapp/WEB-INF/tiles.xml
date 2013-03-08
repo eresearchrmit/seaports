@@ -56,7 +56,7 @@
 	
 	<definition name="userstory" extends="base.definition">
 		<put-attribute name="title" value="User Story - Climate Smart Seaports" />
-		<put-attribute name="sidemenu" value="/WEB-INF/views/userstory.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/userstory.jsp" />
 	</definition>
 	
 	<definition name="userstoryList" extends="base.definition">
@@ -66,12 +66,12 @@
 	
 	<definition name="userstoryView" extends="base.definition">
 		<put-attribute name="title" value="User Story - Climate Smart Seaports" />
-		<put-attribute name="sidemenu" value="/WEB-INF/views/userstoryView.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/userstoryView.jsp" />
 	</definition>
 	
 	<definition name="userList" extends="base.definition">
 		<put-attribute name="title" value="Users list - Climate Smart Seaports" />
-		<put-attribute name="sidemenu" value="/WEB-INF/views/userList.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/userList.jsp" />
 	</definition>
 	<!-- /PAGE SPECIFIC -->
 </tiles-definitions>

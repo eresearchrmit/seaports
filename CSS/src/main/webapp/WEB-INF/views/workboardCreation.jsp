@@ -11,7 +11,6 @@
 	<h2>New Workboard</h2>
 	<i>You have no active workboard. Create a new workboard using the page below:</i>
 	
-	
 	<form:form method="POST" action="/CSS/auth/workboard/create?username=${user.username}"  modelAttribute="userstory" >
 	<table class="form">
 		<tr>
@@ -19,7 +18,8 @@
 				<label>Title:</label>
 			</td>
 			<td class="col2">
-				<form:input path="name" style="width:300px"/>
+				<form:input id="txtWorkboardTitle" path="name" style="width:300px"/>
+				<span id="titleErrorMessage" style="color:red;"></span>
 				<%-- <form:hidden path="owner" value = "<%= p  %>"  /> --%>
 			</td>
 		</tr>
@@ -36,6 +36,7 @@
 				            setupBubblePopup("lnkHelpRegionSelection", "Select the region where the seaport is located by clicking on the map below",  "${pageContext.request.contextPath}/resources/img/bubblepopup");
 				        });
 				    </script>
+				    <span id="regionErrorMessage" style="color:red;"></span>
 		   </td>
 	   </tr>
 	</table>
@@ -55,7 +56,8 @@
 			<area class="mapArea" title="Southern and South-Western Flatlands" shape="poly" coords="166,355,164,358,165,359,167,359,167,358" />
 			<area class="mapArea" title="Southern and South-Western Flatlands" shape="poly" coords="136,366,135,368,137,368" />
 		</map>
-		<script type="text/javascript">$(function() {
+		<script type="text/javascript">
+			$(function() {
 				$('.map').maphilight();
 				
 				$(".mapArea").click(function(event) {
@@ -65,11 +67,49 @@
 					$("#displayUserStoryRegion").html(selectedValue);
 				});
 			});
+		
+			$(document).ready(function () {
+				$("#titleErrorMessage").hide();
+				$("#regionErrorMessage").hide();
+				
+				$("#btnCreateWorkboard").click(function (e) {
+					if (checkTitle() == false || checkRegion() == false)
+						e.preventDefault();
+				});
+				
+				function checkTitle() {
+					if ($("#txtWorkboardTitle").val().length > 0) {
+						$("#txtWorkboardTitle").removeClass("error");
+						$("#titleErrorMessage").hide();
+						return true;
+					}
+					else {
+						$("#titleErrorMessage").html("Please provide a title for your workboard.");
+					}
+					$("#txtWorkboardTitle").addClass("error");
+					$("#titleErrorMessage").show();
+					return false;
+				}
+				
+				function checkRegion() {
+					if ($("#hdnUserStoryRegion").val().length > 0) {
+						$("#hdnUserStoryRegion").removeClass("error");
+						$("#regionErrorMessage").hide();
+						return true;
+					}
+					else {
+						$("#regionErrorMessage").html("Please select a region using the map.");
+					}
+					$("#hdnUserStoryRegion").addClass("error");
+					$("#regionErrorMessage").show();
+					return false;
+				}
+			});
 		</script>
 	</div>
 	<img id="nrmLegend" src="<c:url value="/resources/img/nrm-regions-clusters-legend.png" />" style="float:left" />
 	<div class="clear"></div><br />
 	
-	<div align="center"><input type="submit" value="Create" class="btn btn-blue" /></div>
+	<div align="center"><input id="btnCreateWorkboard" type="submit" value="Create" class="btn btn-blue" /></div>
 	</form:form>
 </div>

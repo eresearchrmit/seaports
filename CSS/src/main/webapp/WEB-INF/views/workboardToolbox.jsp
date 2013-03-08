@@ -8,95 +8,69 @@
 <%@ page language="java" import="war.model.DataElement" %>
 
 <c:if test="${not empty userstory}">
-<div class="grid_12">
-	<h2>${userstory.name}</h2>
-	<h6>${userstory.region.name}</h6>
-</div>
-<div class="clear"></div>
-<br />
-<div class="grid_3 box">	
-	<p>
-		<button id="btnOpenAddDataElementModalWindow" type="button" class="btn btn-icon btn-blue btn-plus" >
-			<span></span>Add Data Element
-		</button>
-	</p>
-	<div id="addDataElementModalWindow" class="box round first" title="New Data Element">
-		<div class="block">
-			<p><strong>1. Choose a Data Source:</strong></p>
-			<table width="auto" height="auto" class="form">
-				<tr>
-					<td align="right" class="col1">Source:</td>
-					<td class="col2">
-						<select id="cbbDataSource" name="dataSource">
-							<option value="none">- Select Data Source -</option>
-							<option value="csiro">CSIRO</option>
-							<!--<option value="bom">BoM</option>-->
-							<option value="engineering">Engineering Model</option>
-							<option value="customFile">Custom file</option>
-						</select>
-					</td>
-				</tr>
-			</table>
-			<p>
-			<div id="csiroDataForm" class="dataElementForm">
-				<form:form method="post" action="/CSS/auth/workboard/addCsiroData?id=${userstory.id}" modelAttribute="climateData">
-					<input type="hidden" name="userstoryid" value="${userstory.id}" />
-					<p><strong>2. CSIRO Data Options:</strong></p>
-					<table width="auto" height="auto" class="form">
-						<tr>
-							<td align="right" class="col1">Variable:</td>
-							<td class="col2">
-								<select id="cbbClimateVariable" name="climateVariable">
-									<option value="All">All Variables</option>
-									<option value="Temperature">Temperature</option>
-									<option value="Wind speed">Wind speed</option>
-									<option value="Rainfall">Rainfall</option>
-									<option value="Relative humidity">Relative humidity</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td align="right">Emission Scenario:</td>
-							<td>
-								<select id="cbbClimateEmissionScenario" name="climateEmissionScenario">
-									<option value="A1B">A1B</option>
-									<option value="A1FI">A1FI</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td align="right">Climate Model:</td>
-							<td>
-								<select id="cbbClimateClimateModel" name="climateModel">
-									<option value="Most Likely">Most Likely</option>
-									<option value="Hotter &amp; Drier">Hotter &amp; Drier</option>
-									<option value="Cooler &amp; Wetter">Cooler &amp; Wetter</option>
-								</select>
-							</td>
-						</tr>
-						<tr>
-							<td align="right">Year:</td>
-							<td>
-								<select id="cbbYear" name="year">
-									<option value="2030">2030</option>
-									<option value="2055">2055</option>
-									<option value="2070">2070</option>
-								</select>
-							</td>
-						</tr>
-					</table>
-					<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-						<span></span>Add CSIRO Data Element
-					</button>
-				</form:form>
-			</div>
-			<div id="bomDataForm" class="dataElementForm">
-				<p><strong>2. BoM Data Options:</strong></p>
+<p>
+	<button id="btnOpenAddDataElementModalWindow" type="button" class="btn btn-icon btn-blue btn-plus" >
+		<span></span>Add Data Element
+	</button>
+</p>
+<div id="addDataElementModalWindow" class="box round first" title="New Data Element">
+	<div class="block">
+		<p><strong>1. Choose a Data Source:</strong></p>
+		<table width="auto" height="auto" class="form">
+			<tr>
+				<td align="right" class="col1">Source:</td>
+				<td class="col2">
+					<select id="cbbDataSource" name="dataSource">
+						<option value="none">- Select Data Source -</option>
+						<option value="csiro">CSIRO</option>
+						<!--<option value="bom">BoM</option>-->
+						<option value="engineering">Engineering Model</option>
+						<option value="customFile">Custom file</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+		<p>
+		<div id="csiroDataForm" class="dataElementForm">
+			<form:form method="post" action="/CSS/auth/workboard/addCsiroData?id=${userstory.id}" modelAttribute="climateData">
+				<input type="hidden" name="userstoryid" value="${userstory.id}" />
+				<p><strong>2. CSIRO Data Options:</strong></p>
 				<table width="auto" height="auto" class="form">
+					<tr>
+						<td align="right" class="col1">Variable:</td>
+						<td class="col2">
+							<select id="cbbClimateVariable" name="climateVariable">
+								<option value="All">All Variables</option>
+								<option value="Temperature">Temperature</option>
+								<option value="Wind speed">Wind speed</option>
+								<option value="Rainfall">Rainfall</option>
+								<option value="Relative humidity">Relative humidity</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">Emission Scenario:</td>
+						<td>
+							<select id="cbbClimateEmissionScenario" name="climateEmissionScenario">
+								<option value="A1B">A1B</option>
+								<option value="A1FI">A1FI</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">Climate Model:</td>
+						<td>
+							<select id="cbbClimateClimateModel" name="climateModel">
+								<option value="Most Likely">Most Likely</option>
+								<option value="Hotter &amp; Drier">Hotter &amp; Drier</option>
+								<option value="Cooler &amp; Wetter">Cooler &amp; Wetter</option>
+							</select>
+						</td>
+					</tr>
 					<tr>
 						<td align="right">Year:</td>
 						<td>
-							<select id="cbbBomYear" name="year">
+							<select id="cbbYear" name="year">
 								<option value="2030">2030</option>
 								<option value="2055">2055</option>
 								<option value="2070">2070</option>
@@ -105,130 +79,124 @@
 					</tr>
 				</table>
 				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Upload custom file
+					<span></span>Add CSIRO Data Element
 				</button>
-			</div>
-			<div id="engineeringDataForm" class="dataElementForm">
-				<form:form id="formEngineeringData" method="post" action="/CSS/auth/workboard/addEngineeringData?id=${userstory.id}" enctype="multipart/form-data">
-					<p><strong>2. Engineering Model Data Element Options:</strong></p>
-					<input type="hidden" name="sourceType" id="hdnEngineeringSourceType" value="upload" />
-					
-					<table width="auto" height="auto" class="form">
-						<tr>
-							<td><input type="radio" name="rdEngineeringSourceType" value="upload" checked="checked" /></td>
-							<td align="right">Select a file to upload:</td>
-							<td>
-								<input type="file" name="file" id="file" /><br />
-								<p style="width:300px; text-align:justify"><i>The file should be an Excel file, generated by the concrete deterioration engineering model tool available <a href="http://10.118.96.11/ccimt" title="Go to the engineering model tool" target="blank">here</a>. Download the output from this tool and upload it here to get the data to your workboard.</i></p>
-							</td>
-						</tr>
-						<tr>
-							<td><input type="radio" name="rdEngineeringSourceType" value="example" /></td>
-							<td align="right" >Or use a predefined example for this region.</td>
-						</tr>
-						<tr>
-							<td align="right" colspan="2">Select a variable to use for the Data Element:</td>
-							<td>
-								<input type="hidden" id="hdnEngVariableCategory" name="engVariableCategory" value="${chlorideEngineeringModelVariables[0].category}" />
-								<select id="cbbEngineeringVariable" name="engVariable">
-									<option disabled class="dropDownTitle">${chlorideEngineeringModelVariables[0].category}</option>
-									<c:forEach items="${chlorideEngineeringModelVariables}" var="engineeringModelVariable" varStatus="loop">
-										<option value="${engineeringModelVariable.name}" title="${engineeringModelVariable.category}">${engineeringModelVariable.name}</option>
-									</c:forEach>
-									<option disabled class="dropDownTitle">${carbonationEngineeringModelVariables[0].category}</option>
-									<c:forEach items="${carbonationEngineeringModelVariables}" var="engineeringModelVariable" varStatus="loop">
-										<option value="${engineeringModelVariable.name}" title="${engineeringModelVariable.category}">${engineeringModelVariable.name}</option>
-									</c:forEach>
-								</select>								
-								<a href="#" id="lnkHelpEngVariable" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>
-							</td>
-						</tr>
-					</table>
-					<button type="button" id="btnAddEngineeringModelDataElement" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-						<span></span>Add Engineering Model Data Element
-					</button><br />
-					<div id="loading" class="center">
-						<p>Extracting data and preparing your data element...</p>
-						<img src="<c:url value="/resources/img/ajax-loader.gif" />" alt="Loading..." title="Loading..." /><br />
-						<p>Please don't refresh the page.</p>
-					</div>
-				</form:form>
-			</div>
-			<div id="customFileDataForm" class="dataElementForm">
-				<form:form method="post" action="/CSS/auth/workboard/upload?id=${userstory.id}" enctype="multipart/form-data">
-					<p><strong>2. Custom Data Element Options:</strong></p>
-					<table width="auto" height="auto" class="form">
-						<tr>
-							<td align="right">Select a file to upload (text, XML, HTML or image):</td>
-							<td>
-								<input type="file" name="file" id="file" />
-							</td>
-						</tr>
-					</table>
-					<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-						<span></span>Add Custom Data Element
-					</button>
-				</form:form>
-			</div>
+			</form:form>
+		</div>
+		<div id="bomDataForm" class="dataElementForm">
+			<p><strong>2. BoM Data Options:</strong></p>
+			<table width="auto" height="auto" class="form">
+				<tr>
+					<td align="right">Year:</td>
+					<td>
+						<select id="cbbBomYear" name="year">
+							<option value="2030">2030</option>
+							<option value="2055">2055</option>
+							<option value="2070">2070</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+				<span></span>Upload custom file
+			</button>
+		</div>
+		<div id="engineeringDataForm" class="dataElementForm">
+			<form:form id="formEngineeringData" method="post" action="/CSS/auth/workboard/addEngineeringData?id=${userstory.id}" enctype="multipart/form-data">
+				<p><strong>2. Engineering Model Data Element Options:</strong></p>
+				<input type="hidden" name="sourceType" id="hdnEngineeringSourceType" value="upload" />
+				
+				<table width="auto" height="auto" class="form">
+					<tr>
+						<td><input type="radio" name="rdEngineeringSourceType" value="upload" checked="checked" /></td>
+						<td align="right">Select a file to upload:</td>
+						<td>
+							<input type="file" name="file" id="file" /><br />
+							<p style="width:300px; text-align:justify"><i>The file should be an Excel file, generated by the concrete deterioration engineering model tool available <a href="http://10.118.96.11/ccimt" title="Go to the engineering model tool" target="blank">here</a>. Download the output from this tool and upload it here to get the data to your workboard.</i></p>
+						</td>
+					</tr>
+					<tr>
+						<td><input type="radio" name="rdEngineeringSourceType" value="example" /></td>
+						<td align="right" >Or use a predefined example for this region.</td>
+					</tr>
+					<tr>
+						<td align="right" colspan="2">Select a variable to use for the Data Element:</td>
+						<td>
+							<input type="hidden" id="hdnEngVariableCategory" name="engVariableCategory" value="${chlorideEngineeringModelVariables[0].category}" />
+							<select id="cbbEngineeringVariable" name="engVariable">
+								<option disabled class="dropDownTitle">${chlorideEngineeringModelVariables[0].category}</option>
+								<c:forEach items="${chlorideEngineeringModelVariables}" var="engineeringModelVariable" varStatus="loop">
+									<option value="${engineeringModelVariable.name}" title="${engineeringModelVariable.category}">${engineeringModelVariable.name}</option>
+								</c:forEach>
+								<option disabled class="dropDownTitle">${carbonationEngineeringModelVariables[0].category}</option>
+								<c:forEach items="${carbonationEngineeringModelVariables}" var="engineeringModelVariable" varStatus="loop">
+									<option value="${engineeringModelVariable.name}" title="${engineeringModelVariable.category}">${engineeringModelVariable.name}</option>
+								</c:forEach>
+							</select>								
+							<a href="#" id="lnkHelpEngVariable" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>
+						</td>
+					</tr>
+				</table>
+				<button type="button" id="btnAddEngineeringModelDataElement" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+					<span></span>Add Engineering Model Data Element
+				</button><br />
+				<div id="loading" class="center">
+					<p>Extracting data and preparing your data element...</p>
+					<img src="<c:url value="/resources/img/ajax-loader.gif" />" alt="Loading..." title="Loading..." /><br />
+					<p>Please don't refresh the page.</p>
+				</div>
+			</form:form>
+		</div>
+		<div id="customFileDataForm" class="dataElementForm">
+			<form:form method="post" action="/CSS/auth/workboard/upload?id=${userstory.id}" enctype="multipart/form-data">
+				<p><strong>2. Custom Data Element Options:</strong></p>
+				<table width="auto" height="auto" class="form">
+					<tr>
+						<td align="right">Select a file to upload (text, XML, HTML or image):</td>
+						<td>
+							<input type="file" name="file" id="file" />
+						</td>
+					</tr>
+				</table>
+				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+					<span></span>Add Custom Data Element
+				</button>
+			</form:form>
 		</div>
 	</div>
-	<p>
-		<a class="lnkDeleteWorkboard" href="/CSS/auth/workboard/delete?id=${userstory.id}">
-		<button id="btnDeleteWorkboard" type="button" class="btn btn-icon btn-blue btn-cross" >
-			<span></span>Delete WorkBoard
-		</button>
-		</a>
-	</p>
-	<div id="confirmWorkboardDeletionModalWindow" title="Delete your workboard ?">
-		<p>Deleting your workboard will also delete all the data elements it contains. This action cannot be undone.</p> 
-		<p>Are you sure you want to permanently delete your current workboard ?</p> 
-	</div>
-	<p>
-		<a class="lnkConvertToUserStory" href="/CSS/auth/userstory/create?id=${userstory.id}">
-		<button id="btnConvertToUserStory" type="button" class="btn btn-icon btn-blue btn-arrow-right" >
-			<span></span>Create User Story
-		</button>
-		</a>
-	</p>
-	<div id="confirmConvertToUserStoryModalWindow" title="Create a story from this workboard ?">
-		<p>This will create a Story based on your Workboard. Once the Workboard becomes a Story, no more data element can be added to it.</p> 
-		<p>Are you sure you want to create a Story from your Workboard now ?</p>
-	</div>
-	<script type="text/javascript">
-		$(document).ready(function () {
-			// Dynamic forms display from the Data Source" dropdownlist
-			$('select#cbbDataSource').change(function() {
-				$('.dataElementForm').hide();
-				var selectedValue = $('select#cbbDataSource').val();
-				if (selectedValue != "none")
-					$("#" + selectedValue + "DataForm").show();
-			});
-			
-			// "Loading" message in the Engineering Model Data Element form
-        	$("#loading").hide();
-			$("#btnAddEngineeringModelDataElement").click (function () {
-				$("#btnAddEngineeringModelDataElement").hide();
-				$("#loading").show();
-			});
-			
-			// Radio button to choose the source of Engineering Model Data Element
-			$("input[name='rdEngineeringSourceType']").change(function(){
-				var selectedRadio = $("input[name='rdEngineeringSourceType']:checked").val();
-				$("#hdnEngineeringSourceType").val(selectedRadio);
-			});
-			
-			// Variable selection updates the category
-			$("#cbbEngineeringVariable").change(function(){
-				var selectedCategory = $("#cbbEngineeringVariable option:selected").attr("title");
-				$("#hdnEngVariableCategory").val(selectedCategory);
-			});
-			
-			$('.dataElementForm').hide();
-			setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.", "${pageContext.request.contextPath}/resources/img/bubblepopup");
-			setupDialogBox("addDataElementModalWindow", "btnOpenAddDataElementModalWindow");
-			setupConfirmBox("confirmConvertToUserStoryModalWindow", "lnkConvertToUserStory");
-			setupConfirmBox("confirmWorkboardDeletionModalWindow", "lnkDeleteWorkboard");
-		});
-	</script>
 </div>
+<script type="text/javascript">
+	$(document).ready(function () {
+		// Dynamic forms display from the Data Source" dropdownlist
+		$('select#cbbDataSource').change(function() {
+			$('.dataElementForm').hide();
+			var selectedValue = $('select#cbbDataSource').val();
+			if (selectedValue != "none")
+				$("#" + selectedValue + "DataForm").show();
+		});
+		
+		// "Loading" message in the Engineering Model Data Element form
+       	$("#loading").hide();
+		$("#btnAddEngineeringModelDataElement").click (function () {
+			$("#btnAddEngineeringModelDataElement").hide();
+			$("#loading").show();
+		});
+		
+		// Radio button to choose the source of Engineering Model Data Element
+		$("input[name='rdEngineeringSourceType']").change(function(){
+			var selectedRadio = $("input[name='rdEngineeringSourceType']:checked").val();
+			$("#hdnEngineeringSourceType").val(selectedRadio);
+		});
+		
+		// Variable selection updates the category
+		$("#cbbEngineeringVariable").change(function(){
+			var selectedCategory = $("#cbbEngineeringVariable option:selected").attr("title");
+			$("#hdnEngVariableCategory").val(selectedCategory);
+		});
+		
+		$('.dataElementForm').hide();
+		setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.", "${pageContext.request.contextPath}/resources/img/bubblepopup");
+		setupDialogBox("addDataElementModalWindow", "btnOpenAddDataElementModalWindow");
+	});
+</script>
 </c:if>
