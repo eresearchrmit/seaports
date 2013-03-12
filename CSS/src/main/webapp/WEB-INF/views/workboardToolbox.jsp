@@ -9,11 +9,11 @@
 
 <c:if test="${not empty userstory}">
 <p>
-	<button id="btnOpenAddDataElementModalWindow" type="button" class="btn btn-icon btn-blue btn-plus" >
+	<button id="btnOpenAdd${dataelementsfilter}DataElementModalWindow" type="button" class="btn btn-icon btn-blue btn-plus" >
 		<span></span>Add Data Element
 	</button>
 </p>
-<div id="addDataElementModalWindow" class="box round first" title="New Data Element">
+<div id="add${dataelementsfilter}DataElementModalWindow" class="box round first" title="New Data Element">
 	<div class="block">
 		<p><strong>1. Choose a Data Source:</strong></p>
 		<table width="auto" height="auto" class="form">
@@ -22,10 +22,11 @@
 				<td class="col2">
 					<select id="cbbDataSource" name="dataSource">
 						<option value="none">- Select Data Source -</option>
-						<option value="csiro">CSIRO</option>
-						<!--<option value="bom">BoM</option>-->
-						<option value="engineering">Engineering Model</option>
-						<option value="customFile">Custom file</option>
+						<c:if test="${dataelementsfilter == 'Future'}"><option value="csiro">CSIRO</option></c:if>
+						<c:if test="${dataelementsfilter == 'Future'}"><option value="csiro">CMAR</option></c:if>
+						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="bom">BoM</option></c:if>
+						<c:if test="${dataelementsfilter == 'Applications'}"><option value="engineering">Engineering Model</option></c:if>
+						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="customFile">Custom file</option></c:if>
 					</select>
 				</td>
 			</tr>
@@ -188,7 +189,7 @@
 			$("#hdnEngineeringSourceType").val(selectedRadio);
 		});
 		
-		// Variable selection updates the category
+		// Variable selection updates the engineering model category
 		$("#cbbEngineeringVariable").change(function(){
 			var selectedCategory = $("#cbbEngineeringVariable option:selected").attr("title");
 			$("#hdnEngVariableCategory").val(selectedCategory);
@@ -196,7 +197,7 @@
 		
 		$('.dataElementForm').hide();
 		setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.", "${pageContext.request.contextPath}/resources/img/bubblepopup");
-		setupDialogBox("addDataElementModalWindow", "btnOpenAddDataElementModalWindow");
+		setupDialogBox("add${dataelementsfilter}DataElementModalWindow", "btnOpenAdd${dataelementsfilter}DataElementModalWindow");
 	});
 </script>
 </c:if>

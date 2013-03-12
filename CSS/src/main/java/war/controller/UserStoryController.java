@@ -266,6 +266,7 @@ public class UserStoryController {
 		UserStory userStory = null;
 		try {
 			DataElement dataElement = dataElementDao.find(id);
+			userStory = userStoryDao.find(dataElement.getUserStory().getId());
 			
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
@@ -336,7 +337,6 @@ public class UserStoryController {
 			}
 			model.addAttribute("userstory", userStory);
 		}
-		
 		return new ModelAndView("userstory");
 	}
 	

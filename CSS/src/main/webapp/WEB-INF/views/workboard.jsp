@@ -58,36 +58,40 @@
 	
 	<div id="tabs">
 		<ul>
-			<li><a href="#tabs-non-climate-context">Non-climate context</a></li>
-			<li><a href="#tabs-observed-climate">Observed Climate</a></li>
-			<li><a href="#tabs-future-climate">Future Climate</a></li>
-			<li><a href="#tabs-applications">Applications</a></li>
-			<li style="float:right"><a href="#tabs-summary">Summary (All)</a></li>
+			<li><a href="#tabs-non-climate-context" class="${dataelementsCounts[0] > 0 ? 'checked' : ''}">Non-climate context</a></li>
+			<li><a href="#tabs-observed-climate" class="${dataelementsCounts[1] > 0 ? 'checked' : ''}">Observed Climate</a></li>
+			<li><a href="#tabs-future-climate" class="${dataelementsCounts[2] > 0 ? 'checked' : ''}">Future Climate</a></li>
+			<li><a href="#tabs-applications" class="${dataelementsCounts[3] > 0 ? 'checked' : ''}">Applications</a></li>
+			<li style="float:right"><a href="#tabs-summary" class="${not empty dataelements ? 'checked' : ''}">Summary (All)</a></li>
 		</ul>
 		
 		<div id="tabs-non-climate-context">
 			<!-- Explanation text -->
 			<p><b>ABS, BITRE, custom files</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
 			
+			<c:set var="userstory" scope="request" value="${userstory}"/>
+			<c:set var="dataelements" scope="request" value="${dataelements}"/>
+			<c:set var="dataelementsfilter" scope="request" value="NonClimate"/>
+			
 			<!-- Toolbox -->
 			<center>
-				<c:set var="userstory" scope="request" value="${userstory}"/>
 				<jsp:include page="workboardToolbox.jsp" />
 			</center>
 			<div class="clear"></div><br />
 			
-			<c:set var="dataelements" scope="request" value="${dataelements}"/>
-			<c:set var="dataelementsfilter" scope="request" value="NonClimate"/>
 			<jsp:include page="dataElements.jsp" />
 		</div>
 		
 		<div id="tabs-observed-climate">
 			<!-- Explanation text -->
-			<p><b>BoM, Local ACORN-Sat, custom files</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
+			<p><b>BoM, Local ACORN-Sat</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
+			
+			<c:set var="userstory" scope="request" value="${userstory}"/>
+			<c:set var="dataelements" scope="request" value="${dataelements}"/>
+			<c:set var="dataelementsfilter" scope="request" value="ObservedClimate"/>
 			
 			<!-- Toolbox -->
 			<center>
-				<c:set var="userstory" scope="request" value="${userstory}"/> 			
 				<jsp:include page="workboardToolbox.jsp" />
 			</center>
 			<div class="clear"></div><br />
@@ -97,15 +101,16 @@
 			<!-- Explanation text -->
 			<p><b>CSIRO, CMAR</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
 			
+			<c:set var="userstory" scope="request" value="${userstory}"/>
+			<c:set var="dataelements" scope="request" value="${dataelements}"/>
+			<c:set var="dataelementsfilter" scope="request" value="Future"/>
+			
 			<!-- Toolbox -->
 			<center>
-				<c:set var="userstory" scope="request" value="${userstory}"/> 			
 				<jsp:include page="workboardToolbox.jsp" />
 			</center>
 			<div class="clear"></div><br />
 			
-			<c:set var="dataelements" scope="request" value="${dataelements}"/>
-			<c:set var="dataelementsfilter" scope="request" value="Future"/>
 			<jsp:include page="dataElements.jsp" />
 		</div>
 		
@@ -113,15 +118,16 @@
 			<!-- Explanation text -->
 			<p><b>Engineering Model</b>:Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
 			
+			<c:set var="userstory" scope="request" value="${userstory}"/>
+			<c:set var="dataelements" scope="request" value="${dataelements}"/>
+			<c:set var="dataelementsfilter" scope="request" value="Applications"/>
+			
 			<!-- Toolbox -->
 			<center>
-				<c:set var="userstory" scope="request" value="${userstory}"/> 			
 				<jsp:include page="workboardToolbox.jsp" />
 			</center>
 			<div class="clear"></div><br />
 			
-			<c:set var="dataelements" scope="request" value="${dataelements}"/>
-			<c:set var="dataelementsfilter" scope="request" value="Applications"/>
 			<jsp:include page="dataElements.jsp" />
 		</div>
 		

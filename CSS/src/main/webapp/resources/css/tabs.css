@@ -12,6 +12,14 @@ li.ui-state-default {
 	color: #555555;
 }
 
+#tabs li a.checked {
+	background-image: url("../img/icons/accept.png");
+	background-repeat: no-repeat;
+	background-position-x: 10px;
+	background-position-y: 5px;
+	padding-left: 30px;
+}
+
 /*ul.sorting
 {
    

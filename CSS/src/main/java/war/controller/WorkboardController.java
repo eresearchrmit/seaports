@@ -542,26 +542,32 @@ public class WorkboardController {
 		if (userStory != null) {	
 			mav.addObject("userstory", userStory);
 			
-			try {		
+			try {
+				int[] dataelementsCounts = new int[4]; // Count data element in each category to "check" the non-empty tabs
+				
 				// Prepare the data elements
 				List<DataElement> dataElements = userStory.getDataElements();
 		 		for (DataElement dataElement : dataElements) {
 		 			if (dataElement.getClass().equals(DataElementFile.class)) {
 		 				((DataElementFile)dataElement).generateStringContent();
+		 				dataelementsCounts[0]++;
 		 			}
 		 			else if (dataElement.getClass().equals(DataElementCsiro.class)) {
 		 				for (CsiroData data : ((DataElementCsiro)dataElement).getCsiroDataList()) {
 		 					data.setBaseline(csiroDataBaselineDao.find(data.getParameters().getRegion(), data.getVariable()));
 		 				}
+		 				dataelementsCounts[2]++;
 		 			}
 		 			else if (dataElement.getClass().equals(DataElementEngineeringModel.class)) {
 		 				List<EngineeringModelData> engineeringModelDataList = ((DataElementEngineeringModel)dataElement).getEngineeringModelDataList();
 		 				for (EngineeringModelData data : engineeringModelDataList) {
 		 					data.generateValues();
 		 				}
+		 				dataelementsCounts[3]++;
 		 			}
 				}
 		 		mav.addObject("dataelements", dataElements);
+		 		mav.addObject("dataelementsCounts", dataelementsCounts);
 		 		
 		 		// Empty data element to use as a "New Data Element"
 		 		mav.addObject(new DataElement());

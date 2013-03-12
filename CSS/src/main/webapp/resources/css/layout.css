@@ -222,7 +222,7 @@ div.menu .block {
 #sortable li.sortableItem, #sortable li.sortable-placeholder {
 	list-style-type:none;
 	float:left;
-	width:90%;
+	width:95%;
 	/*width:47%;*/
 }
  

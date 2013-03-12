@@ -452,7 +452,7 @@ function setupProgressbar(containerElement) {
 
 //setup dialog box
 function setupDialogBox(containerElement, associatedButton) {
-    $.fx.speeds._default = 1000;
+    $.fx.speeds._default = 500;
     $("#" + containerElement).dialog({
         autoOpen: false,
         modal: true,
@@ -469,7 +469,7 @@ function setupDialogBox(containerElement, associatedButton) {
 
 //setup confirm box
 function setupConfirmBox(containerElement, associatedLink) {
-	$.fx.speeds._default = 1000;
+	$.fx.speeds._default = 500;
 	$("." + associatedLink).click(function(e) {
 		e.preventDefault();
 		var targetUrl = $(this).attr("href");

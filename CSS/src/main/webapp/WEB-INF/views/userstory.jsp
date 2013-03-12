@@ -23,6 +23,14 @@
 	<c:set var="errorMessage" scope="request" value="${errorMessage}"/> 			
 	<jsp:include page="notifications.jsp" />
 	
+	<div id="dataElementAdder">
+		<a href="/CSS/auth/userstory/addText?story=${userstory.id}">
+			<button class="btnAddDataElement btn btn-icon btn-blue btn-plus" >
+				<span></span>Add Text to Story
+			</button>
+		</a>
+	</div>
+	
 	<form:form id="userStoryForm" method="post" action="/CSS/auth/userstory/save" modelAttribute="userstory">
 	  	<form:input value="${userstory.id}" type="hidden" path="id" />
 	  	<c:if test="${not empty userstory.dataElements}">		
@@ -139,14 +147,6 @@
 		</button>
 		<div class="clearfix"></div><br />
 	</form:form>
-	
-	<div id="dataElementAdder">
-		<a href="/CSS/auth/userstory/addText?story=${userstory.id}">
-			<button class="btnAddDataElement btn btn-icon btn-blue btn-plus" >
-				<span></span>Add Text to Story
-			</button>
-		</a>
-	</div>
 		
 	<div id="confirmTextDeletionModalWindow" title="Permanently delete this text ?">
 		<p>Are you sure you want to permanently delete this text ?</p> 
