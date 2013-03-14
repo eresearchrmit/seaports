@@ -12,32 +12,34 @@
 		<thead>
 			<tr>
 				<th>Variable</th>
-				<th>Base value</th>
-				<th>Variation in ${dataelement.csiroDataList[0].year}</th>
-				<th>Picture</th>
+				<th>Baseline</th>
+				<th>Change for the ${dataelement.csiroDataList[0].year}s</th>
+				<c:if test="${dataelement.picturesIncluded}"><th class="center">Map</th></c:if>
 			</tr>
 		</thead>
 			<tbody>
 				<c:forEach items="${dataelement.csiroDataList}" var="csiroData" varStatus="dataLoopStatus">
 					<tr class="${dataLoopStatus.index % 2 == 0 ? 'even' : 'odd'}">
-						<td>${csiroData.variable.name}</td>
-						<td class="center">${csiroData.baseline.value} ${csiroData.baseline.variable.uom}</td>
-						<td class="center"><c:if test="${csiroData.value > 0}">+</c:if>${csiroData.value} ${csiroData.variable.uomVariation}</td>
-						<td class="center">
+						<td class="top head">${csiroData.variable.name}</td>
+						<td class="top">${csiroData.baseline.value} ${csiroData.baseline.variable.uom}</td>
+						<td class="top"><c:if test="${csiroData.value > 0}">+</c:if>${csiroData.value} ${csiroData.variable.uomVariation}</td>
+						<c:if test="${dataelement.picturesIncluded}">
+						<td class="top center">
 							<c:choose>
 							<c:when test="${not empty csiroData.stringPicture}">
-								<img name="${csiroData.variable.name}" src="data:image/png;charset=utf-8;base64,${csiroData.stringPicture}" class="csiroPicture" />
+								<img name="${csiroData.variable.name}" src="data:image/png;charset=utf-8;base64,${csiroData.stringPicture}" class="dataelementIllustrationPicture" />
 							</c:when>
 							<c:otherwise>
-								No picture available
+								No map available
 							</c:otherwise>
 							</c:choose>
 						</td>
+						</c:if>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
-		<i>Data provided by CSIRO on <fmt:formatDate value="${dataelement.csiroDataList[0].creationDate}" pattern="dd MMM yyyy" /> was the best available to date</i>
+		<i class="credits">Data provided by CSIRO on <fmt:formatDate value="${dataelement.csiroDataList[0].creationDate}" pattern="dd MMM yyyy" /> was the best available to date</i>
 	</c:when>
 	<c:otherwise>
 		<div id="warningMessage" class="message warning">

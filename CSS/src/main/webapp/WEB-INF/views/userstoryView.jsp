@@ -14,10 +14,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <div class="grid_12">
+
+	<a href="javascript: window.print()" id="btnPrint" style="margin-right: 10px; float:right">
+		<button class="btnAddDataElement btn btn-icon btn-blue btn-print">
+			<span></span>Print
+		</button>
+	</a>
+	
+	<a href="javascript: window.close()" id="btnClosePreview" style="margin-right: 10px; float:right">
+		<button class="btnAddDataElement btn btn-icon btn-blue btn-arrow-left">
+			<span></span>Close Preview
+		</button>
+	</a>
+		
 	<center>
 		<h2>${userstory.name} </h2>
-		<h6>${userstory.region.name}</h6>
+		<h4>${userstory.region.name}</h4>
 	</center>
+	
 	<br />
 	<c:if test="${not empty successMessage}">
 		<div id="successMessage" class="message success">
@@ -42,6 +56,9 @@
 		</div>
 	</c:if>
 	
+	<p style="text-align:left; width:90%; margin-right:auto;margin-left:auto">This report has been created by ${userstory.owner.firstname} ${userstory.owner.lastname} (${userstory.owner.email}) using the Climate Smart Seaports toolkit available at <a href="http://www.DOMAIN.com.au">http://www.DOMAIN.com.au</a></p>
+	<br/><br/><br/>
+	
 	<c:if test="${not empty userstory.dataElements}">
 	<div style="text-align:left; width:90%; margin-right:auto;margin-left:auto">	 	
 	 	<!-- Iteration on every element in the User Story -->
@@ -54,6 +71,11 @@
 				<!-- CSIRO Data Element -->
 				<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
 					<jsp:include page="dataElementCsiro.jsp" />
+				</c:if>
+				
+				<!-- CMAR Data Element -->
+				<c:if test="${dataelement.class.simpleName == 'DataElementCmar'}">
+					<jsp:include page="dataElementCmar.jsp" />
 				</c:if>
 					
 				<!-- Engineering Model Data Element -->

@@ -5,8 +5,9 @@
 
 <c:if test="${not empty dataelements}">
  	<c:forEach items="${dataelements}" var="dataelement" varStatus="status">
- 			<c:if test="${(dataelementsfilter == 'Future' && dataelement.class.simpleName == 'DataElementCsiro') || (dataelementsfilter == 'Applications' && dataelement.class.simpleName == 'DataElementEngineeringModel') || (dataelementsfilter == 'NonClimate' && dataelement.class.simpleName == 'DataElementFile') || (dataelementsfilter == 'All')}">
+ 			<c:if test="${(dataelementsfilter == 'Future' && (dataelement.class.simpleName == 'DataElementCsiro' || dataelement.class.simpleName == 'DataElementCmar')) || (dataelementsfilter == 'Applications' && dataelement.class.simpleName == 'DataElementEngineeringModel') || (dataelementsfilter == 'NonClimate' && dataelement.class.simpleName == 'DataElementFile') || (dataelementsfilter == 'All')}">
 	 			<c:set var="dataelement" scope="request" value="${dataelement}"/>
+	 			<c:set var="dataElementLoopIndex" scope="request" value="${status.index}"/>
 	 			
 	 			<div class="box round">
 					<div class="box-header">
@@ -24,6 +25,11 @@
 					<!-- CSIRO Data Element -->
 	 				<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
 	 					<jsp:include page="dataElementCsiro.jsp" />
+	 				</c:if>
+	 				
+	 				<!-- CMAR Data Element -->
+	 				<c:if test="${dataelement.class.simpleName == 'DataElementCmar'}">
+	 					<jsp:include page="dataElementCmar.jsp" />
 	 				</c:if>
 	 				
 	 				<!-- Engineering Model Data Element -->

@@ -61,6 +61,9 @@ public class WorkboardController {
 	private CsiroDataDao csiroDataDao;
 	
 	@Autowired
+	private CmarDataDao cmarDataDao;
+	
+	@Autowired
 	private CsiroDataBaselineDao csiroDataBaselineDao;
 	
 	@Autowired
@@ -405,11 +408,12 @@ public class WorkboardController {
 	
 	@RequestMapping(value= "/addCsiroData", method = RequestMethod.POST)
 	public ModelAndView addCsiroDataToWorkBoard(
+		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="climateVariable",required=true) String climateVariable,
 		@RequestParam(value="climateEmissionScenario",required=true) String climateEmissionScenario,
 		@RequestParam(value="climateModel",required=true) String climateModel,
 		@RequestParam(value="year",required=true) String year,
-		@RequestParam(value="userstoryid",required=true) Integer userStoryId, Model model)
+		@RequestParam(value="includePictures",required=false) String includePictures, Model model)
 	{
 		logger.info("Inside addCsiroDataToWorkBoard");
 		
@@ -428,7 +432,9 @@ public class WorkboardController {
 				csiroDataList.add(csiroDataDao.find(userStory.getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year), climateVariable));
 			}
 			
-			DataElementCsiro dataElement = new DataElementCsiro(new Date(), "CSIRO Data", true, 0, userStory, csiroDataList);
+			Boolean picturesIncluded = (includePictures != null && includePictures.equals("on")) ? true : false;
+
+			DataElementCsiro dataElement = new DataElementCsiro(new Date(), "Future Climate Change Data", true, 0, userStory, csiroDataList, picturesIncluded);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
@@ -445,16 +451,55 @@ public class WorkboardController {
 		return ModelForWorkboard(model, userStory);
 	}
 	
+	@RequestMapping(value= "/addCmarData", method = RequestMethod.POST)
+	public ModelAndView addCmarDataToWorkBoard(
+		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
+		@RequestParam(value="year",required=true) String year,
+		@RequestParam(value="includePictures",required=false) String includePictures, Model model)
+	{
+		logger.info("Inside addCmarDataToWorkBoard");
+		
+		UserStory userStory = null;
+		try {
+			userStory = userStoryDao.find(userStoryId);
+			
+    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+    		// Retrieve data using static Climate Model, Emission scenario and Variable since it is fixed
+    		// Refer to the method "addCsiroDataToWorkBoard" to see how to enable dynamic data
+			List<CmarData> cmarDataList = new ArrayList<CmarData>();
+			cmarDataList.add(cmarDataDao.find(userStory.getRegion().getName(), "A1B", "Most Likely", Integer.valueOf(year), "Sea Level Rise"));
+			
+			Boolean picturesIncluded = (includePictures != null && includePictures.equals("on")) ? true : false;
+			
+			DataElementCmar dataElement = new DataElementCmar(new Date(), "CMAR Data", true, 0, userStory, cmarDataList, picturesIncluded);
+			dataElementDao.save(dataElement);
+			
+			userStory.getDataElements().add(dataElement);
+			
+			model.addAttribute("successMessage", WorkboardController.MSG_CMAR_DATA_ADDED);
+		}
+		catch (AccessDeniedException e) {
+			return ModelForWorkboardAccessDenied(model);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		
+		return ModelForWorkboard(model, userStory);
+	}
+	
 	@RequestMapping(value="/create", method=RequestMethod.POST) 
 	public ModelAndView addWorkboard(@ModelAttribute("userstory") UserStory userStory, Model model) {
-		logger.info("Received object for workboard  " + userStory);
+		logger.info("Inside addWorkboard");
         
 		try {
 			User user = userDao.find(SecurityHelper.getCurrentlyLoggedInUsername());
 			UserStory currentWorkboard = userStoryDao.getWorkboard(user);
 			if (currentWorkboard != null)
 			{
-				model.addAttribute("errorMessage", WorkboardController.ERR_ALREADY_CURRENT_WORKBOARD);
+				model.addAttribute("warningMessage", WorkboardController.ERR_ALREADY_CURRENT_WORKBOARD);
 				return ModelForWorkboard(model, currentWorkboard);
 			}
 			
@@ -464,6 +509,7 @@ public class WorkboardController {
 			userStory.setRegion(region);
 			userStory.setMode("active");
 			userStory.setAccess("private");
+			userStory.setDataElements(new ArrayList<DataElement>());
 			userStoryDao.save(userStory);
 			
 			return ModelForWorkboard(model, userStory);
@@ -529,7 +575,7 @@ public class WorkboardController {
 		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_DELETE_DATA_ELEMENT);
 		}
-		return new ModelAndView("workboard");
+		return ModelForWorkboard(model, null);
 	}
 	
 
@@ -629,6 +675,7 @@ public class WorkboardController {
 	public static final String ERR_INVALID_FILETYPE = "This file format is not handled by the application (only text, xml, html, jpeg, png and gif files are allowed).";
 	
 	public static final String MSG_CSIRO_DATA_ADDED = "The CSIRO Data has been added successfully to your workboard";
+	public static final String MSG_CMAR_DATA_ADDED = "The CMAR Data has been added successfully to your workboard";
 	public static final String MSG_DATA_ELEMENT_DELETED = "The Data Element was deleted successfully from your Workboard";
 	public static final String MSG_WORKBOARD_SAVED = "Workboard saved";
 	public static final String MSG_FILE_UPLOAD_SUCCESS = "The file was uploaded successfully to your workboard";

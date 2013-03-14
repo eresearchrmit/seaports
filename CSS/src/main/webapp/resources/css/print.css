@@ -1,0 +1,20 @@
+@media print {
+	body {
+		color: black;
+		font: 13px/1.5 Tahoma, Helvetica, Arial, 'Liberation Sans', FreeSans, sans-serif;
+		text-align: justify;
+	}
+	
+	.nav, #branding, #site_info, #btnPrint {
+		display: none;
+	}
+	
+	table {
+		border: 1px solid #e6e6e6;
+		width:100%;
+	}
+	
+	.credits {
+		font-style:italic
+	}
+}

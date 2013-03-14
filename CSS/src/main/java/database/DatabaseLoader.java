@@ -44,6 +44,7 @@ public class DatabaseLoader {
 		
 		UserStory us = new UserStory();
 		us.setName("My User Story");
+		us.setRegion(new Region("East Coast South"));
 		us.setMode("passive");
 		us.setAccess("private");
 		us.setOwner(p1);

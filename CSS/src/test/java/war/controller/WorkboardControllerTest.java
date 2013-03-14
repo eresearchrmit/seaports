@@ -176,8 +176,8 @@ public class WorkboardControllerTest {
 	@Test
 	public void addCsiroDataToWorkBoardTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addCsiroDataToWorkBoard("Temperature", 
-				"A1B", "Hotter and Drier", "2030", 1, model);
+		ModelAndView result = workboardController.addCsiroDataToWorkBoard(1, "Temperature", 
+				"A1B", "Hotter and Drier", "2030", "", model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertNull(model.get("errorMessage"));
@@ -192,24 +192,24 @@ public class WorkboardControllerTest {
 	public void addCsiroDataToWorkBoardBadParametersTest() {
 		// UNKNOWN VARIABLE
 		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addCsiroDataToWorkBoard("UNKNOWN VARIABLE", 
-				"A1B", "Hotter and Drier", "2030", 1, model);
+		ModelAndView result = workboardController.addCsiroDataToWorkBoard(1, "UNKNOWN VARIABLE", 
+				"A1B", "Hotter and Drier", "2030", "", model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(CsiroVariableDao.ERR_NO_RESULT, model.get("errorMessage"));
 		
 		// UNKNOWN SCENARIO
 		model = new ExtendedModelMap();
-		result = workboardController.addCsiroDataToWorkBoard("Temperature", 
-				"UNKNOWN SCENARIO", "Hotter and Drier", "2030", 1, model);
+		result = workboardController.addCsiroDataToWorkBoard(1, "Temperature", 
+				"UNKNOWN SCENARIO", "Hotter and Drier", "2030", "", model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(ClimateEmissionScenarioDao.ERR_NO_RESULT, model.get("errorMessage"));
 		
 		// UNKNOWN MODEL
 		model = new ExtendedModelMap();
-		result = workboardController.addCsiroDataToWorkBoard("Temperature", 
-				"A1B", "UNKNOWN MODEL", "2030", 1, model);
+		result = workboardController.addCsiroDataToWorkBoard(1, "Temperature", 
+				"A1B", "UNKNOWN MODEL", "2030", "", model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(ClimateParamsDao.ERR_NO_RESULT, model.get("errorMessage"));

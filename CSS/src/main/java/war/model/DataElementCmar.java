@@ -16,24 +16,24 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 /**
- * Class representing a CSIRO Data Element
+ * Class representing a CMAR Data Element
  * @author Guillaume Prevost
- * @since 25th Jan. 2013
+ * @since 12th Mar. 2013
  */
 @Entity
-@DiscriminatorValue(value = "Csiro")
-public class DataElementCsiro extends DataElement {
+@DiscriminatorValue(value = "Cmar")
+public class DataElementCmar extends DataElement {
 
 	private static final long serialVersionUID = -1308795024262635690L;
 	
 	/**
-	 * The list of CSIRO data contained in this CSIRO data element
+	 * The list of CMAR data contained in this CMAR data element
 	 */
     @ManyToMany
-    @JoinTable(name="DataElement_CsiroData", joinColumns={@JoinColumn(name="DataElement_Id")}, inverseJoinColumns={@JoinColumn(name="CsiroData_Id")})
+    @JoinTable(name="DataElement_CmarData", joinColumns={@JoinColumn(name="DataElement_Id")}, inverseJoinColumns={@JoinColumn(name="CmarData_Id")})
     @Cascade(value = CascadeType.DELETE)
     @LazyCollection(value=LazyCollectionOption.FALSE)
-	private List<CsiroData> csiroDataList;
+	private List<CmarData> cmarDataList;
     
     /**
      * Whether the pictures related to the raw data should be displayed as part of this data element 
@@ -42,41 +42,40 @@ public class DataElementCsiro extends DataElement {
     private Boolean picturesIncluded;
     
 	/**
-	 * Default constructor of DataElementCsiro
+	 * Default constructor of DataElementCmar
 	 */
-	public DataElementCsiro() {
+	public DataElementCmar() {
 		super();
 	}
 	
 	/**
-	 * Constructor of DataElementCsiro specifying the all the fields
+	 * Constructor of DataElementCmar specifying all the fields
 	 * @param creationDate: the date when the data element was created
 	 * @param name: the name of the data element
 	 * @param position: the position of the data element in the user story it belongs to
 	 * @param userStory: the user story to which this data element belongs
-	 * @param csiroDataList: the list of CSIRO data contained in this CSIRO data element
-	 * @param picturesIncluded: whether the pictures related to the raw data should be displayed as part of this data element
+	 * @param cmarDataList: the list of CMAR data contained in this CMAR data element
 	 */
-	public DataElementCsiro(Date creationDate, String name, boolean included, int position, UserStory userStory, List<CsiroData> csiroDataList, Boolean picturesIncluded) {
+	public DataElementCmar(Date creationDate, String name, boolean included, int position, UserStory userStory, List<CmarData> cmarDataList, Boolean picturesIncluded) {
 		super(creationDate, name, included, position, userStory);
-		this.csiroDataList = csiroDataList;
+		this.cmarDataList = cmarDataList;
 		this.picturesIncluded = picturesIncluded;
 	}
 	
 	/**
-	 * Getter for the list of CSIRO data in the Data Element
-	 * @return The current list of CSIRO data in the Data Element
+	 * Getter for the list of CMAR data in the Data Element
+	 * @return The current list of CMAR data in the Data Element
 	 */
-	public List<CsiroData> getCsiroDataList() {
-		return this.csiroDataList;
+	public List<CmarData> getCmarDataList() {
+		return this.cmarDataList;
 	}
 	
 	/**
-	 * Setter for the list of CSIRO data in the Data Element
-	 * @param csiroDataList: the new list of CSIRO data in the Data Element
+	 * Setter for the list of CMAR data in the Data Element
+	 * @param csiroDataList: the new list of CMAR data in the Data Element
 	 */
-	public void setCsiroDataList(List<CsiroData> csiroDataList) {
-		this.csiroDataList = csiroDataList;
+	public void setCmarDataList(List<CmarData> cmarDataList) {
+		this.cmarDataList = cmarDataList;
 	}
 	
 	/**

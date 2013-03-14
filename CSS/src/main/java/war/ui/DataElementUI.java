@@ -353,10 +353,12 @@ public class DataElementUI {
 	
     
 
-	/* ************* SPECIFIC FIELDS OF DataElementCsiro CLASS *************** */
+	/* ************* SPECIFIC FIELDS OF DataElementCsiro AND DataElementCmar CLASS *************** */
 	
 	private List<CsiroData> csiroDataList;
 
+	private Boolean picturesIncluded;
+	
 	/**
 	 * Getter for the list of CSIRO data in the Data Element
 	 * @return The current list of CSIRO data in the Data Element
@@ -371,6 +373,22 @@ public class DataElementUI {
 	 */
 	public void setCsiroDataList(List<CsiroData> csiroDataList) {
 		this.csiroDataList = csiroDataList;
+	}
+	
+	/**
+	 * Getter for whether illustration pictures should be displayed or not for this data element
+	 * @return The current display status of illustration pictures in the data element
+	 */
+	public Boolean getPicturesIncluded() {
+		return this.picturesIncluded;
+	}
+	
+	/**
+	 * Setter for whether illustration pictures should be displayed or not for this data element
+	 * @param picturesIncluded: the new display status of illustration pictures in the data element
+	 */
+	public void setPicturesIncluded(Boolean picturesIncluded) {
+		this.picturesIncluded = picturesIncluded;
 	}
 	
 	/* *********************************************************************** */

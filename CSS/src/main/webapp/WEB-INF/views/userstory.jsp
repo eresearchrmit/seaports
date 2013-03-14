@@ -14,22 +14,41 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <div class="grid_12">
-	<h2>${userstory.name} </h2>
-	<h6>${userstory.region.name}</h6>
-	<br />
+	<!-- Titles -->
+	<div style="margin-left: 20px; float:left">
+		<h2>${userstory.name} </h2>
+		<h4>${userstory.region.name}</h4>
+	</div>
+	
+	<a href="/CSS/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">
+		<button class="btnAddDataElement btn btn-icon btn-blue btn-doc" >
+			<span></span>Preview the report
+		</button>
+	</a>
+	<a href="/CSS/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">
+		<button class="btnAddDataElement btn btn-icon btn-grey btn-globe" >
+			<span></span>Publish the report
+		</button>
+	</a>
+	<a href="javascript: $('#userStoryForm').submit();" style="margin-right: 10px; float:right">
+		<button type="button" class="btn btn-icon btn-blue btn-check floatright">
+			<span></span>Save changes
+		</button>
+	</a>
+	<div id="dataElementAdder">
+		<a href="/CSS/auth/userstory/addText?story=${userstory.id}" style="margin-right: 10px; float:right">
+			<button class="btnAddDataElement btn btn-icon btn-blue btn-plus">
+				<span></span>Add Text to Story
+			</button>
+		</a>
+	</div>
+	
+	<div class="clear"></div><br />
 	
 	<c:set var="successMessage" scope="request" value="${successMessage}"/>
 	<c:set var="warningMessage" scope="request" value="${warningMessage}"/>
 	<c:set var="errorMessage" scope="request" value="${errorMessage}"/> 			
 	<jsp:include page="notifications.jsp" />
-	
-	<div id="dataElementAdder">
-		<a href="/CSS/auth/userstory/addText?story=${userstory.id}">
-			<button class="btnAddDataElement btn btn-icon btn-blue btn-plus" >
-				<span></span>Add Text to Story
-			</button>
-		</a>
-	</div>
 	
 	<form:form id="userStoryForm" method="post" action="/CSS/auth/userstory/save" modelAttribute="userstory">
 	  	<form:input value="${userstory.id}" type="hidden" path="id" />
@@ -71,6 +90,11 @@
 						<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
 	 						<jsp:include page="dataElementCsiro.jsp" />
 	 					</c:if>
+	 					
+	 					<!-- CMAR Data Element -->
+						<c:if test="${dataelement.class.simpleName == 'DataElementCmar'}">
+	 						<jsp:include page="dataElementCmar.jsp" />
+	 					</c:if>
 						
 						<!-- Engineering Model Data Element -->
 						<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
@@ -97,7 +121,7 @@
 			<script type="text/javascript">
 				$(document).ready(function () {
 					// Resize the sortable list items 2 by 2 to have a proper grid
-					resizeListItems();
+					//resizeListItems();
 					
 					// Enables the sortable list
 					$( "#sortable" ).sortable({
@@ -143,7 +167,7 @@
 		</c:if>
 		<div class="clearfix"></div><br />
 		<button type="button" class="btn btn-icon btn-blue btn-check floatright" onclick="$('#userStoryForm').submit();">
-			<span></span>Save
+			<span></span>Save changes
 		</button>
 		<div class="clearfix"></div><br />
 	</form:form>

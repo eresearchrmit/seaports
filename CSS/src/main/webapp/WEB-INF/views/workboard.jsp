@@ -17,7 +17,7 @@
 	<!-- Titles -->
 	<div style="margin-left: 20px; float:left">
 		<h2>${userstory.name}</h2>
-		<h6>${userstory.region.name}</h6>
+		<h4>${userstory.region.name} region</h4>
 	</div>
 	
 	<a class="lnkConvertToUserStory" href="/CSS/auth/userstory/create?id=${userstory.id}" style="margin-right: 10px; float:right">
@@ -56,21 +56,27 @@
 		}));
 	</script>
 	
+	<c:set var="userstory" scope="request" value="${userstory}"/>
+	<c:set var="dataelements" scope="request" value="${dataelements}"/>
+	
 	<div id="tabs">
 		<ul>
 			<li><a href="#tabs-non-climate-context" class="${dataelementsCounts[0] > 0 ? 'checked' : ''}">Non-climate context</a></li>
 			<li><a href="#tabs-observed-climate" class="${dataelementsCounts[1] > 0 ? 'checked' : ''}">Observed Climate</a></li>
 			<li><a href="#tabs-future-climate" class="${dataelementsCounts[2] > 0 ? 'checked' : ''}">Future Climate</a></li>
 			<li><a href="#tabs-applications" class="${dataelementsCounts[3] > 0 ? 'checked' : ''}">Applications</a></li>
-			<li style="float:right"><a href="#tabs-summary" class="${not empty dataelements ? 'checked' : ''}">Summary (All)</a></li>
+			<li style="float:right"><a href="#tabs-summary" class="${(dataelementsCounts[0] > 0 && dataelementsCounts[1] > 0 && dataelementsCounts[2] > 0 && dataelementsCounts[3] > 0) ? 'checked' : ''}">Summary (All)</a></li>
 		</ul>
 		
 		<div id="tabs-non-climate-context">
 			<!-- Explanation text -->
-			<p><b>ABS, BITRE, custom files</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
+			<c:if test="${dataelementsCounts[0] <= 0}">
+				<div>
+					<h6><img src="<c:url value="/resources/img/icons/information.png" />"> Information</h6>
+					<p><b>ABS, BITRE, custom files</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
+				</div>
+			</c:if>
 			
-			<c:set var="userstory" scope="request" value="${userstory}"/>
-			<c:set var="dataelements" scope="request" value="${dataelements}"/>
 			<c:set var="dataelementsfilter" scope="request" value="NonClimate"/>
 			
 			<!-- Toolbox -->
@@ -84,10 +90,13 @@
 		
 		<div id="tabs-observed-climate">
 			<!-- Explanation text -->
-			<p><b>BoM, Local ACORN-Sat</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
+			<c:if test="${dataelementsCounts[1] <= 0}">
+				<div>
+					<h6><img src="<c:url value="/resources/img/icons/information.png" />"> Information</h6>
+					<p><b>BoM, Local ACORN-Sat</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
+				</div>
+			</c:if>
 			
-			<c:set var="userstory" scope="request" value="${userstory}"/>
-			<c:set var="dataelements" scope="request" value="${dataelements}"/>
 			<c:set var="dataelementsfilter" scope="request" value="ObservedClimate"/>
 			
 			<!-- Toolbox -->
@@ -99,10 +108,30 @@
 		
 		<div id="tabs-future-climate">
 			<!-- Explanation text -->
-			<p><b>CSIRO, CMAR</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
+			<c:if test="${dataelementsCounts[2] <= 0}">
+			<div>
+				<h6><img src="<c:url value="/resources/img/icons/information.png" />"> Information</h6>
+				<p>Climate Smart Seaports assists seaport authorities and environmental managers of the Australian coast in understanding how their climate has changed and how it may change in the future.</p>
+	
+				<p>This web-tool has been designed to provide national climate projections for natural resource management regions across Australia. The projections have been derived for specific regions  to facilitate the generation of data for detailed impact and risk assessments.</p>
+					
+				<p>Within the Future Climate section, global climate models (GCMs) were selected using CSIRO's Climate Futures tool. Projections were classified using two climate variables; rainfall and temperature, and grouped into so called "climate futures" (e.g. "hotter, drier" or "cooler, wetter"). Likelihoods were then assigned according to the number of climate models that fell within each category. This application offers three GCM categories, 'hotter and drier', 'cooler and wetter' and 'most likely', where the 'most likely' category represents a likelihood of 33% and above.</p>
+				
+				<p>For the natural resource management regions future climate projections are available for:
+				- Four climate variables: temperature, rainfall, wind speed and relative humidity
+				- Two emissions scenarios: A1B (medium) and A1Fi (high)
+				- Three time periods: 2030, 2055 and 2070
+				</p>
+				
+				<p>The sea level data provided here has been derived from global and regional projections on the CMAR website (<a href="http://www.cmar.csiro.au/sealevel/sl_proj_21st.html" >global</a> and <a href="http://www.cmar.csiro.au/sealevel/sl_proj_regional.html">regional</a>).</p>
+				
+				<p>Data provided by CMAR was taken from the average of 17 climate model simulations for the medium (A1B) emissions scenario. This average was plotted around the Australian coastline to allow the identification of particular locations. Figures from these locations were then added to the globally averaged sea level projections for 2030 and 2070, using only the medium emissions scenario. These global projections included estimates for ice-sheet melt and were taken from the 50th percentile range.</p>
+				
+				<p>Both data sets are available as raw data and as map images which can be selected or deselected.</p>
+				<p>For more information please refer to the User Guide/Manual.</p>
+			</div>
+			</c:if>
 			
-			<c:set var="userstory" scope="request" value="${userstory}"/>
-			<c:set var="dataelements" scope="request" value="${dataelements}"/>
 			<c:set var="dataelementsfilter" scope="request" value="Future"/>
 			
 			<!-- Toolbox -->
@@ -116,10 +145,13 @@
 		
 		<div id="tabs-applications">
 			<!-- Explanation text -->
-			<p><b>Engineering Model</b>:Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
+			<c:if test="${dataelementsCounts[3] <= 0}">
+				<div>
+					<h6><img src="<c:url value="/resources/img/icons/information.png" />"> Information</h6>
+					<p><b>Engineering Model</b>:Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
+				</div>
+			</c:if>
 			
-			<c:set var="userstory" scope="request" value="${userstory}"/>
-			<c:set var="dataelements" scope="request" value="${dataelements}"/>
 			<c:set var="dataelementsfilter" scope="request" value="Applications"/>
 			
 			<!-- Toolbox -->

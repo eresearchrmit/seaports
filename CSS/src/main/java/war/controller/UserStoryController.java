@@ -62,7 +62,7 @@ public class UserStoryController {
 			mav.addObject("userStoriesList", userStoriesList);
 			
 			// Define a title
-	 		model.addAttribute("listingTitle", "My User Stories");
+	 		model.addAttribute("listingTitle", "My Reports");
 
 		}
 		catch (AccessDeniedException e) {

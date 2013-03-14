@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.hibernate.annotations.Type;
+
 import war.model.UserStory;
 
 /**
@@ -23,6 +25,7 @@ public class DataElementText extends DataElement {
 	 * The content of the text item.
 	 */
 	@Column
+	@Type(type="text")
 	private String text;
 	
 	/**

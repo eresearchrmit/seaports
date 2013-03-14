@@ -171,9 +171,9 @@ public class TestDatabaseLoader {
 		
 		// Climate emission scenarios
 		ArrayList<ClimateEmissionScenario> scenariosList = new ArrayList<ClimateEmissionScenario>();
-		ClimateEmissionScenario A1B = new ClimateEmissionScenario("A1B", "Medium CO2 emissions");
+		ClimateEmissionScenario A1B = new ClimateEmissionScenario("A1B", "medium");
 		scenariosList.add(A1B);
-		ClimateEmissionScenario A1FI = new ClimateEmissionScenario("A1FI", "High CO2 emissions");
+		ClimateEmissionScenario A1FI = new ClimateEmissionScenario("A1FI", "high");
 		scenariosList.add(A1FI);
 		ClimateEmissionScenario base = new ClimateEmissionScenario("Base", "No CO2 emissions increase");
 		session.save(base);
@@ -264,7 +264,7 @@ public class TestDatabaseLoader {
 		csiroDataList.add(csirodata.get(2));
 		csiroDataList.add(csirodata.get(3));
 		
-	    DataElementCsiro de7 = new DataElementCsiro(date, "CSIRO Data Element Test", true, 0, user1wb, csiroDataList);
+	    DataElementCsiro de7 = new DataElementCsiro(date, "CSIRO Data Element Test", true, 0, user1wb, csiroDataList, true);
 	    session.save(de7);
 	    
 	    

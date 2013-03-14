@@ -194,7 +194,7 @@ public class UserStoryUI {
 				dataElementsList.add(de);
 			}
 			else if (deUI.getType().equals("csiro")) {
-				DataElementCsiro de = new DataElementCsiro(deUI.getCreationDate(), deUI.getName(),  deUI.getIncluded(), deUI.getPosition(), deUI.getUserStory(), deUI.getCsiroDataList());
+				DataElementCsiro de = new DataElementCsiro(deUI.getCreationDate(), deUI.getName(),  deUI.getIncluded(), deUI.getPosition(), deUI.getUserStory(), deUI.getCsiroDataList(), deUI.getPicturesIncluded());
 				dataElementsList.add(de);
 			}
 			else if (deUI.getType().equals("engineeringmodel")) {

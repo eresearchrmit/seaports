@@ -372,7 +372,7 @@ table.form {
 table.form td {
 	padding:4px 0px;
 }
-table.form label {
+table.form label, td.head {
 	font-weight:bold;
 }
 
@@ -891,13 +891,15 @@ table.display th{ /* background:#8f8f8f;   */ }
 
 
 tr.odd {
-	  height: 30px;
-line-height: 30px; border-bottom:1px solid #e6e6e6; 
+	height: 30px;
+	line-height: 30px;
+	border-bottom:1px solid #e6e6e6; 
 }
 
 tr.even {
-	 height: 30px;
-line-height: 30px; border-bottom:1px solid #e6e6e6;
+	height: 30px;
+	line-height: 30px;
+	border-bottom:1px solid #e6e6e6;
 }
 tr.odd:hover, tr.even:hover { background:#f6f6f6; }
 tr.odd td, tr.even td{ padding-left:5px; }
@@ -912,6 +914,8 @@ tr.odd td, tr.even td{ padding-left:5px; }
 	text-align: center;
 }
 
+th { text-align: left; }
+
 tfoot { display: none; }
 tfoot input {
 	margin: 0.5em 0;
@@ -923,18 +927,11 @@ tfoot input.search_init {
 	color: #999;
 }
 
-td.group {
-	background-color: #d1cfd0;
-	border-bottom: 2px solid #A19B9E;
-	border-top: 2px solid #A19B9E; 
+th.top, td.top {
+	vertical-align:top;
 }
 
-td.details {
-	background-color: #d1cfd0;
-	border: 2px solid #A19B9E;
-}
-
-td.center {
+th.center, td.center {
 	text-align: center;
 }
 
@@ -1163,6 +1160,8 @@ td.center {
 .btn-plus span { background-position: -80px -16px; }
 .btn-minus span { background-position: -96px -16px; }
 .btn-cross span { background-position: -112px -16px; }
+.btn-globe span { background-position: -128px -16px; }
+.btn-doc span { background-position: -144px -16px; }
 	
 	
 /* Transparent Button Styles */
@@ -1232,7 +1231,7 @@ td.center {
 
 .gallery-sand .sorting{background-color:white !important;}
 
-img.csiroPicture {
+img.dataelementIllustrationPicture {
 	margin-top:10px;
 	background:#E6F0F3;
 	border:1px solid #B3CBD6;

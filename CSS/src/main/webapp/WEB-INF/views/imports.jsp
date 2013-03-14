@@ -15,6 +15,8 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/prettyPhoto.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bubblepopup.css" />" />
 
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/print.css" />" />
+
 <!-- BEGIN: load jquery -->
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.4.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.core.min.js" />"></script>

@@ -30,10 +30,10 @@
 			<td class="col2" valign="top">
 					<div id="displayUserStoryRegion" style="display:inline" ></div>
 					<form:hidden id="hdnUserStoryRegion" path="region.name" />
-					<a href="#" id="lnkHelpRegionSelection" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>
+					<a href="#" class="lnkHelpRegionSelection" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>
 					<script type="text/javascript" language="javascript">
 				        $(document).ready(function () {
-				            setupBubblePopup("lnkHelpRegionSelection", "Select the region where the seaport is located by clicking on the map below",  "${pageContext.request.contextPath}/resources/img/bubblepopup");
+				            setupBubblePopup("lnkHelpRegionSelection", "Hover over a Natural Resource Management region and click to select the region you want.",  "${pageContext.request.contextPath}/resources/img/bubblepopup");
 				        });
 				    </script>
 				    <span id="regionErrorMessage" style="color:red;"></span>
@@ -110,6 +110,10 @@
 	<img id="nrmLegend" src="<c:url value="/resources/img/nrm-regions-clusters-legend.png" />" style="float:left" />
 	<div class="clear"></div><br />
 	
-	<div align="center"><input id="btnCreateWorkboard" type="submit" value="Create" class="btn btn-blue" /></div>
+	<div align="center">
+	<button id="btnCreateWorkboard" type="submit" class="btn btn-icon btn-blue btn-arrow-right" >
+		<span></span>Create
+	</button>
+	</div>
 	</form:form>
 </div>

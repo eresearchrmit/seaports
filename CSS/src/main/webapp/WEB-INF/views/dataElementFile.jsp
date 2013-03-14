@@ -16,6 +16,7 @@
     </c:when>
     
 	<c:otherwise>
-		<textarea name="dataelements[${status.index}].name" rows="12" disabled>${dataelement.stringContent}</textarea>
+		<!-- <textarea name="dataelements[${status.index}].name" rows="12" disabled>${dataelement.stringContent}</textarea> -->
+		${dataelement.stringContent}
 	</c:otherwise>
 </c:choose>

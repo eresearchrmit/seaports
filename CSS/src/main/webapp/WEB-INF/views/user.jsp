@@ -4,6 +4,7 @@
 <%@ page import= "org.springframework.web.servlet.tags.*" %>
 
 <sec:authorize access="isAuthenticated()">
+<div id="userInformations">
 	<div class="floatleft">
 		<img src="<c:url value="/resources/img/icon-profile.png" />" alt="Profile Picture" />
 	</div>
@@ -15,6 +16,7 @@
 		<br />
 	    <!-- <span class="small">Last Login: 3 hours ago</span> -->
 	</div>
+</div>
 </sec:authorize>
 <sec:authorize access="!isAuthenticated()">
 	<a href="/CSS/auth/workboard/my-workboard">Access my Workboard</a>

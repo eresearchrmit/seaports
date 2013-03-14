@@ -500,6 +500,14 @@ function setupAccordion(containerElement) {
     $("#" + containerElement).accordion();
 }
 
+//setup collapsible elements
+function setupCollapsibles(containerClass, isExpanded) {
+    $("." + containerClass).accordion({
+    	collapsible: true,
+    	active: isExpanded
+	});
+}
+
 //setup radios and checkboxes
 //function setupGrumbleToolTip(elementid) {
 //    initializeGrumble(elementid);
@@ -537,21 +545,18 @@ function setupLeftMenu() {
 		$('#section-menu .submenu').css('height','auto');
 }
 
-function setupBubblePopup(fieldId, htmlContent, themepath) {
-	$("#" + fieldId).CreateBubblePopup({
-		
-        position: 'right',
+function setupBubblePopup(fieldClass, htmlContent, themepath) {
+	$("." + fieldClass).CreateBubblePopup({
+		position: 'right',
         align: 'center',
-
+        selectable: true,
         innerHtml: htmlContent,
         innerHtmlStyle: {
-            color: '#FFFFFF',
+            'color': '#FFFFFF',
             'text-align': 'justify',
-            'width': '300px'
+            'max-width': '500px'
         },
-
         themeName: 'all-blue',
         themePath: themepath
-
     });
 }

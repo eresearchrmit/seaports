@@ -31,6 +31,7 @@
 		<mapping class="war.model.DataElement" />
 		<mapping class="war.model.DataElementFile" />
 		<mapping class="war.model.DataElementCsiro" />
+		<mapping class="war.model.DataElementCmar" />
 		<mapping class="war.model.DataElementEngineeringModel" />
 		<mapping class="war.model.DataElementText" />
 		
@@ -46,6 +47,7 @@
 		<mapping class="war.model.CsiroVariable" />
 		<mapping class="war.model.CsiroData" />
 		<mapping class="war.model.CsiroDataBaseline" />
+		<mapping class="war.model.CmarData" />
 		
 		<mapping class="war.model.EngineeringModelVariable" />
 		<mapping class="war.model.EngineeringModelData" />

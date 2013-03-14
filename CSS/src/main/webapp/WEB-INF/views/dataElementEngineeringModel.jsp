@@ -4,7 +4,7 @@
 <%@ page import="war.model.DataElementEngineeringModel" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<div id="points-chart-${status.index}">
+<div id="points-chart-${dataElementLoopIndex}" style="width:95%">
 </div>
 <br />
 
@@ -21,7 +21,7 @@
 	var graphTitle = "${dataelement.engineeringModelDataList[0].variable.name} over time";
 	var yAxisTitle = "${dataelement.engineeringModelDataList[0].variable.shortName}";
 	
-    var plot = $.jqplot('points-chart-${status.index}', 
+    var plot = $.jqplot('points-chart-${dataElementLoopIndex}', 
     		[<c:forEach items="${dataelement.engineeringModelDataList}" var="engModelData" varStatus="loop">
 				series[${loop.index}]<c:if test="${!loop.last}">,</c:if>
 			</c:forEach>],
