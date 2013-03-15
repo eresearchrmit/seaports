@@ -26,7 +26,7 @@
 			<span></span>Close Preview
 		</button>
 	</a>
-		
+	<div class="clear"></div>
 	<center>
 		<h2>${userstory.name} </h2>
 		<h4>${userstory.region.name}</h4>

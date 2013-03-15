@@ -30,7 +30,7 @@
 			<td class="col2" valign="top">
 					<div id="displayUserStoryRegion" style="display:inline" ></div>
 					<form:hidden id="hdnUserStoryRegion" path="region.name" />
-					<a href="#" class="lnkHelpRegionSelection" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>
+					<a href="#" id="lnkHelpRegionSelection" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>
 					<script type="text/javascript" language="javascript">
 				        $(document).ready(function () {
 				            setupBubblePopup("lnkHelpRegionSelection", "Hover over a Natural Resource Management region and click to select the region you want.",  "${pageContext.request.contextPath}/resources/img/bubblepopup");

@@ -35,12 +35,12 @@
 		
 		<c:if test="${dataelementsfilter == 'Future'}">
 		<div id="csiroDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/addCsiroData" modelAttribute="climateData">
+			<form:form method="post" action="/CSS/auth/workboard/addCsiroData#tabs-future-climate" modelAttribute="climateData">
 				<input type="hidden" name="userstoryid" value="${userstory.id}" />
 				<p><strong>2. CSIRO Data Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td class="col1">Variable <a href="#" class="lnkHelpCsiroVariable" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col1">Variable <a href="#" id="lnkHelpCsiroVariable" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateVariable" name="climateVariable">
 								<option value="All">All Variables</option>
@@ -52,7 +52,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Emission Scenario <a href="#" class="lnkHelpEmissionScenario" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col1">Emission Scenario <a href="#" id="lnkHelpCsiroEmissionScenario" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateEmissionScenario" name="climateEmissionScenario">
 								<option value="A1B">Medium CO2 emissions (A1B)</option>
@@ -61,7 +61,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Climate Model <a href="#" class="lnkHelpClimateModel" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col1">Climate Model <a href="#" id="lnkHelpCsiroClimateModel" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateClimateModel" name="climateModel">
 								<option value="Most Likely">Most Likely</option>
@@ -71,7 +71,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Time Period <a href="#" class="lnkHelpTimePeriod" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col1">Time Period <a href="#" class="lnkHelpCmarTimePeriod" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbYear" name="year">
 								<option value="2030">2030</option>
@@ -99,12 +99,12 @@
 		
 		<c:if test="${dataelementsfilter == 'Future'}">
 		<div id="cmarDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/addCmarData" modelAttribute="climateData">
+			<form:form method="post" action="/CSS/auth/workboard/addCmarData#tabs-future-climate" modelAttribute="climateData">
 				<input type="hidden" name="userstoryid" value="${userstory.id}" />
 				<p><strong>2. CMAR Data Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td class="col1">Variable <a href="#" class="lnkHelpCmarVariable" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col1">Variable <a href="#" id="lnkHelpCmarVariable" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateVariable" name="climateVariable" disabled="disabled">
 								<option value="Sea Level Rise">Sea Level Rise</option>
@@ -112,7 +112,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Emission Scenario <a href="#" class="lnkHelpEmissionScenario" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col1">Emission Scenario <a href="#" id="lnkHelpCmarEmissionScenario" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateEmissionScenario" name="climateEmissionScenario" disabled="disabled">
 								<option value="A1B">Medium CO2 emissions (A1B)</option>
@@ -121,7 +121,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Climate Model <a href="#" class="lnkHelpClimateModel" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col1">Climate Model <a href="#" id="lnkHelpCmarClimateModel" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateClimateModel" name="climateModel" disabled="disabled">
 								<option value="Most Likely">Most Likely</option>
@@ -131,7 +131,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Time Period <a href="#" class="lnkHelpTimePeriod" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col1">Time Period <a href="#" id="lnkHelpCsiroTimePeriod" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbYear" name="year">
 								<option value="2030">2030</option>
@@ -173,33 +173,30 @@
 				</tr>
 			</table>
 			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-				<span></span>Upload custom file
+				<span></span>Add BoM Data Element
 			</button>
 		</div>
 		</c:if>
 		
 		<c:if test="${dataelementsfilter == 'Applications'}">
 		<div id="engineeringDataForm" class="dataElementForm">
-			<form:form id="formEngineeringData" method="post" action="/CSS/auth/workboard/addEngineeringData?id=${userstory.id}" enctype="multipart/form-data">
+			<form:form id="formEngineeringData" method="post" action="/CSS/auth/workboard/addEngineeringData?id=${userstory.id}#tabs-applications" enctype="multipart/form-data">
 				<p><strong>2. Engineering Model Data Element Options:</strong></p>
 				<input type="hidden" name="sourceType" id="hdnEngineeringSourceType" value="upload" />
 				
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td><input type="radio" name="rdEngineeringSourceType" value="upload" checked="checked" /></td>
-						<td align="right">Select a file to upload:</td>
-						<td>
-							<input type="file" name="file" id="file" /><br />
-							<p style="width:300px; text-align:justify"><i>Please use the Excel template (available <a href="http://10.118.96.11/ccimt" title="Go to the engineering model tool" target="blank">here</a>) to import the asset data for the concrete deterioration modelling. Once uploaded, the tool will verify each entry to ensure it meets the requirements of the analysis.</i></p>
+						<td><input type="radio" name="rdEngineeringSourceType" value="example" /> Use a predefined example for this region</td>
+					</tr>
+					<tr>
+						<td><input type="radio" name="rdEngineeringSourceType" value="upload" checked="checked" /> Or select an engineering model file to upload <a href="#" id="lnkHelpEngUpload" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="file" name="file" id="file" />
 						</td>
 					</tr>
 					<tr>
-						<td><input type="radio" name="rdEngineeringSourceType" value="example" /></td>
-						<td align="right" >Or use a predefined example for this region.</td>
-					</tr>
-					<tr>
-						<td align="right" colspan="2">Select a variable to use for the Data Element:</td>
-						<td>
+						<td style="padding-top:50px">Select a variable to use for the Data Element <a href="#" id="lnkHelpEngVariable" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
 							<input type="hidden" id="hdnEngVariableCategory" name="engVariableCategory" value="${chlorideEngineeringModelVariables[0].category}" />
 							<select id="cbbEngineeringVariable" name="engVariable">
 								<option disabled class="dropDownTitle">${chlorideEngineeringModelVariables[0].category}</option>
@@ -210,8 +207,7 @@
 								<c:forEach items="${carbonationEngineeringModelVariables}" var="engineeringModelVariable" varStatus="loop">
 									<option value="${engineeringModelVariable.name}" title="${engineeringModelVariable.category}">${engineeringModelVariable.name}</option>
 								</c:forEach>
-							</select>								
-							<a href="#" class="lnkHelpEngVariable" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>
+							</select>
 						</td>
 					</tr>
 				</table>
@@ -229,12 +225,12 @@
 		
 		<c:if test="${dataelementsfilter == 'NonClimate'}">
 		<div id="customFileDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/upload?id=${userstory.id}" enctype="multipart/form-data">
+			<form:form method="post" action="/CSS/auth/workboard/upload?id=${userstory.id}#tabs-non-climate-context" enctype="multipart/form-data">
 				<p><strong>2. Custom Data Element Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td align="right">Select a file to upload (text, XML, HTML or image):</td>
-						<td>
+						<td>Select a file to upload <a href="#" id="lnkHelpFileUpload" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
 							<input type="file" name="file" id="file" />
 						</td>
 					</tr>
@@ -278,15 +274,39 @@
 		});
 		
 		$('.dataElementForm').hide();
-		setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.", "${pageContext.request.contextPath}/resources/img/bubblepopup");
-		
-		setupBubblePopup("lnkHelpCsiroVariable", "<p><h6>Mean Temperature</h6>Mean air temperature in degrees Celsius (°C) as measured at 2 m above ground. Values are given as change from modelled baseline (1981-2000) climate.</p><p><h6>Rainfall</h6>Mean rainfall in millimetres (mm). Values are given as change from modelled baseline (1981-2000) climate.</p><p><h6>Daily Relative Humidity</h6>Calculated at 2 m above ground and expressed in percent (%). Values are given as change from modelled baseline (1981-2000) climate.</p><p><h6>Wind Speed</h6>Mean wind speed, in metres per second (m/sec) as measured at 10m above the ground. Values are given as change from modelled baseline (1981-2000) climate.</p>", "${pageContext.request.contextPath}/resources/img/bubblepopup");
-		setupBubblePopup("lnkHelpCmarVariable", "<p><h6>Sea Level Rise</h6>.</p>", "${pageContext.request.contextPath}/resources/img/bubblepopup");
-		setupBubblePopup("lnkHelpEmissionScenario", "<p>The <b>emission scenarios</b> represent the future development of greenhouse gas emissions and are based on assumptions about economic, technological and population growth. The two emissions scenarios that are available here are from the 'A1 storyline' and were developed by the IPCC Special Report on Emissions Scenarios (SRES).</p><p>As a general guide:</p><p><b>Emission Scenario A1B</b>: medium CO2 emissions, peaking around 2030</p><p><b>Emission Scenario A1FI</b>: high CO2 emissions, increasing throughout the 21st century</p>", "${pageContext.request.contextPath}/resources/img/bubblepopup");
-		setupBubblePopup("lnkHelpClimateModel", "<p><b>Global climate models</b> (GCMs) are mathematical representations of the behaviour of the planet's climate system through time. Each mathematical equation is the basis for complex computer programs used for simulating the atmosphere or oceans of the Earth.</p><p>For this portal, CSIRO's Climate Futures software was used to select models by considering the alignment of model results over each of the natural resource management regions. 18 climate models were sub-divided into pre-defined categories such as \"Hotter, Drier\" and then assigned a relative likelihood based on the number of climate models that fell within that category. For example, if 9 of 18 models fell into the \"Warmer - Drier\" category, it was given a relative likelihood of 50%.</p><p>Three model categories are used here:<br/>A '<b>most likely</b>'* future: hotter and little change in rainfall.<br/>A '<b>hotter and drier</b>' future: much hotter and much drier.<br/>A '<b>cooler and wetter</b>' future: cooler and wetter.<br/></p><p>*Category represented by the greatest number of models that must be greater than or equal to 33% of the total number of models.</p>", "${pageContext.request.contextPath}/resources/img/bubblepopup");
-		setupBubblePopup("lnkHelpTimePeriod", "<p><b>Time periods</b> are expressed relative to the 1981-2000 baseline period and are centred on a given decade. For example, the 2030s time period refers to the period 2020-2039.</p><p>Three future time periods are available: <b>2030</b>, <b>2055</b> and <b>2070</b>.</p>", "${pageContext.request.contextPath}/resources/img/bubblepopup");
 		
 		setupDialogBox("add${dataelementsfilter}DataElementModalWindow", "btnOpenAdd${dataelementsfilter}DataElementModalWindow");
+
+		
+		// Help bubble popups
+		
+		var strPathToBubblePopupTheme = "${pageContext.request.contextPath}/resources/img/bubblepopup";
+		
+		<c:if test="${dataelementsfilter == 'NonClimate'}">
+			setupBubblePopup("lnkHelpFileUpload", "Accepted formats: Text (txt) or Image (jpeg, jpg)", strPathToBubblePopupTheme);
+		</c:if>
+		
+		<c:if test="${dataelementsfilter == 'Future'}">
+			setupBubblePopup("lnkHelpCsiroVariable", "<p><h6>Mean Temperature</h6>Mean air temperature in degrees Celsius (°C) as measured at 2 m above ground. Values are given as change from modelled baseline (1981-2000) climate.</p><p><h6>Rainfall</h6>Mean rainfall in millimetres (mm). Values are given as change from modelled baseline (1981-2000) climate.</p><p><h6>Daily Relative Humidity</h6>Calculated at 2 m above ground and expressed in percent (%). Values are given as change from modelled baseline (1981-2000) climate.</p><p><h6>Wind Speed</h6>Mean wind speed, in metres per second (m/sec) as measured at 10m above the ground. Values are given as change from modelled baseline (1981-2000) climate.</p>", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpCmarVariable", "<p><h6>Sea Level Rise</h6>.</p>", strPathToBubblePopupTheme);
+
+			var strHelpEmissionScenario = "<p>The <b>emission scenarios</b> represent the future development of greenhouse gas emissions and are based on assumptions about economic, technological and population growth. The two emissions scenarios that are available here are from the 'A1 storyline' and were developed by the IPCC Special Report on Emissions Scenarios (SRES).</p><p>As a general guide:</p><p><b>Emission Scenario A1B</b>: medium CO2 emissions, peaking around 2030</p><p><b>Emission Scenario A1FI</b>: high CO2 emissions, increasing throughout the 21st century</p>";
+			setupBubblePopup("lnkHelpCsiroEmissionScenario", strHelpEmissionScenario, strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpCmarEmissionScenario", strHelpEmissionScenario, strPathToBubblePopupTheme);
+
+			var strHelpClimateModel = "<p><b>Global climate models</b> (GCMs) are mathematical representations of the behaviour of the planet's climate system through time. Each mathematical equation is the basis for complex computer programs used for simulating the atmosphere or oceans of the Earth.</p><p>For this portal, CSIRO's Climate Futures software was used to select models by considering the alignment of model results over each of the natural resource management regions. 18 climate models were sub-divided into pre-defined categories such as \"Hotter, Drier\" and then assigned a relative likelihood based on the number of climate models that fell within that category. For example, if 9 of 18 models fell into the \"Warmer - Drier\" category, it was given a relative likelihood of 50%.</p><p>Three model categories are used here:<br/>A '<b>most likely</b>'* future: hotter and little change in rainfall.<br/>A '<b>hotter and drier</b>' future: much hotter and much drier.<br/>A '<b>cooler and wetter</b>' future: cooler and wetter.<br/></p><p>*Category represented by the greatest number of models that must be greater than or equal to 33% of the total number of models.</p>";
+			setupBubblePopup("lnkHelpCsiroClimateModel", strHelpClimateModel, strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpCmarClimateModel", strHelpClimateModel, strPathToBubblePopupTheme);
+
+			var strHelpTimePeriod = "<p><b>Time periods</b> are expressed relative to the 1981-2000 baseline period and are centred on a given decade. For example, the 2030s time period refers to the period 2020-2039.</p><p>Three future time periods are available: <b>2030</b>, <b>2055</b> and <b>2070</b>.</p>";
+			setupBubblePopup("lnkHelpCsiroTimePeriod", strHelpTimePeriod, strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpCmarTimePeriod", strHelpTimePeriod, strPathToBubblePopupTheme);
+		</c:if>
+		
+		<c:if test="${dataelementsfilter == 'Applications'}">
+			setupBubblePopup("lnkHelpEngUpload", "Please use the Excel template (available <a href=\"http://10.118.96.11/ccimt\" title=\"Go to the engineering model tool\" target=\"blank\">here</a>) to import the asset data for the concrete deterioration modelling. Once uploaded, the tool will verify each entry to ensure it meets the requirements of the analysis.", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.", strPathToBubblePopupTheme);
+		</c:if>
 	});
 </script>
 </c:if>

@@ -8,7 +8,6 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import security.UserLoginService;
 
-
 import war.model.*;
 
 @SuppressWarnings("deprecation")
@@ -25,10 +24,10 @@ public class DatabaseLoader {
 		session.beginTransaction();	
 
 		User p1 = new User("gprevost", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR,"guillaume.prevost@live.com", "Guillaume", "Prevost");
-		User p2 = new User("jmullet", "jane123", true, true, UserLoginService.ROLE_USER, "email", "Jane", "Mullett");
-		User p3 = new User("rsrini", "ravi123", true, true, UserLoginService.ROLE_USER, "email", "Ravi", "Srini");
-		User p4 = new User("user", "password", true, true, UserLoginService.ROLE_USER, "email", "user", "user");
-		User p5 = new User("vbala", "nara", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email", "Venki", "Bala");
+		User p2 = new User("jmullet", "password", true, true, UserLoginService.ROLE_USER, "email", "Jane", "Mullett");
+		User p3 = new User("rsrini", "password", true, true, UserLoginService.ROLE_USER, "email", "Ravi", "Srini");
+		User p4 = new User("user", "password", true, true, UserLoginService.ROLE_USER, "email", "User", "User");
+		User p5 = new User("admin", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email", "Admin", "Admin");
 		session.save(p1);
 		session.save(p2);
 		session.save(p3);

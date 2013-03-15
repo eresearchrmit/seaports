@@ -51,9 +51,13 @@
 	<jsp:include page="notifications.jsp" />
 		
 	<script type="text/javascript">
-		$(document).ready((function() {
-			$( "#tabs" ).tabs();
-		}));
+		$(document).ready(function() {
+			$("#tabs").tabs({
+				select: function(event, ui) {                   
+					window.location.replace(ui.tab.hash);
+				}
+			});
+		});
 	</script>
 	
 	<c:set var="userstory" scope="request" value="${userstory}"/>
@@ -148,7 +152,7 @@
 			<c:if test="${dataelementsCounts[3] <= 0}">
 				<div>
 					<h6><img src="<c:url value="/resources/img/icons/information.png" />"> Information</h6>
-					<p><b>Engineering Model</b>:Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
+					<p><b>Engineering Model, Vulnerability Matrix</b>:Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
 				</div>
 			</c:if>
 			

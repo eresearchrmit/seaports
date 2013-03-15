@@ -49,7 +49,7 @@ public class EngineeringModelData
 	 * The variable that this data represents
 	 */
 	@ManyToOne
-	@JoinColumn(name="climate_variable_id")
+	@JoinColumn(name="engineering_model_variable_id")
 	private EngineeringModelVariable variable;
 
 	/**

@@ -4,9 +4,8 @@
 <%@ page import="war.model.DataElementEngineeringModel" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<div id="points-chart-${dataElementLoopIndex}" style="width:95%">
+<div id="points-chart-${dataElementLoopIndex}" style="width:95%; margin-bottom:30px">
 </div>
-<br />
 
 <script type="text/javascript" language="javascript">
 	var series = new Array();
@@ -48,64 +47,49 @@
         }
 	});
 </script>
-
-<table class="data display datatable" id="example">
+	<center>
+	<h6>ASSET: ${dataelement.engineeringModelDataList[0].asset.assetCode} (${dataelement.engineeringModelDataList[0].asset.description})</h6> 
+	<p>Built in ${dataelement.engineeringModelDataList[0].asset.yearBuilt}.</p>
+	</center>
+<table class="data display datatable" id="example" >
 	<tbody>
 		<tr>
-			<th>Asset Code</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.assetCode}</td>
-		</tr>
-		<tr>
-			<th>Description</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.description}</td>
-		</tr>
-		<tr>
-			<th>Year Built</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.yearBuilt}</td>
-		</tr>
-		<tr>
 			<th>Zone</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.zone}</td>
-		</tr>
-		<tr>
+			<td>${dataelement.engineeringModelDataList[0].asset.zone}</td>
+
 			<th>Distance from coast</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.distanceFromCoast} km</td>
+			<td>${dataelement.engineeringModelDataList[0].asset.distanceFromCoast} km</td>
 		</tr>
 		<tr>
 			<th>Exposure class</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.exposureClass}</td>
-		</tr>
-		<tr>
+			<td>${dataelement.engineeringModelDataList[0].asset.exposureClass}</td>
+			
 			<th>Carbonation class</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.carbonationClass}</td>
-		</tr>
-		<tr>
+			<td>${dataelement.engineeringModelDataList[0].asset.carbonationClass}</td>
+
 			<th>Chloride class</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.chlorideClass}</td>
+			<td>${dataelement.engineeringModelDataList[0].asset.chlorideClass}</td>
 		</tr>
 		<tr>
 			<th>Concrete cover</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.cover} mm</td>
-		</tr>
-		<tr>
+			<td>${dataelement.engineeringModelDataList[0].asset.cover} mm</td>
+
 			<th>Size of concrete element</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.dmember} mm</td>
-		</tr>
-		<tr>
+			<td>${dataelement.engineeringModelDataList[0].asset.dmember} mm</td>
+
 			<th>Design strength</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.fprimec} MPa</td>
+			<td>${dataelement.engineeringModelDataList[0].asset.fprimec} MPa</td>
+
 		</tr>
 		<tr>
 			<th>Water to cement ratio</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.wc}</td>
-		</tr>
-		<tr>
+			<td>${dataelement.engineeringModelDataList[0].asset.wc}</td>
+			
 			<th>Cement content</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.ce} kg/m3</td>
-		</tr>
-		<tr>
+			<td>${dataelement.engineeringModelDataList[0].asset.ce} kg/m3</td>
+
 			<th>Diameter of rebar</th>
-			<td class="center">${dataelement.engineeringModelDataList[0].asset.dbar} mm</td>
+			<td>${dataelement.engineeringModelDataList[0].asset.dbar} mm</td>
 		</tr>
 	</tbody>
 </table>

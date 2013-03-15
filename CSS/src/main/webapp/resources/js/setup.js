@@ -545,8 +545,8 @@ function setupLeftMenu() {
 		$('#section-menu .submenu').css('height','auto');
 }
 
-function setupBubblePopup(fieldClass, htmlContent, themepath) {
-	$("." + fieldClass).CreateBubblePopup({
+function setupBubblePopup(fieldId, htmlContent, themepath) {
+	$("#" + fieldId).CreateBubblePopup({
 		position: 'right',
         align: 'center',
         selectable: true,
