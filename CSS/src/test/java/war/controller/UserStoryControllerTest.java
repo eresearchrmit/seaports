@@ -6,16 +6,20 @@ import junit.framework.Assert;
 
 import security.UserLoginService;
 import war.dao.DataElementDao;
-import war.dao.UserDao;
 import war.dao.UserStoryDao;
 import war.model.DataElement;
 import war.model.DataElementText;
 import war.model.User;
 import war.model.UserStory;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,12 +39,45 @@ public class UserStoryControllerTest {
 	@Autowired
 	private DataElementDao dataElementDao;
 	
+	User loggedInUser;
+	User loggedInUserNoWB;
+	User loggedInAdmin;
+	SecurityContext securityContextUserLoggedIn;
+	SecurityContext securityContextUserLoggedInNoWB;
+	SecurityContext securityContextAdminLoggedIn;
+	
+	@Before
+	public void prepareData() {
+		SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL); // Optional
+		
+		loggedInUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		Authentication userAuth = new ConcreteAuthentication(loggedInUser);
+		securityContextUserLoggedIn = new SecurityContextImpl();
+		securityContextUserLoggedIn.setAuthentication(userAuth);
+		
+		loggedInUserNoWB = new User("testuser3", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
+		Authentication userAuthNoWB = new ConcreteAuthentication(loggedInUserNoWB);
+		securityContextUserLoggedInNoWB = new SecurityContextImpl();
+		securityContextUserLoggedInNoWB.setAuthentication(userAuthNoWB);
+		
+		loggedInAdmin = new User("testadmin1", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin1", "testadmin1");
+		Authentication adminAuth = new ConcreteAuthentication(loggedInAdmin);
+		securityContextAdminLoggedIn = new SecurityContextImpl();
+		securityContextAdminLoggedIn.setAuthentication(adminAuth);
+	}
+	
+	/* --------------------------------------------------------------------- */
+	/* ---------------------------- getUserStory --------------------------- */
+	/* --------------------------------------------------------------------- */
+	
 	/**
 	 * getUserStory should fail because there is no User Story with this ID
 	 */
 	@Test
 	@Transactional
 	public void getUserStoryUnknownIdTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = userStoryController.getUserStory(99999, model);
 		
@@ -59,9 +96,10 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void getUserStoryTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		int id = 1; // ID of a User Story owned by loggedInUser (testuser1)
 		ExtendedModelMap model = new ExtendedModelMap();
-		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
-		int id = 1; // ID of a User Story owned by testuser1
 		ModelAndView result = userStoryController.getUserStory(id, model);
 		
 		// Check the error message
@@ -74,14 +112,14 @@ public class UserStoryControllerTest {
 		// Check the User set in the ModelAndView's ModelMap
 		Assert.assertTrue(model.get("user").getClass().equals(User.class));
 		User resUser = (User)(model.get("user"));
-		Assert.assertEquals(refUser, resUser);
+		Assert.assertEquals(this.loggedInUser, resUser);
 		
 		// Check that the result is a list of Data Elements and that they all belong to the user story
 		UserStory resUserStory = (UserStory)(model.get("userstory"));
 		Assert.assertTrue(resUserStory.getDataElements().size() > 0);
 		for (DataElement de : resUserStory.getDataElements()) {
 			Assert.assertEquals(id, de.getUserStory().getId());
-			Assert.assertEquals(refUser.getUsername(), de.getUserStory().getOwner().getUsername());
+			Assert.assertEquals(this.loggedInUser.getUsername(), de.getUserStory().getOwner().getUsername());
 		}
 	}
 	
@@ -91,16 +129,16 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void getUserStoriesListUnknownUserTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = userStoryController.getUserStoriesList("UNKNOWNUSER", model);
 		
-		// Check the error message
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserDao.ERR_NO_SUCH_USER, model.get("errorMessage"));
-		
+		Assert.assertNotNull(model);
+		Assert.assertEquals(this.loggedInUser, model.get("user"));
 		// Check the view name
-		Assert.assertEquals("userstoryList", result.getViewName());
+		Assert.assertEquals("accessDenied", result.getViewName());
 	}
 	
 	/**
@@ -109,9 +147,10 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void getUserStoriesListNoStoryTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedInNoWB);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
-		User refUser = new User("testuser3", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
-		ModelAndView result = userStoryController.getUserStoriesList(refUser.getUsername(), model);
+		ModelAndView result = userStoryController.getUserStoriesList(this.loggedInUserNoWB.getUsername(), model);
 		
 		// Check there is no error
 		Assert.assertNotNull(result);
@@ -123,9 +162,9 @@ public class UserStoryControllerTest {
 		// Check the UserStory set in the ModelAndView's ModelMap
 		Assert.assertTrue(result.getModelMap().get("user").getClass().equals(User.class));
 		User resUser = (User)(result.getModelMap().get("user"));
-		Assert.assertEquals(refUser, resUser);
+		Assert.assertEquals(this.loggedInUserNoWB, resUser);
 		
-		Assert.assertEquals("My User Stories", model.get("listingTitle"));
+		Assert.assertEquals("My Reports", model.get("listingTitle"));
 		
 		// Check that the result is a list of User Stories and that they are all passive
 		@SuppressWarnings("unchecked")
@@ -139,9 +178,10 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void getUserStoriesListTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
-		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
-		ModelAndView result = userStoryController.getUserStoriesList(refUser.getUsername(), model);
+		ModelAndView result = userStoryController.getUserStoriesList(this.loggedInUser.getUsername(), model);
 		
 		// Check there is no error
 		Assert.assertNotNull(result);
@@ -153,9 +193,9 @@ public class UserStoryControllerTest {
 		// Check the User set in the ModelAndView's ModelMap
 		Assert.assertTrue(result.getModelMap().get("user").getClass().equals(User.class));
 		User resUser = (User)(result.getModelMap().get("user"));
-		Assert.assertEquals(refUser, resUser);
+		Assert.assertEquals(this.loggedInUser, resUser);
 		
-		Assert.assertEquals("My User Stories", model.get("listingTitle"));
+		Assert.assertEquals("My Reports", model.get("listingTitle"));
 		
 		// Check that the result is a list of User Stories and that they are all passive
 		@SuppressWarnings("unchecked")
@@ -176,6 +216,8 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void getUserStoryViewUnknownIdTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = userStoryController.getUserStoryView(99999, model);
 		
@@ -194,6 +236,8 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void getUserStoryViewTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		int id = 1; // ID of a User Story owned by testuser1
@@ -226,6 +270,8 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void changeUserStoryPrivacyPublicTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		String login = "testuser1";
 		Integer id = 1;
@@ -270,6 +316,8 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void createUserStorySuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer id = 1;
 		
@@ -296,6 +344,8 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void createUserStoryAlreadyPublishedTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer id = 4;
 		
@@ -315,6 +365,8 @@ public class UserStoryControllerTest {
 	 */
 	@Test
 	public void saveUserStoryUpdateTextsTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer id = 2;
 		UserStory refUserstory = userStoryDao.find(id);
@@ -344,6 +396,8 @@ public class UserStoryControllerTest {
 	 */
 	@Test
 	public void saveUserStoryUpdateOrderTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer id = 2;
 		UserStory refUserstory = userStoryDao.find(id);
@@ -383,6 +437,8 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void deleteUserStorySuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer id = 2;
 		
@@ -407,11 +463,13 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void deleteUserStoryNullIdTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		
 		String result = userStoryController.deleteUserStory(null, model);
 		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals("listUS", result);
+		Assert.assertEquals("userstoryList", result);
 		Assert.assertEquals(UserStoryController.ERR_DELETE_USERSTORY, model.get("errorMessage"));
 	}
 	
@@ -421,12 +479,14 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void deleteUserStoryUnknownIdTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer id = 9999; // NON-EXISTING ID
 		
 		String result = userStoryController.deleteUserStory(id, model);
 		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals("listUS", result);
+		Assert.assertEquals("userstoryList", result);
 		Assert.assertEquals(UserStoryController.ERR_DELETE_USERSTORY, model.get("errorMessage"));
 	}
 	
@@ -436,6 +496,8 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void addTextToUserStorySuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer id = 3;
 		
@@ -454,6 +516,8 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void addTextToUserStoryUnknownIDTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer id = 9999; // NON-EXISTING ID
 		
@@ -486,6 +550,8 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void removeTextFromUserStoryUnknownIDTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer id = 9999; // NON-EXISTING ID
 		
@@ -499,6 +565,8 @@ public class UserStoryControllerTest {
 	 */
 	@Test
 	public void includeDataElementToUserStorySuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer dataElementId = 4;
 		
@@ -524,6 +592,8 @@ public class UserStoryControllerTest {
 	 */
 	@Test
 	public void includeDataElementToUserStoryUnknownIdTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer dataElementId = 9999; // NON-EXISTING ID
 				

@@ -75,7 +75,7 @@ public class TestDatabaseLoader {
 		
 		// Add Workboards & User Stories
 		UserStory user1wb = new UserStory();
-		user1wb.setName("User 1 WorkBoard");
+		user1wb.setName("User 1 Workboard");
 		user1wb.setMode("active");
 		user1wb.setAccess("private");
 		user1wb.setOwner(p1);

@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import security.UserLoginService;
 
-import war.model.UserAuthority;
 import war.model.Region;
 import war.model.User;
 import war.model.UserStory;
@@ -52,7 +51,7 @@ public class UserStoryDaoTest {
 
 		Assert.assertNotNull(story);
 		
-		Assert.assertEquals("User 1 WorkBoard", story.getName());
+		Assert.assertEquals("User 1 Workboard", story.getName());
 		Assert.assertEquals("active", story.getMode());
 		Assert.assertEquals("private", story.getAccess());
 		Assert.assertEquals("testuser1", story.getOwner().getUsername());
@@ -176,7 +175,7 @@ public class UserStoryDaoTest {
 		UserStory workboard = userStoryDao.getWorkboard(userForTest);
 		
 		Assert.assertNotNull(workboard);
-		Assert.assertEquals("User 1 WorkBoard", workboard.getName());
+		Assert.assertEquals("User 1 Workboard", workboard.getName());
 		Assert.assertEquals("active", workboard.getMode());
 		Assert.assertEquals("private", workboard.getAccess());
 	}

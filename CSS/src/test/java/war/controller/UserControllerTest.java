@@ -26,7 +26,7 @@ public class UserControllerTest {
 	
 	@Before
 	public void prepareData() {
-		userForTest = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		userForTest = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com.au", "testuser1", "testuser1");
 	}
 	
 	/**
@@ -138,7 +138,7 @@ public class UserControllerTest {
 	}
 	
 	/**
-	 * Registration should fail because the last anme is null
+	 * Registration should fail because the last name is null
 	 */
 	@Test
 	public void registerNewUserNullLastNameTest() {

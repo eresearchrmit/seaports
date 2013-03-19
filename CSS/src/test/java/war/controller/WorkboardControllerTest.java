@@ -7,7 +7,6 @@ import war.dao.ClimateEmissionScenarioDao;
 import war.dao.ClimateParamsDao;
 import war.dao.CsiroVariableDao;
 import war.dao.DataElementDao;
-import war.dao.UserDao;
 import war.dao.UserStoryDao;
 import war.model.Region;
 import war.model.User;
@@ -37,8 +36,10 @@ public class WorkboardControllerTest {
 	private WorkboardController workboardController;
 	
 	User loggedInUser;
+	User loggedInUserNoWB;
 	User loggedInAdmin;
 	SecurityContext securityContextUserLoggedIn;
+	SecurityContext securityContextUserLoggedInNoWB;
 	SecurityContext securityContextAdminLoggedIn;
 	
 	@Before
@@ -50,50 +51,76 @@ public class WorkboardControllerTest {
 		securityContextUserLoggedIn = new SecurityContextImpl();
 		securityContextUserLoggedIn.setAuthentication(userAuth);
 		
+		loggedInUserNoWB = new User("testuser3", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
+		Authentication userAuthNoWB = new ConcreteAuthentication(loggedInUserNoWB);
+		securityContextUserLoggedInNoWB = new SecurityContextImpl();
+		securityContextUserLoggedInNoWB.setAuthentication(userAuthNoWB);
+		
 		loggedInAdmin = new User("testadmin1", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin1", "testadmin1");
 		Authentication adminAuth = new ConcreteAuthentication(loggedInAdmin);
 		securityContextAdminLoggedIn = new SecurityContextImpl();
 		securityContextAdminLoggedIn.setAuthentication(adminAuth);
 	}
 	
+	/* --------------------------------------------------------------------- */
+	/* ---------------------------- getWorkboard --------------------------- */
+	/* --------------------------------------------------------------------- */
+	
 	/**
-	 * getUserWorkBoard should fail because User is Unknown: the model is filled with an error message
+	 * getWorkboard should fail because user request the workboard of another user
 	 */
 	@Test
-	public void getUserWorkBoardUnknownUserTest() {
+	public void getWorkboardOfOtherUserTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.getWorkboard("testuser2", model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model);
+		Assert.assertEquals(this.loggedInUser, model.get("user"));
+		Assert.assertEquals("accessDenied", result.getViewName());
+	}
+	
+	/**
+	 * getWorkboard should fail because user request the workboard of a non-existing user
+	 */
+	@Test
+	public void getWorkboardOfUnknownUserTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ModelAndView result = workboardController.getUserWorkBoard("UNKNOWN USER", model);
-		
-		Assert.assertNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserDao.ERR_NO_SUCH_USER, model.get("errorMessage"));
+		ModelAndView result = workboardController.getWorkboard("UNKNOWN USER", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model);
+		Assert.assertEquals(this.loggedInUser, model.get("user"));
+		Assert.assertEquals("accessDenied", result.getViewName());
 	}
 	
 	/**
-	 * getUserWorkBoard should succeed & return an new workboard for testuser3
+	 * getWorkboard should succeed & return an new workboard for testuser3
 	 */
 	@Test
-	public void getUserWorkBoardNoActiveWorkboardTest() {
+	public void getWorkboardNoActiveWorkboardTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedInNoWB);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.getUserWorkBoard("testuser3", model);
+		ModelAndView result = workboardController.getWorkboard("testuser3", model);
 		
 		// Make sure no error happened during
 		Assert.assertNotNull(result);
 		Assert.assertNull(model.get("errorMessage"));
 				
-		User refUser = new User("testuser3", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
- 		UserStory refWorkboard = new UserStory();
- 		refWorkboard.setOwner(refUser);
+		UserStory refWorkboard = new UserStory();
+ 		refWorkboard.setOwner(this.loggedInUserNoWB);
  		
  		// Check the view name
  		Assert.assertEquals("workboardCreation", result.getViewName());
  		
  		// Check the user set in the model
  		Assert.assertTrue(model.get("user").getClass().equals(User.class));
-		Assert.assertEquals(refUser, (User)(model.get("user")));
+		Assert.assertEquals(this.loggedInUserNoWB, (User)(model.get("user")));
 		
 		// Check the UserStory set in the ModelAndView's ModelMap
 		Assert.assertTrue(result.getModelMap().get("userstory").getClass().equals(UserStory.class));
@@ -102,14 +129,14 @@ public class WorkboardControllerTest {
 	}
 	
 	/**
-	 * getUserWorkBoard should succeed & return the active workboard of testuser1
+	 * getWorkboard should succeed & return the active workboard of testuser1
 	 */
 	@Test
-	public void getUserWorkBoardTest() {
-		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+	public void getWorkboardTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.getUserWorkBoard("testuser1", model);
+		ModelAndView result = workboardController.getWorkboard("testuser1", model);
 				
 		// Makes sure no error occured
 		Assert.assertNotNull(result);
@@ -122,14 +149,20 @@ public class WorkboardControllerTest {
 		Assert.assertTrue(result.getModelMap().get("userstory").getClass().equals(UserStory.class));
 		UserStory resWorkboard = (UserStory)(result.getModelMap().get("userstory"));
 		Assert.assertEquals(1, resWorkboard.getId());
-		Assert.assertEquals("User 1 WorkBoard", resWorkboard.getName());
-		Assert.assertEquals(refUser, resWorkboard.getOwner());
+		Assert.assertEquals("User 1 Workboard", resWorkboard.getName());
+		Assert.assertEquals(this.loggedInUser, resWorkboard.getOwner());
 	}
+	
+	
 
-	// TODO: Test uploadfileinWorkBoard
+	/* --------------------------------------------------------------------- */
+	/* ----------------------- uploadfileinWorkBoard ----------------------- */
+	/* --------------------------------------------------------------------- */
 	
 	@Test
 	public void uploadfileinWorkBoardSuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		MockMultipartFile mockMultipartFileText = new MockMultipartFile("content", "test.txt", "text/plain", "Hello World".getBytes());
 		workboardController.uploadfileinWorkBoard(mockMultipartFileText, 1, model);
@@ -161,6 +194,8 @@ public class WorkboardControllerTest {
 	
 	@Test
 	public void uploadfileinWorkBoardInvalidTypeTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		MockMultipartFile mockMultipartFileText = new MockMultipartFile("content", "test.css", "text/css", "Hello World".getBytes());
 		workboardController.uploadfileinWorkBoard(mockMultipartFileText, 1, model);
@@ -168,16 +203,29 @@ public class WorkboardControllerTest {
 		Assert.assertEquals(WorkboardController.ERR_INVALID_FILETYPE, model.get("errorMessage"));
 	}
 	
+	
+	/* --------------------------------------------------------------------- */
+	/* ------------------- addEngineeringDataToWorkBoard ------------------- */
+	/* --------------------------------------------------------------------- */
+	
 	// TODO: Test addEngineeringDataToWorkBoard
+	
+	
+	
+	/* --------------------------------------------------------------------- */
+	/* ---------------------- addCsiroDataToWorkboard ---------------------- */
+	/* --------------------------------------------------------------------- */
 	
 	/**
 	 * addCsiroDataToWorkBoardTest should succeed & return a confirmation message
 	 */
 	@Test
-	public void addCsiroDataToWorkBoardTest() {
+	public void addCsiroDataToWorkboardTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addCsiroDataToWorkBoard(1, "Temperature", 
-				"A1B", "Hotter and Drier", "2030", "", model);
+		ModelAndView result = workboardController.addCsiroDataToWorkboard(1, 
+				"Temperature", "A1B", "Hotter and Drier", "2030", "", model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertNull(model.get("errorMessage"));
@@ -189,10 +237,12 @@ public class WorkboardControllerTest {
 	 * addCsiroDataToWorkBoardTest should succeed & return a confirmation message
 	 */
 	@Test
-	public void addCsiroDataToWorkBoardBadParametersTest() {
+	public void addCsiroDataToWorkboardBadParametersTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		// UNKNOWN VARIABLE
 		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addCsiroDataToWorkBoard(1, "UNKNOWN VARIABLE", 
+		ModelAndView result = workboardController.addCsiroDataToWorkboard(1, "UNKNOWN VARIABLE", 
 				"A1B", "Hotter and Drier", "2030", "", model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
@@ -200,7 +250,7 @@ public class WorkboardControllerTest {
 		
 		// UNKNOWN SCENARIO
 		model = new ExtendedModelMap();
-		result = workboardController.addCsiroDataToWorkBoard(1, "Temperature", 
+		result = workboardController.addCsiroDataToWorkboard(1, "Temperature", 
 				"UNKNOWN SCENARIO", "Hotter and Drier", "2030", "", model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
@@ -208,58 +258,77 @@ public class WorkboardControllerTest {
 		
 		// UNKNOWN MODEL
 		model = new ExtendedModelMap();
-		result = workboardController.addCsiroDataToWorkBoard(1, "Temperature", 
+		result = workboardController.addCsiroDataToWorkboard(1, "Temperature", 
 				"A1B", "UNKNOWN MODEL", "2030", "", model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(ClimateParamsDao.ERR_NO_RESULT, model.get("errorMessage"));
 	}
 
+	
+	
+	/* --------------------------------------------------------------------- */
+	/* ---------------------- addCmarDataToWorkboard ---------------------- */
+	/* --------------------------------------------------------------------- */
+	
+	// TODO: ADD CMAR DATA
+	
+	
+	
+	/* --------------------------------------------------------------------- */
+	/* --------------------------- addWorkboard ---------------------------- */
+	/* --------------------------------------------------------------------- */
+	
 	/**
-	 * addWorkBoardAlreadyCurrentWorkboardTest : Creation should fail because the user already have a current workboard
+	 * addWorkBoardAlreadyCurrentWorkboardTest : Creation should fail because the region is not defined
 	 */
 	@Test
-	public void addWorkBoardAlreadyCurrentWorkboardTest() {
-		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+	public void addWorkboardRegionUndefinedTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedInNoWB);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
-		userStory.setName("addWorkBoardTest");
+		userStory.setName("addWorkBoardTestWithoutRegion");
 		ModelAndView result = workboardController.addWorkboard(userStory, model);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(WorkboardController.ERR_ALREADY_CURRENT_WORKBOARD, model.get("errorMessage"));
+		Assert.assertEquals(WorkboardController.ERR_REGION_NOT_DEFINED, model.get("errorMessage"));
 		
  		// Check the view name
  		Assert.assertEquals("workboard", result.getViewName());
 	}
 	
 	/**
-	 * addWorkBoardUnknownUserTest : Creation should fail because the user doesn't exist
+	 * addWorkBoardAlreadyCurrentWorkboardTest : Creation should fail because the user already have a current workboard
 	 */
 	@Test
-	public void addWorkBoardUnknownUserTest() {
-		User refUser = new User("UNKNOWNUSERNAME", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+	public void addWorkboardAlreadyCurrentWorkboardTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
-		userStory.setRegion(new Region("East Coast South"));
 		userStory.setName("addWorkBoardTest");
+		userStory.setRegion(new Region("East Coast South"));
 		ModelAndView result = workboardController.addWorkboard(userStory, model);
 
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserDao.ERR_NO_SUCH_USER, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(WorkboardController.ERR_ALREADY_CURRENT_WORKBOARD, model.get("warningMessage"));
+		
+ 		// Check the view name
+ 		Assert.assertEquals("workboard", result.getViewName());
 	}
+	
+
 	
 	/**
 	 * addWorkBoardUnknownUserTest : Creation should succeed and fill the :odelAndView with the new Workboard
 	 */
 	@Test
-	public void addWorkBoardTest() {
+	public void addWorkboardTest() {
 		// This user has no Workboard (= active user story) so a new workboard can be created
-		User refUser = new User("testuser3", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
+		SecurityContextHolder.setContext(securityContextUserLoggedInNoWB);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory refUserStory = new UserStory();
@@ -284,6 +353,12 @@ public class WorkboardControllerTest {
 		Assert.assertEquals("private", userStory.getAccess());
 	}
 	
+	
+	
+	/* --------------------------------------------------------------------- */
+	/* -------------------------- deleteWorkboard -------------------------- */
+	/* --------------------------------------------------------------------- */
+	
 	/**
 	 * deleteWorkboardUnknownIdTest : Delete should fail because the ID provided doesn't correspond to an existing Workboard
 	 */
@@ -305,6 +380,8 @@ public class WorkboardControllerTest {
 	 */
 	@Test
 	public void deleteWorkboardTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.deleteWorkboard(1, model);
 		
@@ -320,15 +397,35 @@ public class WorkboardControllerTest {
 		UserStory userStory = (UserStory)(result.getModelMap().get("userstory"));
 		
 		// Check the user story is active and private
-		User refUser = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
-		Assert.assertEquals(refUser, userStory.getOwner());
+		Assert.assertEquals(this.loggedInUser, userStory.getOwner());
 	}
+
 
 	/**
 	 * deleteDataElementUnknownIdTest : Delete should fail because the ID provided doesn't correspond to an existing data element
 	 */
 	@Test
+	public void deleteDataElementNotAuthTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedInNoWB);
+		
+		// Try to delete a data element which the user does not own
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.deleteDataElementFromUserStory(1, model);
+		
+		// Check the error message
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model);
+		Assert.assertEquals(this.loggedInUserNoWB, model.get("user"));
+		Assert.assertEquals("accessDenied", result.getViewName());
+	}
+	
+	/**
+	 * deleteDataElementUnknownIdTest : Delete should fail because the ID provided doesn't correspond to an existing data element
+	 */
+	@Test
 	public void deleteDataElementUnknownIdTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.deleteDataElementFromUserStory(99999, model);
 		
@@ -338,13 +435,37 @@ public class WorkboardControllerTest {
 		Assert.assertEquals(DataElementDao.ERR_NO_SUCH_DATA_ELEMENT, model.get("errorMessage"));
 	}
 	
+	
+	/**
+	 * deleteDataElementTest : Delete should fail since because the data element belongs to a user story (i.e. not workboard)
+	 */
+	@Test
+	public void deleteDataElementFromUserStoryTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		int id = 4; // ID of the data element to delete
+		ModelAndView result = workboardController.deleteDataElementFromUserStory(id, model);
+		
+		// Check the success message
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("successMessage"));
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(WorkboardController.ERR_DELETE_DATA_ELEMENT, model.get("errorMessage"));
+		
+ 		// Check the view name
+ 		Assert.assertEquals("workboard", result.getViewName());
+	}
+	
 	/**
 	 * deleteDataElementTest : Delete should succeed
 	 */
 	@Test
 	public void deleteDataElementTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
-		int id = 7; // ID of the data element to delete
+		int id = 3; // ID of the data element to delete
 		ModelAndView result = workboardController.deleteDataElementFromUserStory(id, model);
 		
 		// Check the success message

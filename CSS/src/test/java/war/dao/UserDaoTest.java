@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import security.UserLoginService;
 
-import war.model.UserAuthority;
 import war.model.User;
 
 @ContextConfiguration("/test-context.xml")

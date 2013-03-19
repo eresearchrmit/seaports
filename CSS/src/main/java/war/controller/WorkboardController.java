@@ -99,8 +99,8 @@ public class WorkboardController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ModelAndView getUserWorkBoard(@RequestParam(value="user",required=true) String username, Model model) {
-		logger.info("Inside getUserWorkBoard");
+	public ModelAndView getWorkboard(@RequestParam(value="user",required=true) String username, Model model) {
+		logger.info("Inside getWorkboard");
 		
 		try {
 			if (!(SecurityHelper.IsCurrentUserMatching(username))) // Security: ownership check
@@ -407,7 +407,7 @@ public class WorkboardController {
 	}
 	
 	@RequestMapping(value= "/addCsiroData", method = RequestMethod.POST)
-	public ModelAndView addCsiroDataToWorkBoard(
+	public ModelAndView addCsiroDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="climateVariable",required=true) String climateVariable,
 		@RequestParam(value="climateEmissionScenario",required=true) String climateEmissionScenario,
@@ -503,6 +503,9 @@ public class WorkboardController {
 				return ModelForWorkboard(model, currentWorkboard);
 			}
 			
+			if (userStory.getRegion() == null)
+				throw new IllegalArgumentException(WorkboardController.ERR_REGION_NOT_DEFINED);
+			
 			Region region = regionDao.find(userStory.getRegion().getName());
 			
 			userStory.setOwner(user);
@@ -560,7 +563,7 @@ public class WorkboardController {
 				model.addAttribute("successMessage", MSG_DATA_ELEMENT_DELETED);
 				return ModelForWorkboard(model, userStory);
 			}
-			else { // If the Data Element belogns to a User Story, don't delete and retrieve the actual workboard
+			else { // If the Data Element belongs to a User Story, don't delete and retrieve the actual workboard
 				UserStory workboard = userStoryDao.getWorkboard(userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
 				model.addAttribute("errorMessage", ERR_DELETE_DATA_ELEMENT);
 				return ModelForWorkboard(model, workboard);
@@ -669,6 +672,7 @@ public class WorkboardController {
 	public static final String ERR_ACCESS_DENIED = "You are not allowed to access this Workboard";
 	
 	public static final String ERR_ALREADY_CURRENT_WORKBOARD = "There is already a current workboard. Delete it or make a User Story before creating a new Workboard";
+	public static final String ERR_REGION_NOT_DEFINED = "Region is not defined";
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";
 	public static final String ERR_DELETE_DATA_ELEMENT = "The Data Element could not be deleted";
 	public static final String ERR_FILE_UPLOAD = "Unable to upload the file to your workboard";
