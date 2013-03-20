@@ -135,10 +135,11 @@ public class UserStoryControllerTest {
 		ModelAndView result = userStoryController.getUserStoriesList("UNKNOWNUSER", model);
 		
 		Assert.assertNotNull(result);
+		Assert.assertEquals(this.loggedInUser, result.getModelMap().get("user"));
+		Assert.assertEquals("userstoryList", result.getViewName());
+		
 		Assert.assertNotNull(model);
-		Assert.assertEquals(this.loggedInUser, model.get("user"));
-		// Check the view name
-		Assert.assertEquals("accessDenied", result.getViewName());
+		Assert.assertEquals(UserStoryController.ERR_RETRIEVE_USERSTORY_LIST, model.get("errorMessage"));
 	}
 	
 	/**
@@ -294,16 +295,16 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void changeUserStoryPrivacyPrivateTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
-		String login = "testuser1";
 		Integer id = 3;
 		
 		UserStory refUserstory = userStoryDao.find(id);
 		Assert.assertEquals("public", refUserstory.getAccess());
 		
-		//TODO : Fake Authentication with testuser1
 		String result = userStoryController.changeUserStoryPrivacy(id, true, model);
-		Assert.assertEquals("redirect:/auth/userstory/list?user=" + login, result);
+		Assert.assertEquals("redirect:/auth/userstory/list?user=" + loggedInUser.getUsername(), result);
 		Assert.assertNull(model.get("errorMessage"));
 		
 		UserStory changedUserstory = userStoryDao.find(id);

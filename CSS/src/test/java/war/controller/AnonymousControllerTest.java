@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -41,6 +42,7 @@ public class AnonymousControllerTest {
 	
 	@Before
 	public void prepareData() {
+		SecurityContextHolder.getContext().setAuthentication(null);
 	}
 
 	/* --------------------------------------------------------------------- */

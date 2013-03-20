@@ -50,12 +50,14 @@ public class UserStoryController {
 		
 		ModelAndView mav = new ModelAndView("userstoryList");
 		try {
-			if (!(SecurityHelper.IsCurrentUserMatching(username))) // Security: ownership check
-				throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			User curentUser = userDao.find(SecurityHelper.getCurrentlyLoggedInUsername());
+			mav.addObject("user", curentUser);
 			
 			// Retrieve user
 			User user = userDao.find(username);
-			mav.addObject("user", user);
+			
+			if (!(SecurityHelper.IsCurrentUserMatching(user.getUsername()))) // Security: ownership check
+				throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
 			// Retrieve user's Stories
 			List<UserStory> userStoriesList = userStoryDao.getUserStories(user);
