@@ -48,3 +48,29 @@ ALTER TABLE `seaports_test`.`dataelement_engineeringmodeldata`
 
   ON UPDATE CASCADE;
 
+
+
+ALTER TABLE `seaports_test`.`dataelement_cmardata` DROP FOREIGN KEY `FK9219EA5251873CC5` , DROP FOREIGN KEY `FK9219EA525C15E2A` ;
+
+ALTER TABLE `seaports_test`.`dataelement_cmardata` 
+
+  ADD CONSTRAINT `FK9219EA5251873CC5`
+
+  FOREIGN KEY (`CmarData_Id` )
+
+  REFERENCES `seaports_test`.`cmardata` (`id` )
+
+  ON DELETE CASCADE
+
+  ON UPDATE CASCADE, 
+
+  ADD CONSTRAINT `FK9219EA525C15E2A`
+
+  FOREIGN KEY (`DataElement_Id` )
+
+  REFERENCES `seaports_test`.`dataelement` (`id` )
+
+  ON DELETE CASCADE
+
+  ON UPDATE CASCADE;
+

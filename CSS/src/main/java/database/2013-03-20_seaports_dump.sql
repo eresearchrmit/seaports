@@ -85,8 +85,8 @@ CREATE TABLE `climateparams` (
   KEY `FK6D2A9DEBF00AAA5A` (`climate_model_id`),
   KEY `FK6D2A9DEB1E25895D` (`climate_emission_scenario_id`),
   KEY `FK6D2A9DEB3365D05` (`region_id`),
-  CONSTRAINT `FK6D2A9DEB3365D05` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
   CONSTRAINT `FK6D2A9DEB1E25895D` FOREIGN KEY (`climate_emission_scenario_id`) REFERENCES `climateemissionscenario` (`id`),
+  CONSTRAINT `FK6D2A9DEB3365D05` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
   CONSTRAINT `FK6D2A9DEBF00AAA5A` FOREIGN KEY (`climate_model_id`) REFERENCES `climatemodel` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -119,8 +119,8 @@ CREATE TABLE `cmardata` (
   PRIMARY KEY (`id`),
   KEY `FK8CBD7C65201EEBA` (`climate_params_id`),
   KEY `FK8CBD7C65B7D2D10B` (`climate_variable_id`),
-  CONSTRAINT `FK8CBD7C65B7D2D10B` FOREIGN KEY (`climate_variable_id`) REFERENCES `csirovariable` (`id`),
-  CONSTRAINT `FK8CBD7C65201EEBA` FOREIGN KEY (`climate_params_id`) REFERENCES `climateparams` (`id`)
+  CONSTRAINT `FK8CBD7C65201EEBA` FOREIGN KEY (`climate_params_id`) REFERENCES `climateparams` (`id`),
+  CONSTRAINT `FK8CBD7C65B7D2D10B` FOREIGN KEY (`climate_variable_id`) REFERENCES `csirovariable` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -152,8 +152,8 @@ CREATE TABLE `csirodata` (
   PRIMARY KEY (`id`),
   KEY `FK21F886A0201EEBA` (`climate_params_id`),
   KEY `FK21F886A0B7D2D10B` (`climate_variable_id`),
-  CONSTRAINT `FK21F886A0B7D2D10B` FOREIGN KEY (`climate_variable_id`) REFERENCES `csirovariable` (`id`),
-  CONSTRAINT `FK21F886A0201EEBA` FOREIGN KEY (`climate_params_id`) REFERENCES `climateparams` (`id`)
+  CONSTRAINT `FK21F886A0201EEBA` FOREIGN KEY (`climate_params_id`) REFERENCES `climateparams` (`id`),
+  CONSTRAINT `FK21F886A0B7D2D10B` FOREIGN KEY (`climate_variable_id`) REFERENCES `csirovariable` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -248,7 +248,7 @@ CREATE TABLE `dataelement` (
   PRIMARY KEY (`id`),
   KEY `FKA8035BD2994A1ED8` (`user_story_id`),
   CONSTRAINT `FKA8035BD2994A1ED8` FOREIGN KEY (`user_story_id`) REFERENCES `userstory` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -324,8 +324,8 @@ CREATE TABLE `dataelement_engineeringmodeldata` (
   `EngineeringModelData_Id` int(11) NOT NULL,
   KEY `FK3035230DC9652565` (`DataElement_Id`),
   KEY `FK3035230D907E0245` (`EngineeringModelData_Id`),
-  CONSTRAINT `FK3035230DC9652565` FOREIGN KEY (`DataElement_Id`) REFERENCES `dataelement` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK3035230D907E0245` FOREIGN KEY (`EngineeringModelData_Id`) REFERENCES `engineeringmodeldata` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK3035230D907E0245` FOREIGN KEY (`EngineeringModelData_Id`) REFERENCES `engineeringmodeldata` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK3035230DC9652565` FOREIGN KEY (`DataElement_Id`) REFERENCES `dataelement` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -392,9 +392,9 @@ CREATE TABLE `engineeringmodeldata` (
   KEY `FK188B6CC0201EEBA` (`climate_params_id`),
   KEY `FK188B6CC088AF3821` (`engineering_model_variable_id`),
   KEY `FK188B6CC02AA35D5B` (`engineering_model_asset_id`),
-  CONSTRAINT `FK188B6CC088AF3821` FOREIGN KEY (`engineering_model_variable_id`) REFERENCES `engineeringmodelvariable` (`id`),
   CONSTRAINT `FK188B6CC0201EEBA` FOREIGN KEY (`climate_params_id`) REFERENCES `climateparams` (`id`),
-  CONSTRAINT `FK188B6CC02AA35D5B` FOREIGN KEY (`engineering_model_asset_id`) REFERENCES `engineeringmodelasset` (`id`)
+  CONSTRAINT `FK188B6CC02AA35D5B` FOREIGN KEY (`engineering_model_asset_id`) REFERENCES `engineeringmodelasset` (`id`),
+  CONSTRAINT `FK188B6CC088AF3821` FOREIGN KEY (`engineering_model_variable_id`) REFERENCES `engineeringmodelvariable` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=225 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -534,9 +534,9 @@ CREATE TABLE `userstory` (
   PRIMARY KEY (`id`),
   KEY `FK8B05E3CA3365D05` (`region_id`),
   KEY `FK8B05E3CABFE5533` (`owner_login`),
-  CONSTRAINT `FK8B05E3CABFE5533` FOREIGN KEY (`owner_login`) REFERENCES `user` (`username`),
-  CONSTRAINT `FK8B05E3CA3365D05` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+  CONSTRAINT `FK8B05E3CA3365D05` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
+  CONSTRAINT `FK8B05E3CABFE5533` FOREIGN KEY (`owner_login`) REFERENCES `user` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -545,6 +545,7 @@ CREATE TABLE `userstory` (
 
 LOCK TABLES `userstory` WRITE;
 /*!40000 ALTER TABLE `userstory` DISABLE KEYS */;
+INSERT INTO `userstory` VALUES (13,'private','active','Title','gprevost',2);
 /*!40000 ALTER TABLE `userstory` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -557,4 +558,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-15 14:47:28
+-- Dump completed on 2013-03-20 13:38:37
