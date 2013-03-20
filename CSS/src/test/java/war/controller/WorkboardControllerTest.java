@@ -5,6 +5,7 @@ import junit.framework.Assert;
 import security.UserLoginService;
 import war.dao.ClimateEmissionScenarioDao;
 import war.dao.ClimateParamsDao;
+import war.dao.CmarDataDao;
 import war.dao.CsiroVariableDao;
 import war.dao.DataElementDao;
 import war.dao.UserStoryDao;
@@ -17,10 +18,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,32 +73,25 @@ public class WorkboardControllerTest {
 	 * getWorkboard should fail because user request the workboard of another user
 	 */
 	@Test
+	@ExpectedException(AccessDeniedException.class)
 	public void getWorkboardOfOtherUserTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.getWorkboard("testuser2", model);
-		
-		Assert.assertNotNull(result);
-		Assert.assertNotNull(model);
-		Assert.assertEquals(this.loggedInUser, model.get("user"));
-		Assert.assertEquals("accessDenied", result.getViewName());
+		workboardController.getWorkboard("testuser2", model);
 	}
 	
 	/**
 	 * getWorkboard should fail because user request the workboard of a non-existing user
 	 */
 	@Test
+	@ExpectedException(AccessDeniedException.class)
 	public void getWorkboardOfUnknownUserTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ModelAndView result = workboardController.getWorkboard("UNKNOWN USER", model);
-		Assert.assertNotNull(result);
-		Assert.assertNotNull(model);
-		Assert.assertEquals(this.loggedInUser, model.get("user"));
-		Assert.assertEquals("accessDenied", result.getViewName());
+		workboardController.getWorkboard("UNKNOWN USER", model);
 	}
 	
 	/**
@@ -165,31 +161,31 @@ public class WorkboardControllerTest {
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		MockMultipartFile mockMultipartFileText = new MockMultipartFile("content", "test.txt", "text/plain", "Hello World".getBytes());
-		workboardController.uploadfileinWorkBoard(mockMultipartFileText, 1, model);
+		workboardController.uploadfileinWorkboard(mockMultipartFileText, 1, model);
 		Assert.assertNull(model.get("errorMessage"));
 		
 		MockMultipartFile mockMultipartFileXml = new MockMultipartFile("content", "test.xml", "text/xml", "Hello World".getBytes());
-		workboardController.uploadfileinWorkBoard(mockMultipartFileXml, 1, model);
+		workboardController.uploadfileinWorkboard(mockMultipartFileXml, 1, model);
 		Assert.assertNull(model.get("errorMessage"));
 
 		MockMultipartFile mockMultipartFileHtml = new MockMultipartFile("content", "test.html", "text/html", "Hello World".getBytes());
-		workboardController.uploadfileinWorkBoard(mockMultipartFileHtml, 1, model);
+		workboardController.uploadfileinWorkboard(mockMultipartFileHtml, 1, model);
 		
 		MockMultipartFile mockMultipartFileCsv = new MockMultipartFile("content", "test.csv", "text/csv", "Hello World".getBytes());
-		workboardController.uploadfileinWorkBoard(mockMultipartFileCsv, 1, model);
+		workboardController.uploadfileinWorkboard(mockMultipartFileCsv, 1, model);
 		
 
 		MockMultipartFile mockMultipartFileJpeg = new MockMultipartFile("content", "test.jpeg", "image/jpeg", "Hello World".getBytes());
-		workboardController.uploadfileinWorkBoard(mockMultipartFileJpeg, 1, model);
+		workboardController.uploadfileinWorkboard(mockMultipartFileJpeg, 1, model);
 		Assert.assertNull(model.get("errorMessage"));
 		
-		MockMultipartFile mockMultipartFileGif = new MockMultipartFile("content", "test.gif", "image/gif", "Hello World".getBytes());
-		workboardController.uploadfileinWorkBoard(mockMultipartFileGif, 1, model);
+		/*MockMultipartFile mockMultipartFileGif = new MockMultipartFile("content", "test.gif", "image/gif", "Hello World".getBytes());
+		workboardController.uploadfileinWorkboard(mockMultipartFileGif, 1, model);
 		Assert.assertNull(model.get("errorMessage"));
 		
 		MockMultipartFile mockMultipartFilePng = new MockMultipartFile("content", "test.png", "image/png", "Hello World".getBytes());
-		workboardController.uploadfileinWorkBoard(mockMultipartFilePng, 1, model);
-		Assert.assertNull(model.get("errorMessage"));
+		workboardController.uploadfileinWorkboard(mockMultipartFilePng, 1, model);
+		Assert.assertNull(model.get("errorMessage"));*/
 	}
 	
 	@Test
@@ -198,7 +194,7 @@ public class WorkboardControllerTest {
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		MockMultipartFile mockMultipartFileText = new MockMultipartFile("content", "test.css", "text/css", "Hello World".getBytes());
-		workboardController.uploadfileinWorkBoard(mockMultipartFileText, 1, model);
+		workboardController.uploadfileinWorkboard(mockMultipartFileText, 1, model);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(WorkboardController.ERR_INVALID_FILETYPE, model.get("errorMessage"));
 	}
@@ -225,7 +221,24 @@ public class WorkboardControllerTest {
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addCsiroDataToWorkboard(1, 
-				"Temperature", "A1B", "Hotter and Drier", "2030", "", model);
+				"Temperature", "A1B", "Hotter and Drier", "2030", "on", model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+
+		Assert.assertEquals(WorkboardController.MSG_CSIRO_DATA_ADDED, model.get("successMessage"));
+	}
+	
+	/**
+	 * addCsiroDataToWorkBoardTest should succeed & return a confirmation message
+	 */
+	@Test
+	public void addCsiroDataToWorkboardWithoutPictureTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addCsiroDataToWorkboard(1, 
+				"Temperature", "A1B", "Hotter and Drier", "2030", null, model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertNull(model.get("errorMessage"));
@@ -271,7 +284,63 @@ public class WorkboardControllerTest {
 	/* ---------------------- addCmarDataToWorkboard ---------------------- */
 	/* --------------------------------------------------------------------- */
 	
-	// TODO: ADD CMAR DATA
+	
+	/**
+	 * addCmarDataToWorkboard should succeed & return a confirmation message
+	 */
+	@Test
+	public void addCmarDataToWorkboardTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addCmarDataToWorkboard(1, "2030", "on", model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+
+		Assert.assertNotNull(model.get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_CMAR_DATA_ADDED, model.get("successMessage"));
+	}
+	
+	/**
+	 * addCmarDataToWorkboard should succeed & return a confirmation message
+	 */
+	@Test
+	public void addCmarDataToWorkboardWithoutPicturesTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addCmarDataToWorkboard(1, "2030", null, model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+
+		Assert.assertNotNull(model.get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_CMAR_DATA_ADDED, model.get("successMessage"));
+	}
+	
+	
+	/**
+	 * addCmarDataToWorkboard should succeed & return a confirmation message
+	 */
+	@Test
+	public void addCmarDataToWorkboardBadParametersTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		// UNKNOWN USER STORY
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addCmarDataToWorkboard(99999, "2030", "on", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		
+		// UNKNOWN YEAR
+		model = new ExtendedModelMap();
+		result = workboardController.addCmarDataToWorkboard(1, "9999", "on", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(CmarDataDao.ERR_NO_RESULT, model.get("errorMessage"));
+	}
 	
 	
 	
@@ -401,22 +470,22 @@ public class WorkboardControllerTest {
 	}
 
 
+	
+	/* --------------------------------------------------------------------- */
+	/* ------------------------- deleteDataElement ------------------------- */
+	/* --------------------------------------------------------------------- */
+	
 	/**
-	 * deleteDataElementUnknownIdTest : Delete should fail because the ID provided doesn't correspond to an existing data element
+	 * deleteDataElementUnknownIdTest : Delete should fail because the ID provided doesn't belong to the user
 	 */
 	@Test
+	@ExpectedException(AccessDeniedException.class)
 	public void deleteDataElementNotAuthTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedInNoWB);
 		
 		// Try to delete a data element which the user does not own
 		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.deleteDataElementFromUserStory(1, model);
-		
-		// Check the error message
-		Assert.assertNotNull(result);
-		Assert.assertNotNull(model);
-		Assert.assertEquals(this.loggedInUserNoWB, model.get("user"));
-		Assert.assertEquals("accessDenied", result.getViewName());
+		workboardController.deleteDataElementFromUserStory(1, model);
 	}
 	
 	/**

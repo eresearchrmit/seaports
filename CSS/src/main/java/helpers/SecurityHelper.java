@@ -3,6 +3,7 @@ package helpers;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -66,26 +67,37 @@ public class SecurityHelper {
 	 * @return the username of the currently logged user, null otherwise
 	 */
 	public static String getCurrentlyLoggedInUsername() {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		UserDetails userDetails = null;
-		if (principal instanceof UserDetails) {
-		  userDetails = (UserDetails) principal;
-		  return userDetails.getUsername();
+		try {
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			UserDetails userDetails = null;
+			if (principal instanceof UserDetails) {
+			  userDetails = (UserDetails) principal;
+			  return userDetails.getUsername();
+			}
+			return (String)principal;
+			}
+		catch (NullPointerException ex) {
+			throw new AccessDeniedException(ex.getMessage());
 		}
-		return (String)principal;
 	}
 	
 	/**
 	 * Retrieve the authorities of the currently logged user
 	 * @return the authorities of the currently logged user
 	 */
-	private static Collection<GrantedAuthority> getCurrentlyLoggedInAuthorities() {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		UserDetails userDetails = null;
-		if (principal instanceof UserDetails) {
-		  userDetails = (UserDetails) principal;
-		  return userDetails.getAuthorities();
+	public static Collection<GrantedAuthority> getCurrentlyLoggedInAuthorities() {
+		try {
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		
+			UserDetails userDetails = null;
+			if (principal instanceof UserDetails) {
+			  userDetails = (UserDetails) principal;
+			  return userDetails.getAuthorities();
+			}
+			return new ArrayList<GrantedAuthority>();
 		}
-		return new ArrayList<GrantedAuthority>();
+		catch (NullPointerException ex) {
+			throw new AccessDeniedException(ex.getMessage());
+		}
 	}
 }

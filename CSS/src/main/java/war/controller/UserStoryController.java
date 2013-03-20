@@ -63,17 +63,11 @@ public class UserStoryController {
 			
 			// Define a title
 	 		model.addAttribute("listingTitle", "My Reports");
-
 		}
-		catch (AccessDeniedException e) {
-			return ModelForUserStoryAccessDenied(model);
-		}
-		catch (NullPointerException e) {
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", ERR_RETRIEVE_USERSTORY_LIST);
 		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
+
 		return mav;
 	}
 	
@@ -88,9 +82,6 @@ public class UserStoryController {
 			
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
-		}
-		catch (AccessDeniedException e) {
-			return ModelForUserStoryAccessDenied(model);
 		}
 		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -110,6 +101,7 @@ public class UserStoryController {
 	@RequestMapping(value= "/lock", method = RequestMethod.GET)
 	public String changeUserStoryPrivacy(@RequestParam(value="id",required=true) Integer id, @RequestParam(value="lock",required=true) Boolean lock, Model model) {
 		logger.info("Inside getUserStoriesList !");
+		
 		try {
 			UserStory userStory= userStoryDao.find(id);
 			
@@ -122,10 +114,10 @@ public class UserStoryController {
 				userStory.setAccess("public");
 			userStoryDao.save(userStory);
 		}
-		catch (AccessDeniedException e) {
-        	return "redirect:/accessDenied";
-        }
-		catch (Exception e) {
+		catch (IllegalArgumentException e) {
+			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+		}
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
 		return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
@@ -143,18 +135,17 @@ public class UserStoryController {
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
-			if (!(userStory.getMode().equals("published")))
-			{
+			if (!(userStory.getMode().equals("published"))) {
 				userStory.setMode("passive");
 				userStoryDao.save(userStory);
 			}
 			else
 				model.addAttribute("errorMessage", ERR_STORY_ALREADY_PUBLISHED);
 		}
-		catch (AccessDeniedException e) {
-        	return ModelForUserStoryAccessDenied(model);
-        }
-		catch (Exception e) {
+		catch (IllegalArgumentException e) {
+			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+		}
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
 		return ModelForUserStory(model, userStory);
@@ -202,10 +193,10 @@ public class UserStoryController {
 			}
 			model.addAttribute("successMessage", MSG_USERSTORY_SAVED);
 		}
-		catch (AccessDeniedException e) {
-        	return ModelForUserStoryAccessDenied(model);
-        }
-		catch (Exception e) {
+		catch (IllegalArgumentException e) {
+			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+		}
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
 		return ModelForUserStory(model, userStory);
@@ -225,10 +216,10 @@ public class UserStoryController {
 			
 			return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 		}
-		catch (AccessDeniedException e) {
-        	return "redirect:/accessDenied";
-        }
-		catch (Exception e) {
+		catch (IllegalArgumentException e) {
+			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);
+		}
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);
 		}
 		return "userstoryList";
@@ -250,10 +241,10 @@ public class UserStoryController {
 			dataElementDao.save(newTextItem);
 			userStory = userStoryDao.find(id);
 		}
-		catch (AccessDeniedException e) {
-        	return ModelForUserStoryAccessDenied(model);
-        }
-		catch (Exception e) {
+		catch (IllegalArgumentException e) {
+			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+		}
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
 		return ModelForUserStory(model, userStory);
@@ -274,12 +265,13 @@ public class UserStoryController {
 			dataElementDao.delete(dataElement);
 			userStory = userStoryDao.find(dataElement.getUserStory().getId());
 		}
-		catch (AccessDeniedException e) {
-        	return ModelForUserStoryAccessDenied(model);
-        }
-		catch (Exception e) {
+		catch (IllegalArgumentException e) {
 			model.addAttribute("errorMessage", ERR_REMOVE_TEXT);
 		}
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", ERR_REMOVE_TEXT);
+		}
+		
 		return ModelForUserStory(model, userStory);
 	}
 	
@@ -298,10 +290,10 @@ public class UserStoryController {
 			dataElementDao.save(dataElement);
 			userStory = userStoryDao.find(dataElement.getUserStory().getId());
 		}
-		catch (AccessDeniedException e) {
-        	return ModelForUserStoryAccessDenied(model);
-        }
- 		catch (NoResultException e) {
+		catch (IllegalArgumentException e) {
+ 			model.addAttribute("errorMessage", e.getMessage());
+		}
+		catch (NoResultException e) {
  			model.addAttribute("errorMessage", e.getMessage());
 		}
  		
@@ -338,14 +330,6 @@ public class UserStoryController {
 			model.addAttribute("userstory", userStory);
 		}
 		return new ModelAndView("userstory");
-	}
-	
-	private ModelAndView ModelForUserStoryAccessDenied(Model model) {
-		logger.debug("Inside ModelForUserStoryAccessDenied");
-
-		model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
-		
-		return new ModelAndView("accessDenied");
 	}
 	
 	public static final String ERR_ACCESS_DENIED = "You are not allowed to access this Story";

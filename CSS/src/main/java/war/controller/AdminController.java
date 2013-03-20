@@ -4,9 +4,12 @@ import helpers.SecurityHelper;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +42,12 @@ public class AdminController {
 		ModelAndView mav = new ModelAndView("userList");
 		
 		try {
-			model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
+			User currentUser = userDao.find(SecurityHelper.getCurrentlyLoggedInUsername());
+			
+			if (!(currentUser.getRoles().equals(UserLoginService.ROLE_ADMINISTRATOR))) // Security: admin rights check
+				throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+			model.addAttribute("user", currentUser);
 			
 			// Retrieve users list
 			List<User> usersList = userDao.getPeople();
@@ -47,13 +55,9 @@ public class AdminController {
 			
 			// Define a title
 	 		model.addAttribute("listingTitle", "All users");
-
 		}
 		catch (NullPointerException e) {
 			model.addAttribute("errorMessage", ERR_RETRIEVE_USERS_LIST);
-		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
 		}
 		
 		return mav;
@@ -64,23 +68,34 @@ public class AdminController {
 		logger.info("Inside userEnableDisable");
 		
 		try {
-			User user = userDao.find(username);
+			// Security: admin rights check
+			User currentUser = userDao.find(SecurityHelper.getCurrentlyLoggedInUsername());
+			if (!(currentUser.getRoles().equals(UserLoginService.ROLE_ADMINISTRATOR))) // Security: admin rights check
+				throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
+			// Prevent disabling Administrator accounts
+			User user = userDao.find(username);
 			if (user.getRoles().equals(UserLoginService.ROLE_ADMINISTRATOR))
 				throw new IllegalArgumentException(ERR_CANNOT_DISABLE_ADMIN);
 			
+			// Disable or enable the User account
 			if (isEnabled.equals("enable"))
 				user.setEnabled(true);
 			else if (isEnabled.equals("disable"))
 				user.setEnabled(false);
 			userDao.save(user);
 		}
-		catch (Exception e) {
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		catch (IllegalArgumentException e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		
 		return userList(model);
 	}
+	
+	public static final String ERR_ACCESS_DENIED = "You don't have the rights to access this page";
 	
 	public static final String ERR_RETRIEVE_USERS_LIST = "Impossible to retrieve the list of users";
 	public static final String ERR_CANNOT_DISABLE_ADMIN = "Administrator accounts cannot be disabled";

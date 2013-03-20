@@ -65,7 +65,10 @@ public class DataElementDao {
 	 * @return the saved data element
 	 */
 	@Transactional
-	public DataElement save(DataElement dataElement) {
+	public DataElement save(DataElement dataElement) throws IllegalArgumentException {
+		if (dataElement == null)
+			throw new IllegalArgumentException();
+		
 		if (dataElement.getId() == 0) {
 			entityManager.persist(dataElement);
 			return dataElement;
@@ -81,14 +84,16 @@ public class DataElementDao {
 	 * @param id: the unique ID of the data element to delete
 	 */
 	@Transactional
-	public void delete(DataElement de) {
+	public void delete(DataElement dataElement) throws IllegalArgumentException {
+		if (dataElement == null)
+			throw new IllegalArgumentException();
 		
 		// Delete the data element itself
 		Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.id = :id");
-		query.setParameter("id", de.getId()).executeUpdate();
+		query.setParameter("id", dataElement.getId()).executeUpdate();
 		
-		if (de instanceof DataElementEngineeringModel) {		
-			List<EngineeringModelData> dataList = ((DataElementEngineeringModel)de).getEngineeringModelDataList();
+		if (dataElement instanceof DataElementEngineeringModel) {		
+			List<EngineeringModelData> dataList = ((DataElementEngineeringModel)dataElement).getEngineeringModelDataList();
 			EngineeringModelAsset asset = dataList.get(0).getAsset();
 			
 			// This prevents the deletion of the pre-loaded examples of the engineering model data

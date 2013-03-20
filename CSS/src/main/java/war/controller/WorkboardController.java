@@ -86,16 +86,21 @@ public class WorkboardController {
 
 	
 	@RequestMapping(value= "/my-workboard", method = RequestMethod.GET)
-	public String getWorkBoard(Model model) {
-		logger.info("Inside getWorkBoard");
-				
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		UserDetails userDetails = null;
-		if (principal instanceof UserDetails) {
-		  userDetails = (UserDetails) principal;
-		}
+	public String getWorkboard(Model model) {
+		logger.info("Inside getWorkboard");
 		
-		return "redirect:/auth/workboard?user=" + userDetails.getUsername();
+		try {
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			UserDetails userDetails = null;
+			if (principal instanceof UserDetails) {
+			  userDetails = (UserDetails) principal;
+			}
+			
+			return "redirect:/auth/workboard?user=" + userDetails.getUsername();
+		}
+		catch (NullPointerException ex) {
+			return "redirect:/accessDenied";
+		}
 	}
 	
 	@RequestMapping(method = RequestMethod.GET)
@@ -113,20 +118,15 @@ public class WorkboardController {
 			}
 			return ModelForWorkboard(model, userStory);
 		}
-		catch (AccessDeniedException e) {
-			return ModelForWorkboardAccessDenied(model);
-		}
-		catch (NullPointerException e) {
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", WorkboardController.ERR_RETRIEVE_WORKBOARD);
 		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
+
 		return ModelForWorkboard(model, null);
 	}
 	
 	@RequestMapping(value= "/upload", method = RequestMethod.POST)
-	public ModelAndView uploadfileinWorkBoard(
+	public ModelAndView uploadfileinWorkboard(
 			@RequestParam(value="file",required=true) MultipartFile uploadfile,
 			@RequestParam(value="id",required=true) Integer userStoryId, 
 			Model model) {
@@ -143,8 +143,7 @@ public class WorkboardController {
         	String fileName = uploadfile.getOriginalFilename().substring(0, lastIndex);
             String fileExtension = uploadfile.getOriginalFilename().substring(lastIndex + 1);
             
-            // TODO: Confirm the list of allowed Extensions / MIME type
-            String[] arrAllowedFiletypes = {"image/jpeg", "image/gif", "image/png", "text/plain", "text/html", "text/csv", "text/xml"};
+            String[] arrAllowedFiletypes = {"image/jpeg", "text/plain", "text/html", "text/csv", "text/xml"};
             if(ArrayUtils.contains(arrAllowedFiletypes, uploadfile.getContentType())) {
             	DataElementFile dataElement = new DataElementFile(new Date(), fileName, true, 0, userStory, fileExtension, uploadfile.getBytes());
             	dataElementDao.save(dataElement);
@@ -155,10 +154,7 @@ public class WorkboardController {
             else
             	model.addAttribute("errorMessage", ERR_INVALID_FILETYPE);
         }
-        catch (AccessDeniedException e) {
-        	return ModelForWorkboardAccessDenied(model);
-        }
-        catch (Exception e) {
+        catch (IOException e) {
         	model.addAttribute("errorMessage", ERR_FILE_UPLOAD);
         }
         
@@ -166,14 +162,13 @@ public class WorkboardController {
 	}
 	
 	@RequestMapping(value= "/addEngineeringData", method = RequestMethod.POST)
-	public ModelAndView addEngineeringDataToWorkBoard(
+	public ModelAndView addEngineeringDataToWorkboard(
 			@RequestParam(value="file",required=true) MultipartFile uploadfile,
 			@RequestParam(value="sourceType",required=true) String sourceType,
 			@RequestParam(value="engVariable",required=true) String engVariableName,
 			@RequestParam(value="engVariableCategory",required=true) String engVariableCategory,
 			@RequestParam(value="id",required=true) Integer userStoryId, 
-			Model model)
-	throws IOException {
+			Model model) {
 		logger.info("Inside addEngineeringDataToWorkBoard");
 		
     	UserStory userStory = null;
@@ -254,13 +249,13 @@ public class WorkboardController {
     			}
     		}
         }
-    	catch (AccessDeniedException e) {
-    		return ModelForWorkboardAccessDenied(model);
-        }
     	catch (NoResultException e) {
     		model.addAttribute("warningMessage", e.getMessage());
         }
-        catch (Exception e) {
+        catch (InvalidFormatException e) {
+        	model.addAttribute("errorMessage", e.getMessage());
+        }
+        catch (IOException e) {
         	model.addAttribute("errorMessage", e.getMessage());
         }
         
@@ -441,10 +436,7 @@ public class WorkboardController {
 			
 			model.addAttribute("successMessage", WorkboardController.MSG_CSIRO_DATA_ADDED);
 		}
-		catch (AccessDeniedException e) {
-			return ModelForWorkboardAccessDenied(model);
-		}
-		catch (Exception e) {
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		
@@ -452,7 +444,7 @@ public class WorkboardController {
 	}
 	
 	@RequestMapping(value= "/addCmarData", method = RequestMethod.POST)
-	public ModelAndView addCmarDataToWorkBoard(
+	public ModelAndView addCmarDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="year",required=true) String year,
 		@RequestParam(value="includePictures",required=false) String includePictures, Model model)
@@ -480,10 +472,7 @@ public class WorkboardController {
 			
 			model.addAttribute("successMessage", WorkboardController.MSG_CMAR_DATA_ADDED);
 		}
-		catch (AccessDeniedException e) {
-			return ModelForWorkboardAccessDenied(model);
-		}
-		catch (Exception e) {
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		
@@ -517,9 +506,13 @@ public class WorkboardController {
 			
 			return ModelForWorkboard(model, userStory);
 		}
-		catch (Exception e) {
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
+		catch (IllegalArgumentException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		
 		return ModelForWorkboard(model, null);
 	}
 
@@ -536,10 +529,7 @@ public class WorkboardController {
 			userStoryDao.delete(userStory); // Deletes the Workboard
 			return ModelForWorkboardCreation(model, userStory.getOwner()); // Starts the creation of a new workboard
 		}
-		catch (AccessDeniedException e) {
-			return ModelForWorkboardAccessDenied(model);
-		}
-		catch (Exception e) {
+		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		return new ModelAndView("workboard");
@@ -569,15 +559,10 @@ public class WorkboardController {
 				return ModelForWorkboard(model, workboard);
 			}
 		}
-		catch (AccessDeniedException e) {
-			return ModelForWorkboardAccessDenied(model);
-		}
 		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", ERR_DELETE_DATA_ELEMENT);
-		}
+		
 		return ModelForWorkboard(model, null);
 	}
 	
@@ -659,14 +644,6 @@ public class WorkboardController {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		return mav;
-	}
-	
-	private ModelAndView ModelForWorkboardAccessDenied(Model model) {
-		logger.info("Inside ModelForWorkboardAccessDenied");
-		
-		model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
-		
-		return new ModelAndView("accessDenied");
 	}
 	
 	public static final String ERR_ACCESS_DENIED = "You are not allowed to access this Workboard";

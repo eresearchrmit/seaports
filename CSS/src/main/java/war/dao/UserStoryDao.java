@@ -137,7 +137,7 @@ public class UserStoryDao {
 	 * @return the saved user story
 	 */
 	@Transactional
-	public UserStory save(UserStory userStory) {
+	public UserStory save(UserStory userStory) throws IllegalArgumentException {
 		if (userStory == null || userStory.getName() == null || userStory.getName().isEmpty())
 			throw new IllegalArgumentException();
 				
@@ -160,7 +160,7 @@ public class UserStoryDao {
 	 * @param userStory: the user story to delete
 	 */
 	@Transactional
-	public void delete(UserStory userStory) {
+	public void delete(UserStory userStory) throws IllegalArgumentException {
 		if (userStory == null)
 			throw new IllegalArgumentException();
         

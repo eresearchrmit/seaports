@@ -29,26 +29,32 @@ public class TestDatabaseLoader {
 		session.beginTransaction();	
 
 		// Regions & Ports
-		Region r1 = new Region();
-		r1.setName("East Coast South");
+		Region r1 = new Region("East Coast South");
 		Seaport port1 = new Seaport();
-		port1.setName("Port Kembla");
+		port1.setName("PORT 1");
 		port1.setRegion(r1);
 		Seaport port2 = new Seaport();
-		port2.setName("Gladstone");
+		port2.setName("PORT 2");
 		port2.setRegion(r1);
 		Seaport port3 = new Seaport();
-		port3.setName("");
+		port3.setName("PORT 3");
 		port3.setRegion(r1);
 
-		Region r2 = new Region();
-		r2.setName("Western Australia");
+		Region r2 = new Region("Southern Slopes Vic East");
 		Seaport port4 = new Seaport();
-		port4.setName("Albany");
+		port4.setName("PORT 4");
 		port4.setRegion(r2);
 		Seaport port5 = new Seaport();
-		port5.setName("Geraldton");
+		port5.setName("PORT 5");
 		port5.setRegion(r2);
+		
+		Region r3 = new Region("Southern and South-Western Flatlands");
+		Seaport port6 = new Seaport();
+		port4.setName("PORT 6");
+		port4.setRegion(r3);
+		Seaport port7 = new Seaport();
+		port5.setName("PORT 7");
+		port5.setRegion(r3);
 		
 		session.save(r1);
 		session.save(port1);
@@ -57,6 +63,9 @@ public class TestDatabaseLoader {
 		session.save(r2);
 		session.save(port4);
 		session.save(port5);
+		session.save(r3);
+		session.save(port6);
+		session.save(port7);
 		
 		
 		// Add Users
@@ -182,14 +191,17 @@ public class TestDatabaseLoader {
 		}
 		
 		// Climate Variables
-		ArrayList<CsiroVariable> climVarsList = new ArrayList<CsiroVariable>();
-		climVarsList.add(new CsiroVariable("Temperature", "T", "Forecasted hange of temperature from now", "�C"));
-		climVarsList.add(new CsiroVariable("Wind speed", "WS", "Forecasted wind speed", "%"));
-		climVarsList.add(new CsiroVariable("Rainfall", "RF", "Forecasted rain fall", "%"));
-		climVarsList.add(new CsiroVariable("Relative humidity", "RH", "Forecasted relative humidity", "%"));
-		for (CsiroVariable variable : climVarsList) {
+		ArrayList<CsiroVariable> csiroVarsList = new ArrayList<CsiroVariable>();
+		csiroVarsList.add(new CsiroVariable("Temperature", "T", "Forecasted hange of temperature from now", "&#8451;", "&#8451;"));
+		csiroVarsList.add(new CsiroVariable("Wind speed", "WS", "Forecasted wind speed", "km/h", "%"));
+		csiroVarsList.add(new CsiroVariable("Rainfall", "RF", "Forecasted rain fall", "mm/y", "%"));
+		csiroVarsList.add(new CsiroVariable("Relative humidity", "RH", "Forecasted relative humidity", "%"));
+		for (CsiroVariable variable : csiroVarsList) {
 			session.save(variable);
 		}
+		CsiroVariable slr = new CsiroVariable("Sea Level Rise", "SLR", "Forecasted sea level rise", "mm");
+		session.save(slr);
+		
 		// Engineering variables
 		ArrayList<EngineeringModelVariable> engVarsList = new ArrayList<EngineeringModelVariable>();
 		// Chloride
@@ -230,6 +242,13 @@ public class TestDatabaseLoader {
 		paramsList.add(new ClimateParams(r2, ipsl_cm4, "Colder and Wetter", A1B));
 		paramsList.add(new ClimateParams(r2, ipsl_cm4, "Colder and Wetter", A1FI));
 		
+		paramsList.add(new ClimateParams(r3, miroc_3_2_medres, "Hotter and Drier", A1B));
+		paramsList.add(new ClimateParams(r3, miroc_3_2_medres, "Hotter and Drier", A1FI));
+		paramsList.add(new ClimateParams(r3, csiro_mk3_5, "Most Likely", A1B));
+		paramsList.add(new ClimateParams(r3, csiro_mk3_5, "Most Likely", A1FI));
+		paramsList.add(new ClimateParams(r3, ipsl_cm4, "Colder and Wetter", A1B));
+		paramsList.add(new ClimateParams(r3, ipsl_cm4, "Colder and Wetter", A1FI));
+		
 		for (ClimateParams parameter : paramsList) {
 			session.save(parameter);
 		}
@@ -238,7 +257,7 @@ public class TestDatabaseLoader {
 		Random randomGenerator = new Random();
 		ArrayList<CsiroData> csirodata = new ArrayList<CsiroData>(); 
 		for (ClimateParams parameter : paramsList) {
-			for (CsiroVariable variable : climVarsList) {
+			for (CsiroVariable variable : csiroVarsList) {
 				csirodata.add(new CsiroData(date, parameter, variable, 2030, randomGenerator.nextDouble(), null));
 				csirodata.add(new CsiroData(date, parameter, variable, 2055, randomGenerator.nextDouble(), null));
 				csirodata.add(new CsiroData(date, parameter, variable, 2070, randomGenerator.nextDouble(), null));
@@ -249,13 +268,13 @@ public class TestDatabaseLoader {
 		}
 		
 		// CSIRO Baseline data
-		CsiroDataBaseline baselineData = new CsiroDataBaseline(date, r1, climVarsList.get(0), 16.1);
+		CsiroDataBaseline baselineData = new CsiroDataBaseline(date, r1, csiroVarsList.get(0), 16.1);
 		session.save(baselineData);
-		baselineData = new CsiroDataBaseline(date, r1, climVarsList.get(1), 1.0); // TODO: Replace with actual Value
+		baselineData = new CsiroDataBaseline(date, r1, csiroVarsList.get(1), 1.0); // TODO: Replace with actual Value
 		session.save(baselineData);
-		baselineData = new CsiroDataBaseline(date, r1, climVarsList.get(2), 1029.8);
+		baselineData = new CsiroDataBaseline(date, r1, csiroVarsList.get(2), 1029.8);
 		session.save(baselineData);
-		baselineData = new CsiroDataBaseline(date, r1, climVarsList.get(3), 74.8);
+		baselineData = new CsiroDataBaseline(date, r1, csiroVarsList.get(3), 74.8);
 		session.save(baselineData);
 		
 		ArrayList<CsiroData> csiroDataList = new ArrayList<CsiroData>();
@@ -267,6 +286,7 @@ public class TestDatabaseLoader {
 	    DataElementCsiro de7 = new DataElementCsiro(date, "CSIRO Data Element Test", true, 0, user1wb, csiroDataList, true);
 	    session.save(de7);
 	    
+	    // CMAR data
 	    
 	    // Engineering Model Asset
 	    EngineeringModelAsset asset = new EngineeringModelAsset("006B", "Pile No 6 @ Berth 08", 1991, "atmospheric", 2.0, "C2", "CB3", "CL1", 60.0, 1300.0, 60.0, 0.37, 300.0, 13.0);
@@ -285,6 +305,11 @@ public class TestDatabaseLoader {
 				EngineeringModelData data = new EngineeringModelData(asset, parameter, engVarsList.get(0), values);
 				session.save(data);
 				engineeringModelDataList.add(data);
+			}
+			
+			if (parameter.getEmissionScenario().getName().equals("A1B") && parameter.getModelName().equals("Most Likely")) {
+				session.save(new CmarData(date, parameter, slr, 2030, "-34.5,151.5,167;-33.5,152.5,176;-32.5,152.5,168;-31.5,153.5,166;-30.5,153.5,164;-29.5,153.5,163;-28.5,153.5,159", null));
+				session.save(new CmarData(date, parameter, slr, 2070, "-34.5,151.5,437;-33.5,152.5,447;-32.5,152.5,445;-31.5,153.5,439;-30.5,153.5,436;-29.5,153.5,434;-28.5,153.5,429", null));
 			}
 		}
 		DataElementEngineeringModel de8 = new DataElementEngineeringModel(date, "Data Element for " + engVarsList.get(0), true, 0, user1wb, engineeringModelDataList);

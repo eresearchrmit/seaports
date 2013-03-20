@@ -20,7 +20,7 @@ import org.springframework.ui.ExtendedModelMap;
 public class UserControllerTest {
 	
 	@Autowired
-	private UserController personController;
+	private UserController userController;
 
 	User userForTest;
 	
@@ -35,7 +35,7 @@ public class UserControllerTest {
 	@Test
 	public void registerNewUserSuccessTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		String result = personController.registerNewUser(userForTest, model);
+		String result = userController.registerNewUser(userForTest, model);
 		
 		Assert.assertNotNull(result);		
 		Assert.assertEquals("login", result);
@@ -49,7 +49,7 @@ public class UserControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		User user = userForTest;
 		user.setUsername(null);
-		String result = personController.registerNewUser(user, model);
+		String result = userController.registerNewUser(user, model);
 		
 		Assert.assertNotNull(result);		
 		Assert.assertEquals("register", result);
@@ -65,7 +65,7 @@ public class UserControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		User user = userForTest;
 		user.setUsername("");
-		String result = personController.registerNewUser(user, model);
+		String result = userController.registerNewUser(user, model);
 		
 		Assert.assertNotNull(result);		
 		Assert.assertEquals("register", result);
@@ -81,7 +81,7 @@ public class UserControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		User user = userForTest;
 		user.setPassword(null);
-		String result = personController.registerNewUser(user, model);
+		String result = userController.registerNewUser(user, model);
 		
 		Assert.assertNotNull(result);		
 		Assert.assertEquals("register", result);
@@ -97,7 +97,7 @@ public class UserControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		User user = userForTest;
 		user.setPassword("abcd");
-		String result = personController.registerNewUser(user, model);
+		String result = userController.registerNewUser(user, model);
 		
 		Assert.assertNotNull(result);		
 		Assert.assertEquals("register", result);
@@ -113,7 +113,7 @@ public class UserControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		User user = userForTest;
 		user.setFirstname(null);
-		String result = personController.registerNewUser(user, model);
+		String result = userController.registerNewUser(user, model);
 		
 		Assert.assertNotNull(result);		
 		Assert.assertEquals("register", result);
@@ -129,7 +129,7 @@ public class UserControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		User user = userForTest;
 		user.setFirstname("");
-		String result = personController.registerNewUser(user, model);
+		String result = userController.registerNewUser(user, model);
 		
 		Assert.assertNotNull(result);		
 		Assert.assertEquals("register", result);
@@ -145,7 +145,7 @@ public class UserControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		User user = userForTest;
 		user.setLastname(null);
-		String result = personController.registerNewUser(user, model);
+		String result = userController.registerNewUser(user, model);
 		
 		Assert.assertNotNull(result);		
 		Assert.assertEquals("register", result);
@@ -161,7 +161,7 @@ public class UserControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		User user = userForTest;
 		user.setLastname("");
-		String result = personController.registerNewUser(user, model);
+		String result = userController.registerNewUser(user, model);
 		
 		Assert.assertNotNull(result);		
 		Assert.assertEquals("register", result);
@@ -175,7 +175,7 @@ public class UserControllerTest {
 	@Test
 	public void loginValidationSuccessTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		String result = personController.loginValidation(userForTest, model);
+		String result = userController.loginValidation(userForTest, model);
 		
 		Assert.assertNotNull(result);		
 		Assert.assertEquals("redirect:/auth/workboard?user=" + userForTest.getUsername(), result);
@@ -187,7 +187,7 @@ public class UserControllerTest {
 	@Test
 	public void loginValidationNullPersonTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		String result = personController.loginValidation(null, model);
+		String result = userController.loginValidation(null, model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
@@ -206,7 +206,7 @@ public class UserControllerTest {
 		p.setRoles(UserLoginService.ROLE_USER);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
-		String result = personController.loginValidation(p, model);
+		String result = userController.loginValidation(p, model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
@@ -225,7 +225,7 @@ public class UserControllerTest {
 		p.setRoles(UserLoginService.ROLE_USER);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
-		String result = personController.loginValidation(p, model);
+		String result = userController.loginValidation(p, model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
@@ -240,7 +240,7 @@ public class UserControllerTest {
 	public void loginValidationPasswordInvalidTest() {
 		User u= new User("testuser1", "WRONGPASSWORD", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		ExtendedModelMap model = new ExtendedModelMap();
-		String result = personController.loginValidation(u, model);
+		String result = userController.loginValidation(u, model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertEquals("login", result);
