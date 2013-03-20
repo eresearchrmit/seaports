@@ -56,7 +56,7 @@ public class UserStoryController {
 			// Retrieve user
 			User user = userDao.find(username);
 			
-			if (!(SecurityHelper.IsCurrentUserMatching(user.getUsername()))) // Security: ownership check
+			if (!(SecurityHelper.IsCurrentUserMatching(user.getUsername()) || SecurityHelper.IsCurrentUserAdmin())) // Security: ownership check
 				throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
 			// Retrieve user's Stories

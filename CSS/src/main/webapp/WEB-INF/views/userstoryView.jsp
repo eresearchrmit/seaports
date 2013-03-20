@@ -15,22 +15,24 @@
 
 <div class="grid_12">
 
-	<a href="javascript: window.print()" id="btnPrint" style="margin-right: 10px; float:right">
-		<button class="btnAddDataElement btn btn-icon btn-blue btn-print">
-			<span></span>Print
-		</button>
-	</a>
-	
-	<a href="javascript: window.close()" id="btnClosePreview" style="margin-right: 10px; float:right">
-		<button class="btnAddDataElement btn btn-icon btn-blue btn-arrow-left">
-			<span></span>Close Preview
-		</button>
-	</a>
-	<div class="clear"></div>
-	<center>
-		<h2>${userstory.name} </h2>
-		<h4>${userstory.region.name}</h4>
-	</center>
+	<c:if test="${not empty userstory}">
+		<a href="javascript: window.print()" id="btnPrint" style="margin-right: 10px; float:right">
+			<button class="btnAddDataElement btn btn-icon btn-blue btn-print">
+				<span></span>Print
+			</button>
+		</a>
+		
+		<a href="javascript: window.close()" id="btnClosePreview" style="margin-right: 10px; float:right">
+			<button class="btnAddDataElement btn btn-icon btn-blue btn-arrow-left">
+				<span></span>Close Preview
+			</button>
+		</a>
+		<div class="clear"></div>
+		<center>
+			<h2>${userstory.name} </h2>
+			<h4>${userstory.region.name}</h4>
+		</center>
+	</c:if>
 	
 	<br />
 	<c:if test="${not empty successMessage}">
@@ -52,10 +54,11 @@
 	<c:if test="${not empty errorMessage}">
 		<div class="message error">
 			<h5>Error</h5>
-			<p>${errorMessage}.</p>
+			<p>${errorMessage}</p>
 		</div>
 	</c:if>
 	
+	<c:if test="${not empty userstory}">
 	<p style="text-align:left; width:90%; margin-right:auto;margin-left:auto">This report has been created by ${userstory.owner.firstname} ${userstory.owner.lastname} (${userstory.owner.email}) using the Climate Smart Seaports toolkit available at <a href="http://www.DOMAIN.com.au">http://www.DOMAIN.com.au</a></p>
 	<br/><br/><br/>
 	
@@ -97,6 +100,7 @@
 		</c:if>
 		</c:forEach>
 	</div>
+	</c:if>
 	</c:if>
 	<div class="clearfix"></div><br />
 </div>

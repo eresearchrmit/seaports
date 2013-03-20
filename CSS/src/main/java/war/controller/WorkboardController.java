@@ -108,7 +108,7 @@ public class WorkboardController {
 		logger.info("Inside getWorkboard");
 		
 		try {
-			if (!(SecurityHelper.IsCurrentUserMatching(username))) // Security: ownership check
+			if (!(SecurityHelper.IsCurrentUserMatching(username) || SecurityHelper.IsCurrentUserAdmin())) // Security: ownership check
 				throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
 			User user = userDao.find(username);
@@ -653,7 +653,7 @@ public class WorkboardController {
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";
 	public static final String ERR_DELETE_DATA_ELEMENT = "The Data Element could not be deleted";
 	public static final String ERR_FILE_UPLOAD = "Unable to upload the file to your workboard";
-	public static final String ERR_INVALID_FILETYPE = "This file format is not handled by the application (only text, xml, html, jpeg, png and gif files are allowed).";
+	public static final String ERR_INVALID_FILETYPE = "This file format is not handled by the application (only text, xml, html and jpeg files are allowed).";
 	
 	public static final String MSG_CSIRO_DATA_ADDED = "The CSIRO Data has been added successfully to your workboard";
 	public static final String MSG_CMAR_DATA_ADDED = "The CMAR Data has been added successfully to your workboard";

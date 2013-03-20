@@ -25,7 +25,7 @@
 			<span></span>Preview the report
 		</button>
 	</a>
-	<a href="/CSS/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">
+	<a href="#" target="_blank" style="margin-right: 10px; float:right">
 		<button class="btnAddDataElement btn btn-icon btn-grey btn-globe" >
 			<span></span>Publish the report
 		</button>

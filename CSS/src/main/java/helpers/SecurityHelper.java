@@ -46,7 +46,7 @@ public class SecurityHelper {
 		if (story.getOwner() == null)
 			throw new IllegalArgumentException();
 		
-		return IsCurrentUserMatching(story.getOwner().getUsername());
+		return IsCurrentUserMatching(story.getOwner().getUsername()) || IsCurrentUserAdmin();
 	}
 	
 	/**
