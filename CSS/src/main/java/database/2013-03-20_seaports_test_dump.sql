@@ -248,7 +248,7 @@ CREATE TABLE `dataelement` (
   PRIMARY KEY (`id`),
   KEY `FKA8035BD2994A1ED8` (`user_story_id`),
   CONSTRAINT `FKA8035BD2994A1ED8` FOREIGN KEY (`user_story_id`) REFERENCES `userstory` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=125 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -540,7 +540,7 @@ CREATE TABLE `userstory` (
   KEY `FK8B05E3CABFE5533` (`owner_login`),
   CONSTRAINT `FK8B05E3CABFE5533` FOREIGN KEY (`owner_login`) REFERENCES `user` (`username`),
   CONSTRAINT `FK8B05E3CA3365D05` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -562,4 +562,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-03-20 13:39:01
+-- Dump completed on 2013-03-21 10:59:43
