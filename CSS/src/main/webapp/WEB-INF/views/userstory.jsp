@@ -86,29 +86,33 @@
 						<input type="hidden" name="dataElements[${status.index}].name" value="${dataelement.name}" id="dataElements[${status.index}].name">
 						<input type="hidden" name="dataElements[${status.index}].position" value="${dataelement.position}" id="dataElements[${status.index}].position" class="dataElementPosition">
 						
-						<!-- CSIRO Data Element -->
-						<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
-	 						<jsp:include page="dataElementCsiro.jsp" />
-	 					</c:if>
-	 					
-	 					<!-- CMAR Data Element -->
-						<c:if test="${dataelement.class.simpleName == 'DataElementCmar'}">
-	 						<jsp:include page="dataElementCmar.jsp" />
-	 					</c:if>
-						
-						<!-- Engineering Model Data Element -->
-						<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
-	 						<jsp:include page="dataElementEngineeringModel.jsp" />
-	 					</c:if>
-
-						<!-- File Data Element, display a picture if JPEG, textarea with content otherwise -->
-						<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">
-		 					<jsp:include page="dataElementFile.jsp" />
-						</c:if>
-					
 						<!-- Text comment data element -->
 					 	<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
-							<textarea name="comments" rows="12" onfocus="if ($(this).val() == 'Add text here...') { $(this).val(''); }" onblur="if ($(this).val() == '') { $(this).val('Add text here...'); }">${dataelement.text}</textarea>	
+							<textarea name="comments" class="tinymce" rows="12">${dataelement.text}</textarea>	
+                 		</c:if>
+                 		
+						<c:if test="${dataelement.class.simpleName != 'DataElementText'}">
+							<div class="box-content">
+								<!-- CSIRO Data Element -->
+								<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
+			 						<jsp:include page="dataElementCsiro.jsp" />
+			 					</c:if>
+			 					
+			 					<!-- CMAR Data Element -->
+								<c:if test="${dataelement.class.simpleName == 'DataElementCmar'}">
+			 						<jsp:include page="dataElementCmar.jsp" />
+			 					</c:if>
+								
+								<!-- Engineering Model Data Element -->
+								<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
+			 						<jsp:include page="dataElementEngineeringModel.jsp" />
+			 					</c:if>
+		
+								<!-- File Data Element, display a picture if JPEG, textarea with content otherwise -->
+								<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">
+				 					<jsp:include page="dataElementFile.jsp" />
+								</c:if>
+	                 		</div>
                  		</c:if>
 					</div>
 				</li>
@@ -117,9 +121,32 @@
 				</c:if>
 			</c:forEach>
 			</ul>
+
+			<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/tiny_mce/tiny_mce.js" />"></script>
+			<script type="text/javascript">
+				tinyMCE.init({
+			        // General options
+			        mode : "textareas",
+			        theme : "advanced",
+			        plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+			
+			        // Theme options
+			        theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,sub,sup,charmap,|,bullist,numlist,blockquote,outdent,indent,|,justifyleft,justifycenter,justifyright,justifyfull" 
+			        	 + "fontselect,fontsizeselect,forecolor,backcolor,formatselect,|,link,unlink,|,insertdate,inserttime,|,cleanup,code,|,help",
+			        theme_advanced_buttons2 : "",
+			        theme_advanced_buttons3 : "",
+			        theme_advanced_buttons4 : "",
+			        theme_advanced_toolbar_location : "top",
+			        theme_advanced_toolbar_align : "left",
+			        theme_advanced_statusbar_location : "bottom",
+			        theme_advanced_resizing : false,
+			        width: "100%"
+				});
+			</script>
 			
 			<script type="text/javascript">
 				$(document).ready(function () {
+					
 					// Resize the sortable list items 2 by 2 to have a proper grid
 					//resizeListItems();
 					

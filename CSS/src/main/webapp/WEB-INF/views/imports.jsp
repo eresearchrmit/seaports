@@ -64,6 +64,7 @@
 <!-- END: load jqplot -->
 
 <script language="javascript" type="text/javascript" src="<c:url value="/resources/js/pretty-photo/jquery.prettyPhoto.js" />"></script>
+
 <script language="javascript" type="text/javascript" src="<c:url value="/resources/js/setup.js" />"></script>
 
 <script type="text/javascript">

@@ -22,25 +22,27 @@
 					<input name="dataElements[${status.index}].fileid" value="${dataelement.id}" type="hidden">
 					<input name="dataElements[${status.index}].filename" value="${dataelement.name}" type="hidden">
 					
-					<!-- CSIRO Data Element -->
-	 				<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
-	 					<jsp:include page="dataElementCsiro.jsp" />
-	 				</c:if>
-	 				
-	 				<!-- CMAR Data Element -->
-	 				<c:if test="${dataelement.class.simpleName == 'DataElementCmar'}">
-	 					<jsp:include page="dataElementCmar.jsp" />
-	 				</c:if>
-	 				
-	 				<!-- Engineering Model Data Element -->
-	 				<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
-	 					<jsp:include page="dataElementEngineeringModel.jsp" />
-	 				</c:if>
-	 				
-	 				<!-- File Data Element, display a picture if JPEG, textarea with content otherwise -->
-					<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">
-	 					<jsp:include page="dataElementFile.jsp" />
-					</c:if>
+					<div class="box-content">
+						<!-- CSIRO Data Element -->
+		 				<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
+		 					<jsp:include page="dataElementCsiro.jsp" />
+		 				</c:if>
+		 				
+		 				<!-- CMAR Data Element -->
+		 				<c:if test="${dataelement.class.simpleName == 'DataElementCmar'}">
+		 					<jsp:include page="dataElementCmar.jsp" />
+		 				</c:if>
+		 				
+		 				<!-- Engineering Model Data Element -->
+		 				<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
+		 					<jsp:include page="dataElementEngineeringModel.jsp" />
+		 				</c:if>
+		 				
+		 				<!-- File Data Element, display a picture if JPEG, textarea with content otherwise -->
+						<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">
+		 					<jsp:include page="dataElementFile.jsp" />
+						</c:if>
+					</div>
 				</div>
 			</c:if>
 	</c:forEach>
