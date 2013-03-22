@@ -39,7 +39,7 @@
 		class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 		<beans:property name="definitions" value="/WEB-INF/tiles.xml" />
 	</beans:bean>
-	
+
 	<!-- Imports user-defined @Controller beans that process client requests -->
 	<beans:import resource="controllers.xml" />
 	

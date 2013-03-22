@@ -11,16 +11,20 @@
 	</div>
 	
 	<div class="box round first" style="text-align:center">
-		<h3>Connect Now</h3>
-		<div class="block">
-			<input type="button" class="btn btn-blue" value="Log In" onclick="location.href='/CSS/auth/workboard/my-workboard'" />&nbsp;
-			<input type="button" class="btn btn-blue" value="Sign Up" onclick="location.href='/CSS/register'" />
+		<div class="box-content">
+			<h3>Connect Now</h3>
+			<div class="block">
+				<input type="button" class="btn btn-blue" value="Log In" onclick="location.href='/CSS/auth/workboard/my-workboard'" />&nbsp;
+				<input type="button" class="btn btn-blue" value="Sign Up" onclick="location.href='/CSS/register'" />
+			</div>
 		</div>
 	</div>
 	<h3 style="text-align: center">OR</h3>
 	<div class="box round first" style="text-align:center">
-		<h3>Search for User Stories</h3>
-		Search <input type="text" width="400px" /> <input type="button" class="btn btn-grey" value="Search" />
+		<div class="box-content">
+			<h3>Search for User Stories</h3>
+			Search <input type="text" width="400px" /> <input type="button" class="btn btn-grey" value="Search" />
+		</div>
 	</div>
 	<p>
 		<center>

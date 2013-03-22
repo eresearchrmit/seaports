@@ -24,7 +24,7 @@ import war.dao.UserDao;
 import war.model.User;
 
 /**
- * Sample controller for going to the home page with a message
+ * Controller for the administration tool
  */
 @Controller
 @RequestMapping("admin")

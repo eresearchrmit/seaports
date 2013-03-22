@@ -73,5 +73,10 @@
 		<put-attribute name="title" value="Users list - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/userList.jsp" />
 	</definition>
+	
+	<definition name="pdfView" extends="base.definition">
+		<put-attribute name="title" value="Users list - Climate Smart Seaports" />
+		<put-attribute name="body" value="/WEB-INF/views/RevenueSummary.jsp" />
+	</definition>
 	<!-- /PAGE SPECIFIC -->
 </tiles-definitions>

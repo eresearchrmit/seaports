@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.NoResultException;
 import javax.validation.Valid;
 
+
 import war.dao.*;
 import war.model.*;
 
@@ -99,6 +100,15 @@ public class UserStoryController {
 		mav.setViewName("userstoryView");
 		return mav;
 	}
+	
+	@RequestMapping(value= "/view-pdf", method = RequestMethod.GET)
+	protected ModelAndView getUserStoryPdfView(@RequestParam(value="id",required=true) Integer id, Model model) throws Exception {
+		logger.info("Inside getUserStoryView");
+		
+		ModelAndView mav = getUserStory(id, model);
+		mav.setViewName("userStoryPdfView");
+		return mav;
+	}	
 	
 	@RequestMapping(value= "/lock", method = RequestMethod.GET)
 	public String changeUserStoryPrivacy(@RequestParam(value="id",required=true) Integer id, @RequestParam(value="lock",required=true) Boolean lock, Model model) {
