@@ -27,7 +27,7 @@
 						<td class="top center">
 							<c:choose>
 							<c:when test="${not empty csiroData.stringPicture}">
-								<img name="${csiroData.variable.name}" src="data:image/png;charset=utf-8;base64,${csiroData.stringPicture}" class="dataelementIllustrationPicture" />
+								<img name="${csiroData.variable.name}" src="data:image/png;charset=utf-8;base64,${csiroData.stringPicture}" class="dataelementIllustrationPicture csiroIllustrationPicture" />
 							</c:when>
 							<c:otherwise>
 								No map available

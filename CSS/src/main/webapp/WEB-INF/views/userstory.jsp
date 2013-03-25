@@ -163,7 +163,7 @@
 								element.find(".dataElementPosition").attr("value", (i + 1));
 							}
 							// Resize the sortable list items 2 by 2 to have a proper grid
-							resizeListItems();
+							//resizeListItems();
 			            }
 					});
 					$( "#sortable" ).disableSelection();

@@ -168,7 +168,7 @@
 		</div>
 		
 		<div id="tabs-summary">
-		<c:set var="dataelements" scope="request" value="${dataelements}"/>
+			<c:set var="dataelements" scope="request" value="${dataelements}"/>
 			<c:set var="dataelementsfilter" scope="request" value="All"/>
 			<jsp:include page="dataElements.jsp" />
 		</div>

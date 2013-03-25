@@ -43,7 +43,7 @@ public class DatabaseLoader {
 		
 		UserStory us = new UserStory();
 		us.setName("My User Story");
-		us.setRegion(new Region("East Coast South"));
+		//us.setRegion(new Region("East Coast South"));
 		us.setMode("passive");
 		us.setAccess("private");
 		us.setOwner(p1);
@@ -73,10 +73,10 @@ public class DatabaseLoader {
 		session.save(text1);
 		session.save(de3);
 		session.save(text2);
-		
+	
 		CsiroDataLoader.LoadCsiroData(session);
 		EngineeringModelDataLoader.LoadEngineeringModelData(session);
-	
+		
 		session.getTransaction().commit();
 	}
 }

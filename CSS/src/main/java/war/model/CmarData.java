@@ -72,7 +72,7 @@ public class CmarData
 	/**
 	 * The picture representing the values
 	 */
-	@Column(columnDefinition = "BLOB")
+	@Column(columnDefinition = "LONGBLOB")
 	private byte[] picture;
 	
 	/**

@@ -74,7 +74,7 @@ public class CsiroData
 	/**
 	 * The picture representing the value
 	 */
-	@Column(columnDefinition = "BLOB")
+	@Column(columnDefinition = "LONGBLOB")
 	private byte[] picture;
 	
 	/**
