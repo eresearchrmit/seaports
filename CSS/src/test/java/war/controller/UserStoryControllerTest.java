@@ -533,6 +533,8 @@ public class UserStoryControllerTest {
 	@Test
 	@Transactional
 	public void removeTextFromUserStorySuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer id = 3;
 		

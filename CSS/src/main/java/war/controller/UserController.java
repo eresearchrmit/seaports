@@ -1,5 +1,7 @@
 package war.controller;
 
+import java.security.MessageDigest;
+
 import helpers.SecurityHelper;
 import security.UserLoginService;
 import war.dao.*;
@@ -52,15 +54,28 @@ public class UserController {
 		
 		try {
 			if (user.getUsername() == null || user.getUsername().isEmpty())
-				throw(new Exception(ERR_SIGNUP_INVALID_LOGIN));
-			if (user.getPassword() == null || user.getPassword().length() < 5)
-				throw(new Exception(ERR_SIGNUP_INVALID_PASSWORD));
+				throw(new Exception(ERR_SIGNUP_INVALID_LOGIN));			
 			if (user.getFirstname() == null || user.getFirstname().isEmpty())
 				throw(new Exception(ERR_SIGNUP_INVALID_FIRSTNAME));
 			if (user.getLastname() == null || user.getLastname().isEmpty())
 				throw(new Exception(ERR_SIGNUP_INVALID_LASTNAME));
 			if (user.getEmail() == null || user.getEmail().isEmpty() || !(EmailValidator.getInstance().isValid(user.getEmail())))
 				throw(new Exception(ERR_SIGNUP_INVALID_EMAIL));
+			if (user.getPassword() == null || user.getPassword().length() < 5)
+				throw(new Exception(ERR_SIGNUP_INVALID_PASSWORD));
+			else {
+				// Hash the password using Sha-256 algorithm.
+				// (same algorithm as defined for Spring Security in 'appContext-security.xml')
+				MessageDigest digest = MessageDigest.getInstance("SHA-256");
+				byte[] hash = digest.digest(user.getPassword().getBytes("UTF-8"));
+				StringBuffer hexString = new StringBuffer();
+		        for (int i = 0; i < hash.length; i++) {
+		            String hex = Integer.toHexString(0xff & hash[i]);
+		            if(hex.length() == 1) hexString.append('0');
+		            hexString.append(hex);
+		        }				
+				user.setPassword(hexString.toString());
+			}
 			
 			user.setRoles(UserLoginService.ROLE_USER);
 			user.setNonLocked(true);
@@ -72,39 +87,6 @@ public class UserController {
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 			return "register";
-		}
-	}
-	
-	@RequestMapping(value = "login", method = RequestMethod.POST)
-	public String loginValidation(@ModelAttribute User user, Model model) {
-		logger.debug("Inside loginValidation");
-		
-		User userdb = null;
-		try {
-			if (user.getUsername() != null && user.getPassword() != null) {	
-				userdb = userDao.find(user.getUsername());
-					
-				// Check password
-				if (userdb.getPassword().equalsIgnoreCase(user.getPassword())) {						
-					return "redirect:/auth/workboard?user=" + userdb.getUsername();
-				}
-				else {
-					model.addAttribute("errorMessage", ERR_BAD_LOGIN_PASSWORD);
-					return "login";
-				}
-			}
-			else {
-				model.addAttribute("errorMessage", ERR_MISSING_LOGIN_PASSWORD);
-				return "login";
-			}	
-		}
-		catch (NullPointerException e) {
-			model.addAttribute("errorMessage", ERR_MISSING_LOGIN_PASSWORD);
-			return "login";
-		}
-		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
-			return "login";
 		}
 	}
 	

@@ -43,7 +43,7 @@ public class UserLoginService implements UserDetailsService
 	        }
     	}
     	else {
-    		return null;
+    		throw new UsernameNotFoundException("Please provide a valid username");
     	}
     }
 }

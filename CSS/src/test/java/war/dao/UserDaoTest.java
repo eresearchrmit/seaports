@@ -23,17 +23,19 @@ public class UserDaoTest {
 
 	List<User> usersForTest = new ArrayList<User>();
 	
+	static final String PASSWORD = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
+	
 	@Autowired
 	private UserDao userDao;
 
 	@Before
 	public void prepareData() {
-		usersForTest.add(new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1"));
-		usersForTest.add(new User("testuser2", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser2", "testuser2"));
-		usersForTest.add(new User("testuser3", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3"));
-		usersForTest.add(new User("testuser4", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4"));
-		usersForTest.add(new User("testadmin1", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin1", "testadmin1"));
-		usersForTest.add(new User("testadmin2", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin2", "testadmin2"));
+		usersForTest.add(new User("testuser1", PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1"));
+		usersForTest.add(new User("testuser2", PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser2", "testuser2"));
+		usersForTest.add(new User("testuser3", PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3"));
+		usersForTest.add(new User("testuser4", PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4"));
+		usersForTest.add(new User("testadmin1", PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin1", "testadmin1"));
+		usersForTest.add(new User("testadmin2", PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin2", "testadmin2"));
 	}
 
 	@Test
@@ -78,10 +80,10 @@ public class UserDaoTest {
 
 		Assert.assertNotNull("User not found", user);
 		
-		Assert.assertEquals(user.getUsername(), "testuser2");
-		Assert.assertEquals(user.getPassword(), "password");
-		Assert.assertEquals(user.getFirstname(), "testuser2");
-		Assert.assertEquals(user.getLastname(), "testuser2");
+		Assert.assertEquals(login, user.getUsername());
+		Assert.assertEquals(PASSWORD, user.getPassword());
+		Assert.assertEquals(login, user.getFirstname());
+		Assert.assertEquals(login, user.getLastname());
 	}
 	
 	@Test
@@ -89,7 +91,7 @@ public class UserDaoTest {
 		List<User> people = userDao.getPeople();
 		
 		Assert.assertNotNull(people);
-		Assert.assertEquals(usersForTest.size(), people.size());
+		Assert.assertEquals(people.size(), usersForTest.size());
 	}
 
 }

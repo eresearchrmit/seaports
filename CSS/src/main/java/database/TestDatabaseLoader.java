@@ -18,6 +18,9 @@ import war.model.*;
 @SuppressWarnings("deprecation")
 public class TestDatabaseLoader {
 
+	// The password correspond to the SHA-256 hash of 'password'
+	private static final String DEFAULT_PASSWORD = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
+	
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
@@ -69,12 +72,12 @@ public class TestDatabaseLoader {
 		
 		
 		// Add Users
-		User p1 = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
-		User p2 = new User("testuser2", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser2", "testuser2");
-		User p3 = new User("testuser3", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
-		User p4 = new User("testuser4", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4");
-		User p5 = new User("testadmin1", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin1", "testadmin1");
-		User p6 = new User("testadmin2", "password", true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin2", "testadmin2");
+		User p1 = new User("testuser1", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
+		User p2 = new User("testuser2", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser2", "testuser2");
+		User p3 = new User("testuser3", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser3", "testuser3");
+		User p4 = new User("testuser4", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4");
+		User p5 = new User("testadmin1", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin1", "testadmin1");
+		User p6 = new User("testadmin2", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "testadmin2", "testadmin2");
 		session.save(p1);
 		session.save(p2);
 		session.save(p3);
