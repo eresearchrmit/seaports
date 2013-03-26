@@ -26,6 +26,7 @@
 						<c:if test="${dataelementsfilter == 'Future'}"><option value="cmar">CMAR</option></c:if>
 						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="bom">BoM</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="engineering">Engineering Model</option></c:if>
+						<c:if test="${dataelementsfilter == 'Applications'}"><option value="vulnerability">Vulnerability Matrix</option></c:if>
 						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="customFile">Custom file</option></c:if>
 					</select>
 				</td>
@@ -182,6 +183,7 @@
 		<div id="engineeringDataForm" class="dataElementForm">
 			<form:form id="formEngineeringData" method="post" action="/CSS/auth/workboard/addEngineeringData?id=${userstory.id}#tabs-applications" enctype="multipart/form-data">
 				<p><strong>2. Engineering Model Data Element Options:</strong></p>
+				
 				<input type="hidden" name="sourceType" id="hdnEngineeringSourceType" value="upload" />
 				
 				<table width="auto" height="auto" class="form">
@@ -222,6 +224,84 @@
 			</form:form>
 		</div>
 		</c:if>
+
+		<c:if test="${dataelementsfilter == 'Applications'}">
+		<div id="vulnerabilityDataForm" class="dataElementForm">
+			<form:form id="formVulnerabilityData" method="post" action="/CSS/auth/workboard/addVulnerability#tabs-applications" enctype="multipart/form-data">
+				<input type="hidden" name="userstoryid" value="${userstory.id}" />
+				
+				<p><strong>2. Vulnerability Matrix Data Element Options:</strong></p>
+				
+				<table width="auto" height="auto" class="form">
+					<tr>
+						<td class="top">Weather event <a href="#" id="lnkHelpVulnerabilityWeatherEvent" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<select id="cbbWeatherEventType" name="weatherEventType">
+								<option value="Fog">Fog</option>
+								<option value="Heatwave">Heatwave</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Date<a href="#" class="lnkHelpVulnerabilityDate" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<select id="cbbWeatherEventYear" name="weatherEventYear">
+								<c:forEach var="i" begin="2003" end="2013" step="1" varStatus ="status">
+									<option value="<c:out value="${i}" />"><c:out value="${i}" /></option>
+								</c:forEach>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Direct or indirect impact <a href="#" class="lnkHelpVulnerabilityDirect" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventDirect" value="direct" checked="checked" /> Direct
+							<input type="radio" name="weatherEventDirect" value="indirect" /> Indirect
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Impact <a href="#" class="lnkHelpVulnerabilityImpact" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<textarea id="txtWeatherEventImpact" name="weatherEventImpact" rows="5" class="small"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Business consequences <a href="#" class="lnkHelpVulnerabilityConsequences" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<textarea id="txtWeatherEventConsequences" name="weatherEventConsequences" rows="5" class="small"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Rate the consequences <a href="#" id="lnkHelpVulnerabilityConsequencesRating" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<select id="cbbWeatherEventConsequencesRating" name="weatherEventConsequencesRating">
+								<option value="Insignificant">1 - Insignificant</option>
+								<option value="Moderate">2 - Moderate</option>
+								<option value="Major">3 - Major</option>
+								<option value="Extreme">4 - Extreme</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Response <a href="#" class="lnkHelpVulnerabilityResponse" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<textarea id="txtWeatherEventResponse" name="weatherEventResponse" rows="5" class="small"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Adequate <a href="#" class="lnkHelpVulnerabilityResponseAdequate" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventResponseAdequate" value="adequate" checked="checked" /> Yes
+							<input type="radio" name="weatherEventResponseAdequate" value="no" /> No
+						</td>
+					</tr>
+				</table>
+				<button type="button" id="btnAddVulnerabilityMatrixDataElement" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+					<span></span>Add Vulnerability Matrix Data Element
+				</button><br />
+			</form:form>
+		</div>
+		</c:if>
 		
 		<c:if test="${dataelementsfilter == 'NonClimate'}">
 		<div id="customFileDataForm" class="dataElementForm">
@@ -252,6 +332,8 @@
 			var selectedValue = $('select#cbb${dataelementsfilter}DataSource').val();
 			if (selectedValue != "none")
 				$("#" + selectedValue + "DataForm").show();
+			
+			$("#add${dataelementsfilter}DataElementModalWindow").dialog('option', 'position', 'center');
 		});
 		
 		// "Loading" message in the Engineering Model Data Element form

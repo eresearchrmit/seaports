@@ -503,6 +503,10 @@ textarea.no-border {
 	border: 0;
 }
 
+textarea.small {
+	width: 250px;
+}
+
 /* site information
 ----------------------------------------------- */
 #site_info {

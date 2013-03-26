@@ -15,6 +15,7 @@ import javax.persistence.NoResultException;
 
 import war.dao.*;
 import war.model.*;
+import war.model.WeatherEvent.ConsequencesRating;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -84,6 +85,8 @@ public class WorkboardController {
 	@Autowired
 	private ClimateParamsDao climateParamsDao;
 
+	@Autowired
+	private WeatherEventDao weatherEventDao;
 	
 	@RequestMapping(value= "/my-workboard", method = RequestMethod.GET)
 	public String getWorkboard(Model model) {
@@ -410,7 +413,7 @@ public class WorkboardController {
 		@RequestParam(value="year",required=true) String year,
 		@RequestParam(value="includePictures",required=false) String includePictures, Model model)
 	{
-		logger.info("Inside addCsiroDataToWorkBoard");
+		logger.info("Inside addCsiroDataToWorkboard");
 		
 		UserStory userStory = null;
 		try {
@@ -449,7 +452,7 @@ public class WorkboardController {
 		@RequestParam(value="year",required=true) String year,
 		@RequestParam(value="includePictures",required=false) String includePictures, Model model)
 	{
-		logger.info("Inside addCmarDataToWorkBoard");
+		logger.info("Inside addCmarDataToWorkboard");
 		
 		UserStory userStory = null;
 		try {
@@ -471,6 +474,49 @@ public class WorkboardController {
 			userStory.getDataElements().add(dataElement);
 			
 			model.addAttribute("successMessage", WorkboardController.MSG_CMAR_DATA_ADDED);
+		}
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		
+		return ModelForWorkboard(model, userStory);
+	}
+	
+	@RequestMapping(value= "/addVulnerability", method = RequestMethod.POST)
+	public ModelAndView addVulnerabilityToWorkboard(
+		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
+		@RequestParam(value="weatherEventType",required=true) String type,
+		@RequestParam(value="weatherEventYear",required=true) String yearString,
+		@RequestParam(value="weatherEventDirect",required=true) String directString, 
+		@RequestParam(value="weatherEventImpact",required=true) String impact,
+		@RequestParam(value="weatherEventConsequences",required=true) String consequences,
+		@RequestParam(value="weatherEventConsequencesRating",required=true) String consequencesRatingString,
+		@RequestParam(value="weatherEventResponse",required=true) String response,
+		@RequestParam(value="weatherEventResponseAdequate",required=true) String responseAdequateString,
+		Model model)
+	{
+		logger.info("Inside addVulnerabilityToWorkboard");
+		
+		UserStory userStory = null;
+		try {
+			userStory = userStoryDao.find(userStoryId);
+			
+    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+			Boolean direct = (directString != null && directString.equals("direct")) ? true : false;
+			ConsequencesRating consequencesRating = ConsequencesRating.valueOf(consequencesRatingString.toUpperCase());
+			Boolean responseAdequate = (responseAdequateString != null && responseAdequateString.equals("adequate")) ? true : false;
+			Integer year = Integer.valueOf(yearString);
+			
+			WeatherEvent weatherEvent = new WeatherEvent(type, year, direct, impact, consequences, consequencesRating, response, responseAdequate);
+			weatherEventDao.save(weatherEvent);
+			DataElementVulnerability dataElement = new DataElementVulnerability(new Date(), "Vulnerability", true, 0, userStory, weatherEvent);
+			dataElementDao.save(dataElement);
+			
+			userStory.getDataElements().add(dataElement);
+			
+			model.addAttribute("successMessage", WorkboardController.MSG_VULNERABILITY_DATA_ADDED);
 		}
 		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -599,6 +645,9 @@ public class WorkboardController {
 		 				}
 		 				dataelementsCounts[3]++;
 		 			}
+		 			else if (dataElement.getClass().equals(DataElementVulnerability.class)) {
+		 				dataelementsCounts[3]++;
+		 			}
 				}
 		 		mav.addObject("dataelements", dataElements);
 		 		mav.addObject("dataelementsCounts", dataelementsCounts);
@@ -657,6 +706,7 @@ public class WorkboardController {
 	
 	public static final String MSG_CSIRO_DATA_ADDED = "The CSIRO Data has been added successfully to your workboard";
 	public static final String MSG_CMAR_DATA_ADDED = "The CMAR Data has been added successfully to your workboard";
+	public static final String MSG_VULNERABILITY_DATA_ADDED = "The Vulnerability has been added successfully to your workboard";
 	public static final String MSG_DATA_ELEMENT_DELETED = "The Data Element was deleted successfully from your Workboard";
 	public static final String MSG_WORKBOARD_SAVED = "Workboard saved";
 	public static final String MSG_FILE_UPLOAD_SUCCESS = "The file was uploaded successfully to your workboard";

@@ -5,7 +5,10 @@
 
 <c:if test="${not empty dataelements}">
  	<c:forEach items="${dataelements}" var="dataelement" varStatus="status">
- 			<c:if test="${(dataelementsfilter == 'Future' && (dataelement.class.simpleName == 'DataElementCsiro' || dataelement.class.simpleName == 'DataElementCmar')) || (dataelementsfilter == 'Applications' && dataelement.class.simpleName == 'DataElementEngineeringModel') || (dataelementsfilter == 'NonClimate' && dataelement.class.simpleName == 'DataElementFile') || (dataelementsfilter == 'All')}">
+ 			<c:if test="${(dataelementsfilter == 'Future' && (dataelement.class.simpleName == 'DataElementCsiro' || dataelement.class.simpleName == 'DataElementCmar'))  
+ 						|| (dataelementsfilter == 'Applications' && (dataelement.class.simpleName == 'DataElementEngineeringModel' || dataelement.class.simpleName == 'DataElementVulnerability')) 
+ 						|| (dataelementsfilter == 'NonClimate' && dataelement.class.simpleName == 'DataElementFile') 
+ 						|| (dataelementsfilter == 'All')}">
 	 			<c:set var="dataelement" scope="request" value="${dataelement}"/>
 	 			<c:set var="dataElementLoopIndex" scope="request" value="${status.index}"/>
 	 			
@@ -36,6 +39,11 @@
 		 				<!-- Engineering Model Data Element -->
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
 		 					<jsp:include page="dataElementEngineeringModel.jsp" />
+		 				</c:if>
+		 				
+		 				<!-- Vulnerability Data Element -->
+		 				<c:if test="${dataelement.class.simpleName == 'DataElementVulnerability'}">
+		 					<jsp:include page="dataElementVulnerability.jsp" />
 		 				</c:if>
 		 				
 		 				<!-- File Data Element, display a picture if JPEG, textarea with content otherwise -->

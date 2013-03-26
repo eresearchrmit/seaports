@@ -101,8 +101,8 @@ public class CmarData
 	}
 
 	/**
-	 * Getter for the unique ID of the CSIRO Data
-	 * @return: the unique ID of the CSIRO Data
+	 * Getter for the unique ID of the CMAR Data
+	 * @return: the unique ID of the CMAR Data
 	 */
 	public int getId() {
 		return id;
