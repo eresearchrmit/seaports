@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * @since 24th Jan. 2013
  */
 @Entity
-@Table(name = "climatemodel")
+@Table(name = "ClimateModel")
 public class ClimateModel {
 	
 	private static final long serialVersionUID = -1308795024262635690L;

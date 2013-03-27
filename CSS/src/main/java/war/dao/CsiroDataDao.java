@@ -30,7 +30,7 @@ public class CsiroDataDao {
 	/**
 	 * The name of the table in the database where the CSIRO Data are stored
 	 */
-	public final static String TABLE_NAME = "csirodata";
+	public final static String TABLE_NAME = "CsiroData";
 	
 	/**
 	 * Retrieve an CsiroData in the CSS Database from it's unique ID
@@ -131,7 +131,7 @@ public class CsiroDataDao {
 			entityManager.merge(csiroData);
 			return csiroData;
 		}		
-	}
+	} 
 	
 	public static final String ERR_NO_RESULT = "No CSIRO data found corresponding to the specified parameters";
 }

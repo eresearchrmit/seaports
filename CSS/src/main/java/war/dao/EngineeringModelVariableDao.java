@@ -23,7 +23,7 @@ public class EngineeringModelVariableDao {
 	/**
 	 * The name of the table in the database where the Engineering Model Variables are stored
 	 */
-	public final static String TABLE_NAME = "engineeringmodelvariable";
+	public final static String TABLE_NAME = "EngineeringModelVariable";
 	
 	/**
 	 * Retrieve the engineering model variable in the database associated to a unique ID
@@ -119,7 +119,7 @@ public class EngineeringModelVariableDao {
 		catch (NoResultException e) {
 			return null;
 		}
-	}
+	} 
 	
 	public static final String ERR_NO_RESULT = "No climate variable found corresponding to the specified name";
 }

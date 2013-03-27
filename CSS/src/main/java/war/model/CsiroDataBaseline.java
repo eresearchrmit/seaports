@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * @since 01th Feb. 2013
  */
 @Entity
-@Table(name = "csirodatabaseline")
+@Table(name = "CsiroDataBaseline")
 public class CsiroDataBaseline
 {
 	private static final long serialVersionUID = -1308795024262635690L;

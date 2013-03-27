@@ -20,7 +20,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @since 11th Jan. 2013
  */
 @Entity
-@Table(name="user")
+@Table(name="User")
 public class User implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = -1308795024262635690L;

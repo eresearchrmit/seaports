@@ -27,7 +27,7 @@ public class CsiroDataBaselineDao {
 	/**
 	 * The name of the table in the database where the CSIRO Data are stored
 	 */
-	public final static String TABLE_NAME = "csirodatabaseline";
+	public final static String TABLE_NAME = "CsiroDataBaseline";
 	
 	/**
 	 * Retrieve an CsiroDataBaseline in the CSS Database from it's unique ID
@@ -84,7 +84,7 @@ public class CsiroDataBaselineDao {
 		catch (NoResultException e) {
 			throw new NoResultException(ERR_NO_RESULT);
 		}
-	}
+	} 
 	
 	public static final String ERR_NO_RESULT = "No CSIRO data found corresponding to the specified parameters";
 }

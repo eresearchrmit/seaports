@@ -24,7 +24,7 @@ import org.hibernate.annotations.Type;
  * @since 12th Mar. 2013
  */
 @Entity
-@Table(name = "cmardata")
+@Table(name = "CmarData")
 public class CmarData
 {
 	private static final long serialVersionUID = -1308795024262635690L;

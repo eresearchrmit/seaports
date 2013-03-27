@@ -22,7 +22,7 @@ public class ClimateEmissionScenarioDao {
 	/**
 	 * The name of the table in the database where the Emission Scenarios are stored
 	 */
-	public final static String TABLE_NAME = "climateemissionscenario";
+	public final static String TABLE_NAME = "ClimateEmissionScenario";
 	
 	/**
 	 * Retrieve the region in the database associated to a unique ID 
@@ -84,7 +84,7 @@ public class ClimateEmissionScenarioDao {
 		catch (NoResultException e) {
 			return null;
 		}
-	}
+	} 
 	
 	public static final String ERR_NO_RESULT = "No emission scenario found corresponding to the specified name";
 }

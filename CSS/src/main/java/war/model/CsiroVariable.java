@@ -9,7 +9,7 @@ import javax.persistence.Table;
  * @since 15th Feb. 2012
  */
 @Entity
-@Table(name = "csirovariable")
+@Table(name = "CsiroVariable")
 public class CsiroVariable extends Variable {
 	/**
 	 * Default constructor of CsiroVariable

@@ -31,7 +31,7 @@ public class DataElementDao {
 	/**
 	 * The name of the table in the database where the Data Elements are stored
 	 */
-	public final static String TABLE_NAME = "dataelement";
+	public final static String TABLE_NAME = "DataElement";
 	
 	/**
 	 * Retrieve the data element in the database associated to a unique ID 
@@ -121,7 +121,7 @@ public class DataElementDao {
 		catch (NoResultException e) {
 			return null;
 		}
-	}	
+	}
 
 	public static final String ERR_NO_SUCH_DATA_ELEMENT = "No such data element could be found";
 }

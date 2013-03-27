@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * @since 20th Dec. 2012
  */
 @Entity
-@Table(name = "seaport")
+@Table(name = "Seaport")
 public class Seaport {
 
 	private static final long serialVersionUID = -1308795024262635690L;

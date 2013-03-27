@@ -30,7 +30,7 @@ public class CmarDataDao {
 	/**
 	 * The name of the table in the database where the CSIRO Data are stored
 	 */
-	public final static String TABLE_NAME = "cmardata";
+	public final static String TABLE_NAME = "CmarData";
 	
 	/**
 	 * Retrieve an CmarData in the CSS Database from it's unique ID
@@ -131,7 +131,7 @@ public class CmarDataDao {
 			entityManager.merge(cmarData);
 			return cmarData;
 		}		
-	}
+	} 
 	
 	public static final String ERR_NO_RESULT = "No CMAR data found corresponding to the specified parameters";
 }

@@ -12,7 +12,7 @@ import javax.persistence.Table;
  * @since 25th Jan. 2012
  */
 @Entity
-@Table(name = "engineeringmodelasset")
+@Table(name = "EngineeringModelAsset")
 public class EngineeringModelAsset
 {
 	private static final long serialVersionUID = -1308795024262635690L;

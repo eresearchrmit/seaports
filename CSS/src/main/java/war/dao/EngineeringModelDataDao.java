@@ -27,7 +27,7 @@ public class EngineeringModelDataDao {
 	/**
 	 * The name of the table in the database where the Engineering Model Data is stored
 	 */
-	public final static String TABLE_NAME = "engineeringmodeldata";
+	public final static String TABLE_NAME = "EngineeringModelData";
 	
 	/**
 	 * The name of the table in the database where the Engineering Model Data is stored

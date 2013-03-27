@@ -22,7 +22,7 @@ public class ClimateModelDao {
 	/**
 	 * The name of the table in the database where the Climate Models are stored
 	 */
-	public final static String TABLE_NAME = "climatemodel";
+	public final static String TABLE_NAME = "ClimateModel";
 	
 	/**
 	 * Retrieve the region in the database associated to a unique ID 
@@ -102,7 +102,7 @@ public class ClimateModelDao {
 		catch (NoResultException e) {
 			return null;
 		}
-	}
+	} 
 	
 	public static final String ERR_NO_RESULT = "No climate model found corresponding to the specified name";
 }

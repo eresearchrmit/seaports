@@ -20,7 +20,7 @@ import war.model.UserStory;
  * @since 11th Jan. 2013
  */
 @Entity
-@Table(name = "dataelement")
+@Table(name = "DataElement")
 @DiscriminatorColumn(name = "type")
 public class DataElement {
 

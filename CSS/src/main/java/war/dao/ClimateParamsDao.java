@@ -30,7 +30,7 @@ public class ClimateParamsDao {
 	/**
 	 * The name of the table in the database where the Climate Parameters are stored
 	 */
-	public final static String TABLE_NAME = "climateparams";
+	public final static String TABLE_NAME = "ClimateParams";
 	
 	/**
 	 * Retrieve the set of Climate parameters in the database associated to a unique ID
@@ -158,7 +158,7 @@ public class ClimateParamsDao {
 			entityManager.merge(parameters);
 			return parameters;
 		}		
-	}
+	} 
 	
 	public static final String ERR_NO_RESULT = "No climate parameters found corresponding to the specified parameters";
 }
