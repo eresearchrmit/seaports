@@ -163,7 +163,8 @@ h2#page-heading {
 	font-weight:bold;
 	color:#1B548D;
 	background:#E6F0F3;
-	margin:-10px -10px 0 -10px;
+	/*margin:-10px -10px 0 -10px;*/
+	margin:0px;
 	padding:10px 12px;
 	border-bottom:1px solid #B3CBD6;
 	

@@ -6,7 +6,7 @@
 <div class="grid_12">
 	<div class="box round first" style="text-align:center">
 		<h2>Sign In</h2>
-		<div class="block">
+		<div class="box-content block">
 			<c:if test="${not empty error}"> 
 			<div class="message error">
 				<h5>Authentication Error</h5>

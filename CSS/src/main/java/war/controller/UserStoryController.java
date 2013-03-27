@@ -162,10 +162,10 @@ public class UserStoryController {
 		}
 		return ModelForUserStory(model, userStory);
 	}
-		
+	
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
 	public ModelAndView saveUserStory(
-			@RequestParam(value="comments",required=true) String[] updatedTexts, 
+			@RequestParam(value="comments",required=false) String[] updatedTexts, 
 			@Valid @ModelAttribute("userstory") UserStory updatedUserStory, 
 			Model model) {
 		logger.info("Inside saveUserStory");
@@ -190,17 +190,20 @@ public class UserStoryController {
 			// Save the user story after reordering
 			userStoryDao.save(userStory);
 			
-			// Update content of the text data elements if they have been changed
 			Collections.sort(userStory.getDataElements(), new DataElementPositionComparator());
-			int i = 0;
-			for (DataElement dataElement : userStory.getDataElements()) {
-				if (dataElement.getClass().equals(DataElementText.class)) {
-					DataElementText dataElementText = (DataElementText)(dataElement);
-					if (updatedTexts.length > i && updatedTexts[i] != null && !updatedTexts[i].equals(dataElementText.getText())) {
-						dataElementText.setText(updatedTexts[i]);
-						dataElementDao.save(dataElementText);
+			
+			// Update content of the text data elements if they have been changed
+			if (updatedTexts != null) {
+				int i = 0;
+				for (DataElement dataElement : userStory.getDataElements()) {
+					if (dataElement.getClass().equals(DataElementText.class)) {
+						DataElementText dataElementText = (DataElementText)(dataElement);
+						if (updatedTexts.length > i && updatedTexts[i] != null && !updatedTexts[i].equals(dataElementText.getText())) {
+							dataElementText.setText(updatedTexts[i]);
+							dataElementDao.save(dataElementText);
+						}
+						i++;
 					}
-					i++;
 				}
 			}
 			model.addAttribute("successMessage", MSG_USERSTORY_SAVED);

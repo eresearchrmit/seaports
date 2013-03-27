@@ -58,7 +58,7 @@
 				<c:forEach items="${usersList}" var="user" varStatus="status"> 
 				<tr>
 					<td>${user.firstname} ${user.lastname} (${user.username})</td>
-					<td><a href="mailto:${user.email}" title="Send an e-mail to this user" target="_blank">${user.email}</a></td>
+					<td><a href="mailto:${user.email}?Subject=Climate Smart Seaports" title="Send an e-mail to this user" target="_blank">${user.email}</a></td>
 					<td class="center"><a href="/CSS/auth/workboard?user=${user.username}" title="View the Workboard of this user"><img src="<c:url value="/resources/img/icons/application_side_boxes.png" />" alt="View" /></a></td>
 					<td class="center"><a href="/CSS/auth/userstory/list?user=${user.username}" title="View the Stories of this user"><img src="<c:url value="/resources/img/icons/application_view_list.png" />" alt="View" /></a></td>
 					<c:choose>

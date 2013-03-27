@@ -481,7 +481,7 @@ public class WorkboardController {
 		
 		return ModelForWorkboard(model, userStory);
 	}
-	
+	/*
 	@RequestMapping(value= "/addVulnerability", method = RequestMethod.POST)
 	public ModelAndView addVulnerabilityToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
@@ -524,7 +524,7 @@ public class WorkboardController {
 		
 		return ModelForWorkboard(model, userStory);
 	}
-	
+	*/
 	@RequestMapping(value="/create", method=RequestMethod.POST) 
 	public ModelAndView addWorkboard(@ModelAttribute("userstory") UserStory userStory, Model model) {
 		logger.info("Inside addWorkboard");
