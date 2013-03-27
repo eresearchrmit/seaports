@@ -30,7 +30,7 @@ public class CsiroDataDao {
 	/**
 	 * The name of the table in the database where the CSIRO Data are stored
 	 */
-	public final static String TABLE_NAME = "CsiroData";
+	public final static String TABLE_NAME = "csirodata";
 	
 	/**
 	 * Retrieve an CsiroData in the CSS Database from it's unique ID

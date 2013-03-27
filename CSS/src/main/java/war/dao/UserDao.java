@@ -22,7 +22,7 @@ public class UserDao {
 	/**
 	 * The name of the table in the database where the Users are stored
 	 */
-	public final static String TABLE_NAME = "User";
+	public final static String TABLE_NAME = "user";
 
 	/**
 	 * Retrieve the user in the database associated to a username

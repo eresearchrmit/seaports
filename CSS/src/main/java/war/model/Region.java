@@ -20,7 +20,7 @@ import org.hibernate.annotations.LazyCollectionOption;
  * @see NRM Regions: {@link http://www.nrm.gov.au/about/nrm/regions/index.html}
  */
 @Entity
-@Table(name = "Region")
+@Table(name = "region")
 public class Region {
 
 	private static final long serialVersionUID = -1308795024262635690L;

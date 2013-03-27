@@ -31,7 +31,7 @@ public class DataElementDao {
 	/**
 	 * The name of the table in the database where the Data Elements are stored
 	 */
-	public final static String TABLE_NAME = "DataElement";
+	public final static String TABLE_NAME = "dataelement";
 	
 	/**
 	 * Retrieve the data element in the database associated to a unique ID 

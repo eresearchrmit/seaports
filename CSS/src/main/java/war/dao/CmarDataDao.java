@@ -30,7 +30,7 @@ public class CmarDataDao {
 	/**
 	 * The name of the table in the database where the CSIRO Data are stored
 	 */
-	public final static String TABLE_NAME = "CmarData";
+	public final static String TABLE_NAME = "cmardata";
 	
 	/**
 	 * Retrieve an CmarData in the CSS Database from it's unique ID

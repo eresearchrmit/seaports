@@ -28,7 +28,7 @@ public class UserStoryDao {
 	/**
 	 * The name of the table in the database where the User Stories are stored
 	 */
-	private final static String TABLE_NAME = "UserStory";
+	private final static String TABLE_NAME = "userstory";
 	
 	/**
 	 * Retrieve the user story in the database associated to a unique ID

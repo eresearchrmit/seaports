@@ -22,7 +22,7 @@ public class ClimateModelDao {
 	/**
 	 * The name of the table in the database where the Climate Models are stored
 	 */
-	public final static String TABLE_NAME = "ClimateModel";
+	public final static String TABLE_NAME = "climatemodel";
 	
 	/**
 	 * Retrieve the region in the database associated to a unique ID 

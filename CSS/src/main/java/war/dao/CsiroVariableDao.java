@@ -25,7 +25,7 @@ public class CsiroVariableDao {
 	/**
 	 * The name of the table in the database where the Climate Variables are stored
 	 */
-	public final static String TABLE_NAME = "CsiroVariable";
+	public final static String TABLE_NAME = "csirovariable";
 	
 	/**
 	 * Retrieve the climate variable in the database associated to a unique ID

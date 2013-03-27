@@ -22,7 +22,7 @@ public class RegionDao {
 	/**
 	 * The name of the table in the database where the Regions are stored
 	 */
-	private final static String TABLE_NAME = "Region";
+	private final static String TABLE_NAME = "region";
 	
 	/**
 	 * Retrieve the region in the database associated to a unique ID 

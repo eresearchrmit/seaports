@@ -22,7 +22,7 @@ public class ClimateEmissionScenarioDao {
 	/**
 	 * The name of the table in the database where the Emission Scenarios are stored
 	 */
-	public final static String TABLE_NAME = "ClimateEmissionScenario";
+	public final static String TABLE_NAME = "climateemissionscenario";
 	
 	/**
 	 * Retrieve the region in the database associated to a unique ID 

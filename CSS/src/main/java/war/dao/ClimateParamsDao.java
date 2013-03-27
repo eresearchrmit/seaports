@@ -30,7 +30,7 @@ public class ClimateParamsDao {
 	/**
 	 * The name of the table in the database where the Climate Parameters are stored
 	 */
-	public final static String TABLE_NAME = "ClimateParams";
+	public final static String TABLE_NAME = "climateparams";
 	
 	/**
 	 * Retrieve the set of Climate parameters in the database associated to a unique ID

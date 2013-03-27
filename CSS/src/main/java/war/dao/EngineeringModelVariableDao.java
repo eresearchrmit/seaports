@@ -23,7 +23,7 @@ public class EngineeringModelVariableDao {
 	/**
 	 * The name of the table in the database where the Engineering Model Variables are stored
 	 */
-	public final static String TABLE_NAME = "EngineeringModelVariable";
+	public final static String TABLE_NAME = "engineeringmodelvariable";
 	
 	/**
 	 * Retrieve the engineering model variable in the database associated to a unique ID

@@ -21,7 +21,7 @@ import org.apache.commons.codec.binary.Base64;
  * @since 20th Dec. 2012
  */
 @Entity
-@Table(name = "CSIROData")
+@Table(name = "csirodata")
 public class CsiroData
 {
 	private static final long serialVersionUID = -1308795024262635690L;

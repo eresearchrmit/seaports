@@ -19,7 +19,7 @@ public class WeatherEventDao {
 	/**
 	 * The name of the table in the database where the CSIRO Data are stored
 	 */
-	public final static String TABLE_NAME = "WeatherEvent";
+	public final static String TABLE_NAME = "weatherevent";
 	
 	/**
 	 * Retrieve a Weather Event in the CSS Database from it's unique ID

@@ -20,7 +20,7 @@ public class EngineeringModelAssetDao {
 	/**
 	 * The name of the table in the database where the Engineering Model Assets are stored
 	 */
-	public final static String TABLE_NAME = "EngineeringModelAsset";
+	public final static String TABLE_NAME = "engineeringmodelasset";
 	
 	/**
 	 * Retrieve an engineering model asset in the CSS Database from it's unique ID

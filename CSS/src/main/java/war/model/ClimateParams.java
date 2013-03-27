@@ -16,7 +16,7 @@ import javax.persistence.Table;
  * @since 20th Dec. 2012
  */
 @Entity
-@Table(name = "ClimateParams")
+@Table(name = "climateparams")
 public class ClimateParams {
 	
 	private static final long serialVersionUID = -1308795024262635690L;

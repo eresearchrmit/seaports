@@ -26,7 +26,7 @@ import war.model.Region;
  * @since 11th Jan. 2013
  */
 @Entity
-@Table(name = "UserStory")
+@Table(name = "userstory")
 public class UserStory {
 	
 	private static final long serialVersionUID = -1308795024262635690L;

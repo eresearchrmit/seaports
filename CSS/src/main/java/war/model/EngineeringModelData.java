@@ -23,7 +23,7 @@ import javax.persistence.Transient;
  * @since 20th Dec. 2012
  */
 @Entity
-@Table(name = "EngineeringModelData")
+@Table(name = "engineeringmodeldata")
 public class EngineeringModelData
 {
 	private static final long serialVersionUID = -1308795024262635690L;

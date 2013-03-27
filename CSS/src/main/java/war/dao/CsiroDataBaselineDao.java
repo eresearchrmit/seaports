@@ -27,7 +27,7 @@ public class CsiroDataBaselineDao {
 	/**
 	 * The name of the table in the database where the CSIRO Data are stored
 	 */
-	public final static String TABLE_NAME = "CsiroDataBaseline";
+	public final static String TABLE_NAME = "csirodatabaseline";
 	
 	/**
 	 * Retrieve an CsiroDataBaseline in the CSS Database from it's unique ID

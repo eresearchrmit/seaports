@@ -26,6 +26,7 @@
 						<c:if test="${dataelementsfilter == 'Future'}"><option value="cmar">CMAR</option></c:if>
 						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="bom">BoM</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="engineering">Engineering Model</option></c:if>
+						<c:if test="${dataelementsfilter == 'Applications'}"><option value="vulnerability">Vulnerability Matrix</option></c:if>
 						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="customFile">Custom file</option></c:if>
 					</select>
 				</td>
@@ -236,8 +237,19 @@
 						<td class="top">Weather event <a href="#" id="lnkHelpVulnerabilityWeatherEvent" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbWeatherEventType" name="weatherEventType">
-								<option value="Fog">Fog</option>
 								<option value="Heatwave">Heatwave</option>
+								<option value="Strong wind">Strong wind</option>
+								<option value="Heavy rain">Heavy rain</option>
+								<option value="Electrical storm">Electrical storm</option>
+								<option value="Storm (wind and rain combined)">Storm (wind and rain combined)</option>
+								<option value="Cyclone">Cyclone</option>
+								<option value="Hail">Hail</option>
+								<option value="Storm surge">Storm surge</option>
+								<option value="Sea level rise">Sea level rise</option>
+								<option value="Fog">Fog</option>
+								<option value="Drought">Drought</option>
+								<option value="Flood">Flood</option>
+								<option value="Other">Other</option>
 							</select>
 						</td>
 					</tr>

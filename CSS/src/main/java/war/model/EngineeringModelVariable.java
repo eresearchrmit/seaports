@@ -10,7 +10,7 @@ import javax.persistence.Table;
  * @since 15th Feb. 2012
  */
 @Entity
-@Table(name = "EngineeringModelVariable")
+@Table(name = "engineeringmodelvariable")
 public class EngineeringModelVariable extends Variable {
 	
 	@Column
