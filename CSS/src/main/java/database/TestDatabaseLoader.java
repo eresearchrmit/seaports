@@ -9,6 +9,7 @@ import java.util.Random;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import security.UserLoginService;
@@ -18,12 +19,13 @@ import war.model.*;
 @SuppressWarnings("deprecation")
 public class TestDatabaseLoader {
 
-	// The password correspond to the SHA-256 hash of 'password'
+	// The password correspond to the SHA-256 hash of 'assword'
 	private static final String DEFAULT_PASSWORD = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
 	
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
+		config.setNamingStrategy(ImprovedNamingStrategy.INSTANCE);
 		config.configure("database/hibernate-test.cfg.xml");
 		new SchemaExport(config).create(true,true);
 

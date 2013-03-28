@@ -1,22 +1,22 @@
-ALTER TABLE `seaports_test`.`dataelement_csirodata` DROP FOREIGN KEY `FKC9ECC6738192BB97` , DROP FOREIGN KEY `FKC9ECC673DD18A2F` ;
+ALTER TABLE `seaports_test`.`data_element_csiro_data` DROP FOREIGN KEY `FKEC1C902B505D479C` , DROP FOREIGN KEY `FKEC1C902BED6FB022` ;
 
-ALTER TABLE `seaports_test`.`dataelement_csirodata` 
+ALTER TABLE `seaports_test`.`data_element_csiro_data` 
 
-  ADD CONSTRAINT `FKC9ECC6738192BB97`
+  ADD CONSTRAINT `FKEC1C902B505D479C`
 
-  FOREIGN KEY (`DataElement_Id` )
+  FOREIGN KEY (`csiro_data_id` )
 
-  REFERENCES `seaports_test`.`dataelement` (`id` )
+  REFERENCES `seaports_test`.`csiro_data` (`id` )
 
   ON DELETE CASCADE
 
   ON UPDATE CASCADE, 
 
-  ADD CONSTRAINT `FKC9ECC673DD18A2F`
+  ADD CONSTRAINT `FKEC1C902BED6FB022`
 
-  FOREIGN KEY (`CsiroData_Id` )
+  FOREIGN KEY (`data_element_id` )
 
-  REFERENCES `seaports_test`.`csirodata` (`id` )
+  REFERENCES `seaports_test`.`data_element` (`id` )
 
   ON DELETE CASCADE
 
@@ -24,25 +24,25 @@ ALTER TABLE `seaports_test`.`dataelement_csirodata`
 
 
 
-ALTER TABLE `seaports_test`.`dataelement_engineeringmodeldata` DROP FOREIGN KEY `FK3035230DC9652565` , DROP FOREIGN KEY `FK3035230D907E0245` ;
+ALTER TABLE `seaports_test`.`data_element_engineering_model_data` DROP FOREIGN KEY `FK610A3B84354219F0` , DROP FOREIGN KEY `FK610A3B8437160FB9` ;
 
-ALTER TABLE `seaports_test`.`dataelement_engineeringmodeldata` 
+ALTER TABLE `seaports_test`.`data_element_engineering_model_data` 
 
-  ADD CONSTRAINT `FK3035230DC9652565`
+  ADD CONSTRAINT `FK610A3B84354219F0`
 
-  FOREIGN KEY (`DataElement_Id` )
+  FOREIGN KEY (`data_element_id` )
 
-  REFERENCES `seaports_test`.`dataelement` (`id` )
+  REFERENCES `seaports_test`.`data_element` (`id` )
 
   ON DELETE CASCADE
 
   ON UPDATE CASCADE, 
 
-  ADD CONSTRAINT `FK3035230D907E0245`
+  ADD CONSTRAINT `FK610A3B8437160FB9`
 
-  FOREIGN KEY (`EngineeringModelData_Id` )
+  FOREIGN KEY (`engineering_model_data_id` )
 
-  REFERENCES `seaports_test`.`engineeringmodeldata` (`id` )
+  REFERENCES `seaports_test`.`engineering_model_data` (`id` )
 
   ON DELETE CASCADE
 
@@ -50,27 +50,30 @@ ALTER TABLE `seaports_test`.`dataelement_engineeringmodeldata`
 
 
 
-ALTER TABLE `seaports_test`.`dataelement_cmardata` DROP FOREIGN KEY `FK9219EA5251873CC5` , DROP FOREIGN KEY `FK9219EA525C15E2A` ;
 
-ALTER TABLE `seaports_test`.`dataelement_cmardata` 
+ALTER TABLE `seaports_test`.`data_element_cmar_data` DROP FOREIGN KEY `FKAE352C76CB8CE91C` , DROP FOREIGN KEY `FKAE352C76719E52B5` ;
 
-  ADD CONSTRAINT `FK9219EA5251873CC5`
+ALTER TABLE `seaports_test`.`data_element_cmar_data` 
 
-  FOREIGN KEY (`CmarData_Id` )
+  ADD CONSTRAINT `FKAE352C76CB8CE91C`
 
-  REFERENCES `seaports_test`.`cmardata` (`id` )
+  FOREIGN KEY (`cmar_data_id` )
+
+  REFERENCES `seaports_test`.`cmar_data` (`id` )
 
   ON DELETE CASCADE
 
   ON UPDATE CASCADE, 
 
-  ADD CONSTRAINT `FK9219EA525C15E2A`
+  ADD CONSTRAINT `FKAE352C76719E52B5`
 
-  FOREIGN KEY (`DataElement_Id` )
+  FOREIGN KEY (`data_element_id` )
 
-  REFERENCES `seaports_test`.`dataelement` (`id` )
+  REFERENCES `seaports_test`.`data_element` (`id` )
 
   ON DELETE CASCADE
 
   ON UPDATE CASCADE;
+
+
 

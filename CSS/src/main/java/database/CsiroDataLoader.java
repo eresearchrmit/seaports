@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import war.model.*;
@@ -27,6 +28,7 @@ public class CsiroDataLoader {
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
+		config.setNamingStrategy(ImprovedNamingStrategy.INSTANCE);
 		config.configure("database/hibernate.cfg.xml");
 		new SchemaExport(config).create(true,true);
 

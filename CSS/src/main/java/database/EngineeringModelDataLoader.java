@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.ImprovedNamingStrategy;
 
 import war.model.*;
 
@@ -14,6 +15,7 @@ public class EngineeringModelDataLoader {
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
+		config.setNamingStrategy(ImprovedNamingStrategy.INSTANCE);
 		config.configure("database/hibernate.cfg.xml");
 		//new SchemaExport(config).create(true,true);
 

@@ -294,6 +294,116 @@
 						</td>
 					</tr>
 					<tr>
+						<td class="top">Lost time due to staff or contractor injuries<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventConsequence1" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence1" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence1" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence1" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence1" value="4" /> Extreme
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Staff not able to attend work<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventConsequence2" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence2" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence2" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence2" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence2" value="4" /> Extreme
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Increased annual Workcover costs<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventConsequence3" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence3" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence3" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence3" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence3" value="4" /> Extreme
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Increased maintenance costs<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventConsequence4" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence4" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence4" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence4" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence4" value="4" /> Extreme
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Deferment of capital expenditure<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventConsequence5" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence5" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence5" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence5" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence5" value="4" /> Extreme
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Increased insurance costs<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventConsequence6" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence6" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence6" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence6" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence6" value="4" /> Extreme
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Adverse reputational impact<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventConsequence7" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence7" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence7" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence7" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence7" value="4" /> Extreme
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Environmental impact - leading to regulatory impact<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventConsequence8" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence8" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence8" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence8" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence8" value="4" /> Extreme
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Interrution/halt to logistics operations<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventConsequence9" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence9" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence9" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence9" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence9" value="4" /> Extreme
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Interruption to boat movements<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventConsequence10" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence10" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence10" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence10" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence10" value="4" /> Extreme
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Altered dredging schedule<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="radio" name="weatherEventConsequence11" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence11" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence11" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence11" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence11" value="4" /> Extreme
+						</td>
+					</tr>
+					<tr>
 						<td class="top">Response <a href="#" class="lnkHelpVulnerabilityResponse" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<textarea id="txtWeatherEventResponse" name="weatherEventResponse" rows="5" class="small"></textarea>

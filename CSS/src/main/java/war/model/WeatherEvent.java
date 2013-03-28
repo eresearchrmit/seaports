@@ -251,6 +251,7 @@ public class WeatherEvent
 	}
 	
 	public enum ConsequencesRating {
+		NONE("No Impact"),
 		INSIGNIFICANT("Insignificant"),
 		MODERATE("Moderate"),
 		MAJOR("Major"),

@@ -1,73 +1,73 @@
-ALTER TABLE `seaports`.`dataelement_csirodata` DROP FOREIGN KEY `FKC9ECC6738192BB97` , DROP FOREIGN KEY `FKC9ECC673DD18A2F` ;
+ALTER TABLE `seaports`.`data_element_csiro_data` DROP FOREIGN KEY `FKEC1C902B505D479C` , DROP FOREIGN KEY `FKEC1C902BED6FB022` ;
 
-ALTER TABLE `seaports`.`dataelement_csirodata` 
+ALTER TABLE `seaports`.`data_element_csiro_data` 
 
-  ADD CONSTRAINT `FKC9ECC6738192BB97`
+  ADD CONSTRAINT `FKEC1C902B505D479C`
 
-  FOREIGN KEY (`DataElement_Id` )
+  FOREIGN KEY (`csiro_data_id` )
 
-  REFERENCES `seaports`.`dataelement` (`id` )
-
-  ON DELETE CASCADE
-
-  ON UPDATE CASCADE, 
-
-  ADD CONSTRAINT `FKC9ECC673DD18A2F`
-
-  FOREIGN KEY (`CsiroData_Id` )
-
-  REFERENCES `seaports`.`csirodata` (`id` )
-
-  ON DELETE CASCADE
-
-  ON UPDATE CASCADE;
-
-ALTER TABLE `seaports`.`dataelement_engineeringmodeldata` DROP FOREIGN KEY `FK3035230DC9652565` , DROP FOREIGN KEY `FK3035230D907E0245` ;
-
-ALTER TABLE `seaports`.`dataelement_engineeringmodeldata` 
-
-  ADD CONSTRAINT `FK3035230DC9652565`
-
-  FOREIGN KEY (`DataElement_Id` )
-
-  REFERENCES `seaports`.`dataelement` (`id` )
+  REFERENCES `seaports`.`csiro_data` (`id` )
 
   ON DELETE CASCADE
 
   ON UPDATE CASCADE, 
 
-  ADD CONSTRAINT `FK3035230D907E0245`
+  ADD CONSTRAINT `FKEC1C902BED6FB022`
 
-  FOREIGN KEY (`EngineeringModelData_Id` )
+  FOREIGN KEY (`data_element_id` )
 
-  REFERENCES `seaports`.`engineeringmodeldata` (`id` )
+  REFERENCES `seaports`.`data_element` (`id` )
 
   ON DELETE CASCADE
 
   ON UPDATE CASCADE;
 
 
+  
+  ALTER TABLE `seaports`.`data_element_engineering_model_data` DROP FOREIGN KEY `FK610A3B84354219F0` , DROP FOREIGN KEY `FK610A3B8437160FB9` ;
 
+ALTER TABLE `seaports`.`data_element_engineering_model_data` 
 
-ALTER TABLE `seaports`.`dataelement_cmardata` DROP FOREIGN KEY `FK9219EA5251873CC5` , DROP FOREIGN KEY `FK9219EA525C15E2A` ;
+  ADD CONSTRAINT `FK610A3B84354219F0`
 
-ALTER TABLE `seaports`.`dataelement_cmardata` 
+  FOREIGN KEY (`data_element_id` )
 
-  ADD CONSTRAINT `FK9219EA5251873CC5`
-
-  FOREIGN KEY (`CmarData_Id` )
-
-  REFERENCES `seaports`.`cmardata` (`id` )
+  REFERENCES `seaports`.`data_element` (`id` )
 
   ON DELETE CASCADE
 
   ON UPDATE CASCADE, 
 
-  ADD CONSTRAINT `FK9219EA525C15E2A`
+  ADD CONSTRAINT `FK610A3B8437160FB9`
 
-  FOREIGN KEY (`DataElement_Id` )
+  FOREIGN KEY (`engineering_model_data_id` )
 
-  REFERENCES `seaports`.`dataelement` (`id` )
+  REFERENCES `seaports`.`engineering_model_data` (`id` )
+
+  ON DELETE CASCADE
+
+  ON UPDATE CASCADE;
+
+
+  ALTER TABLE `seaports`.`data_element_cmar_data` DROP FOREIGN KEY `FKAE352C76CB8CE91C` , DROP FOREIGN KEY `FKAE352C76719E52B5` ;
+
+ALTER TABLE `seaports`.`data_element_cmar_data` 
+
+  ADD CONSTRAINT `FKAE352C76CB8CE91C`
+
+  FOREIGN KEY (`cmar_data_id` )
+
+  REFERENCES `seaports`.`cmar_data` (`id` )
+
+  ON DELETE CASCADE
+
+  ON UPDATE CASCADE, 
+
+  ADD CONSTRAINT `FKAE352C76719E52B5`
+
+  FOREIGN KEY (`data_element_id` )
+
+  REFERENCES `seaports`.`data_element` (`id` )
 
   ON DELETE CASCADE
 

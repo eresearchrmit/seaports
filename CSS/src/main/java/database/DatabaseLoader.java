@@ -4,6 +4,7 @@ import java.util.Date;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.ImprovedNamingStrategy;
 import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import security.UserLoginService;
@@ -19,6 +20,7 @@ public class DatabaseLoader {
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
+		config.setNamingStrategy(ImprovedNamingStrategy.INSTANCE);
 		config.configure("database/hibernate.cfg.xml");
 		new SchemaExport(config).create(true,true);
 
