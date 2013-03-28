@@ -30,7 +30,7 @@ public class DataElementCsiro extends DataElement {
 	 * The list of CSIRO data contained in this CSIRO data element
 	 */
     @ManyToMany
-    @JoinTable(name="DataElement_CsiroData", joinColumns={@JoinColumn(name="DataElement_Id")}, inverseJoinColumns={@JoinColumn(name="CsiroData_Id")})
+    @JoinTable(name="data_element_csiro_data", joinColumns={@JoinColumn(name="data_element_id")}, inverseJoinColumns={@JoinColumn(name="csiro_data_id")})
     @Cascade(value = CascadeType.DELETE)
     @LazyCollection(value=LazyCollectionOption.FALSE)
 	private List<CsiroData> csiroDataList;

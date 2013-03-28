@@ -29,7 +29,7 @@ public class DataElementEngineeringModel extends DataElement {
 	 * The list of engineering model data contained in this data element
 	 */
     @ManyToMany
-    @JoinTable(name="DataElement_EngineeringModelData", joinColumns={@JoinColumn(name="DataElement_Id")}, inverseJoinColumns={@JoinColumn(name="EngineeringModelData_Id")})
+    @JoinTable(name="data_element_engineering_model_data", joinColumns={@JoinColumn(name="data_element_id")}, inverseJoinColumns={@JoinColumn(name="engineering_model_data_id")})
 	@Cascade(value = CascadeType.DELETE)
 	@LazyCollection(value=LazyCollectionOption.FALSE)
 	private List<EngineeringModelData> engineeringModelDataList;

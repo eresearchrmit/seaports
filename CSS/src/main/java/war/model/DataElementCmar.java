@@ -30,7 +30,7 @@ public class DataElementCmar extends DataElement {
 	 * The list of CMAR data contained in this CMAR data element
 	 */
     @ManyToMany
-    @JoinTable(name="DataElement_CmarData", joinColumns={@JoinColumn(name="DataElement_Id")}, inverseJoinColumns={@JoinColumn(name="CmarData_Id")})
+    @JoinTable(name="data_element_cmardata", joinColumns={@JoinColumn(name="data_element_id")}, inverseJoinColumns={@JoinColumn(name="cmar_data_id")})
     @Cascade(value = CascadeType.DELETE)
     @LazyCollection(value=LazyCollectionOption.FALSE)
 	private List<CmarData> cmarDataList;

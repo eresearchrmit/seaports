@@ -29,11 +29,12 @@ public class DatabaseLoader {
 		session.beginTransaction();	
 
 		
-		User p1 = new User("gprevost", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR,"guillaume.prevost@live.com", "Guillaume", "Prevost");
-		User p2 = new User("jmullet", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email", "Jane", "Mullett");
-		User p3 = new User("rsrini", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email", "Ravi", "Srini");
-		User p4 = new User("user", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email", "User", "User");
-		User p5 = new User("admin", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR, "email", "Admin", "Admin");
+		User p1 = new User("gprevost", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR,"guillaume.prevost@rmit.edu.au", "Guillaume", "Prevost");
+		User p2 = new User("jmullet", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "jane.mullet@rmit.edu.au", "Jane", "Mullett");
+		User p3 = new User("atrundle", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "alexei.trundle@rmit.edu.au", "Alexei", "Trundle");
+		User p4 = new User("rsrini", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email", "Ravi", "Srini");
+		User p5 = new User("user", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email", "User", "User");
+		User p6 = new User("admin", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR, "email", "Admin", "Admin");
 		session.save(p1);
 		session.save(p2);
 		session.save(p3);
