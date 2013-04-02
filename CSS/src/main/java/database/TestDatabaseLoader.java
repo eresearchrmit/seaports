@@ -19,7 +19,7 @@ import war.model.*;
 @SuppressWarnings("deprecation")
 public class TestDatabaseLoader {
 
-	// The password correspond to the SHA-256 hash of 'assword'
+	// The password correspond to the SHA-256 hash of 'password'
 	private static final String DEFAULT_PASSWORD = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
 	
 	public static void main(String[] args)
