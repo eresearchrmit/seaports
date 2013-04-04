@@ -84,7 +84,7 @@ public class WeatherEvent
 	}
 	
 	/**
-	 * Constructor of WeatherEvent secifying all the fields
+	 * Constructor of WeatherEvent specifying all the fields
 	 * @param type: the type of the weather event
 	 * @param year: the year when the weather event happened
 	 * @param direct: whether the event had direct or indirect impact
@@ -94,14 +94,14 @@ public class WeatherEvent
 	 * @param response: the description of the response to the weather event
 	 * @param responseAdequate: whether the response was adequate or not
 	 */
-	public WeatherEvent(String type, Integer year, Boolean direct, String impact, String consequences,  
-			ConsequencesRating consequencesRating, String response, Boolean responseAdequate) {
+	public WeatherEvent(String type, Integer year, Boolean direct, String impact, 
+			String consequences, String response, Boolean responseAdequate) {
 		setType(type);
 		setYear(year);
 		setDirect(direct);
 		setImpact(impact);
 		setConsequences(consequences);
-		setConsequencesRating(consequencesRating);
+		//setConsequencesRating(consequencesRating);
 		setResponse(response);
 		setResponseAdequate(responseAdequate);
 	}

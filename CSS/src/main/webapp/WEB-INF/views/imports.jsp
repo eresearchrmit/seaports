@@ -47,21 +47,9 @@
 <script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jquery.bubble-popup-v3.min.js" />"></script>
 <!-- END: load jquery -->
 
-
-<!-- BEGIN: load jqplot -->
-<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.jqplot.min.css" />" />
-<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/excanvas.min.js" />"></script><![endif]-->
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/jquery.jqplot.min.js" />"></script>
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/plugins/jqplot.canvasTextRenderer.min.js" />"></script>
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/plugins/jqplot.canvasAxisLabelRenderer.min.js" />"></script>
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/plugins/jqplot.barRenderer.min.js" />"></script>
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/plugins/jqplot.pieRenderer.min.js" />"></script>
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js" />"></script>
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/plugins/jqplot.highlighter.min.js" />"></script>
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/plugins/jqplot.pointLabels.min.js" />"></script>
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/plugins/jqplot.donutRenderer.min.js" />"></script>
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jqPlot/plugins/jqplot.bubbleRenderer.min.js" />"></script>
-<!-- END: load jqplot -->
+<script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts.js" />" ></script>
+<script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts-more.js" />" ></script>
+<script type="text/javascript" src="<c:url value="/resources/js/highcharts/modules/exporting.js" />" ></script>
 
 <script language="javascript" type="text/javascript" src="<c:url value="/resources/js/pretty-photo/jquery.prettyPhoto.js" />"></script>
 

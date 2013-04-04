@@ -489,8 +489,8 @@ public class WorkboardController {
 		@RequestParam(value="weatherEventYear",required=true) String yearString,
 		@RequestParam(value="weatherEventDirect",required=true) String directString, 
 		@RequestParam(value="weatherEventImpact",required=true) String impact,
-		@RequestParam(value="weatherEventConsequences",required=true) String consequences,
-		@RequestParam(value="weatherEventConsequencesRating",required=true) String consequencesRatingString,
+		@RequestParam(value="weatherEventConsequence1",required=true) String weatherEventConsequence1, @RequestParam(value="weatherEventConsequence2",required=true) String weatherEventConsequence2, @RequestParam(value="weatherEventConsequence3",required=true) String weatherEventConsequence3, @RequestParam(value="weatherEventConsequence4",required=true) String weatherEventConsequence4, @RequestParam(value="weatherEventConsequence5",required=true) String weatherEventConsequence5, @RequestParam(value="weatherEventConsequence6",required=true) String weatherEventConsequence6,  
+		@RequestParam(value="weatherEventConsequence7",required=true) String weatherEventConsequence7, @RequestParam(value="weatherEventConsequence8",required=true) String weatherEventConsequence8, @RequestParam(value="weatherEventConsequence9",required=true) String weatherEventConsequence9, @RequestParam(value="weatherEventConsequence10",required=true) String weatherEventConsequence10, @RequestParam(value="weatherEventConsequence11",required=true) String weatherEventConsequence11,
 		@RequestParam(value="weatherEventResponse",required=true) String response,
 		@RequestParam(value="weatherEventResponseAdequate",required=true) String responseAdequateString,
 		Model model)
@@ -505,11 +505,17 @@ public class WorkboardController {
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
 			Boolean direct = (directString != null && directString.equals("direct")) ? true : false;
-			ConsequencesRating consequencesRating = ConsequencesRating.valueOf(consequencesRatingString.toUpperCase());
+			//ConsequencesRating consequencesRating = ConsequencesRating.valueOf(consequencesRatingString.toUpperCase());
 			Boolean responseAdequate = (responseAdequateString != null && responseAdequateString.equals("adequate")) ? true : false;
 			Integer year = Integer.valueOf(yearString);
 			
-			WeatherEvent weatherEvent = new WeatherEvent(type, year, direct, impact, consequences, consequencesRating, response, responseAdequate);
+			String consequences = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 
+					weatherEventConsequence1, weatherEventConsequence2, weatherEventConsequence3,
+					weatherEventConsequence4, weatherEventConsequence5, weatherEventConsequence6, 
+					weatherEventConsequence7, weatherEventConsequence8, weatherEventConsequence9, 
+					weatherEventConsequence10, weatherEventConsequence11);
+
+			WeatherEvent weatherEvent = new WeatherEvent(type, year, direct, impact, consequences, response, responseAdequate);
 			weatherEventDao.save(weatherEvent);
 			DataElementVulnerability dataElement = new DataElementVulnerability(new Date(), "Vulnerability", true, 0, userStory, weatherEvent);
 			dataElementDao.save(dataElement);

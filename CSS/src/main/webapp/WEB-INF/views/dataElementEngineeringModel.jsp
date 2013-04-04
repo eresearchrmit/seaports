@@ -4,53 +4,86 @@
 <%@ page import="war.model.DataElementEngineeringModel" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<div id="points-chart-${dataElementLoopIndex}" style="width:95%; margin-bottom:30px">
+<script type="text/javascript">
+	$(function () {
+        $('#${dataelementsfilter}-engineeringmodel-LineGraph${dataElementLoopIndex}').highcharts({
+            chart: {
+                zoomType: 'x',
+                spacingRight: 20
+            },
+            title: {
+                text: '${dataelement.engineeringModelDataList[0].variable.name} over Time'
+            },
+            subtitle: {
+                text: document.ontouchstart === undefined ?
+                    'Click and drag in the plot area to zoom in' :
+                    'Drag your finger over the plot to zoom in'
+            },
+            xAxis: {
+                type: 'datetime',
+                maxZoom: 5 * 365 * 24 * 3600 * 1000, // 5 years
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                title: {
+                	text: '${dataelement.engineeringModelDataList[0].variable.shortName} (${dataelement.engineeringModelDataList[0].variable.uom})'
+                }
+            },
+            tooltip: {
+                shared: true,
+                valueSuffix: '${dataelement.engineeringModelDataList[0].variable.uom}'
+            },
+            legend: {
+                enabled: false
+            },
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                        stops: [
+                            [0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]
+                    },
+                    lineWidth: 1,
+                    marker: {
+                        enabled: false
+                    },
+                    shadow: false,
+                    states: {
+                        hover: {
+                            lineWidth: 1
+                        }
+                    },
+                    threshold: null
+                }
+            },
+            
+            series: [
+                <c:forEach items="${dataelement.engineeringModelDataList}" var="engModelData" varStatus="loop">{
+                	name: '${engModelData.parameters.emissionScenario.name} ${engModelData.parameters.model.name}',
+                	pointInterval: 365 * 24 * 3600 * 1000, // 1 year
+                    pointStart: Date.UTC(2000, 0, 01),
+                    data: [
+						<c:forEach var="i" begin="2000" end="2070" step="1" varStatus="yearLoop">
+							${engModelData.values[i]}<c:if test="${!yearLoop.last}">,</c:if>
+						</c:forEach>]
+				}<c:if test="${!loop.last}">,</c:if>
+            </c:forEach>]
+        });
+    });
+</script>
+
+<div id="${dataelementsfilter}-engineeringmodel-LineGraph${dataElementLoopIndex}" class="highcharts" style="width:95%; margin-bottom:30px">
 </div>
 
-<script type="text/javascript" language="javascript">
-	var series = new Array();
-	<c:forEach items="${dataelement.engineeringModelDataList}" var="engModelData" varStatus="loop">
-	    series[${loop.index}] = new Array();
-	    <c:forEach items="${engModelData.values}" var="values">
-	    	series[${loop.index}].push([${values.key}, ${values.value}]);
-	    </c:forEach>
-	</c:forEach>
-	
-
-	var graphTitle = "${dataelement.engineeringModelDataList[0].variable.name} over time";
-	var yAxisTitle = "${dataelement.engineeringModelDataList[0].variable.shortName}";
-	
-    var plot = $.jqplot('points-chart-${dataElementLoopIndex}', 
-    		[<c:forEach items="${dataelement.engineeringModelDataList}" var="engModelData" varStatus="loop">
-				series[${loop.index}]<c:if test="${!loop.last}">,</c:if>
-			</c:forEach>],
-	{
-    	title: graphTitle,
-    	series: [<c:forEach items="${dataelement.engineeringModelDataList}" var="engModelData" varStatus="loop">{
-                	label: "${engModelData.parameters.emissionScenario.name} ${engModelData.parameters.model.name}", 
-                	showMarker: false,
-                	lineWidth: 1
-                }<c:if test="${!loop.last}">,</c:if>
-    			</c:forEach>],
-    	axes: {
-            xaxis: {
-              label: "Time",
-              pad: 0
-            },
-            yaxis: {
-              label: yAxisTitle
-            }
-    	},
-        legend: {
-            show: true,
-            location: "se"
-        }
-	});
-</script>
-	<center>
+<center>
 	<h6>ASSET: ${dataelement.engineeringModelDataList[0].asset.assetCode} (${dataelement.engineeringModelDataList[0].asset.description})</h6> 
 	<p>Built in ${dataelement.engineeringModelDataList[0].asset.yearBuilt}.</p>
-	</center>
+</center>
+
 <table class="data display datatable" id="example" >
 	<tbody>
 		<tr>

@@ -55,6 +55,9 @@
 			$("#tabs").tabs({
 				select: function(event, ui) {                   
 					window.location.replace(ui.tab.hash);
+				},
+				show: function(event, ui) {
+					$(window).resize(); // triggered to resize the Highcharts graphs to a % of the width of the tab
 				}
 			});
 		});

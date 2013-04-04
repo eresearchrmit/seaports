@@ -277,23 +277,6 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Business consequences <a href="#" class="lnkHelpVulnerabilityConsequences" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
-						<td class="col2">
-							<textarea id="txtWeatherEventConsequences" name="weatherEventConsequences" rows="5" class="small"></textarea>
-						</td>
-					</tr>
-					<tr>
-						<td class="top">Rate the consequences <a href="#" id="lnkHelpVulnerabilityConsequencesRating" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
-						<td class="col2">
-							<select id="cbbWeatherEventConsequencesRating" name="weatherEventConsequencesRating">
-								<option value="Insignificant">1 - Insignificant</option>
-								<option value="Moderate">2 - Moderate</option>
-								<option value="Major">3 - Major</option>
-								<option value="Extreme">4 - Extreme</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
 						<td class="top">Lost time due to staff or contractor injuries<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence1" value="0" checked="checked" /> No impact
@@ -374,7 +357,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Interrution/halt to logistics operations<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Interruption/halt to logistics operations<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence9" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence9" value="1" /> Insignificant
