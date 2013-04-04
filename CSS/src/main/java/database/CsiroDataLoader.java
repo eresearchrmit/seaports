@@ -24,6 +24,7 @@ public class CsiroDataLoader {
 	
 	public static final String csiroPictureFolderPath = "src/main/java/database/csiro-pictures/";
 	public static final String cmarPictureFolderPath = "src/main/java/database/cmar-pictures/";
+	public static final String bomPictureFolderPath = "src/main/java/database/bom-pictures/";
 	
 	public static void main(String[] args)
 	{
@@ -519,6 +520,46 @@ public class CsiroDataLoader {
 		session.save(new CsiroData(dateCsiroData, params, rf, 2070, 2.5, null));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2070, 0.9, null));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -0.6, null));
+			
 		
+		Date datePastData = new Date();
+		
+		Date dateShortTermPastStart;
+		try { dateShortTermPastStart = formatter.parse("01/01/1970");} 
+		catch (ParseException e) { dateShortTermPastStart = new Date(); }
+		Date dateShortTermPastEnd;
+		try { dateShortTermPastEnd = formatter.parse("01/01/2011");} 
+		catch (ParseException e) { dateShortTermPastEnd = new Date(); }
+		Date dateLongTermPastStart;
+		try { dateLongTermPastStart = formatter.parse("01/01/1880");} 
+		catch (ParseException e) { dateLongTermPastStart = new Date(); }
+		Date dateLongTermPastEnd;
+		try { dateLongTermPastEnd = formatter.parse("01/01/2011");} 
+		catch (ParseException e) { dateLongTermPastEnd = new Date(); }
+		
+		file = new File(bomPictureFolderPath + "trend-mean-temperature-1970-2011.jpg");
+		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
+		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
+		session.save(new PastData(datePastData, "Trend in mean temperature", dateShortTermPastStart, dateShortTermPastEnd, "http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmean&area=aus&season=0112&period=1970", arrPictureContent));
+		
+		file = new File(bomPictureFolderPath + "trend-maximum-temperature-1970-2011.jpg");
+		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
+		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
+		session.save(new PastData(datePastData, "Trend in maximum temperature", dateShortTermPastStart, dateShortTermPastEnd, "http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmax&area=aus&season=0112&period=1970", arrPictureContent));
+		
+		file = new File(bomPictureFolderPath + "trend-total-annual-rainfall-1970-2011.jpg");
+		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
+		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
+		session.save(new PastData(datePastData, "Trend in total annual rainfall", dateShortTermPastStart, dateShortTermPastEnd, "http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=rain&area=aus&season=0112&period=1970", arrPictureContent));
+		
+		file = new File(bomPictureFolderPath + "long-term-sea-level-changes-1880-2012.jpg");
+		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
+		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
+		session.save(new PastData(datePastData, "Long term global sea level rise measurements", dateLongTermPastStart, dateLongTermPastEnd, "http://www.cmar.csiro.au/sealevel/sl_hist_few_hundred.html", arrPictureContent));
+		
+		file = new File(bomPictureFolderPath + "short-term-sea-level-changes.jpg");
+		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
+		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
+		session.save(new PastData(datePastData, "Short term changes in sea level rise", dateShortTermPastStart, dateShortTermPastEnd, "http://www.csiro.au/Outcomes/Climate/Understanding/State-of-the-Climate-2012.aspx", arrPictureContent));
 	}
 }

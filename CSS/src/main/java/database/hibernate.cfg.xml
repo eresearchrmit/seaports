@@ -54,5 +54,11 @@
 		
 		<mapping class="war.model.EngineeringModelVariable" />
 		<mapping class="war.model.EngineeringModelData" />
+		
+		<mapping class="war.model.PastData" />
+		
+		<mapping class="war.model.AcornSatVariable" />
+		<mapping class="war.model.AcornSatStation" />
+		<mapping class="war.model.AcornSatData" />
     </session-factory>
 </hibernate-configuration>

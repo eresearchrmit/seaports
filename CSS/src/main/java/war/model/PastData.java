@@ -1,0 +1,175 @@
+package war.model;
+
+import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.apache.commons.codec.binary.Base64;
+
+/**
+ * Class representing the past observed data from Bureau of Meteorology and CSIRO
+ * @author Guillaume Prevost
+ * @since 4th Apr. 2013
+ */
+@Entity
+@Table(name = "PastData")
+public class PastData
+{
+	private static final long serialVersionUID = -1308795024262635690L;
+	
+	/**
+	 * The unique ID of the past data
+	 */
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private int id;
+    
+	/**
+	 * The date when this data has been observed
+	 */
+	private Date creationDate;
+	
+	/**
+	 * The start date of the period this data relates to
+	 */
+	private Date periodStart;
+	
+	/**
+	 * The end date of the period this data relates to
+	 */
+	private Date periodEnd;
+	
+	/**
+	 * The URL of the source of the picture
+	 */
+	@Column
+	private String sourceUrl;
+	
+	/**
+	 * The picture representing the data
+	 */
+	@Column(columnDefinition = "LONGBLOB")
+	private byte[] picture;
+	
+	/**
+	 * Default constructor of CsiroData
+	 */
+	public PastData() {
+		setCreationDate(new Date());
+	}
+	
+	/**
+	 * Constructor of CsiroData
+	 * @param creationDate: the date when this data has been created
+	 * @param variable: the variable that this data represents
+	 * @param sourceURL: the URL of the source of the data
+	 * @param picture: the picture representing the value
+	 */
+	public PastData(Date creationDate, String title, Date periodStart, Date periodEnd, String sourceUrl, byte[] picture) {
+		setCreationDate(creationDate);
+		setPeriodStart(periodEnd);
+		setPeriodEnd(periodEnd);
+		setSourceUrl(sourceUrl);
+		setPicture(picture);
+	}
+
+	/**
+	 * Getter for the unique ID of the CMAR Data
+	 * @return: the unique ID of the CMAR Data
+	 */
+	public int getId() {
+		return id;
+	}
+	
+	/**
+	 * Getter for the creation date of the Data
+	 * @return: the creation date of the data
+	 */
+	public Date getCreationDate() {
+		return creationDate;
+	}
+	
+	/**
+	 * Setter for the creation date of the Data
+	 * @param creationDate: the new creation date of the Data
+	 */
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	/**
+	 * Getter for the start date of the period this data relates to
+	 * @return: The start date of the period this data relates to
+	 */
+	public Date getPeriodStart() {
+		return this.periodStart;
+	}
+	
+	/**
+	 * Setter for the start date of the period this data relates to
+	 * @param periodStart: the new start date of the period this data relates to
+	 */
+	public void setPeriodStart(Date periodStart) {
+		this.periodStart = periodStart;
+	}
+	
+	/**
+	 * Getter for the end date of the period this data relates to
+	 * @return: The end date of the period this data relates to
+	 */
+	public Date getPeriodEnd() {
+		return this.periodEnd;
+	}
+	
+	/**
+	 * Setter for the end date of the period this data relates to
+	 * @param periodEnd: the new end date of the period this data relates to
+	 */
+	public void setPeriodEnd(Date periodEnd) {
+		this.periodEnd = periodEnd;
+	}
+
+	/**
+	 * Getter for the URL of the source of the picture
+	 * @return: the current URL of the source of the picture
+	 */
+	public String getSourceUrl() {
+		return this.sourceUrl;
+	}
+	
+	/**
+	 * Setter for the URL of the source of the picture
+	 * @param value: the new URL of the source of the picture
+	 */
+	public void setSourceUrl(String sourceUrl) {
+		this.sourceUrl = sourceUrl;
+	}
+	
+	/**
+	 * Getter for the picture representing the value
+	 * @return: the current picture representing the value
+	 */
+	public byte[] getPicture() {
+		return picture;
+	}
+	
+	/**
+	 * Setter for the picture representing the value
+	 * @param value: the new picture representing the value
+	 */
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+	
+	public String getStringPicture() {
+		if (this.picture != null && this.picture.length > 0)
+			return Base64.encodeBase64String(this.picture);
+		else
+			return "";
+	}
+}

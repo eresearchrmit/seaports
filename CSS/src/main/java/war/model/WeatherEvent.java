@@ -58,13 +58,6 @@ public class WeatherEvent
 	private String consequences;
 	
 	/**
-	 * Rating of the consequences of the weather event
-	 */
-	@Column
-	@Enumerated(EnumType.STRING)
-	private ConsequencesRating consequencesRating;
-	
-	/**
 	 * Description of the response to the weather event
 	 */
 	@Column
@@ -101,7 +94,6 @@ public class WeatherEvent
 		setDirect(direct);
 		setImpact(impact);
 		setConsequences(consequences);
-		//setConsequencesRating(consequencesRating);
 		setResponse(response);
 		setResponseAdequate(responseAdequate);
 	}
@@ -203,22 +195,6 @@ public class WeatherEvent
 	}
 	
 	/**
-	 * Getter for the rating of the consequences of the weather event
-	 * @return: the current rating of the consequences of the weather event
-	 */
-	public ConsequencesRating getConsequencesRating() {
-		return this.consequencesRating;
-	}
-	
-	/**
-	 * Setter for the rating of the consequences of the weather event
-	 * @param consequencesRating: the new rating of the consequences of the weather event
-	 */
-	public void setConsequencesRating(ConsequencesRating consequencesRating) {
-		this.consequencesRating = consequencesRating;
-	}
-	
-	/**
 	 * Getter for the description of the response of the Weather Event
 	 * @return: the current description of the response of the Weather Event
 	 */
@@ -248,34 +224,5 @@ public class WeatherEvent
 	 */
 	public void setResponseAdequate(Boolean responseAdequate) {
 		this.responseAdequate = responseAdequate;
-	}
-	
-	public enum ConsequencesRating {
-		NONE("No Impact"),
-		INSIGNIFICANT("Insignificant"),
-		MODERATE("Moderate"),
-		MAJOR("Major"),
-		EXTREME("Extreme");
-		
-		private String text;
-
-		ConsequencesRating(String text) {
-			this.text = text;
-		}
-
-		public String getText() {
-			return this.text;
-		}
-
-		public static ConsequencesRating fromString(String text) {
-			if (text != null) {
-				for (ConsequencesRating cr : ConsequencesRating.values()) {
-					if (text.equalsIgnoreCase(cr.text)) {
-						return cr;
-					}
-				}
-			}
-			return null;
-		}
 	}
 }

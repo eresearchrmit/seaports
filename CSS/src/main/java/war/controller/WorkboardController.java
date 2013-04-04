@@ -15,7 +15,6 @@ import javax.persistence.NoResultException;
 
 import war.dao.*;
 import war.model.*;
-import war.model.WeatherEvent.ConsequencesRating;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;

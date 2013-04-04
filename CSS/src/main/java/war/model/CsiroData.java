@@ -49,14 +49,12 @@ public class CsiroData
 	 * The variable that this data represents
 	 */
 	@ManyToOne
-	@JoinColumn(name="climate_variable_id")
+	@JoinColumn(name="csiro_variable_id")
 	private CsiroVariable variable;
 
 	/**
 	 * The baseline value of the variable
 	 */
-	/*@ManyToOne
-	@JoinColumn(name="csiro_data_baseline_id")*/
 	@Transient
 	private CsiroDataBaseline baseline;
 	
