@@ -29,7 +29,7 @@ public class AcornSatStation {
 	/**
 	 * The number of the station
 	 */
-	private int number;
+	private Double number;
 	
 	/**
 	 * The name of the station
@@ -67,7 +67,7 @@ public class AcornSatStation {
 	 * @param longitude: the longitude of the weather station
 	 * @param region: the region where the seaport is located
 	 */
-	public AcornSatStation(Integer number, String name, Double latitude, Double longitude, Region region) {
+	public AcornSatStation(Double number, String name, Double latitude, Double longitude, Region region) {
 		setNumber(number);
 		setName(name);
 		setLatitude(latitude);
@@ -87,7 +87,7 @@ public class AcornSatStation {
 	 * Getter for the number of the weather station
 	 * @return the number of the weather station
 	 */
-	public Integer getNumber() {
+	public Double getNumber() {
 		return this.number;
 	}
 	
@@ -95,7 +95,7 @@ public class AcornSatStation {
 	 * Setter for the number of the weather station
 	 * @param number: the new number of the weather station
 	 */
-	public void setNumber(Integer number) {
+	public void setNumber(Double number) {
 		this.number = number;
 	}
 	

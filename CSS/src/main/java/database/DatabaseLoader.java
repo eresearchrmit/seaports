@@ -1,5 +1,4 @@
 package database;
-import java.util.Date;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -41,49 +40,64 @@ public class DatabaseLoader {
 		session.save(p4);
 		session.save(p5);
 		session.save(p6);
-		
-		// Add Workboards & User Stories
-		/*UserStory wb = new UserStory();
-		wb.setName("My Workboard");
-		wb.setMode("active");
-		wb.setAccess("private");
-		wb.setOwner(p1);*/
-		
-		UserStory us = new UserStory();
-		us.setName("My User Story");
-		//us.setRegion(new Region("East Coast South"));
-		us.setMode("passive");
-		us.setAccess("private");
-		us.setOwner(p1);
-		
-		//session.save(wb);
-		session.save(us);
-		
-		// Add Data Elements
-	    Date date = new Date();
-	    String content = "This is a test for Data Element";
-	    DataElementFile de1 = new DataElementFile(date, "Test 1", true, 1, us, "csv", content.getBytes());
-	   
-	    content = "This is the second test";
-	    DataElementFile de2 = new DataElementFile(date, "Test 2", true, 2, us, "xml", content.getBytes());
-	    de2.setIncluded(false);
-	    
-	    DataElementText text1 = new DataElementText(date, "Comment text 1", true, 2, us, "This is a text comment");
-	    text1.setIncluded(false);
-	    
-	    content = "This is the third test";
-	    DataElementFile de3 = new DataElementFile(date, "Test 3", true, 3, us, "txt", content.getBytes());
-	    
-	    DataElementText text2 = new DataElementText(date, "Comment text 1", true, 4, us, "This is a text comment");
 
-	    session.save(de1);
-		session.save(de2);
-		session.save(text1);
-		session.save(de3);
-		session.save(text2);
-	
+		// Regions & Ports
+		Region r1 = new Region("East Coast South");
+		Region r2 = new Region("Southern Slopes Vic East");
+		Region r3 = new Region("Southern and South-Western Flatlands");
+		Region r4 = new Region("Monsoonal North");
+		Region r5 = new Region("Wet Tropics");
+		Region r6 = new Region("Rangelands");
+		Region r7 = new Region("Central Slopes");
+		Region r8 = new Region("Murray Basin");
+		session.save(r1);
+		session.save(r2);
+		session.save(r3);
+		session.save(r4);
+		session.save(r5);
+		session.save(r6);
+		session.save(r7);
+		session.save(r8);
+		
+		Seaport port1 = new Seaport("AUYBA", "Port of Yamba", r1);
+		Seaport port2 = new Seaport("AUNTL", "Newcastle Port", r1);
+		Seaport port3 = new Seaport("AUSYD", "Sydney Harbour", r1);
+		Seaport port4 = new Seaport("AUBTB", "Port of Botany Bay", r1);
+		Seaport port5 = new Seaport("AUCFS", "Coffs Harbour", r1);
+		
+		Seaport port6 = new Seaport("AUBSJ", "Lakes Entrance (Bairnsdale)", r2);
+		Seaport port7 = new Seaport("AUPKL", "Port Kembla", r2);
+		Seaport port8 = new Seaport("AUQDN", "Port of Eden", r2);
+		Seaport port9 = new Seaport("AUXMC", "Port of Mallacoota", r2);
+		Seaport port10 = new Seaport("AUWHL", "Port of Corner Inlet & Port Albert (Welshpool)", r2);
+		
+		Seaport port11 = new Seaport("AUEPR", "Esperance Port", r3);
+		Seaport port12 = new Seaport("AUALH", "Albany Port", r3);
+		Seaport port13 = new Seaport("AUBUY", "Port of Bunbury", r3);
+		Seaport port14 = new Seaport("AUGET", "Port of Geraldton", r3);
+		Seaport port15 = new Seaport("AUFRE", "Fremantle", r3);
+		
+		session.save(port1);
+		session.save(port2);
+		session.save(port3);
+		session.save(port4);
+		session.save(port5);
+		session.save(port6);
+		session.save(port7);
+		session.save(port8);
+		session.save(port9);
+		session.save(port10);
+		session.save(port11);
+		session.save(port12);
+		session.save(port13);
+		session.save(port14);
+		session.save(port15);
+		
 		CsiroDataLoader.LoadCsiroData(session);
 		EngineeringModelDataLoader.LoadEngineeringModelData(session);
+		BomDataLoader.LoadBomData(session);
+		AcornSatDataLoader.LoadAcornSatData(session);
+		AbsDataLoader.LoadAbsData(session);
 		
 		session.getTransaction().commit();
 	}

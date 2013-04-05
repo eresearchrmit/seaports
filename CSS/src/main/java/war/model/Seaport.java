@@ -1,8 +1,6 @@
 package war.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,11 +18,10 @@ public class Seaport {
 	private static final long serialVersionUID = -1308795024262635690L;
 	
 	/**
-	 * The unique ID of the seaport
+	 * The code of the seaport
 	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
+	private String code;
 	
 	/**
 	 * The name of the seaport
@@ -46,20 +43,30 @@ public class Seaport {
 	
 	/**
 	 * Constructor of Seaport specifying the name
+	 * @param code: the unique code of the seaport
 	 * @param name: the name of the seaport
 	 * @param region: the region where the seaport is located
 	 */
-	public Seaport(String name, Region region) {
-		this.name = name;
-		this.region = region;
+	public Seaport(String code, String name, Region region) {
+		setCode(code);
+		setName(name);
+		setRegion(region);
 	}
 	
 	/**
-	 * Getter for the unique ID of the parameters combination
-	 * @return the unique ID of the parameters
+	 * Getter for the code of the seaport
+	 * @return the current code of the seaport
 	 */
-	public int getId() {
-		return this.id;
+	public String getCode() {
+		return this.code;
+	}
+	
+	/**
+	 * Setter for the code for the seaport
+	 * @param code: the new code of the seaport
+	 */
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
 	/**

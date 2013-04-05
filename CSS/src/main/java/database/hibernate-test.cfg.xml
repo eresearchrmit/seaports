@@ -60,5 +60,8 @@
 		<mapping class="war.model.AcornSatVariable" />
 		<mapping class="war.model.AcornSatStation" />
 		<mapping class="war.model.AcornSatData" />
+		
+		<mapping class="war.model.AbsVariable" />
+		<mapping class="war.model.AbsData" />
     </session-factory>
 </hibernate-configuration>
