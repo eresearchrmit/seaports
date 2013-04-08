@@ -19,7 +19,7 @@
 					<table class="form">
 					    <tr>
 					    	<td class="col1" align="right">User name:</td>
-					    	<td class="col2" align="left"><input type="text" name="j_username" value=""></td>
+					    	<td class="col2" align="left"><input type="text" id="txtUsername" name="j_username" value=""></td>
 					    </tr>
 					    <tr>
 					    	<td class="col1" align="right">Password:</td>
@@ -29,6 +29,7 @@
 					<p><a href="/CSS/register">Don't have an account ? Click here to sign up and start</a></p>
 					<input name="submit" type="submit" value="Log In" class="btn btn-blue" />
 				</form:form>
+				<script type="text/javascript">$("#txtUsername").focus();</script>
 			</center>
 		</div>
 	</div>

@@ -7,6 +7,7 @@
  	<c:forEach items="${dataelements}" var="dataelement" varStatus="status">
  			<c:if test="${(dataelementsfilter == 'Future' && (dataelement.class.simpleName == 'DataElementCsiro' || dataelement.class.simpleName == 'DataElementCmar'))  
  						|| (dataelementsfilter == 'Applications' && (dataelement.class.simpleName == 'DataElementEngineeringModel' || dataelement.class.simpleName == 'DataElementVulnerability')) 
+ 						|| (dataelementsfilter == 'ObservedClimate' && (dataelement.class.simpleName == 'DataElementPast' || dataelement.class.simpleName == 'DataElementAcornSat'))
  						|| (dataelementsfilter == 'NonClimate' && dataelement.class.simpleName == 'DataElementFile') 
  						|| (dataelementsfilter == 'All')}">
 	 			<c:set var="dataelement" scope="request" value="${dataelement}"/>
@@ -26,6 +27,16 @@
 					<input name="dataElements[${status.index}].filename" value="${dataelement.name}" type="hidden">
 					
 					<div class="box-content">
+						<!-- Past Data Element -->
+		 				<c:if test="${dataelement.class.simpleName == 'DataElementPast'}">
+		 					<jsp:include page="dataElementPast.jsp" />
+		 				</c:if>
+		 				
+		 				<!-- Acorn-Sat Data Element -->
+		 				<c:if test="${dataelement.class.simpleName == 'DataElementAcornSat'}">
+		 					<jsp:include page="dataElementAcornSat.jsp" />
+		 				</c:if>
+						
 						<!-- CSIRO Data Element -->
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
 		 					<jsp:include page="dataElementCsiro.jsp" />

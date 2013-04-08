@@ -9,14 +9,14 @@
 		<p style="margin-top:10px; text-align:center; font-weight"><b>${dataelement.csiroDataList[0].parameters.modelName} model (${dataelement.csiroDataList[0].parameters.model.name}) in the region ${dataelement.csiroDataList[0].parameters.region.name} for ${dataelement.csiroDataList[0].parameters.emissionScenario.description} (${dataelement.csiroDataList[0].parameters.emissionScenario.name})</b></p>
 		
 		<table class="data display datatable" id="example">
-		<thead>
-			<tr>
-				<th>Variable</th>
-				<th>Baseline</th>
-				<th>Change for the ${dataelement.csiroDataList[0].year}s</th>
-				<c:if test="${dataelement.picturesIncluded}"><th class="center">Map</th></c:if>
-			</tr>
-		</thead>
+			<thead>
+				<tr>
+					<th>Variable</th>
+					<th>Baseline</th>
+					<th>Change for the ${dataelement.csiroDataList[0].year}s</th>
+					<c:if test="${dataelement.picturesIncluded}"><th class="center">Map</th></c:if>
+				</tr>
+			</thead>
 			<tbody>
 				<c:forEach items="${dataelement.csiroDataList}" var="csiroData" varStatus="dataLoopStatus">
 					<tr class="${dataLoopStatus.index % 2 == 0 ? 'even' : 'odd'}">

@@ -100,7 +100,8 @@
 			<c:if test="${dataelementsCounts[1] <= 0}">
 				<div>
 					<h6><img src="<c:url value="/resources/img/icons/information.png" />"> Information</h6>
-					<p><b>BoM, Local ACORN-Sat</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus. </p>
+					<p><b>Past data</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus.</p>
+					<p><b>Local ACORN-Sat data</b>: Proin elit arcu, rutrum commodo, vehicula tempus, commodo a, risus. Curabitur nec arcu. Donec sollicitudin mi sit amet mauris. Nam elementum quam ullamcorper ante. Etiam aliquet massa et lorem. Mauris dapibus lacus auctor risus.</p>
 				</div>
 			</c:if>
 			
@@ -111,6 +112,8 @@
 				<jsp:include page="workboardToolbox.jsp" />
 			</center>
 			<div class="clear"></div><br />
+			
+			<jsp:include page="dataElements.jsp" />
 		</div>
 		
 		<div id="tabs-future-climate">

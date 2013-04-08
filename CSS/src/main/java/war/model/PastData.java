@@ -30,6 +30,11 @@ public class PastData
 	private int id;
     
 	/**
+	 * The title of the observed data
+	 */
+	private String title;
+	
+	/**
 	 * The date when this data has been observed
 	 */
 	private Date creationDate;
@@ -65,14 +70,16 @@ public class PastData
 	
 	/**
 	 * Constructor of CsiroData
+	 * @param title: the title of the observed data
 	 * @param creationDate: the date when this data has been created
 	 * @param variable: the variable that this data represents
 	 * @param sourceURL: the URL of the source of the data
 	 * @param picture: the picture representing the value
 	 */
-	public PastData(Date creationDate, String title, Date periodStart, Date periodEnd, String sourceUrl, byte[] picture) {
+	public PastData(String title, Date creationDate, Date periodStart, Date periodEnd, String sourceUrl, byte[] picture) {
+		setTitle(title);
 		setCreationDate(creationDate);
-		setPeriodStart(periodEnd);
+		setPeriodStart(periodStart);
 		setPeriodEnd(periodEnd);
 		setSourceUrl(sourceUrl);
 		setPicture(picture);
@@ -84,6 +91,22 @@ public class PastData
 	 */
 	public int getId() {
 		return id;
+	}
+	
+	/**
+	 * Getter for the title of the observed data
+	 * @return: the current title of the observed data
+	 */
+	public String getTitle() {
+		return this.title;
+	}
+	
+	/**
+	 * Setter for the title of the observed data
+	 * @param title: the new title of the observed data
+	 */
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 	/**

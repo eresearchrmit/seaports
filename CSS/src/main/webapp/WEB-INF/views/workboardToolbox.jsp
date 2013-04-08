@@ -24,7 +24,8 @@
 						<option value="none">- Select Data Source -</option>
 						<c:if test="${dataelementsfilter == 'Future'}"><option value="csiro">CSIRO</option></c:if>
 						<c:if test="${dataelementsfilter == 'Future'}"><option value="cmar">CMAR</option></c:if>
-						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="bom">BoM</option></c:if>
+						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="past">Past data</option></c:if>
+						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="acornSat">Acorn-Sat data</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="engineering">Engineering Model</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="vulnerability">Vulnerability Matrix</option></c:if>
 						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="customFile">Custom file</option></c:if>
@@ -159,23 +160,51 @@
 		</c:if>
 		
 		<c:if test="${dataelementsfilter == 'ObservedClimate'}">
-		<div id="bomDataForm" class="dataElementForm">
-			<p><strong>2. BoM Data Options:</strong></p>
+		<div id="pastDataForm" class="dataElementForm">
+			<form:form method="post" action="/CSS/auth/workboard/addPastData#tabs-observed-climate">
+			<input type="hidden" name="userstoryid" value="${userstory.id}" />
+			<p><strong>2. Past Data Options:</strong></p>
 			<table width="auto" height="auto" class="form">
 				<tr>
-					<td align="right">Year:</td>
-					<td>
-						<select id="cbbBomYear" name="year">
-							<option value="2030">2030</option>
-							<option value="2055">2055</option>
-							<option value="2070">2070</option>
+					<td>Variable:</td>
+					<td class="col2">
+						<select id="cbbPastDataTitle" name="pastDataTitle">
+							<option value="Trend in mean temperatures">Trend in mean temperatures</option>
+							<option value="Trend in maximum temperatures">Trend in maximum temperatures</option>
+							<option value="Trend in total annual rainfall">Trend in total annual rainfall</option>
+							<option value="Long-term sea level rise measurements">Long-term sea level rise measurements</option>
+							<option value="Short-term changes in sea level">Short-term changes in sea level</option>
 						</select>
 					</td>
 				</tr>
 			</table>
 			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-				<span></span>Add BoM Data Element
+				<span></span>Add Past Data Element
 			</button>
+			</form:form>
+		</div>
+		</c:if>
+		
+		<c:if test="${dataelementsfilter == 'ObservedClimate'}">
+		<div id="acornSatDataForm" class="dataElementForm">
+			<form:form method="post" action="/CSS/auth/workboard/addAcornSatData#tabs-observed-climate">
+			<input type="hidden" name="userstoryid" value="${userstory.id}" />
+			<p><strong>2. Acorn-Sat Data Options:</strong></p>
+			<table width="auto" height="auto" class="form">
+				<tr>
+					<td>Type of measurements:</td>
+					<td class="col2">
+						<select id="cbbAcornSatDataExtreme" name="acornSatExtremeData">
+							<option value="mean">Mean measurements</option>
+							<option value="extreme">Extreme measurements</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+				<span></span>Add Acorn-Sat Data Element
+			</button>
+			</form:form>
 		</div>
 		</c:if>
 		

@@ -35,42 +35,55 @@ public class TestDatabaseLoader {
 
 		// Regions & Ports
 		Region r1 = new Region("East Coast South");
-		Seaport port1 = new Seaport();
-		port1.setName("PORT 1");
-		port1.setRegion(r1);
-		Seaport port2 = new Seaport();
-		port2.setName("PORT 2");
-		port2.setRegion(r1);
-		Seaport port3 = new Seaport();
-		port3.setName("PORT 3");
-		port3.setRegion(r1);
-
 		Region r2 = new Region("Southern Slopes Vic East");
-		Seaport port4 = new Seaport();
-		port4.setName("PORT 4");
-		port4.setRegion(r2);
-		Seaport port5 = new Seaport();
-		port5.setName("PORT 5");
-		port5.setRegion(r2);
-		
 		Region r3 = new Region("Southern and South-Western Flatlands");
-		Seaport port6 = new Seaport();
-		port4.setName("PORT 6");
-		port4.setRegion(r3);
-		Seaport port7 = new Seaport();
-		port5.setName("PORT 7");
-		port5.setRegion(r3);
-		
+		Region r4 = new Region("Monsoonal North");
+		Region r5 = new Region("Wet Tropics");
+		Region r6 = new Region("Rangelands");
+		Region r7 = new Region("Central Slopes");
+		Region r8 = new Region("Murray Basin");
 		session.save(r1);
+		session.save(r2);
+		session.save(r3);
+		session.save(r4);
+		session.save(r5);
+		session.save(r6);
+		session.save(r7);
+		session.save(r8);
+		
+		Seaport port1 = new Seaport("AUYBA", "Port of Yamba", r1);
+		Seaport port2 = new Seaport("AUNTL", "Newcastle Port", r1);
+		Seaport port3 = new Seaport("AUSYD", "Sydney Harbour", r1);
+		Seaport port4 = new Seaport("AUBTB", "Port of Botany Bay", r1);
+		Seaport port5 = new Seaport("AUCFS", "Coffs Harbour", r1);
+		
+		Seaport port6 = new Seaport("AUBSJ", "Lakes Entrance (Bairnsdale)", r2);
+		Seaport port7 = new Seaport("AUPKL", "Port Kembla", r2);
+		Seaport port8 = new Seaport("AUQDN", "Port of Eden", r2);
+		Seaport port9 = new Seaport("AUXMC", "Port of Mallacoota", r2);
+		Seaport port10 = new Seaport("AUWHL", "Port of Corner Inlet & Port Albert (Welshpool)", r2);
+		
+		Seaport port11 = new Seaport("AUEPR", "Esperance Port", r3);
+		Seaport port12 = new Seaport("AUALH", "Albany Port", r3);
+		Seaport port13 = new Seaport("AUBUY", "Port of Bunbury", r3);
+		Seaport port14 = new Seaport("AUGET", "Port of Geraldton", r3);
+		Seaport port15 = new Seaport("AUFRE", "Fremantle", r3);
+		
 		session.save(port1);
 		session.save(port2);
 		session.save(port3);
-		session.save(r2);
 		session.save(port4);
 		session.save(port5);
-		session.save(r3);
 		session.save(port6);
 		session.save(port7);
+		session.save(port8);
+		session.save(port9);
+		session.save(port10);
+		session.save(port11);
+		session.save(port12);
+		session.save(port13);
+		session.save(port14);
+		session.save(port15);
 		
 		
 		// Add Users

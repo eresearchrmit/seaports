@@ -8,7 +8,7 @@
 	<c:when test="${dataelement.filetype == 'jpg' || dataelement.filetype == 'jpeg'}">
 		<ul class="prettygallery clearfix">
 			<li>
-				<a href="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" rel="prettyPhoto[gallery2]" title="${dataelement.name}">
+				<a href="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" rel="prettyPhoto" title="${dataelement.name}">
 					<img name="${dataelement.name}" src="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" class="dataElementThumb" />
 				</a>
 	    	</li>
