@@ -98,6 +98,7 @@ public class DatabaseLoader {
 		BomDataLoader.LoadBomData(session);
 		AcornSatDataLoader.LoadAcornSatData(session);
 		AbsDataLoader.LoadAbsData(session);
+		BitreDataLoader.LoadBitreData(session);
 		
 		session.getTransaction().commit();
 	}

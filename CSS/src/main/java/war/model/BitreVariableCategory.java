@@ -8,12 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Class representing a piece BITRE data
+ * Class representing a category of BITRE variable
  * @author Guillaume Prevost
  * @since 9th Apr. 2013
  */
 @Entity
-@Table(name = "BitreData")
+@Table(name = "BitreVariableCategory")
 public class BitreVariableCategory {
 
 	private static final long serialVersionUID = -1308795024262635690L;
@@ -46,7 +46,7 @@ public class BitreVariableCategory {
 	}
 	
 	/**
-	 * Getter for the unique ID of the parameters combination
+	 * Getter for the unique ID of the 
 	 * @return the unique ID of the parameters
 	 */
 	public int getId() {

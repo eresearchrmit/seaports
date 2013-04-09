@@ -1,7 +1,8 @@
 package war.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -16,7 +17,8 @@ public class BitreVariable extends Variable {
 	/**
 	 * The category of the BITRE variable
 	 */
-	@Column
+	@ManyToOne
+	@JoinColumn(name="bitre_variable_category_id")
 	private BitreVariableCategory category;
 	
 	/**

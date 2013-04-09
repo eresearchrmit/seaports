@@ -65,5 +65,9 @@
 		
 		<mapping class="war.model.AbsVariable" />
 		<mapping class="war.model.AbsData" />
+		
+		<mapping class="war.model.BitreVariableCategory" />
+		<mapping class="war.model.BitreVariable" />
+		<mapping class="war.model.BitreData" />
     </session-factory>
 </hibernate-configuration>
