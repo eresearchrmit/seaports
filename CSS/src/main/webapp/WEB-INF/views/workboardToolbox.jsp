@@ -25,7 +25,7 @@
 						<c:if test="${dataelementsfilter == 'Future'}"><option value="csiro">CSIRO</option></c:if>
 						<c:if test="${dataelementsfilter == 'Future'}"><option value="cmar">CMAR</option></c:if>
 						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="past">Past data</option></c:if>
-						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="acornSat">Acorn-Sat data</option></c:if>
+						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="acornSat">ACORN-SAT data</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="engineering">Engineering Model</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="vulnerability">Vulnerability Matrix</option></c:if>
 						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="customFile">Custom file</option></c:if>
@@ -189,7 +189,7 @@
 		<div id="acornSatDataForm" class="dataElementForm">
 			<form:form method="post" action="/CSS/auth/workboard/addAcornSatData#tabs-observed-climate">
 			<input type="hidden" name="userstoryid" value="${userstory.id}" />
-			<p><strong>2. Acorn-Sat Data Options:</strong></p>
+			<p><strong>2. ACORN-SAT Data Options:</strong></p>
 			<table width="auto" height="auto" class="form">
 				<tr>
 					<td>Type of measurements:</td>
@@ -202,7 +202,7 @@
 				</tr>
 			</table>
 			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-				<span></span>Add Acorn-Sat Data Element
+				<span></span>Add ACORN-SAT Data Element
 			</button>
 			</form:form>
 		</div>

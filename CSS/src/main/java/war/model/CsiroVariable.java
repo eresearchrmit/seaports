@@ -6,7 +6,7 @@ import javax.persistence.Table;
 /**
  * Class representing a climate variable
  * @author Guillaume Prevost
- * @since 15th Feb. 2012
+ * @since 15th Feb. 2013
  */
 @Entity
 @Table(name = "CsiroVariable")

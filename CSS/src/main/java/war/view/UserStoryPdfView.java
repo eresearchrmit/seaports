@@ -27,7 +27,7 @@ public class UserStoryPdfView extends AbstractPdfView {
 	private static Font h2 = new Font(Font.UNDEFINED, 20, Font.BOLD);
 	private static Font h4 = new Font(Font.UNDEFINED, 16, Font.BOLD);
 	
-	private static Font tableHeader = new Font(Font.UNDEFINED, 12, Font.BOLD);
+	//private static Font tableHeader = new Font(Font.UNDEFINED, 12, Font.BOLD);
 	
 	@Override
 	protected void buildPdfDocument(@SuppressWarnings("rawtypes")Map model, Document document,PdfWriter writer, 

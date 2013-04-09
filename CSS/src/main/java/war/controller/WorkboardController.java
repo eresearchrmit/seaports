@@ -508,7 +508,7 @@ public class WorkboardController {
     			acornSatDataList.addAll(acornSatDataDao.find(station, extreme));
     		}
     		
-    		DataElementAcornSat dataElement = new DataElementAcornSat(new Date(), "Acorn-Sat measurements", true, 0, userStory, acornSatDataList);
+    		DataElementAcornSat dataElement = new DataElementAcornSat(new Date(), "ACORN-SAT measurements", true, 0, userStory, acornSatDataList);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
