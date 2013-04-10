@@ -1,5 +1,9 @@
 package war.model;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * Class representing data from ABS
@@ -46,7 +51,10 @@ public class AbsData {
 	 * Formatted as "YYYY,Value1;YYYY,value2;...;YYYY,value3"
 	 */
 	@Column
-	private String value;
+	private String data;
+	
+    @Transient
+    private Map<Integer, Float> values = new HashMap<Integer, Float>();
 	
 	/**
 	 * Default constructor of AbsData
@@ -60,10 +68,10 @@ public class AbsData {
 	 * @param variable: the variable that this data represents
 	 * @param value: the evolution of the variable value
 	 */
-	public AbsData(Seaport seaport, AbsVariable variable, String value) {
+	public AbsData(Seaport seaport, AbsVariable variable, String data) {
 		setSeaport(seaport);
 		setVariable(variable);
-		setValue(value);
+		setData(data);
 	}
 	
 	/**
@@ -110,15 +118,72 @@ public class AbsData {
 	 * Getter for the evolution of the variable value
 	 * @return the current evolution of the variable value
 	 */
-	public String getValue() {
-		return this.value;
+	public String getData() {
+		if (this.data == null)
+			return generateData();
+		else
+			return this.data;
 	}
 	
 	/**
 	 * Setter for the evolution of the variable value
-	 * @param value: the new evolution of the variable value (formatted as "YYYY,Value1;YYYY,value2;...;YYYY,value3")
+	 * @param data: the new evolution of the variable value (formatted as "YYYY,Value1;YYYY,value2;...;YYYY,value3")
 	 */
-	public void setValue(String value) {
-		this.value = value;
+	public void setData(String data) {
+		this.data = data;
+		generateValues();
+	}
+	
+	/**
+	 * Getter for the map of year & values of the data
+	 * @return: the current map of year & values of the data
+	 */
+	public Map<Integer, Float> getValues() {
+		if (this.values == null)
+			return generateValues();
+		else
+			return this.values;
+	}
+	
+	/**
+	 * Setter for the map of year & values of the data
+	 * @param value: the new map of year & values of the data
+	 */
+	public void setValues(Map<Integer, Float> values) {
+		this.values = values;
+		generateData();
+	}
+	
+	/**
+	 * Generate the map of year & values from the data string
+	 * @return: the new generated map of year & values
+	 */
+	public Map<Integer, Float> generateValues() {
+		this.values.clear();
+		
+		String[] arrPairs = this.data.split(EngineeringModelData.PAIR_SEPARATOR);
+		for (String pair : arrPairs) {
+			String[] splittedPair = pair.split(EngineeringModelData.YEAR_VALUE_SEPARATOR);
+			this.values.put(Integer.valueOf(splittedPair[0]), Float.valueOf(splittedPair[1]));
+		}
+		return this.values;
+	}
+	
+	/**
+	 * Generate the data string from the map of year & values
+	 * @return the new generated data string
+	 */
+	public String generateData() {
+		String val = "";
+		Iterator<Map.Entry<Integer, Float>> it = this.values.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry<Integer, Float> pairs = (Map.Entry<Integer, Float>)it.next();
+	        val += pairs.getKey() + EngineeringModelData.YEAR_VALUE_SEPARATOR + pairs.getValue();
+	        if (it.hasNext())
+	        	val += EngineeringModelData.PAIR_SEPARATOR;
+	        it.remove();
+	    }
+	    this.data = val;
+	    return this.data;
 	}
 }

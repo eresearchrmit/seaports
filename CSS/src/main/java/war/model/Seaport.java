@@ -36,13 +36,18 @@ public class Seaport {
 	private Region region;
 	
 	/**
+	 * The name of the seaport
+	 */
+	private String urbanCenter;
+	
+	/**
 	 * Default constructor of Seaport
 	 */
 	public Seaport() {
 	}
 	
 	/**
-	 * Constructor of Seaport specifying the name
+	 * Constructor of Seaport specifying the code, name and region
 	 * @param code: the unique code of the seaport
 	 * @param name: the name of the seaport
 	 * @param region: the region where the seaport is located
@@ -51,6 +56,20 @@ public class Seaport {
 		setCode(code);
 		setName(name);
 		setRegion(region);
+	}
+	
+	/**
+	 * Constructor of Seaport specifying the code, name, region and urban center
+	 * @param code: the unique code of the seaport
+	 * @param name: the name of the seaport
+	 * @param region: the region where the seaport is located
+	 * @param urbanCenter: the name of the urban center near the seaport
+	 */
+	public Seaport(String code, String name, Region region, String urbanCenter) {
+		setCode(code);
+		setName(name);
+		setRegion(region);
+		setUrbanCenter(urbanCenter);
 	}
 	
 	/**
@@ -99,5 +118,21 @@ public class Seaport {
 	 */
 	public void setRegion(Region region) {
 		this.region = region;
+	}
+	
+	/**
+	 * Getter for the name of the urban center near the seaport
+	 * @return the current name of the urban center near the seaport
+	 */
+	public String getUrbanCenter() {
+		return this.urbanCenter;
+	}
+	
+	/**
+	 * Setter for the name of the urban center near the seaport
+	 * @param name: the new name of the urban center near the seaport
+	 */
+	public void setUrbanCenter(String urbanCenter) {
+		this.urbanCenter = urbanCenter;
 	}
 }

@@ -55,8 +55,17 @@ public class WorkboardController {
 	private RegionDao regionDao;
 	
 	@Autowired
+	private SeaportDao seaportDao;
+	
+	@Autowired
 	private DataElementDao dataElementDao;
 
+	@Autowired
+	private AbsVariableDao absVariableDao;
+	
+	@Autowired
+	private AbsDataDao absDataDao;
+	
 	@Autowired
 	private CsiroDataDao csiroDataDao;
 	
@@ -136,6 +145,39 @@ public class WorkboardController {
 		return ModelForWorkboard(model, null);
 	}
 	
+	@RequestMapping(value= "/addAbsData", method = RequestMethod.POST)
+	public ModelAndView addAbsDataToWorkboard(
+		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
+		@RequestParam(value="variable",required=true) Integer variableId,
+		@RequestParam(value="seaport",required=true) String seaportCode, Model model)
+	{
+		logger.info("Inside addAbsDataToWorkboard");
+		
+		UserStory userStory = null;
+		try {
+			userStory = userStoryDao.find(userStoryId);
+			
+    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+    		AbsVariable variable = absVariableDao.find(variableId);
+    		Seaport seaport = seaportDao.find(seaportCode);
+			List<AbsData> absDataList = absDataDao.getAllInSeaportForVariable(seaport, variable);
+			
+			DataElementAbs dataElement = new DataElementAbs(new Date(), "ABS Data - " + variable.getName(), true, 0, userStory, absDataList);
+			dataElementDao.save(dataElement);
+			
+			userStory.getDataElements().add(dataElement);
+			
+			model.addAttribute("successMessage", WorkboardController.MSG_ABS_DATA_ADDED);
+		}
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		
+		return ModelForWorkboard(model, userStory);
+	}
+	
 	@RequestMapping(value= "/upload", method = RequestMethod.POST)
 	public ModelAndView uploadfileinWorkboard(
 			@RequestParam(value="file",required=true) MultipartFile uploadfile,
@@ -170,6 +212,152 @@ public class WorkboardController {
         }
         
 		return ModelForWorkboard(model, userStory);	
+	}
+
+	@RequestMapping(value= "/addPastData", method = RequestMethod.POST)
+	public ModelAndView addPastDataToWorkboard(
+		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
+		@RequestParam(value="pastDataTitle",required=true) String pastDataTitle, Model model)
+	{
+		logger.info("Inside addPastDataToWorkboard");
+		
+		UserStory userStory = null;
+		try {
+			userStory = userStoryDao.find(userStoryId);
+			
+    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+			List<PastData> pastDataList = pastDataDao.find(pastDataTitle);
+			
+			DataElementPast dataElement = new DataElementPast(new Date(), "National climate and marine trends", true, 0, userStory, pastDataList);
+			dataElementDao.save(dataElement);
+			
+			userStory.getDataElements().add(dataElement);
+			
+			model.addAttribute("successMessage", WorkboardController.MSG_PAST_DATA_ADDED);
+		}
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		
+		return ModelForWorkboard(model, userStory);
+	}
+	
+	@RequestMapping(value= "/addAcornSatData", method = RequestMethod.POST)
+	public ModelAndView addAcornSatDataToWorkboard(
+		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
+		@RequestParam(value="acornSatExtremeData",required=true) String acornSatExtremeData, Model model)
+	{
+		logger.info("Inside addAcornSatDataToWorkboard");
+		
+		UserStory userStory = null;
+		try {
+			userStory = userStoryDao.find(userStoryId);
+			
+    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+    		Region region = regionDao.find(userStory.getRegion().getName());
+    		List<AcornSatStation> stations = acornSatStationDao.find(region);
+    		
+    		Boolean extreme = acornSatExtremeData.equals("extreme");
+    		
+    		List<AcornSatData> acornSatDataList = new ArrayList<AcornSatData>();
+    		for (AcornSatStation station : stations) {
+    			acornSatDataList.addAll(acornSatDataDao.find(station, extreme));
+    		}
+    		
+    		DataElementAcornSat dataElement = new DataElementAcornSat(new Date(), "ACORN-SAT measurements", true, 0, userStory, acornSatDataList);
+			dataElementDao.save(dataElement);
+			
+			userStory.getDataElements().add(dataElement);
+			
+			model.addAttribute("successMessage", WorkboardController.MSG_ACORNSAT_DATA_ADDED);
+		}
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		
+		return ModelForWorkboard(model, userStory);
+	}
+	
+	@RequestMapping(value= "/addCsiroData", method = RequestMethod.POST)
+	public ModelAndView addCsiroDataToWorkboard(
+		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
+		@RequestParam(value="climateVariable",required=true) String climateVariable,
+		@RequestParam(value="climateEmissionScenario",required=true) String climateEmissionScenario,
+		@RequestParam(value="climateModel",required=true) String climateModel,
+		@RequestParam(value="year",required=true) String year,
+		@RequestParam(value="includePictures",required=false) String includePictures, Model model)
+	{
+		logger.info("Inside addCsiroDataToWorkboard");
+		
+		UserStory userStory = null;
+		try {
+			userStory = userStoryDao.find(userStoryId);
+			
+    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+			List<CsiroData> csiroDataList = null;
+			if (climateVariable.equals("All"))
+				csiroDataList = csiroDataDao.find(userStory.getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year));
+			else {
+				csiroDataList = new ArrayList<CsiroData>();
+				csiroDataList.add(csiroDataDao.find(userStory.getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year), climateVariable));
+			}
+			
+			Boolean picturesIncluded = (includePictures != null && includePictures.equals("on")) ? true : false;
+
+			DataElementCsiro dataElement = new DataElementCsiro(new Date(), "Future Climate Change Data", true, 0, userStory, csiroDataList, picturesIncluded);
+			dataElementDao.save(dataElement);
+			
+			userStory.getDataElements().add(dataElement);
+			
+			model.addAttribute("successMessage", WorkboardController.MSG_CSIRO_DATA_ADDED);
+		}
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		
+		return ModelForWorkboard(model, userStory);
+	}
+	
+	@RequestMapping(value= "/addCmarData", method = RequestMethod.POST)
+	public ModelAndView addCmarDataToWorkboard(
+		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
+		@RequestParam(value="year",required=true) String year,
+		@RequestParam(value="includePictures",required=false) String includePictures, Model model)
+	{
+		logger.info("Inside addCmarDataToWorkboard");
+		
+		UserStory userStory = null;
+		try {
+			userStory = userStoryDao.find(userStoryId);
+			
+    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+    		// Retrieve data using static Climate Model, Emission scenario and Variable since it is fixed
+    		// Refer to the method "addCsiroDataToWorkBoard" to see how to enable dynamic data
+			List<CmarData> cmarDataList = new ArrayList<CmarData>();
+			cmarDataList.add(cmarDataDao.find(userStory.getRegion().getName(), "A1B", "Most Likely", Integer.valueOf(year), "Sea Level Rise"));
+			
+			Boolean picturesIncluded = (includePictures != null && includePictures.equals("on")) ? true : false;
+			
+			DataElementCmar dataElement = new DataElementCmar(new Date(), "CMAR Data", true, 0, userStory, cmarDataList, picturesIncluded);
+			dataElementDao.save(dataElement);
+			
+			userStory.getDataElements().add(dataElement);
+			
+			model.addAttribute("successMessage", WorkboardController.MSG_CMAR_DATA_ADDED);
+		}
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		
+		return ModelForWorkboard(model, userStory);
 	}
 	
 	@RequestMapping(value= "/addEngineeringData", method = RequestMethod.POST)
@@ -411,152 +599,6 @@ public class WorkboardController {
     	}
 		return extractedDataList;
 	}
-
-	@RequestMapping(value= "/addCsiroData", method = RequestMethod.POST)
-	public ModelAndView addCsiroDataToWorkboard(
-		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
-		@RequestParam(value="climateVariable",required=true) String climateVariable,
-		@RequestParam(value="climateEmissionScenario",required=true) String climateEmissionScenario,
-		@RequestParam(value="climateModel",required=true) String climateModel,
-		@RequestParam(value="year",required=true) String year,
-		@RequestParam(value="includePictures",required=false) String includePictures, Model model)
-	{
-		logger.info("Inside addCsiroDataToWorkboard");
-		
-		UserStory userStory = null;
-		try {
-			userStory = userStoryDao.find(userStoryId);
-			
-    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
-    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
-			
-			List<CsiroData> csiroDataList = null;
-			if (climateVariable.equals("All"))
-				csiroDataList = csiroDataDao.find(userStory.getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year));
-			else {
-				csiroDataList = new ArrayList<CsiroData>();
-				csiroDataList.add(csiroDataDao.find(userStory.getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year), climateVariable));
-			}
-			
-			Boolean picturesIncluded = (includePictures != null && includePictures.equals("on")) ? true : false;
-
-			DataElementCsiro dataElement = new DataElementCsiro(new Date(), "Future Climate Change Data", true, 0, userStory, csiroDataList, picturesIncluded);
-			dataElementDao.save(dataElement);
-			
-			userStory.getDataElements().add(dataElement);
-			
-			model.addAttribute("successMessage", WorkboardController.MSG_CSIRO_DATA_ADDED);
-		}
-		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
-		
-		return ModelForWorkboard(model, userStory);
-	}
-	
-	@RequestMapping(value= "/addPastData", method = RequestMethod.POST)
-	public ModelAndView addPastDataToWorkboard(
-		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
-		@RequestParam(value="pastDataTitle",required=true) String pastDataTitle, Model model)
-	{
-		logger.info("Inside addPastDataToWorkboard");
-		
-		UserStory userStory = null;
-		try {
-			userStory = userStoryDao.find(userStoryId);
-			
-    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
-    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
-			
-			List<PastData> pastDataList = pastDataDao.find(pastDataTitle);
-			
-			DataElementPast dataElement = new DataElementPast(new Date(), "National climate and marine trends", true, 0, userStory, pastDataList);
-			dataElementDao.save(dataElement);
-			
-			userStory.getDataElements().add(dataElement);
-			
-			model.addAttribute("successMessage", WorkboardController.MSG_PAST_DATA_ADDED);
-		}
-		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
-		
-		return ModelForWorkboard(model, userStory);
-	}
-	
-	@RequestMapping(value= "/addAcornSatData", method = RequestMethod.POST)
-	public ModelAndView addAcornSatDataToWorkboard(
-		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
-		@RequestParam(value="acornSatExtremeData",required=true) String acornSatExtremeData, Model model)
-	{
-		logger.info("Inside addAcornSatDataToWorkboard");
-		
-		UserStory userStory = null;
-		try {
-			userStory = userStoryDao.find(userStoryId);
-			
-    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
-    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
-			
-    		Region region = regionDao.find(userStory.getRegion().getName());
-    		List<AcornSatStation> stations = acornSatStationDao.find(region);
-    		
-    		Boolean extreme = acornSatExtremeData.equals("extreme");
-    		
-    		List<AcornSatData> acornSatDataList = new ArrayList<AcornSatData>();
-    		for (AcornSatStation station : stations) {
-    			acornSatDataList.addAll(acornSatDataDao.find(station, extreme));
-    		}
-    		
-    		DataElementAcornSat dataElement = new DataElementAcornSat(new Date(), "ACORN-SAT measurements", true, 0, userStory, acornSatDataList);
-			dataElementDao.save(dataElement);
-			
-			userStory.getDataElements().add(dataElement);
-			
-			model.addAttribute("successMessage", WorkboardController.MSG_ACORNSAT_DATA_ADDED);
-		}
-		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
-		
-		return ModelForWorkboard(model, userStory);
-	}
-	
-	@RequestMapping(value= "/addCmarData", method = RequestMethod.POST)
-	public ModelAndView addCmarDataToWorkboard(
-		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
-		@RequestParam(value="year",required=true) String year,
-		@RequestParam(value="includePictures",required=false) String includePictures, Model model)
-	{
-		logger.info("Inside addCmarDataToWorkboard");
-		
-		UserStory userStory = null;
-		try {
-			userStory = userStoryDao.find(userStoryId);
-			
-    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
-    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
-			
-    		// Retrieve data using static Climate Model, Emission scenario and Variable since it is fixed
-    		// Refer to the method "addCsiroDataToWorkBoard" to see how to enable dynamic data
-			List<CmarData> cmarDataList = new ArrayList<CmarData>();
-			cmarDataList.add(cmarDataDao.find(userStory.getRegion().getName(), "A1B", "Most Likely", Integer.valueOf(year), "Sea Level Rise"));
-			
-			Boolean picturesIncluded = (includePictures != null && includePictures.equals("on")) ? true : false;
-			
-			DataElementCmar dataElement = new DataElementCmar(new Date(), "CMAR Data", true, 0, userStory, cmarDataList, picturesIncluded);
-			dataElementDao.save(dataElement);
-			
-			userStory.getDataElements().add(dataElement);
-			
-			model.addAttribute("successMessage", WorkboardController.MSG_CMAR_DATA_ADDED);
-		}
-		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
-		}
-		
-		return ModelForWorkboard(model, userStory);
-	}
 	
 	@RequestMapping(value= "/addVulnerability", method = RequestMethod.POST)
 	public ModelAndView addVulnerabilityToWorkboard(
@@ -694,7 +736,6 @@ public class WorkboardController {
 		return ModelForWorkboard(model, null);
 	}
 	
-
 	private ModelAndView ModelForWorkboard(Model model, UserStory userStory) {
 		logger.info("Inside ModelForWorkboard");
 		
@@ -710,7 +751,17 @@ public class WorkboardController {
 				// Prepare the data elements
 				List<DataElement> dataElements = userStory.getDataElements();
 		 		for (DataElement dataElement : dataElements) {
-		 			if (dataElement.getClass().equals(DataElementFile.class)) {
+		 			if (dataElement.getClass().equals(DataElementAbs.class)) {
+		 				List<AbsData> absDataList = ((DataElementAbs)dataElement).getAbsDataList();
+		 				for (AbsData data : absDataList) {
+		 					data.generateValues();
+		 				}
+		 				dataelementsCounts[0]++;
+		 			}
+		 			else if (dataElement.getClass().equals(DataElementBitre.class)) {
+		 				dataelementsCounts[0]++;
+		 			}
+		 			else if (dataElement.getClass().equals(DataElementFile.class)) {
 		 				((DataElementFile)dataElement).generateStringContent();
 		 				dataelementsCounts[0]++;
 		 			}
@@ -748,12 +799,10 @@ public class WorkboardController {
 		 		mav.addObject("chlorideEngineeringModelVariables", chlorideEngineeringModelVariables);
 		 		List<EngineeringModelVariable> carbonationEngineeringModelVariables = engineeringModelVariableDao.getAll("Carbonation"); 
 		 		mav.addObject("carbonationEngineeringModelVariables", carbonationEngineeringModelVariables);
-		 		/*List<ClimateEmissionScenario> emissionScenarios = climateEmissionScenarioDao.getAll(); 
-		 		mav.addObject("emissionScenarios", emissionScenarios);
-		 		List<ClimateModel> climateModels = climateModelDao.getAll();
-		 		mav.addObject("climateModels", climateModels);
-		 		List<ClimateVariable> climateVariables = climateVariableDao.getAll();
-		 		mav.addObject("climateVariables", climateVariables);*/
+		 		
+		 		// List of seaports in the workboard's region
+		 		List<Seaport> regionSeaports = seaportDao.getAllInRegion(userStory.getRegion());
+		 		mav.addObject("regionSeaports", regionSeaports);
 			}
 			catch (Exception e) {
 				model.addAttribute("errorMessage", e.getMessage());
@@ -792,6 +841,8 @@ public class WorkboardController {
 	public static final String ERR_FILE_UPLOAD = "Unable to upload the file to your workboard";
 	public static final String ERR_INVALID_FILETYPE = "This file format is not handled by the application (only text, xml, html and jpeg files are allowed).";
 	
+	public static final String MSG_ABS_DATA_ADDED = "The ABS data has been added successfully to your workboard";
+	public static final String MSG_BITRE_DATA_ADDED = "The BITRE data has been added successfully to your workboard";
 	public static final String MSG_PAST_DATA_ADDED = "The Past data has been added successfully to your workboard";
 	public static final String MSG_ACORNSAT_DATA_ADDED = "The Acorn-Sat data has been added successfully to your workboard";
 	public static final String MSG_CSIRO_DATA_ADDED = "The CSIRO data has been added successfully to your workboard";

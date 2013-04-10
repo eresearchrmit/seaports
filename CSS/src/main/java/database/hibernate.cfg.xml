@@ -37,6 +37,8 @@
 		<mapping class="war.model.DataElementText" />
 		<mapping class="war.model.DataElementPast" />
 		<mapping class="war.model.DataElementAcornSat" />
+		<mapping class="war.model.DataElementAbs" />
+		<mapping class="war.model.DataElementBitre" />
 		
 		<mapping class="war.model.Region" />
 		<mapping class="war.model.Seaport" />

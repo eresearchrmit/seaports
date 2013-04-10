@@ -22,18 +22,180 @@
 				<td class="col2">
 					<select id="cbb${dataelementsfilter}DataSource" name="dataSource">
 						<option value="none">- Select Data Source -</option>
-						<c:if test="${dataelementsfilter == 'Future'}"><option value="csiro">CSIRO</option></c:if>
-						<c:if test="${dataelementsfilter == 'Future'}"><option value="cmar">CMAR</option></c:if>
+						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="abs">ABS data</option></c:if>
+						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="bitre">BITRE data</option></c:if>
+						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="customFile">Custom file</option></c:if>
 						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="past">Past data</option></c:if>
 						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="acornSat">ACORN-SAT data</option></c:if>
+						<c:if test="${dataelementsfilter == 'Future'}"><option value="csiro">CSIRO</option></c:if>
+						<c:if test="${dataelementsfilter == 'Future'}"><option value="cmar">CMAR</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="engineering">Engineering Model</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="vulnerability">Vulnerability Matrix</option></c:if>
-						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="customFile">Custom file</option></c:if>
 					</select>
 				</td>
 			</tr>
 		</table>
 		<p>
+		
+		<c:if test="${dataelementsfilter == 'NonClimate'}">
+		<div id="absDataForm" class="dataElementForm">
+			<form:form method="post" action="/CSS/auth/workboard/addAbsData#tabs-non-climate-context">
+				<input type="hidden" name="userstoryid" value="${userstory.id}" />
+				<p><strong>2. ABS Data Element Options:</strong></p>
+				<table width="auto" height="auto" class="form">
+					<tr>
+						<td>Variable:</td>
+						<td class="col2">
+							<select id="cbbAbsDataVariable" name="variable">
+								<option value="1">Population change</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Seaport:</td>
+						<td class="col2">
+							<c:if test="${not empty regionSeaports}">
+							<select id="cbbAbsDataSeaport" name="seaport">
+								<c:forEach items="${regionSeaports}" var="regionSeaport" varStatus="regionSeaportLoopStatus">
+									<option value="${regionSeaport.code}">${regionSeaport.name}</option>
+								</c:forEach>
+							</select>
+							</c:if>
+						</td>
+					</tr>
+				</table>
+				<p><strong>3. Display Options:</strong></p>
+				<table width="auto" height="auto" class="form">
+					<tr>
+						<td class="col1">Display data as:</td>
+						<td class="col2">
+							<input type="radio" name="rdAbsDisplayType" value="picture" checked="checked" /> Graph 
+							<input type="radio" name="rdAbsDisplayType" value="map" /> Map
+							<input type="radio" name="rdAbsDisplayType" value="table" /> Table
+						</td>
+					</tr>
+				</table>
+				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+					<span></span>Add ABS Data Element
+				</button>
+			</form:form>
+		</div>
+		</c:if>
+		
+				
+		<c:if test="${dataelementsfilter == 'NonClimate'}">
+		<div id="bitreDataForm" class="dataElementForm">
+			<form:form method="post" action="/CSS/auth/workboard/addBitreData#tabs-non-climate-context">
+				<input type="hidden" name="userstoryid" value="${userstory.id}" />
+				<p><strong>2. BITRE Data Element Options:</strong></p>
+				<table width="auto" height="auto" class="form">
+					<tr>
+						<td>Variable type:</td>
+						<td class="col2">
+							<select id="cbbBitreDataVariable" name="variable">
+								<option value="1">Freight throughput by cargo type</option>
+								<option value="2">Commercial vessels calls by type</option>
+								<option value="3">Export commodities by type</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Seaport:</td>
+						<td class="col2">
+							<c:if test="${not empty regionSeaports}">
+							<select id="cbbbitreDataSeaport" name="seaport">
+								<c:forEach items="${regionSeaports}" var="regionSeaport" varStatus="regionSeaportLoopStatus">
+									<option value="${regionSeaport.code}">${regionSeaport.name}</option>
+								</c:forEach>
+							</select>
+							</c:if>
+						</td>
+					</tr>
+				</table>
+				<p><strong>3. Display Options:</strong></p>
+				<table width="auto" height="auto" class="form">
+					<tr>
+						<td class="col1">Display data as:</td>
+						<td class="col2">
+							<input type="radio" name="rdAbsDisplayType" value="graph" checked="checked" /> Graph
+							<input type="radio" name="rdAbsDisplayType" value="table" /> Table
+						</td>
+					</tr>
+				</table>
+				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+					<span></span>Add BITRE Data Element
+				</button>
+			</form:form>
+		</div>
+		</c:if>
+		
+		<c:if test="${dataelementsfilter == 'NonClimate'}">
+		<div id="customFileDataForm" class="dataElementForm">
+			<form:form method="post" action="/CSS/auth/workboard/upload?id=${userstory.id}#tabs-non-climate-context" enctype="multipart/form-data">
+				<p><strong>2. Custom Data Element Options:</strong></p>
+				<table width="auto" height="auto" class="form">
+					<tr>
+						<td>Select a file to upload <a href="#" id="lnkHelpFileUpload" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<input type="file" name="file" id="file" />
+						</td>
+					</tr>
+				</table>
+				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+					<span></span>Add Custom Data Element
+				</button>
+			</form:form>
+		</div>
+		</c:if>
+		
+		<c:if test="${dataelementsfilter == 'ObservedClimate'}">
+		<div id="pastDataForm" class="dataElementForm">
+			<form:form method="post" action="/CSS/auth/workboard/addPastData#tabs-observed-climate">
+			<input type="hidden" name="userstoryid" value="${userstory.id}" />
+			<p><strong>2. Past Data Options:</strong></p>
+			<table width="auto" height="auto" class="form">
+				<tr>
+					<td>Variable:</td>
+					<td class="col2">
+						<select id="cbbPastDataTitle" name="pastDataTitle">
+							<option value="Trend in mean temperatures">Trend in mean temperatures</option>
+							<option value="Trend in maximum temperatures">Trend in maximum temperatures</option>
+							<option value="Trend in total annual rainfall">Trend in total annual rainfall</option>
+							<option value="Long-term sea level rise measurements">Long-term sea level rise measurements</option>
+							<option value="Shorter-term changes in sea level">Shorter-term changes in sea level</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+				<span></span>Add Past Data Element
+			</button>
+			</form:form>
+		</div>
+		</c:if>
+		
+		<c:if test="${dataelementsfilter == 'ObservedClimate'}">
+		<div id="acornSatDataForm" class="dataElementForm">
+			<form:form method="post" action="/CSS/auth/workboard/addAcornSatData#tabs-observed-climate">
+			<input type="hidden" name="userstoryid" value="${userstory.id}" />
+			<p><strong>2. ACORN-SAT Data Options:</strong></p>
+			<table width="auto" height="auto" class="form">
+				<tr>
+					<td>Type of measurements:</td>
+					<td class="col2">
+						<select id="cbbAcornSatDataExtreme" name="acornSatExtremeData">
+							<option value="mean">Mean measurements</option>
+							<option value="extreme">Extreme measurements</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
+				<span></span>Add ACORN-SAT Data Element
+			</button>
+			</form:form>
+		</div>
+		</c:if>
 		
 		<c:if test="${dataelementsfilter == 'Future'}">
 		<div id="csiroDataForm" class="dataElementForm">
@@ -159,55 +321,6 @@
 		</div>
 		</c:if>
 		
-		<c:if test="${dataelementsfilter == 'ObservedClimate'}">
-		<div id="pastDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/addPastData#tabs-observed-climate">
-			<input type="hidden" name="userstoryid" value="${userstory.id}" />
-			<p><strong>2. Past Data Options:</strong></p>
-			<table width="auto" height="auto" class="form">
-				<tr>
-					<td>Variable:</td>
-					<td class="col2">
-						<select id="cbbPastDataTitle" name="pastDataTitle">
-							<option value="Trend in mean temperatures">Trend in mean temperatures</option>
-							<option value="Trend in maximum temperatures">Trend in maximum temperatures</option>
-							<option value="Trend in total annual rainfall">Trend in total annual rainfall</option>
-							<option value="Long-term sea level rise measurements">Long-term sea level rise measurements</option>
-							<option value="Short-term changes in sea level">Short-term changes in sea level</option>
-						</select>
-					</td>
-				</tr>
-			</table>
-			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-				<span></span>Add Past Data Element
-			</button>
-			</form:form>
-		</div>
-		</c:if>
-		
-		<c:if test="${dataelementsfilter == 'ObservedClimate'}">
-		<div id="acornSatDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/addAcornSatData#tabs-observed-climate">
-			<input type="hidden" name="userstoryid" value="${userstory.id}" />
-			<p><strong>2. ACORN-SAT Data Options:</strong></p>
-			<table width="auto" height="auto" class="form">
-				<tr>
-					<td>Type of measurements:</td>
-					<td class="col2">
-						<select id="cbbAcornSatDataExtreme" name="acornSatExtremeData">
-							<option value="mean">Mean measurements</option>
-							<option value="extreme">Extreme measurements</option>
-						</select>
-					</td>
-				</tr>
-			</table>
-			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-				<span></span>Add ACORN-SAT Data Element
-			</button>
-			</form:form>
-		</div>
-		</c:if>
-		
 		<c:if test="${dataelementsfilter == 'Applications'}">
 		<div id="engineeringDataForm" class="dataElementForm">
 			<form:form id="formEngineeringData" method="post" action="/CSS/auth/workboard/addEngineeringData?id=${userstory.id}#tabs-applications" enctype="multipart/form-data">
@@ -259,7 +372,9 @@
 			<form:form id="formVulnerabilityData" method="post" action="/CSS/auth/workboard/addVulnerability#tabs-applications" enctype="multipart/form-data">
 				<input type="hidden" name="userstoryid" value="${userstory.id}" />
 				
-				<p><strong>2. Vulnerability Matrix Data Element Options:</strong></p>
+				<p><strong>2. Current Vulnerability Assessment Options:</strong></p>
+				
+				<p style="width:800px; text-align:justify; font-size:8pt;color:#3f7227"><i>This section identifies your current vulnerability to particular climate related events. When considering the questions below, think of the impact on Port assets (machinery, buildings, equipment), infrastructure (drainage, rail, road, berths), and people (injuries, work disruptions). Please complete this page for each different climate related event that has impacted the port in recent years.</i></p>
 				
 				<table width="auto" height="auto" class="form">
 					<tr>
@@ -283,7 +398,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Date<a href="#" class="lnkHelpVulnerabilityDate" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Date<a href="#" id="lnkHelpVulnerabilityDate" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbWeatherEventYear" name="weatherEventYear">
 								<c:forEach var="i" begin="2003" end="2013" step="1" varStatus ="status">
@@ -293,20 +408,23 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Direct or indirect impact <a href="#" class="lnkHelpVulnerabilityDirect" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Direct or indirect impact <a href="#" id="lnkHelpVulnerabilityDirect" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventDirect" value="direct" checked="checked" /> Direct
 							<input type="radio" name="weatherEventDirect" value="indirect" /> Indirect
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Impact <a href="#" class="lnkHelpVulnerabilityImpact" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Impact <a href="#" id="lnkHelpVulnerabilityImpact" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<textarea id="txtWeatherEventImpact" name="weatherEventImpact" rows="5" class="small"></textarea>
 						</td>
 					</tr>
+					<tr><td colspan="2">
+						<p>Identify and rate the business consequences of these impacts. Please complete the whole table <a href="#" id="lnkHelpVulnerabilityConsequences" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</p>
+					</td></tr>
 					<tr>
-						<td class="top">Lost time due to staff or contractor injuries<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Lost time due to staff or contractor injuries<a href="#" id="lnkHelpVulnerabilityConsequence1" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence1" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence1" value="1" /> Insignificant
@@ -316,7 +434,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Staff not able to attend work<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Staff not able to attend work<a href="#" id="lnkHelpVulnerabilityConsequence2" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence2" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence2" value="1" /> Insignificant
@@ -326,7 +444,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Increased annual Workcover costs<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Increased annual Workcover costs:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence3" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence3" value="1" /> Insignificant
@@ -336,7 +454,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Increased maintenance costs<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Increased maintenance costs:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence4" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence4" value="1" /> Insignificant
@@ -346,7 +464,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Deferment of capital expenditure<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Deferment of capital expenditure:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence5" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence5" value="1" /> Insignificant
@@ -356,7 +474,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Increased insurance costs<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Increased insurance costs<a href="#" id="lnkHelpVulnerabilityConsequence6" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence6" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence6" value="1" /> Insignificant
@@ -366,7 +484,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Adverse reputational impact<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Adverse reputational impact<a href="#" id="lnkHelpVulnerabilityConsequence7" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence7" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence7" value="1" /> Insignificant
@@ -376,7 +494,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Environmental impact - leading to regulatory impact<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Environmental impact<a href="#" id="lnkHelpVulnerabilityConsequence8" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence8" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence8" value="1" /> Insignificant
@@ -386,7 +504,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Interruption/halt to logistics operations<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Interruption/halt to logistics operations<a href="#" id="lnkHelpVulnerabilityConsequence9" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence9" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence9" value="1" /> Insignificant
@@ -396,7 +514,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Interruption to boat movements<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Interruption to boat movements:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence10" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence10" value="1" /> Insignificant
@@ -406,7 +524,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Altered dredging schedule<a href="#" class="lnkHelp" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Altered dredging schedule:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence11" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence11" value="1" /> Insignificant
@@ -416,13 +534,13 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Response <a href="#" class="lnkHelpVulnerabilityResponse" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Outline how your business responded to the impact <a href="#" id="lnkHelpVulnerabilityResponse" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<textarea id="txtWeatherEventResponse" name="weatherEventResponse" rows="5" class="small"></textarea>
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Adequate <a href="#" class="lnkHelpVulnerabilityResponseAdequate" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Adequate <a href="#" id="lnkHelpVulnerabilityResponseAdequate" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventResponseAdequate" value="adequate" checked="checked" /> Yes
 							<input type="radio" name="weatherEventResponseAdequate" value="no" /> No
@@ -432,25 +550,6 @@
 				<button type="button" id="btnAddVulnerabilityMatrixDataElement" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
 					<span></span>Add Vulnerability Matrix Data Element
 				</button><br />
-			</form:form>
-		</div>
-		</c:if>
-		
-		<c:if test="${dataelementsfilter == 'NonClimate'}">
-		<div id="customFileDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/upload?id=${userstory.id}#tabs-non-climate-context" enctype="multipart/form-data">
-				<p><strong>2. Custom Data Element Options:</strong></p>
-				<table width="auto" height="auto" class="form">
-					<tr>
-						<td>Select a file to upload <a href="#" id="lnkHelpFileUpload" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</td>
-						<td class="col2">
-							<input type="file" name="file" id="file" />
-						</td>
-					</tr>
-				</table>
-				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add Custom Data Element
-				</button>
 			</form:form>
 		</div>
 		</c:if>
@@ -521,6 +620,23 @@
 		<c:if test="${dataelementsfilter == 'Applications'}">
 			setupBubblePopup("lnkHelpEngUpload", "Please use the Excel template (available <a href=\"http://10.118.96.11/ccimt\" title=\"Go to the engineering model tool\" target=\"blank\">here</a>) to import the asset data for the concrete deterioration modelling. Once uploaded, the tool will verify each entry to ensure it meets the requirements of the analysis.", strPathToBubblePopupTheme);
 			setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.", strPathToBubblePopupTheme);
+			
+			setupBubblePopup("lnkHelpVulnerabilityWeatherEvent", "What disruptive climate related events has the port experienced in the last 15 years? Select from the drop down list", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityDate", "What year did this disruptive event occur?", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityDirect", "Did the climate related event impact your port specifically (direct impact), or did it impact your supply chain (indirect), causing a flow-on impact to your business?", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityImpact", "Describe how the climate related event impacted your business. Eg: Rain caused onsite flooding; the cyclone damaged rail-lines from suppliers to the port", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityConsequences", "<p>Eg: Flooding may have led to waste flow from the site - causing a Moderate Environmental Impact; and a Major Interruption to logistics operations.</p> <p>Rating of \"No impact\" through to \"Extreme\" should align with your organisational risk consequence table. If you do not have access to this, refer to the Guidance Document.</p>", strPathToBubblePopupTheme);
+			
+			setupBubblePopup("lnkHelpVulnerabilityConsequence1", "A lost-time injury is an one that resulted in a fatality, permanent disability or time lost from work of one day/shift or more", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityConsequence2", "Events outside the port may restrict staff access, Eg: staff are in the local CFA, and fighting fires during heatwave", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityConsequence6", "Insurance premiums may increase due to direct impacts on the port, or due to the perceived increased risk to the area", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityConsequence7", "Reputation may be affected amongst the local community, or clients and other stakeholders, Eg: negative media reports; or perceived unreliability of port due to disruption caused by climate event", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityConsequence8", "Any impact on the natural environment caused by port operations as a result of the climate related event, this may be excessive dust due to dry, windy conditions; contaminated water from the site; excessive fumes.", strPathToBubblePopupTheme);
+			//Regulatory impact refers to a contravention of a regulation or legal requirement, Eg; caused by environmental contravention as above, or workforce safety contravention
+			setupBubblePopup("lnkHelpVulnerabilityConsequence9", "A halt to the moving of goods to and from boats, and across the port; also an impact to storage on site", strPathToBubblePopupTheme);
+			
+			setupBubblePopup("lnkHelpVulnerabilityResponse", "This may include which management processes were activated, for example, the emergency response plan for cyclones, or the OHS protocol for extreme heat.", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityResponseAdequate", "Would you say your response was adequate?", strPathToBubblePopupTheme);
 		</c:if>
 	});
 </script>

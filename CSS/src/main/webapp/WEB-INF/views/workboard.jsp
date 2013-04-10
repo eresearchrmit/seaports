@@ -159,7 +159,7 @@
 				<div>
 					<h6><img src="<c:url value="/resources/img/icons/information.png" />"> Information</h6>
 					<p><b>Concrete Deterioration</b>: ?</p>
-					<p><b>Vulnerability</b>: This aims to identify your current vulnerability to particular weather events. When considering the questions below, think of the impact on Port assets (machinery, buildings, equipment), infrastructure (drainage, rail, road, berths), and people (injuries, work disruptions).</p>
+					<p><b>Vulnerability</b>: This aims to identify your current vulnerability to particular weather events.</p>
 				</div>
 			</c:if>
 			

@@ -5,10 +5,10 @@
 
 <c:if test="${not empty dataelements}">
  	<c:forEach items="${dataelements}" var="dataelement" varStatus="status">
- 			<c:if test="${(dataelementsfilter == 'Future' && (dataelement.class.simpleName == 'DataElementCsiro' || dataelement.class.simpleName == 'DataElementCmar'))  
+ 			<c:if test="${(dataelementsfilter == 'NonClimate' && (dataelement.class.simpleName == 'DataElementFile' || dataelement.class.simpleName == 'DataElementAbs' || dataelement.class.simpleName == 'DataElementBitre'))  
+			 			|| (dataelementsfilter == 'ObservedClimate' && (dataelement.class.simpleName == 'DataElementPast' || dataelement.class.simpleName == 'DataElementAcornSat')) 
+ 						|| (dataelementsfilter == 'Future' && (dataelement.class.simpleName == 'DataElementCsiro' || dataelement.class.simpleName == 'DataElementCmar')) 
  						|| (dataelementsfilter == 'Applications' && (dataelement.class.simpleName == 'DataElementEngineeringModel' || dataelement.class.simpleName == 'DataElementVulnerability')) 
- 						|| (dataelementsfilter == 'ObservedClimate' && (dataelement.class.simpleName == 'DataElementPast' || dataelement.class.simpleName == 'DataElementAcornSat'))
- 						|| (dataelementsfilter == 'NonClimate' && dataelement.class.simpleName == 'DataElementFile') 
  						|| (dataelementsfilter == 'All')}">
 	 			<c:set var="dataelement" scope="request" value="${dataelement}"/>
 	 			<c:set var="dataElementLoopIndex" scope="request" value="${status.index}"/>
@@ -27,6 +27,16 @@
 					<input name="dataElements[${status.index}].filename" value="${dataelement.name}" type="hidden">
 					
 					<div class="box-content">
+						<!-- ABS Data Element -->
+		 				<c:if test="${dataelement.class.simpleName == 'DataElementAbs'}">
+		 					<jsp:include page="dataElementAbs.jsp" />
+		 				</c:if>
+		 				
+		 				<!-- BITRE Data Element -->
+		 				<c:if test="${dataelement.class.simpleName == 'DataElementBitre'}">
+		 					<jsp:include page="dataElementBitre.jsp" />
+		 				</c:if>
+					
 						<!-- Past Data Element -->
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementPast'}">
 		 					<jsp:include page="dataElementPast.jsp" />
