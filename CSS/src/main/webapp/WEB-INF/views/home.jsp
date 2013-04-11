@@ -22,8 +22,10 @@
 	<h3 style="text-align: center">OR</h3>
 	<div class="box round first" style="text-align:center">
 		<div class="box-content">
-			<h3>Search for User Stories</h3>
-			Search <input type="text" width="400px" /> <input type="button" class="btn btn-grey" value="Search" />
+			<h3>Search for Reports</h3>
+			<div class="block">
+				<input type="button" class="btn btn-blue" value="Browse Reports" onclick="location.href='/CSS/public/reports/list'" />
+			</div>
 		</div>
 	</div>
 	<p>

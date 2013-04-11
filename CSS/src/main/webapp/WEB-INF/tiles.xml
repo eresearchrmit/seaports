@@ -64,7 +64,17 @@
         <put-attribute name="body" value="/WEB-INF/views/userstoryList.jsp" />
 	</definition>
 	
+	<definition name="userstoryPublicList" extends="public.base.definition">
+		<put-attribute name="title" value="Published Reports - Climate Smart Seaports" />
+        <put-attribute name="body" value="/WEB-INF/views/userstoryPublicList.jsp" />
+	</definition>
+	
 	<definition name="userstoryView" extends="base.definition">
+		<put-attribute name="title" value="Report - Climate Smart Seaports" />
+		<put-attribute name="body" value="/WEB-INF/views/userstoryView.jsp" />
+	</definition>
+	
+	<definition name="userstoryPublicView" extends="public.base.definition">
 		<put-attribute name="title" value="Report - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/userstoryView.jsp" />
 	</definition>

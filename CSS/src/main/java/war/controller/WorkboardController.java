@@ -712,6 +712,7 @@ public class WorkboardController {
 			userStory.setMode("active");
 			userStory.setAccess("private");
 			userStory.setDataElements(new ArrayList<DataElement>());
+			userStory.setCreationDate(new Date());
 			userStoryDao.save(userStory);
 			
 			return ModelForWorkboard(model, userStory);

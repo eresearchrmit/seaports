@@ -22,11 +22,13 @@
 			</button>
 		</a>
 		
+		<c:if test="${empty publicView}">
 		<a href="javascript: window.close()" id="btnClosePreview" style="margin-right: 10px; float:right">
 			<button class="btnAddDataElement btn btn-icon btn-blue btn-arrow-left">
 				<span></span>Close Preview
 			</button>
 		</a>
+		</c:if>
 		<div class="clear"></div>
 		<center>
 			<h2>${userstory.name} </h2>

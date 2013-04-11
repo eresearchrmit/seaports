@@ -1,5 +1,6 @@
 package war.model ;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -83,6 +84,18 @@ public class UserStory {
 	private List<DataElement> dataElements;
 	
 	/**
+	 * The date when the user story has been created
+	 */
+	@Column
+	private Date creationDate;
+	
+	/**
+	 * The date when the user story has been published
+	 */
+	@Column
+	private Date publishDate;
+	
+	/**
 	 * Default constructor of User Story
 	 */
 	public UserStory() {
@@ -164,7 +177,10 @@ public class UserStory {
 	
 	/**
 	 * Setter for the mode of the user story
-	 * @return The new mode of the user story
+	 * Active: there is only one active user story per user, it is considered as its 'Workboard'. The user can add and remove data elements form the user story.
+	 * Passive: the user story is being edited by the user
+	 * Published: nothing can be modified by the user as the story is published. 
+	 * @param mode: The new mode of the user story
 	 */
 	public void setMode(String mode) {
 		this.mode = mode;
@@ -180,6 +196,8 @@ public class UserStory {
 	
 	/**
 	 * Setter for the privacy level of the user story
+	 * Private: only the owner can view the user story
+	 * Public: everyone can view the user story
 	 * @return The new privacy level of the user story
 	 */
 	public void setAccess(String access) {
@@ -207,7 +225,7 @@ public class UserStory {
 	 * @return The region to which the user story is related
 	 */
 	public Region getRegion() {
-		return region;
+		return this.region;
 	}
 	
 	/**
@@ -218,10 +236,37 @@ public class UserStory {
 		this.region = region;
 	}
 
-	/*public void delete() throws DataAccessException {
-		this.getHibernateTemplate().clear();
-		this.getHibernateTemplate().delete(this);
-	}*/
+	/**
+	 * Getter for the user story creation date
+	 * @return The date when the user story was created
+	 */
+	public Date getCreationDate() {
+		return this.creationDate;
+	}
+	
+	/**
+	 * Setter for the user story creation date
+	 * @param creationDate: the new date when the user story was created
+	 */
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+	
+	/**
+	 * Getter for the user story publish date
+	 * @return The date when the user story was published
+	 */
+	public Date getPublishDate() {
+		return this.publishDate;
+	}
+	
+	/**
+	 * Setter for the user story publish date
+	 * @param publishDate: the new date when the user story was published
+	 */
+	public void setPublishDate(Date publishDate) {
+		this.publishDate = publishDate;
+	}
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;

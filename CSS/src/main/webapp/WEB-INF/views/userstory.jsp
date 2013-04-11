@@ -25,11 +25,22 @@
 			<span></span>Preview the report
 		</button>
 	</a>
-	<a href="#" target="_blank" style="margin-right: 10px; float:right">
-		<button class="btnAddDataElement btn btn-icon btn-grey btn-globe" >
-			<span></span>Publish the report
-		</button>
-	</a>
+	<c:choose>
+		<c:when test="${story.access == 'published'}">
+		<a href="#" style="margin-right: 10px; float:right">
+			<button class="btnAddDataElement btn btn-icon btn-green btn-globe" >
+				<span></span>Report Published
+			</button>
+		</a>
+		</c:when>
+		<c:otherwise>
+		<a href="/CSS/auth/userstory/publish?id=${userstory.id}" style="margin-right: 10px; float:right">
+			<button class="btnAddDataElement btn btn-icon btn-blue btn-globe" >
+				<span></span>Publish the report
+			</button>
+		</a>
+		</c:otherwise>
+	</c:choose>
 	<a href="javascript: $('#userStoryForm').submit();" style="margin-right: 10px; float:right">
 		<button type="button" class="btn btn-icon btn-blue btn-check floatright">
 			<span></span>Save changes

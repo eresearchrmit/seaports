@@ -315,8 +315,33 @@ public class UserStoryController {
  		return ModelForUserStory(model, userStory);
 	}
 	
+	@RequestMapping(value = "/publish",method=RequestMethod.GET) 
+	public String publishUserStory(@RequestParam(value="id", required=true) Integer userStoryId, Model model) {
+		logger.debug("Inside publishUserStory");
+		
+		try {
+			UserStory userStory = userStoryDao.find(userStoryId);
+			
+			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+			userStory.setAccess("public");
+			userStory.setMode("published");
+			userStory.setPublishDate(new Date());
+			userStoryDao.save(userStory);
+			
+			return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
+		}
+		catch (IllegalArgumentException e) {
+			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);
+		}
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);
+		}
+		return "userstoryList";
+	}
 	
-	private ModelAndView ModelForUserStory(Model model, UserStory userStory) {
+	public ModelAndView ModelForUserStory(Model model, UserStory userStory) {
 		logger.debug("Inside ModelForUserStory");
 
 		model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));

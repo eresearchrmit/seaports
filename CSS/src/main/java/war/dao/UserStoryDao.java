@@ -54,6 +54,18 @@ public class UserStoryDao {
 	}
 	
 	/**
+	 * Retrieve all the published stories
+	 * @return the list of all the published stories
+	 */
+	public List<UserStory> getAllPublishedStories() {		
+		Query query = entityManager.createQuery("SELECT us FROM " + TABLE_NAME + " us WHERE us.mode = :mode AND us.access = :access") ;
+		query.setParameter("access", "public");
+		query.setParameter("mode", "published");
+		
+		return performQueryAndCheckResultList(query);
+	}
+	
+	/**
 	 * Retrieve all the stories belonging to a user
 	 * @param user: the user to retrieve the stories of
 	 * @return the list of the user's stories
