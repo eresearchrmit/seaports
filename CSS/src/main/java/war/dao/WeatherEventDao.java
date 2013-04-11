@@ -3,6 +3,7 @@ package war.dao;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,6 +50,16 @@ public class WeatherEventDao {
 			entityManager.merge(weatherEvent);
 			return weatherEvent;
 		}		
+	}
+	
+	/**
+	 * Delete the weather event associated to the unique ID from the database
+	 * @param id: the unique ID of the weather event to delete
+	 */
+	@Transactional
+	public void delete(int id) {
+		Query query = entityManager.createQuery("DELETE FROM " + WeatherEventDao.TABLE_NAME + " d WHERE d.id = :id");
+		query.setParameter("id", id).executeUpdate();
 	}
 	
 	public static final String ERR_NO_RESULT = "No weather event found corresponding to the specified parameters";

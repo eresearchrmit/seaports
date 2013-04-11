@@ -327,7 +327,19 @@ public class UserStoryController {
 			
 			List<DataElement> dataElements = userStory.getDataElements();
 	 		for (DataElement dataElement : dataElements) {
-	 			if (dataElement.getClass().equals(DataElementFile.class)) {
+	 			if (dataElement.getClass().equals(DataElementAbs.class)) {
+	 				List<AbsData> absDataList = ((DataElementAbs)dataElement).getAbsDataList();
+	 				for (AbsData data : absDataList) {
+	 					data.generateValues();
+	 				}
+	 			}
+	 			else if (dataElement.getClass().equals(DataElementBitre.class)) {
+	 				List<BitreData> bitreDataList = ((DataElementBitre)dataElement).getBitreDataList();
+	 				for (BitreData data : bitreDataList) {
+	 					data.generateValues();
+	 				}
+	 			}
+	 			else if (dataElement.getClass().equals(DataElementFile.class)) {
 	 				((DataElementFile)dataElement).generateStringContent();
 	 			}
 	 			else if (dataElement.getClass().equals(DataElementCsiro.class)) {

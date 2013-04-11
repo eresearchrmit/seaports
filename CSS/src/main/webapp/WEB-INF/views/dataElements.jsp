@@ -27,47 +27,47 @@
 					<input name="dataElements[${status.index}].filename" value="${dataelement.name}" type="hidden">
 					
 					<div class="box-content">
-						<!-- ABS Data Element -->
+						<%-- ABS Data Element --%>
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementAbs'}">
 		 					<jsp:include page="dataElementAbs.jsp" />
 		 				</c:if>
 		 				
-		 				<!-- BITRE Data Element -->
+		 				<%-- BITRE Data Element --%>
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementBitre'}">
 		 					<jsp:include page="dataElementBitre.jsp" />
 		 				</c:if>
 					
-						<!-- Past Data Element -->
+						<%-- Past Data Element --%>
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementPast'}">
 		 					<jsp:include page="dataElementPast.jsp" />
 		 				</c:if>
 		 				
-		 				<!-- Acorn-Sat Data Element -->
+		 				<%-- Acorn-Sat Data Element --%>
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementAcornSat'}">
 		 					<jsp:include page="dataElementAcornSat.jsp" />
 		 				</c:if>
 						
-						<!-- CSIRO Data Element -->
+						<%-- CSIRO Data Element --%>
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
 		 					<jsp:include page="dataElementCsiro.jsp" />
 		 				</c:if>
 		 				
-		 				<!-- CMAR Data Element -->
+		 				<%-- CMAR Data Element --%>
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementCmar'}">
 		 					<jsp:include page="dataElementCmar.jsp" />
 		 				</c:if>
 		 				
-		 				<!-- Engineering Model Data Element -->
+		 				<%-- Engineering Model Data Element --%>
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
 		 					<jsp:include page="dataElementEngineeringModel.jsp" />
 		 				</c:if>
 		 				
-		 				<!-- Vulnerability Data Element -->
+		 				<%-- Vulnerability Data Element --%>
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementVulnerability'}">
 		 					<jsp:include page="dataElementVulnerability.jsp" />
 		 				</c:if>
 		 				
-		 				<!-- File Data Element, display a picture if JPEG, textarea with content otherwise -->
+		 				<%-- File Data Element, display a picture if JPEG, textarea with content otherwise --%>
 						<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">
 		 					<jsp:include page="dataElementFile.jsp" />
 						</c:if>

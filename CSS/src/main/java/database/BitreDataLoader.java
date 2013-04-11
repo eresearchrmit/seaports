@@ -54,18 +54,18 @@ public class BitreDataLoader {
 		session.save(generalExport);
 		session.save(generalImport);
 		
-		BitreVariable bulkLiquids = new BitreVariable("Bulk Liquids", "Bulk liq.", "Bulk liquids inc. LNG, Chemicals, etc.", vesselcallsType, "Mass tonnes");
-		BitreVariable carCarriers = new BitreVariable("Car Carriers", "Car carriers", "Car carriers", vesselcallsType, "Mass tonnes");
-		BitreVariable containers = new BitreVariable("Containers", "Cont.", "Containers", vesselcallsType, "Mass tonnes");
-		BitreVariable dryBulk = new BitreVariable("Dry Bulk", "Dry Bulk", "Dry bulk", vesselcallsType, "Mass tonnes");
-		BitreVariable gas = new BitreVariable("Gas", "Gas", "Gas", vesselcallsType, "Mass tonnes");
-		BitreVariable generalCargo = new BitreVariable("General cargo", "Gen. cargo", "General cargo + others", vesselcallsType, "Mass tonnes");
-		BitreVariable livestockCarriers = new BitreVariable("Livestock Carriers", "Liv. carriers", "Livestock carriers", vesselcallsType, "Mass tonnes");
+		BitreVariable bulkLiquids = new BitreVariable("Bulk Liquids", "Bulk liq.", "Bulk liquids inc. LNG, Chemicals, etc.", vesselcallsType, "Number of calls");
+		BitreVariable carCarriers = new BitreVariable("Car Carriers", "Car carriers", "Car carriers", vesselcallsType, "Number of calls");
+		BitreVariable containers = new BitreVariable("Containers", "Cont.", "Containers", vesselcallsType, "Number of calls");
+		BitreVariable dryBulk = new BitreVariable("Dry Bulk", "Dry Bulk", "Dry bulk", vesselcallsType, "Number of calls");
+		BitreVariable gasCalls = new BitreVariable("Gas", "Gas", "Gas", vesselcallsType, "Number of calls");
+		BitreVariable generalCargo = new BitreVariable("General cargo", "Gen. cargo", "General cargo + others", vesselcallsType, "Number of calls");
+		BitreVariable livestockCarriers = new BitreVariable("Livestock Carriers", "Liv. carriers", "Livestock carriers", vesselcallsType, "Number of calls");
 		session.save(bulkLiquids);
 		session.save(carCarriers);
 		session.save(containers);
 		session.save(dryBulk);
-		session.save(gas);
+		session.save(gasCalls);
 		session.save(generalCargo);
 		session.save(livestockCarriers);
 		
@@ -77,6 +77,7 @@ public class BitreDataLoader {
 		BitreVariable copperOre = new BitreVariable("Copper Ore", "Cop. ore", "Copper ore commodities", commoditiesType, "Mass tonnes");
 		BitreVariable copperRefined = new BitreVariable("Refined Copper", "Ref. cop.", "Refined copper commodities", commoditiesType, "Mass tonnes");
 		BitreVariable cotton = new BitreVariable("Cotton", "Cotton", "Cotton", commoditiesType, "Mass tonnes");
+		BitreVariable gas = new BitreVariable("Gas", "Gas", "Gas commodities", commoditiesType, "Mass tonnes");
 		BitreVariable grain = new BitreVariable("Grain", "Grain", "Grain commodities", commoditiesType, "Mass tonnes");
 		BitreVariable ironOre = new BitreVariable("Iron Ore", "Iron ore", "Iron ore commodities", commoditiesType, "Mass tonnes");
 		BitreVariable leadConcentrate = new BitreVariable("Lead Concentrate", "Lead conc.", "Lead concentrate commodities", commoditiesType, "Mass tonnes");
@@ -206,7 +207,8 @@ public class BitreDataLoader {
 		session.save(new BitreData(kembla, copperOre, "2000,31537;2001,55000;2002,4714;2003,266716;2004,395079;2005,455684;2006,449232;2007,387071;2008,373505;2009,364769;2010,357140;2011,423883"));
 		session.save(new BitreData(kembla, copperRefined, "2000,0;2001,0;2002,256;2003,0;2004,0;2005,0;2006,0;2007,0;2008,0;2009,0;2010,0;2011,0"));
 		session.save(new BitreData(kembla, gas, "2000,0;2001,0;2002,0;2003,0;2004,0;2005,0;2006,0;2007,0;2008,0;2009,0;2010,0;2011,21"));
-		session.save(new BitreData(kembla, grain, "2000,2824972;2001,2344304;2002,838148;2003,809190;2004,1190156;2005,n/d;2006,1625092;2007,349629;2008,815391;2009,680472;2010,1628073;2011,2878405"));
+		// Grain 2005 = n/d
+		session.save(new BitreData(kembla, grain, "2000,2824972;2001,2344304;2002,838148;2003,809190;2004,1190156;2005,0;2006,1625092;2007,349629;2008,815391;2009,680472;2010,1628073;2011,2878405"));
 		session.save(new BitreData(kembla, ironOre, "2000,0;2001,0;2002,0;2003,0;2004,0;2005,0;2006,0;2007,15875;2008,0;2009,0;2010,0;2011,74346"));
 		session.save(new BitreData(kembla, leadRefined, "2000,0;2001,0;2002,0;2003,0;2004,1114;2005,0;2006,0;2007,0;2008,0;2009,0;2010,0;2011,0"));
 		session.save(new BitreData(kembla, liveStock, "2000,0;2001,0;2002,350;2003,0;2004,0;2005,0;2006,0;2007,74;2008,0;2009,0;2010,0;2011,0"));
@@ -250,7 +252,8 @@ public class BitreDataLoader {
 		session.save(new BitreData(sydney, leadOre, "2000,0;2001,0;2002,0;2003,0;2004,5542;2005,7841;2006,9718;2007,6917;2008,21228;2009,8675;2010,7286;2011,13419"));
 		session.save(new BitreData(sydney, leadRefined, "2000,0;2001,0;2002,0;2003,9803;2004,5987;2005,5625;2006,5468;2007,7318;2008,15652;2009,15345;2010,10170;2011,9027"));
 		session.save(new BitreData(sydney, liveStock, "2000,0;2001,0;2002,0;2003,0;2004,0;2005,0;2006,0;2007,126;2008,32;2009,10;2010,0;2011,0"));
-		session.save(new BitreData(sydney, manganese, "2000,0;2001,0;2002,0;2003,0;2004,0;2005,1890;2006,2039;2007,792;2008,?;2009,608;2010,189;2011,0"));
+		// Manganese 2008 = ?
+		session.save(new BitreData(sydney, manganese, "2000,0;2001,0;2002,0;2003,0;2004,0;2005,1890;2006,2039;2007,792;2008,0;2009,608;2010,189;2011,0"));
 		session.save(new BitreData(sydney, mineralSand, "2000,0;2001,0;2002,0;2003,0;2004,0;2005,0;2006,809;2007,3977;2008,2740;2009,1932;2010,1620;2011,0"));
 		session.save(new BitreData(sydney, motorVehicle, "2000,1724;2001,2162;2002,4346;2003,5604;2004,7000;2005,8968;2006,22476;2007,10445;2008,1089;2009,0;2010,0;2011,0"));
 		session.save(new BitreData(sydney, nickel, "2000,0;2001,0;2002,0;2003,13987;2004,6157;2005,6602;2006,8861;2007,7763;2008,2253;2009,1878;2010,4603;2011,2846"));

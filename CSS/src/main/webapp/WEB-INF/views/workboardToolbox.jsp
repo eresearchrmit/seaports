@@ -30,7 +30,7 @@
 						<c:if test="${dataelementsfilter == 'Future'}"><option value="csiro">CSIRO</option></c:if>
 						<c:if test="${dataelementsfilter == 'Future'}"><option value="cmar">CMAR</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="engineering">Engineering Model</option></c:if>
-						<c:if test="${dataelementsfilter == 'Applications'}"><option value="vulnerability">Vulnerability Matrix</option></c:if>
+						<c:if test="${dataelementsfilter == 'Applications'}"><option value="vulnerability">Vulnerability Assessment</option></c:if>
 					</select>
 				</td>
 			</tr>
@@ -76,7 +76,7 @@
 					</tr>
 				</table>
 				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add ABS Data Element
+					<span></span>Add ABS Data
 				</button>
 			</form:form>
 		</div>
@@ -92,7 +92,7 @@
 					<tr>
 						<td>Variable type:</td>
 						<td class="col2">
-							<select id="cbbBitreDataVariable" name="variable">
+							<select id="cbbBitreDataVariable" name="variableCategory">
 								<option value="1">Freight throughput by cargo type</option>
 								<option value="2">Commercial vessels calls by type</option>
 								<option value="3">Export commodities by type</option>
@@ -123,7 +123,7 @@
 					</tr>
 				</table>
 				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add BITRE Data Element
+					<span></span>Add BITRE Data
 				</button>
 			</form:form>
 		</div>
@@ -142,7 +142,7 @@
 					</tr>
 				</table>
 				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add Custom Data Element
+					<span></span>Add Custom Data
 				</button>
 			</form:form>
 		</div>
@@ -168,7 +168,7 @@
 				</tr>
 			</table>
 			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-				<span></span>Add Past Data Element
+				<span></span>Add Past Data
 			</button>
 			</form:form>
 		</div>
@@ -255,7 +255,7 @@
 					</tr>
 				</table>
 				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add CSIRO Data Element
+					<span></span>Add CSIRO Data
 				</button>
 			</form:form>
 		</div>
@@ -315,7 +315,7 @@
 					</tr>
 				</table>
 				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add CMAR Data Element
+					<span></span>Add CMAR Data
 				</button>
 			</form:form>
 		</div>
@@ -356,7 +356,7 @@
 					</tr>
 				</table>
 				<button type="button" id="btnAddEngineeringModelDataElement" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add Engineering Model Data Element
+					<span></span>Add Engineering Model Data
 				</button><br />
 				<div id="loading" class="center">
 					<p>Extracting data and preparing your data element...</p>
@@ -504,7 +504,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Interruption/halt to logistics operations<a href="#" id="lnkHelpVulnerabilityConsequence9" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Regulatory impact<a href="#" id="lnkHelpVulnerabilityConsequence9" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence9" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence9" value="1" /> Insignificant
@@ -514,7 +514,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Interruption to boat movements:</td>
+						<td class="top">Interruption/halt to logistics operations<a href="#" id="lnkHelpVulnerabilityConsequence10" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence10" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence10" value="1" /> Insignificant
@@ -524,7 +524,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Altered dredging schedule:</td>
+						<td class="top">Interruption to boat movements:</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventConsequence11" value="0" checked="checked" /> No impact
 							<input type="radio" name="weatherEventConsequence11" value="1" /> Insignificant
@@ -534,21 +534,37 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Outline how your business responded to the impact <a href="#" id="lnkHelpVulnerabilityResponse" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Altered dredging schedule:</td>
 						<td class="col2">
-							<textarea id="txtWeatherEventResponse" name="weatherEventResponse" rows="5" class="small"></textarea>
+							<input type="radio" name="weatherEventConsequence12" value="0" checked="checked" /> No impact
+							<input type="radio" name="weatherEventConsequence12" value="1" /> Insignificant
+							<input type="radio" name="weatherEventConsequence12" value="2" /> Moderate
+							<input type="radio" name="weatherEventConsequence12" value="3" /> Major
+							<input type="radio" name="weatherEventConsequence12" value="4" /> Extreme
 						</td>
 					</tr>
 					<tr>
-						<td class="top">Adequate <a href="#" id="lnkHelpVulnerabilityResponseAdequate" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="top">Other business consequences <a href="#" id="lnkHelpVulnerabilityConsequencesOther" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td class="col2">
+							<textarea id="txtWeatherEventConsequencesOther" name="weatherEventConsequencesOther" rows="5" class="small"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td class="top">Would you say your response was adequate?</td>
 						<td class="col2">
 							<input type="radio" name="weatherEventResponseAdequate" value="adequate" checked="checked" /> Yes
 							<input type="radio" name="weatherEventResponseAdequate" value="no" /> No
 						</td>
 					</tr>
+					<tr>
+						<td class="top">What were the changes implemented as a result of this event? <a href="#" id="lnkHelpVulnerabilityChanges" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a></td>
+						<td class="col2">
+							<textarea id="txtWeatherEventChanges" name="weatherEventChanges" rows="5" class="small"></textarea>
+						</td>
+					</tr>
 				</table>
 				<button type="button" id="btnAddVulnerabilityMatrixDataElement" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add Vulnerability Matrix Data Element
+					<span></span>Add Vulnerability Assessment Data
 				</button><br />
 			</form:form>
 		</div>
@@ -632,11 +648,12 @@
 			setupBubblePopup("lnkHelpVulnerabilityConsequence6", "Insurance premiums may increase due to direct impacts on the port, or due to the perceived increased risk to the area", strPathToBubblePopupTheme);
 			setupBubblePopup("lnkHelpVulnerabilityConsequence7", "Reputation may be affected amongst the local community, or clients and other stakeholders, Eg: negative media reports; or perceived unreliability of port due to disruption caused by climate event", strPathToBubblePopupTheme);
 			setupBubblePopup("lnkHelpVulnerabilityConsequence8", "Any impact on the natural environment caused by port operations as a result of the climate related event, this may be excessive dust due to dry, windy conditions; contaminated water from the site; excessive fumes.", strPathToBubblePopupTheme);
-			//Regulatory impact refers to a contravention of a regulation or legal requirement, Eg; caused by environmental contravention as above, or workforce safety contravention
-			setupBubblePopup("lnkHelpVulnerabilityConsequence9", "A halt to the moving of goods to and from boats, and across the port; also an impact to storage on site", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityConsequence9", "Regulatory impact refers to a contravention of a regulation or legal requirement, Eg; caused by environmental contravention as above, or workforce safety contravention.", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityConsequence10", "A halt to the moving of goods to and from boats, and across the port; also an impact to storage on site", strPathToBubblePopupTheme);
 			
-			setupBubblePopup("lnkHelpVulnerabilityResponse", "This may include which management processes were activated, for example, the emergency response plan for cyclones, or the OHS protocol for extreme heat.", strPathToBubblePopupTheme);
-			setupBubblePopup("lnkHelpVulnerabilityResponseAdequate", "Would you say your response was adequate?", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityConsequencesOther", "Specify any other business consequences not listed above in the text box", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpVulnerabilityChanges", "Changes may be to management systems, to safety protocols, maintenance processes, communication protocols and so forth.", strPathToBubblePopupTheme);
+			
 		</c:if>
 	});
 </script>

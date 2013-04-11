@@ -28,6 +28,9 @@ public class DataElementDao {
 	@Autowired
 	private EngineeringModelAssetDao engineeringModelAssetDao;
 	
+	@Autowired
+	private  WeatherEventDao weatherEventDao;
+	
 	/**
 	 * The name of the table in the database where the Data Elements are stored
 	 */
@@ -101,6 +104,9 @@ public class DataElementDao {
 				engineeringModelDataDao.deleteForAsset(asset);
 				engineeringModelAssetDao.delete(asset.getId());
 			}
+		}
+		else if (dataElement instanceof DataElementVulnerability) {
+			weatherEventDao.delete(((DataElementVulnerability)dataElement).getWeatherEvent().getId());
 		}
 	}
 	

@@ -67,6 +67,12 @@ public class WorkboardController {
 	private AbsDataDao absDataDao;
 	
 	@Autowired
+	private BitreVariableCategoryDao bitreVariableCategoryDao;
+	
+	@Autowired
+	private BitreDataDao bitreDataDao;
+	
+	@Autowired
 	private CsiroDataDao csiroDataDao;
 	
 	@Autowired
@@ -170,6 +176,39 @@ public class WorkboardController {
 			userStory.getDataElements().add(dataElement);
 			
 			model.addAttribute("successMessage", WorkboardController.MSG_ABS_DATA_ADDED);
+		}
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		
+		return ModelForWorkboard(model, userStory);
+	}
+	
+	@RequestMapping(value= "/addBitreData", method = RequestMethod.POST)
+	public ModelAndView addBitreDataToWorkboard(
+		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
+		@RequestParam(value="variableCategory",required=true) Integer variableCategoryId,
+		@RequestParam(value="seaport",required=true) String seaportCode, Model model)
+	{
+		logger.info("Inside addBitreDataToWorkboard");
+		
+		UserStory userStory = null;
+		try {
+			userStory = userStoryDao.find(userStoryId);
+			
+    		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+    		BitreVariableCategory category = bitreVariableCategoryDao.find(variableCategoryId);
+    		Seaport seaport = seaportDao.find(seaportCode);
+    		List<BitreData> bitreDataList = bitreDataDao.find(seaport, category);
+    		
+			DataElementBitre dataElement = new DataElementBitre(new Date(), "BITRE Data - " + category.getName(), true, 0, userStory, bitreDataList);
+			dataElementDao.save(dataElement);
+			
+			userStory.getDataElements().add(dataElement);
+			
+			model.addAttribute("successMessage", WorkboardController.MSG_BITRE_DATA_ADDED);
 		}
 		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -608,9 +647,10 @@ public class WorkboardController {
 		@RequestParam(value="weatherEventDirect",required=true) String directString, 
 		@RequestParam(value="weatherEventImpact",required=true) String impact,
 		@RequestParam(value="weatherEventConsequence1",required=true) String weatherEventConsequence1, @RequestParam(value="weatherEventConsequence2",required=true) String weatherEventConsequence2, @RequestParam(value="weatherEventConsequence3",required=true) String weatherEventConsequence3, @RequestParam(value="weatherEventConsequence4",required=true) String weatherEventConsequence4, @RequestParam(value="weatherEventConsequence5",required=true) String weatherEventConsequence5, @RequestParam(value="weatherEventConsequence6",required=true) String weatherEventConsequence6,  
-		@RequestParam(value="weatherEventConsequence7",required=true) String weatherEventConsequence7, @RequestParam(value="weatherEventConsequence8",required=true) String weatherEventConsequence8, @RequestParam(value="weatherEventConsequence9",required=true) String weatherEventConsequence9, @RequestParam(value="weatherEventConsequence10",required=true) String weatherEventConsequence10, @RequestParam(value="weatherEventConsequence11",required=true) String weatherEventConsequence11,
-		@RequestParam(value="weatherEventResponse",required=true) String response,
+		@RequestParam(value="weatherEventConsequence7",required=true) String weatherEventConsequence7, @RequestParam(value="weatherEventConsequence8",required=true) String weatherEventConsequence8, @RequestParam(value="weatherEventConsequence9",required=true) String weatherEventConsequence9, @RequestParam(value="weatherEventConsequence10",required=true) String weatherEventConsequence10, @RequestParam(value="weatherEventConsequence11",required=true) String weatherEventConsequence11, @RequestParam(value="weatherEventConsequence12",required=true) String weatherEventConsequence12,
+		@RequestParam(value="weatherEventConsequencesOther",required=true) String consequencesOther,
 		@RequestParam(value="weatherEventResponseAdequate",required=true) String responseAdequateString,
+		@RequestParam(value="weatherEventChanges",required=true) String changes,
 		Model model)
 	{
 		logger.info("Inside addVulnerabilityToWorkboard");
@@ -627,15 +667,15 @@ public class WorkboardController {
 			Boolean responseAdequate = (responseAdequateString != null && responseAdequateString.equals("adequate")) ? true : false;
 			Integer year = Integer.valueOf(yearString);
 			
-			String consequences = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 
+			String consequencesRating = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 
 					weatherEventConsequence1, weatherEventConsequence2, weatherEventConsequence3,
 					weatherEventConsequence4, weatherEventConsequence5, weatherEventConsequence6, 
 					weatherEventConsequence7, weatherEventConsequence8, weatherEventConsequence9, 
-					weatherEventConsequence10, weatherEventConsequence11);
+					weatherEventConsequence10, weatherEventConsequence11, weatherEventConsequence12);
 
-			WeatherEvent weatherEvent = new WeatherEvent(type, year, direct, impact, consequences, response, responseAdequate);
+			WeatherEvent weatherEvent = new WeatherEvent(type, year, direct, impact, consequencesRating, consequencesOther, responseAdequate, changes);
 			weatherEventDao.save(weatherEvent);
-			DataElementVulnerability dataElement = new DataElementVulnerability(new Date(), "Vulnerability", true, 0, userStory, weatherEvent);
+			DataElementVulnerability dataElement = new DataElementVulnerability(new Date(), "Vulnerability Assessment", true, 0, userStory, weatherEvent);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
@@ -759,6 +799,10 @@ public class WorkboardController {
 		 				dataelementsCounts[0]++;
 		 			}
 		 			else if (dataElement.getClass().equals(DataElementBitre.class)) {
+		 				List<BitreData> bitreDataList = ((DataElementBitre)dataElement).getBitreDataList();
+		 				for (BitreData data : bitreDataList) {
+		 					data.generateValues();
+		 				}
 		 				dataelementsCounts[0]++;
 		 			}
 		 			else if (dataElement.getClass().equals(DataElementFile.class)) {

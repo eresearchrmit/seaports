@@ -53,19 +53,25 @@ public class WeatherEvent
 	 * Description of the consequences of the weather event
 	 */
 	@Column
-	private String consequences;
+	private String consequencesRating;
 	
 	/**
-	 * Description of the response to the weather event
+	 * Description of the other consequences not listed in the rating
 	 */
 	@Column
-	private String response;
+	private String consequencesOther;
 	
 	/**
 	 * Whether the response was adequate or not
 	 */
 	@Column
 	private Boolean responseAdequate;
+	
+	/**
+	 * Description of the changes implemented after the event
+	 */
+	@Column
+	private String changes;
 	
 	/**
 	 * Default constructor of WeatherEvent
@@ -80,20 +86,22 @@ public class WeatherEvent
 	 * @param year: the year when the weather event happened
 	 * @param direct: whether the event had direct or indirect impact
 	 * @param impact: the description of the impact of the weather event
-	 * @param consequences: the description of the consequences of the weather event
 	 * @param consequencesRating: the rating of the consequences of the weather event
+	 * @param consequencesOther: the other consequences not listed in the rating
 	 * @param response: the description of the response to the weather event
 	 * @param responseAdequate: whether the response was adequate or not
+	 * @param changes: description of the changes implemented after the Weather Event
 	 */
 	public WeatherEvent(String type, Integer year, Boolean direct, String impact, 
-			String consequences, String response, Boolean responseAdequate) {
+			String consequencesRating, String consequencesOther, Boolean responseAdequate, String changes) {
 		setType(type);
 		setYear(year);
 		setDirect(direct);
 		setImpact(impact);
-		setConsequences(consequences);
-		setResponse(response);
+		setConsequencesRating(consequencesRating);
+		setConsequencesOther(consequencesOther);
 		setResponseAdequate(responseAdequate);
+		setChanges(changes);
 	}
 
 	/**
@@ -177,35 +185,35 @@ public class WeatherEvent
 	}
 	
 	/**
-	 * Getter for the description of the consequences of the Weather Event
-	 * @return: the current description of the consequences of the Weather Event
+	 * Getter for the rating of the consequences of the Weather Event
+	 * @return: the current rating of the consequences of the Weather Event
 	 */
-	public String getConsequences() {
-		return this.consequences;
+	public String getConsequencesRating() {
+		return this.consequencesRating;
 	}
 	
 	/**
 	 * Setter for the description of the consequences Weather Event
-	 * @param impact: the new description of the consequences of the Weather Event
+	 * @param consequencesRating: the new rating of the consequences of the Weather Event
 	 */
-	public void setConsequences(String consequences) {
-		this.consequences = consequences;
+	public void setConsequencesRating(String consequencesRating) {
+		this.consequencesRating = consequencesRating;
 	}
 	
 	/**
-	 * Getter for the description of the response of the Weather Event
-	 * @return: the current description of the response of the Weather Event
+	 * Getter for the other consequences not listed in the ratings
+	 * @return: the current other consequences not listed in the ratings
 	 */
-	public String getResponse() {
-		return this.response;
+	public String getConsequencesOther() {
+		return this.consequencesOther;
 	}
 	
 	/**
-	 * Setter for the description of the response Weather Event
-	 * @param impact: the new description of the response of the Weather Event
+	 * Setter for the other consequences not listed in the ratings
+	 * @param consequencesOther: the new other consequences not listed in the ratings
 	 */
-	public void setResponse(String response) {
-		this.response = response;
+	public void setConsequencesOther(String consequencesOther) {
+		this.consequencesOther = consequencesOther;
 	}
 	
 	/**
@@ -222,5 +230,21 @@ public class WeatherEvent
 	 */
 	public void setResponseAdequate(Boolean responseAdequate) {
 		this.responseAdequate = responseAdequate;
+	}
+
+	/**
+	 * Getter for the description of the changes implemented after the Weather Event
+	 * @return: the current description of the changes implemented after the Weather Event
+	 */
+	public String getChanges() {
+		return this.changes;
+	}
+	
+	/**
+	 * Setter for the description of the changes implemented after the Weather Event
+	 * @param changes: the new description of the changes implemented after the Weather Event
+	 */
+	public void setChanges(String changes) {
+		this.changes = changes;
 	}
 }

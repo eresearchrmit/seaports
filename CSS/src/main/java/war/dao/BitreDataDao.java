@@ -129,5 +129,5 @@ public class BitreDataDao {
 		}		
 	} 
 	
-	public static final String ERR_NO_RESULT = "No CSIRO data found corresponding to the specified parameters";
+	public static final String ERR_NO_RESULT = "No BITRE data found corresponding to the specified parameters";
 }
