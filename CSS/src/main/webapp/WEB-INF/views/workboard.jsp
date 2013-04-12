@@ -30,11 +30,11 @@
 			<span></span>Delete WorkBoard
 		</button>
 	</a>
-	<div id="confirmWorkboardDeletionModalWindow" title="Delete your workboard ?">
+	<div style="display:none" id="confirmWorkboardDeletionModalWindow" title="Delete your workboard ?">
 		<p>Deleting your workboard will also delete all the data elements it contains. This action cannot be undone.</p> 
 		<p>Are you sure you want to permanently delete your current workboard ?</p> 
 	</div>
-	<div id="confirmConvertToUserStoryModalWindow" title="Create a story from this workboard ?">
+	<div style="display:none" id="confirmConvertToUserStoryModalWindow" title="Create a story from this workboard ?">
 		<p>This will create a Story based on your Workboard. Once the Workboard becomes a Story, no more data element can be added to it.</p> 
 		<p>Are you sure you want to create a Story from your Workboard now ?</p>
 	</div>
@@ -51,7 +51,7 @@
 	<jsp:include page="notifications.jsp" />
 		
 	<script type="text/javascript">
-		$(document).ready(function() {
+		$(function() {
 			$("#tabs").tabs({
 				select: function(event, ui) {
 					window.location.replace(ui.tab.hash);
@@ -60,6 +60,7 @@
 					$(window).resize(); // triggered to resize the Highcharts graphs to a % of the width of the tab
 				}
 			});
+
 		});
 	</script>
 	

@@ -13,7 +13,7 @@
 		<span></span>Add Data Element
 	</button>
 </p>
-<div id="add${dataelementsfilter}DataElementModalWindow" class="box round first" title="New Data Element">
+<div id="add${dataelementsfilter}DataElementModalWindow" class="box round first" title="New Data Element" style="display:none">
 	<div class="block">
 		<p><strong>1. Choose a Data Source:</strong></p>
 		<table width="auto" height="auto" class="form">

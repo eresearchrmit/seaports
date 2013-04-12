@@ -18,39 +18,30 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/print.css" />" />
 
 <!-- BEGIN: load jquery -->
-<script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.4.min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery-1.6.4.min.js" />" ></script>
+<!-- jQuery UI -->
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.core.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.widget.min.js" />"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.accordion.min.js" />"></script>
-<!-- jQuery dialog related-->
-<script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.widget.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/external/jquery.bgiframe-2.1.2.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.mouse.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.draggable.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.position.min.js" />" ></script>
-<script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.resizable.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.dialog.min.js" />" ></script>
-<!-- jQuery tables related-->
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.mouse.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.sortable.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.ui.tabs.min.js" />" ></script>
-<script type="text/javascript" src="<c:url value="/resources/js/table/jquery.dataTables.min.js" />" ></script>
 <!-- jQuery effects -->
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.effects.core.min.js" />"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.effects.slide.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui/jquery.effects.fade.min.js" />" ></script>
-<!-- jQuery MapHilight plugin -->
+<!-- jQuery plugins -->
+<script type="text/javascript" src="<c:url value="/resources/js/table/jquery.dataTables.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.maphilight.js" />"></script>
-<!-- jQuery Fancy Button plugin -->
 <script type="text/javascript" src="<c:url value="/resources/js/fancy-button/fancy-button.js" />"></script>
-<!-- jQuery Bubble Popup plugin -->
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/jquery.bubble-popup-v3.min.js" />"></script>
-<!-- END: load jquery -->
-
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.bubble-popup-v3.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts-more.js" />" ></script>
-
-<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/pretty-photo/jquery.prettyPhoto.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/pretty-photo/jquery.prettyPhoto.js" />"></script>
+<!-- END: load jquery plugins -->
 
 <script language="javascript" type="text/javascript" src="<c:url value="/resources/js/setup.js" />"></script>
 

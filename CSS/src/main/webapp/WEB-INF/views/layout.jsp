@@ -29,8 +29,7 @@
 			<tiles:insertAttribute name="menu" ignore="true" />
         </div>
         <div class="clear"></div>
-        
-        <div id="page-body">
+        <div id="page-body" style="min-height:500px">        	
 			<tiles:insertAttribute name="body" ignore="true" />
 		</div>
         <div class="clear"></div>

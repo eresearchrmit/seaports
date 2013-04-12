@@ -10,127 +10,8 @@
 	},100);
 }
 
-//-------------------------------------------------------------- */
-// Gallery Actions
-//-------------------------------------------------------------- */
-
-function initializeGallery() {
-    // When hovering over gallery li element
-    $("ul.gallery li").hover(function () {
-
-        var $image = (this);
-
-        // Shows actions when hovering
-        $(this).find(".actions").show();
-
-        // If the "x" icon is pressed, show confirmation (#dialog-confirm)
-        $(this).find(".actions .delete").click(function () {
-
-            // Confirmation
-            $("#dialog-confirm").dialog({
-                resizable: false,
-                modal: true,
-                minHeight: 0,
-                draggable: false,
-                buttons: {
-                    "Delete": function () {
-                        $(this).dialog("close");
-
-                        // Removes image if delete is pressed
-                        $($image).fadeOut('slow', function () {
-                            $($image).remove();
-                        });
-
-                    },
-
-                    // Removes dialog if cancel is pressed
-                    Cancel: function () {
-                        $(this).dialog("close");
-                    }
-                }
-            });
-
-            return false;
-        });
-
-
-        // Changes opacity of the image
-        $(this).find("img").css("opacity", "0.5");
-
-        // On hover off
-        $(this).hover(function () {
-        }, function () {
-
-            // Hides actions when hovering off
-            $(this).find(".actions").hide();
-
-            // Changes opacity of the image back to normal
-            $(this).find("img").css("opacity", "1");
-
-        });
-    });
-}
-
-function setupGallery() {
-
-    initializeGallery();
-
-    $('ul.gallery').each(function () {
-
-        // get the action filter option item on page load
-        var $fileringType = $("ul.sorting li.active a[data-type]").first().before(this);
-        var $filterType = $($fileringType).attr('data-id');
-
-        var $gallerySorting = $(this).parent().prev().children('ul.sorting');
-
-        // get and assign the ourHolder element to the
-        // $holder varible for use later
-        var $holder = $(this);
-
-        // clone all items within the pre-assigned $holder element
-        var $data = $holder.clone();
-
-        // attempt to call Quicksand when a filter option
-        // item is clicked
-        $($gallerySorting).find("a[data-type]").click(function (e) {
-            // reset the active class on all the buttons
-            $($gallerySorting).find("a[data-type].active").removeClass('active');
-
-            // assign the class of the clicked filter option
-            // element to our $filterType variable
-            var $filterType = $(this).attr('data-type');
-            $(this).addClass('active');
-            if ($filterType == 'all') {
-                // assign all li items to the $filteredData var when
-                // the 'All' filter option is clicked
-                var $filteredData = $data.find('li');
-            }
-            else {
-                // find all li elements that have our required $filterType
-                // values for the data-type element
-                var $filteredData = $data.find('li[data-type=' + $filterType + ']');
-            }
-
-            // call quicksand and assign transition parameters
-            $holder.quicksand($filteredData, {
-                duration: 800,
-                easing: 'easeInOutQuad',
-                useScaling: true,
-                adjustHeight: 'auto'
-            }, function () {
-                $('.popup').facebox();
-                initializeGallery();
-            });
-
-            return false;
-        });
-
-    });
-}
-
 // Setup pretty-photo
 function setupPrettyPhoto() {
-
     $("a[rel^='prettyPhoto']").prettyPhoto();
 }
 
@@ -181,13 +62,6 @@ function setDatePicker(containerElement) {
     });
 }
 
-//setup progressbar
-function setupProgressbar(containerElement) {
-    $("#" + containerElement).progressbar({
-        value: 59
-    });
-}
-
 //setup dialog box
 function setupDialogBox(containerElement, associatedButton) {
     $.fx.speeds._default = 500;
@@ -231,11 +105,6 @@ function setupConfirmBox(containerElement, associatedLink) {
 		$("#" + containerElement).dialog("open");
 	});
 	$("#" + containerElement).hide();
-}
-
-//setup accordion
-function setupAccordion(containerElement) {
-    $("#" + containerElement).accordion();
 }
 
 //setup collapsible elements

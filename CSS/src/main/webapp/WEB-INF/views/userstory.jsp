@@ -26,7 +26,7 @@
 		</button>
 	</a>
 	<c:choose>
-		<c:when test="${story.access == 'published'}">
+		<c:when test="${story.mode == 'published'}">
 		<a href="#" style="margin-right: 10px; float:right">
 			<button class="btnAddDataElement btn btn-icon btn-green btn-globe" >
 				<span></span>Report Published

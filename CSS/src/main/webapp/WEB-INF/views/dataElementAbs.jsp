@@ -17,8 +17,8 @@
 		<c:choose>
 			<c:when test="${dataelement.displayType == 'GRAPH'}">	
 				<script type="text/javascript">
-					$(function () {
-					var colors = Highcharts.getOptions().colors;
+					$(function() {
+						var colors = Highcharts.getOptions().colors;
 										
 				        $('#${dataelementsfilter}-abs-LineAndBarGraph${dataElementLoopIndex}').highcharts({
 				            chart: {
@@ -78,9 +78,9 @@
 				                    valueSuffix: '${dataelement.absDataList[0].variable.uom}'
 								}]
 				        });
-				    });
+					});
 				</script>
-				<div id="${dataelementsfilter}-abs-LineAndBarGraph${dataElementLoopIndex}" class="highcharts" style="width:95%; margin-bottom:30px">
+				<div id="${dataelementsfilter}-abs-LineAndBarGraph${dataElementLoopIndex}" class="highcharts ${dataelementsfilter}-abs" style="width:95%; margin-bottom:30px">
 				</div>
 			</c:when>
 			<c:when test="${dataelement.displayType == 'TABLE'}">
