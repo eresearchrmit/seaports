@@ -30,7 +30,9 @@
         </div>
         <div class="clear"></div>
         
-		<tiles:insertAttribute name="body" ignore="true" />
+        <div id="page-body">
+			<tiles:insertAttribute name="body" ignore="true" />
+		</div>
         <div class="clear"></div>
         
 	    <div id="site_info">

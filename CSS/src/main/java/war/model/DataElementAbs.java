@@ -46,11 +46,12 @@ public class DataElementAbs extends DataElement {
 	 * @param creationDate: the date when the data element was created
 	 * @param name: the name of the data element
 	 * @param position: the position of the data element in the user story it belongs to
+	 * @param displayType: the way the data element should be displayed
 	 * @param userStory: the user story to which this data element belongs
 	 * @param absDataList: the list of ABS data contained in this past data element
 	 */
-	public DataElementAbs(Date creationDate, String name, boolean included, int position, UserStory userStory, List<AbsData> absDataList) {
-		super(creationDate, name, included, position, userStory);
+	public DataElementAbs(Date creationDate, String name, boolean included, int position, DisplayType displayType, UserStory userStory, List<AbsData> absDataList) {
+		super(creationDate, name, included, position, displayType, userStory);
 		setAbsDataList(absDataList);
 	}
 	

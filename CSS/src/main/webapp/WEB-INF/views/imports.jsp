@@ -49,7 +49,6 @@
 
 <script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts-more.js" />" ></script>
-<script type="text/javascript" src="<c:url value="/resources/js/highcharts/modules/exporting.js" />" ></script>
 
 <script language="javascript" type="text/javascript" src="<c:url value="/resources/js/pretty-photo/jquery.prettyPhoto.js" />"></script>
 
@@ -57,39 +56,23 @@
 
 <script type="text/javascript">
    $(document).ready(function () {
-      setupLeftMenu();
-      setSidebarHeight();
-      // Uncomment to add sorting, pagination & search on tables
-      //$('.datatable').dataTable();
-      
-      // Resize each image so it is a good sized thumbnail
-      $.each($("img.dataElementThumb"), function() {
-          var maxWidth = 450;
-          var maxHeight = 150;
-          var width = $(this).width();
-          var height = $(this).height();
-
-          if((width / maxWidth) < (height / maxHeight)) {
-              var multiplier = maxWidth / width;
-              var newHeight = height * multiplier;
-
-              $(this).css("width", maxWidth);
-              $(this).css("height", newHeight);
-
-              //var heightD = (maxHeight - newHeight)/2;
-              //$(this).css("margin-top", heightD+"px");
-              //$(this).css("margin-bottom", heightD+"px");
-          }
-          else {
-              var multiplier = maxHeight / height;
-              var newWidth = width * multiplier;
-
-              $(this).css("width", newWidth);
-              $(this).css("height", maxHeight);
-
-              //var widthD = (maxWidth - width)/2;
-              //$(this).css("margin-left", widthD+"px");
-              //$(this).css("margin-right", widthD+"px");
+		setSidebarHeight();
+		
+		// Resize each image so it is a good sized thumbnail
+		$.each($("img.dataElementThumb"), function() {
+			var maxWidth = 450;
+			var maxHeight = 150;
+			var width = $(this).width();
+			var height = $(this).height();
+			if((width / maxWidth) < (height / maxHeight)) {
+				var newHeight = height * (maxWidth / width);
+				$(this).css("width", maxWidth);
+				$(this).css("height", newHeight);
+			}
+			else {
+				var newWidth = width * (maxHeight / height);
+				$(this).css("width", newWidth);
+				$(this).css("height", maxHeight);
           }
 		});
 		setupPrettyPhoto();

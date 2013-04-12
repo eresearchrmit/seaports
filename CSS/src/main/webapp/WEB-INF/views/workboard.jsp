@@ -53,7 +53,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#tabs").tabs({
-				select: function(event, ui) {                   
+				select: function(event, ui) {
 					window.location.replace(ui.tab.hash);
 				},
 				show: function(event, ui) {

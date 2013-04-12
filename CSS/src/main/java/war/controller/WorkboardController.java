@@ -155,7 +155,8 @@ public class WorkboardController {
 	public ModelAndView addAbsDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="variable",required=true) Integer variableId,
-		@RequestParam(value="seaport",required=true) String seaportCode, Model model)
+		@RequestParam(value="seaport",required=true) String seaportCode, 
+		@RequestParam(value="displayType",required=true) String displayTypeString, Model model)
 	{
 		logger.info("Inside addAbsDataToWorkboard");
 		
@@ -169,8 +170,9 @@ public class WorkboardController {
     		AbsVariable variable = absVariableDao.find(variableId);
     		Seaport seaport = seaportDao.find(seaportCode);
 			List<AbsData> absDataList = absDataDao.getAllInSeaportForVariable(seaport, variable);
+			DataElement.DisplayType displayType = DataElement.DisplayType.fromString(displayTypeString);
 			
-			DataElementAbs dataElement = new DataElementAbs(new Date(), "ABS Data - " + variable.getName(), true, 0, userStory, absDataList);
+			DataElementAbs dataElement = new DataElementAbs(new Date(), "ABS Data - " + variable.getName(), true, 0, displayType, userStory, absDataList);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
@@ -188,7 +190,8 @@ public class WorkboardController {
 	public ModelAndView addBitreDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="variableCategory",required=true) Integer variableCategoryId,
-		@RequestParam(value="seaport",required=true) String seaportCode, Model model)
+		@RequestParam(value="seaport",required=true) String seaportCode, 
+		@RequestParam(value="displayType",required=true) String displayTypeString, Model model)
 	{
 		logger.info("Inside addBitreDataToWorkboard");
 		
@@ -202,8 +205,9 @@ public class WorkboardController {
     		BitreVariableCategory category = bitreVariableCategoryDao.find(variableCategoryId);
     		Seaport seaport = seaportDao.find(seaportCode);
     		List<BitreData> bitreDataList = bitreDataDao.find(seaport, category);
+    		DataElement.DisplayType displayType = DataElement.DisplayType.fromString(displayTypeString);
     		
-			DataElementBitre dataElement = new DataElementBitre(new Date(), "BITRE Data - " + category.getName(), true, 0, userStory, bitreDataList);
+			DataElementBitre dataElement = new DataElementBitre(new Date(), "BITRE Data - " + category.getName(), true, 0, displayType, userStory, bitreDataList);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);

@@ -69,9 +69,9 @@
 					<tr>
 						<td class="col1">Display data as:</td>
 						<td class="col2">
-							<input type="radio" name="rdAbsDisplayType" value="picture" checked="checked" /> Graph 
-							<input type="radio" name="rdAbsDisplayType" value="map" /> Map
-							<input type="radio" name="rdAbsDisplayType" value="table" /> Table
+							<input type="radio" name="displayType" value="graph" checked="checked" /> Graph 
+							<input type="radio" name="displayType" value="picture" /> Map
+							<input type="radio" name="displayType" value="table" /> Table
 						</td>
 					</tr>
 				</table>
@@ -117,8 +117,8 @@
 					<tr>
 						<td class="col1">Display data as:</td>
 						<td class="col2">
-							<input type="radio" name="rdAbsDisplayType" value="graph" checked="checked" /> Graph
-							<input type="radio" name="rdAbsDisplayType" value="table" /> Table
+							<input type="radio" name="displayType" value="graph" checked="checked" /> Graph
+							<input type="radio" name="displayType" value="table" /> Table
 						</td>
 					</tr>
 				</table>

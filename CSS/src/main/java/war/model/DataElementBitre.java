@@ -46,11 +46,12 @@ public class DataElementBitre extends DataElement {
 	 * @param creationDate: the date when the data element was created
 	 * @param name: the name of the data element
 	 * @param position: the position of the data element in the user story it belongs to
+	 * @param displayType: the way the data element should be displayed
 	 * @param userStory: the user story to which this data element belongs
 	 * @param bitreDataList: the list of BITRE data contained in this past data element
 	 */
-	public DataElementBitre(Date creationDate, String name, boolean included, int position, UserStory userStory, List<BitreData> bitreDataList) {
-		super(creationDate, name, included, position, userStory);
+	public DataElementBitre(Date creationDate, String name, boolean included, int position, DisplayType displayType, UserStory userStory, List<BitreData> bitreDataList) {
+		super(creationDate, name, included, position, displayType, userStory);
 		setBitreDataList(bitreDataList);
 	}
 	

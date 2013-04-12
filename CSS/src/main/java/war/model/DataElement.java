@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,6 +59,12 @@ public class DataElement {
     private int position;
     
     /**
+     * The way the data element should be displayed
+     */
+	@Enumerated(EnumType.STRING)
+	private DisplayType displayType;
+    
+    /**
      * The user story to which this data element belongs
      */
 	@ManyToOne
@@ -67,11 +75,12 @@ public class DataElement {
 	 * Default constructor of data element
 	 */
 	public DataElement() {
-		this.creationDate = new Date();
+		setCreationDate(new Date());
+		setDisplayType(DisplayType.UNDEFINED);
 	}
 	
 	/**
-	 * Constructor of User specifying the name, login and password 
+	 * Constructor of User specifying all the fields except the display type
 	 * @param creationDate: the date when the data element was created
 	 * @param name: the name of the data element
 	 * @param included: whether the data element is included or not in the publication of its parent User Story.
@@ -79,11 +88,30 @@ public class DataElement {
 	 * @param userStory: the user story to which this data element belongs
 	 */
 	public DataElement(Date creationDate, String name, boolean included, int position, UserStory userStory) {
-		this.creationDate = creationDate;
-		this.name = name;
-		this.included = included;
-		this.position = position;
-		this.userStory = userStory;
+		setCreationDate(creationDate);
+		setName(name);
+		setIncluded(included);
+		setPosition(position);
+		setUserStory(userStory);
+		setDisplayType(DisplayType.UNDEFINED);
+	}
+
+	/**
+	 * Constructor of User specifying all the fields
+	 * @param creationDate: the date when the data element was created
+	 * @param name: the name of the data element
+	 * @param included: whether the data element is included or not in the publication of its parent User Story.
+	 * @param position: the position of the data element in the user story it belongs to
+	 * @param displayType: the way the data element should be displayed
+	 * @param userStory: the user story to which this data element belongs
+	 */
+	public DataElement(Date creationDate, String name, boolean included, int position, DisplayType displayType, UserStory userStory) {
+		setCreationDate(creationDate);
+		setName(name);
+		setIncluded(included);
+		setPosition(position);
+		setUserStory(userStory);
+		setDisplayType(displayType);
 	}
     
 	/**
@@ -165,6 +193,23 @@ public class DataElement {
 	public void setPosition(int position) {
 		this.position = position;
 	}
+
+	/**
+	 * Getter for the display type of the data element in its user story
+	 * @return the current display type of the data element
+	 */
+	public DisplayType getDisplayType() {
+		return this.displayType;
+	}
+	
+	/**
+	 * Setter for the display type of the data element in its user story
+	 * @param position: the new display type of the data element
+	 */
+	public void setDisplayType(DisplayType displayType) {
+		this.displayType = displayType;
+	}
+	
 	
 	/**
 	 * Getter for the user story containing this data element
@@ -184,5 +229,46 @@ public class DataElement {
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	/**
+	 * The possible types of display for a data element. Default is UNDEFINED
+	 * @author Guillaume Prevost
+	 * @since 12th Apr. 2013
+	 */
+	public enum DisplayType {
+		UNDEFINED("undefined"),
+		TABLE("table"),
+		PICTURE("picture"),
+		GRAPH("graph");
+		
+		private String text;
+
+		DisplayType(String text) {
+			this.text = text;
+		}
+
+		public String getText() {
+			return this.text;
+		}
+
+		public static DisplayType fromString(String text) {
+			if (text != null) {
+				for (DisplayType b : DisplayType.values()) {
+					if (text.equalsIgnoreCase(b.text)) {
+						return b;
+					}
+				}
+			}
+			return null;
+		}
+		
+		public String toString() {
+			return text;
+		}
+
+		public boolean equals(String otherText) {
+			return (otherText == null) ? false : text.equals(otherText);
+		}
 	}
 }

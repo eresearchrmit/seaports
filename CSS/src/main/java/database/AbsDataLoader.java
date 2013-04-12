@@ -29,7 +29,7 @@ public class AbsDataLoader {
 	
 	public static void LoadAbsData(Session session)
 	{
-		AbsVariable popChange = new AbsVariable("Population", "Pop.", "Population in urban centre", "people", "%");
+		AbsVariable popChange = new AbsVariable("Urban Population", "Pop.", "Population in urban centre", "people", "%");
 		session.save(popChange);
 
 		Seaport seaport = (Seaport)(session.get(Seaport.class, "AUNTL"));
