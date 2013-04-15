@@ -2,9 +2,6 @@ package database;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -85,6 +82,12 @@ public class TestDatabaseLoader {
 		session.save(port14);
 		session.save(port15);
 		
+		CsiroDataLoader.LoadCsiroData(session);
+		EngineeringModelDataLoader.LoadEngineeringModelData(session);
+		BomDataLoader.LoadBomData(session);
+		AcornSatDataLoader.LoadAcornSatData(session);
+		AbsDataLoader.LoadAbsData(session);
+		BitreDataLoader.LoadBitreData(session);
 		
 		// Add Users
 		User p1 = new User("testuser1", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
@@ -99,6 +102,8 @@ public class TestDatabaseLoader {
 		session.save(p4);
 		session.save(p5);
 		session.save(p6);
+		
+		
 		
 		// Add Workboards & User Stories
 		UserStory user1wb = new UserStory();
@@ -151,7 +156,6 @@ public class TestDatabaseLoader {
 		session.save(user2us);
 		
 		// Add Data Elements
-		
 	    Date date = new Date();
 	    String content = "This is a test for Data Element";
 	    DataElementFile de1 = new DataElementFile(date, "Test 1", true, 0, user1wb, "csv", content.getBytes());
@@ -179,159 +183,31 @@ public class TestDatabaseLoader {
 		session.save(de5);
 		session.save(text2);
 		session.save(de6);
-		
-		// Climate models
-		ArrayList<ClimateModel> modelsList = new ArrayList<ClimateModel>();
-		ClimateModel csiro_mk3_5 = new ClimateModel("csiro_mk3_5", "CSIRO Mk3.5", "The CSIRO MK 3.5 climate model");
-		modelsList.add(csiro_mk3_5);
-		ClimateModel mri_cgcm2_3_2 = new ClimateModel("mri_cgcm2_3_2", "MRI-CGCM2.3.2", "The MRI-CGCM 2.3.2 climate model");
-		modelsList.add(mri_cgcm2_3_2);
-		ClimateModel ipsl_cm4 = new ClimateModel("ipsl_cm4", "IPSL CM4", "The IPSL CM4 climate model");
-		modelsList.add(ipsl_cm4);
-		ClimateModel miroc_3_2_medres = new ClimateModel("miroc_3_2_medres", "MIROC-Medres", "The Miroc 3.2 MedRes climate model"); 
-		modelsList.add(miroc_3_2_medres);
-		ClimateModel reference = new ClimateModel("reference", "(Reference)", "Reference climate model: considering there is no change"); 
-		session.save(reference);
-		for (ClimateModel model : modelsList) {
-			session.save(model);
-		}
-		
-		// Climate emission scenarios
-		ArrayList<ClimateEmissionScenario> scenariosList = new ArrayList<ClimateEmissionScenario>();
-		ClimateEmissionScenario A1B = new ClimateEmissionScenario("A1B", "medium");
-		scenariosList.add(A1B);
-		ClimateEmissionScenario A1FI = new ClimateEmissionScenario("A1FI", "high");
-		scenariosList.add(A1FI);
-		ClimateEmissionScenario base = new ClimateEmissionScenario("Base", "No CO2 emissions increase");
-		session.save(base);
-		for (ClimateEmissionScenario scenario : scenariosList) {
-			session.save(scenario);
-		}
-		
-		// Climate Variables
-		ArrayList<CsiroVariable> csiroVarsList = new ArrayList<CsiroVariable>();
-		csiroVarsList.add(new CsiroVariable("Temperature", "T", "Forecasted hange of temperature from now", "&#8451;", "&#8451;"));
-		csiroVarsList.add(new CsiroVariable("Wind speed", "WS", "Forecasted wind speed", "km/h", "%"));
-		csiroVarsList.add(new CsiroVariable("Rainfall", "RF", "Forecasted rain fall", "mm/y", "%"));
-		csiroVarsList.add(new CsiroVariable("Relative humidity", "RH", "Forecasted relative humidity", "%"));
-		for (CsiroVariable variable : csiroVarsList) {
-			session.save(variable);
-		}
-		CsiroVariable slr = new CsiroVariable("Sea Level Rise", "SLR", "Forecasted sea level rise", "mm");
-		session.save(slr);
-		
-		// Engineering variables
-		ArrayList<EngineeringModelVariable> engVarsList = new ArrayList<EngineeringModelVariable>();
-		// Chloride
-		engVarsList.add(new EngineeringModelVariable("Corrosion initiation of reinforcing bar probability", "Pint", "Corrosion initiation of reinforcing bar probability", "Chloride", "")); // CY
-		engVarsList.add(new EngineeringModelVariable("Change in chloride concentration at concrete cover depth", "C(h,t)", "Change in chloride concentration at concrete cover depth", "Chloride", "kg/m&sup3;")); // CW
-		engVarsList.add(new EngineeringModelVariable("Change in corrosion rate of reinforcing bar", "icorr (t)", "Change in corrosion rate of reinforcing bar", "Chloride", "&#181;A/cm&sup2;")); // DB
-		engVarsList.add(new EngineeringModelVariable("Corrosion initiation time", "ti", "Corrosion initiation time", "Chloride", "yr")); // EN
-		engVarsList.add(new EngineeringModelVariable("Crack propagation time", "tp", "Crack propagation time", "Chloride", "yr")); // EO
-		engVarsList.add(new EngineeringModelVariable("Time to severe cracking (1mm crack width)", "tcr", "Time to severe cracking (1mm crack width)", "Chloride", "yr")); // EP
-		engVarsList.add(new EngineeringModelVariable("Chloride induced corrosion probability to severe cracking", "Pinit x Pcrack", "Chloride induced corrosion probability to severe cracking", "Chloride", "")); // ER
-		engVarsList.add(new EngineeringModelVariable("Reduction or loss in reinforcing bar", "Rebar loss", "Reduction or loss in reinforcing bar", "Chloride", "mm")); // ES
-		// Carbonation
-		engVarsList.add(new EngineeringModelVariable("Corrosion initiation of reinforcing bar probability", "Pint", "Corrosion initiation of reinforcing bar probability ", "Carbonation", "")); // BS
-		engVarsList.add(new EngineeringModelVariable("Change in carbonation depth", "&#916; xc(t')", "Change in carbonation depth", "Carbonation", "mm")); // BQ
-		engVarsList.add(new EngineeringModelVariable("Change in corrosion rate of reinforcing bar", "icorr(t')", "Change in corrosion rate of reinforcing bar", "Carbonation", "&#181;A/cm&sup2;")); // BY
-		engVarsList.add(new EngineeringModelVariable("Corrosion initiation time", "ti", "Corrosion initiation time", "Carbonation", "yr")); // EH
-		engVarsList.add(new EngineeringModelVariable("Crack propagation time", "tp", "Crack propagation time", "Carbonation", "yr")); // EI
-		engVarsList.add(new EngineeringModelVariable("Time to severe cracking (1mm crack width)", "tcr", "Time to severe cracking (1mm crack width)", "Carbonation", "yr")); // EJ
-		engVarsList.add(new EngineeringModelVariable("Carbonation induced corrosion probability to severe cracking", "Pinit x Pcrack", "Carbonation induced corrosion probability to severe cracking", "Carbonation", "")); // EL
-		engVarsList.add(new EngineeringModelVariable("Reduction or loss in reinforcing bar", "Rebar loss", "Reduction or loss in reinforcing bar", "Carbonation", "mm")); // EM
-		for (EngineeringModelVariable variable : engVarsList) {
-			session.save(variable);
-		}
-		
-		// Climate Parameters
-		ArrayList<ClimateParams> paramsList = new ArrayList<ClimateParams>();
-		paramsList.add(new ClimateParams(r1, csiro_mk3_5, "Hotter and Drier", A1B));
-		paramsList.add(new ClimateParams(r1, csiro_mk3_5, "Hotter and Drier", A1FI));
-		paramsList.add(new ClimateParams(r1, ipsl_cm4, "Most Likely", A1B));
-		paramsList.add(new ClimateParams(r1, ipsl_cm4, "Most Likely", A1FI));
-		paramsList.add(new ClimateParams(r1, miroc_3_2_medres, "Colder and Wetter", A1B));
-		paramsList.add(new ClimateParams(r1, miroc_3_2_medres, "Colder and Wetter", A1FI));
-		
-		paramsList.add(new ClimateParams(r2, miroc_3_2_medres, "Hotter and Drier", A1B));
-		paramsList.add(new ClimateParams(r2, miroc_3_2_medres, "Hotter and Drier", A1FI));
-		paramsList.add(new ClimateParams(r2, csiro_mk3_5, "Most Likely", A1B));
-		paramsList.add(new ClimateParams(r2, csiro_mk3_5, "Most Likely", A1FI));
-		paramsList.add(new ClimateParams(r2, ipsl_cm4, "Colder and Wetter", A1B));
-		paramsList.add(new ClimateParams(r2, ipsl_cm4, "Colder and Wetter", A1FI));
-		
-		paramsList.add(new ClimateParams(r3, miroc_3_2_medres, "Hotter and Drier", A1B));
-		paramsList.add(new ClimateParams(r3, miroc_3_2_medres, "Hotter and Drier", A1FI));
-		paramsList.add(new ClimateParams(r3, csiro_mk3_5, "Most Likely", A1B));
-		paramsList.add(new ClimateParams(r3, csiro_mk3_5, "Most Likely", A1FI));
-		paramsList.add(new ClimateParams(r3, ipsl_cm4, "Colder and Wetter", A1B));
-		paramsList.add(new ClimateParams(r3, ipsl_cm4, "Colder and Wetter", A1FI));
-		
-		for (ClimateParams parameter : paramsList) {
-			session.save(parameter);
-		}
-		
-		// CSIRO data
-		Random randomGenerator = new Random();
-		ArrayList<CsiroData> csirodata = new ArrayList<CsiroData>(); 
-		for (ClimateParams parameter : paramsList) {
-			for (CsiroVariable variable : csiroVarsList) {
-				csirodata.add(new CsiroData(date, parameter, variable, 2030, randomGenerator.nextDouble(), null));
-				csirodata.add(new CsiroData(date, parameter, variable, 2055, randomGenerator.nextDouble(), null));
-				csirodata.add(new CsiroData(date, parameter, variable, 2070, randomGenerator.nextDouble(), null));
-			}
-		}
-		for (CsiroData data : csirodata) {
-			session.save(data);
-		}
-		
-		// CSIRO Baseline data
-		CsiroDataBaseline baselineData = new CsiroDataBaseline(date, r1, csiroVarsList.get(0), 16.1);
-		session.save(baselineData);
-		baselineData = new CsiroDataBaseline(date, r1, csiroVarsList.get(1), 1.0); // TODO: Replace with actual Value
-		session.save(baselineData);
-		baselineData = new CsiroDataBaseline(date, r1, csiroVarsList.get(2), 1029.8);
-		session.save(baselineData);
-		baselineData = new CsiroDataBaseline(date, r1, csiroVarsList.get(3), 74.8);
-		session.save(baselineData);
-		
+
+		// CSIRO Data Element
 		ArrayList<CsiroData> csiroDataList = new ArrayList<CsiroData>();
-		csiroDataList.add(csirodata.get(0));
-		csiroDataList.add(csirodata.get(1));
-		csiroDataList.add(csirodata.get(2));
-		csiroDataList.add(csirodata.get(3));
-		
-	    DataElementCsiro de7 = new DataElementCsiro(date, "CSIRO Data Element Test", true, 0, user1wb, csiroDataList, true);
-	    session.save(de7);
+		csiroDataList.add((CsiroData)(session.get(CsiroData.class, 1)));
+		csiroDataList.add((CsiroData)(session.get(CsiroData.class, 2)));
+		csiroDataList.add((CsiroData)(session.get(CsiroData.class, 3)));
+		csiroDataList.add((CsiroData)(session.get(CsiroData.class, 4)));
+	    DataElementCsiro deCsiro = new DataElementCsiro(date, "CSIRO Data Element Test", true, 0, user1wb, csiroDataList, true);
+	    session.save(deCsiro);
 	    
-	    // CMAR data
+	    // CMAR Data Element
+	    ArrayList<CmarData> cmarDataList = new ArrayList<CmarData>();
+	    cmarDataList.add((CmarData)(session.get(CmarData.class, 1)));
+	    DataElementCmar deCmar = new DataElementCmar(date, "CMAR Data Element Test", true, 0, user1wb, cmarDataList, true);
+	    session.save(deCmar);
 	    
-	    // Engineering Model Asset
-	    EngineeringModelAsset asset = new EngineeringModelAsset("006B", "Pile No 6 @ Berth 08", 1991, "atmospheric", 2.0, "C2", "CB3", "CL1", 60.0, 1300.0, 60.0, 0.37, 300.0, 13.0);
-	    session.save(asset);
+	    // Engineering Model Data Element
+	    /*DataElementEngineeringModel deEngModel = new DataElementEngineeringModel(date, "Data Element for " + engVar, true, 0, user1wb, engineeringModelDataList);
+	    session.save(deEngModel);*/
 	    
-	    // Engineering Model Data
-		ArrayList<EngineeringModelData> engineeringModelDataList = new ArrayList<EngineeringModelData>();
-		
-		for (ClimateParams parameter : paramsList) {
-			if (parameter.getRegion().getName().equals("East Coast South")) {
-				
-				Map<Integer, Float> values = new HashMap<Integer, Float>();
-				for (int year = 2000; year <= 2070; year++) {
-					values.put(year, (float)(randomGenerator.nextInt(10)));
-				}
-				EngineeringModelData data = new EngineeringModelData(asset, parameter, engVarsList.get(0), values);
-				session.save(data);
-				engineeringModelDataList.add(data);
-			}
-			
-			if (parameter.getEmissionScenario().getName().equals("A1B") && parameter.getModelName().equals("Most Likely")) {
-				session.save(new CmarData(date, parameter, slr, 2030, "-34.5,151.5,167;-33.5,152.5,176;-32.5,152.5,168;-31.5,153.5,166;-30.5,153.5,164;-29.5,153.5,163;-28.5,153.5,159", null));
-				session.save(new CmarData(date, parameter, slr, 2070, "-34.5,151.5,437;-33.5,152.5,447;-32.5,152.5,445;-31.5,153.5,439;-30.5,153.5,436;-29.5,153.5,434;-28.5,153.5,429", null));
-			}
-		}
-		DataElementEngineeringModel de8 = new DataElementEngineeringModel(date, "Data Element for " + engVarsList.get(0), true, 0, user1wb, engineeringModelDataList);
-	    session.save(de8);
+	    // Vulnerability Data Element
+	    WeatherEvent we = new WeatherEvent("Storm", 2006, true, "Impact of the event", "1;2;4;0;0;1;5;3;2;0;1;4", "Other consequences", false, "Changes implemented");
+	    session.save(we);
+	    session.save(new DataElementVulnerability(date, "Vulnerability Assessment", true, 0, user1wb, we));
+	    
 	    
 		// Commit all the transaction
 		session.getTransaction().commit();

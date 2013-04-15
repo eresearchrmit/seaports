@@ -1,5 +1,4 @@
 package war.dao;
-import war.model.DataElement;
 import war.model.User;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import javax.persistence.Query;
 
 import war.model.UserStory;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,9 +19,6 @@ public class UserStoryDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
-
-	@Autowired
-	private DataElementDao dataElementDao;
 	
 	/**
 	 * The name of the table in the database where the User Stories are stored
@@ -175,13 +170,9 @@ public class UserStoryDao {
 	public void delete(UserStory userStory) throws IllegalArgumentException {
 		if (userStory == null)
 			throw new IllegalArgumentException();
-        
-		for (DataElement de : userStory.getDataElements()) {
-			dataElementDao.delete(de);
-		}
-		
-		Query query = entityManager.createQuery("DELETE FROM " + TABLE_NAME + " us WHERE us.id = :id") ;
-		query.setParameter("id", userStory.getId()).executeUpdate();
+
+		userStory = entityManager.find(UserStory.class, userStory.getId());
+		entityManager.remove(userStory);
 	}
 
 	/**

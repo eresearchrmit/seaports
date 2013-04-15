@@ -79,7 +79,7 @@ public class UserStory {
 	/**
 	 * The list of data elements contained in the user story
 	 */
-	@OneToMany(targetEntity=DataElement.class, mappedBy="userStory", cascade = CascadeType.ALL)
+	@OneToMany(targetEntity=DataElement.class, mappedBy="userStory", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH})
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<DataElement> dataElements;
 	

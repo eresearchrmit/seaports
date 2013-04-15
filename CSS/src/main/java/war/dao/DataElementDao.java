@@ -10,7 +10,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,15 +21,6 @@ public class DataElementDao {
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	@Autowired
-	private EngineeringModelDataDao engineeringModelDataDao;
-	
-	@Autowired
-	private EngineeringModelAssetDao engineeringModelAssetDao;
-	
-	@Autowired
-	private  WeatherEventDao weatherEventDao;
-	
 	/**
 	 * The name of the table in the database where the Data Elements are stored
 	 */
@@ -92,21 +82,22 @@ public class DataElementDao {
 			throw new IllegalArgumentException();
 		
 		// Delete the data element itself
-		Query query = entityManager.createQuery("DELETE FROM " + DataElementDao.TABLE_NAME + " de WHERE de.id = :id");
-		query.setParameter("id", dataElement.getId()).executeUpdate();
+		DataElement de = entityManager.find(DataElement.class, dataElement.getId());
+		entityManager.remove(de);
 		
-		if (dataElement instanceof DataElementEngineeringModel) {		
+		// For Engineering Model Data Element, deletes the corresponding Engineering Model Data when it is not an example
+		if (dataElement instanceof DataElementEngineeringModel) {
 			List<EngineeringModelData> dataList = ((DataElementEngineeringModel)dataElement).getEngineeringModelDataList();
 			EngineeringModelAsset asset = dataList.get(0).getAsset();
 			
-			// This prevents the deletion of the pre-loaded examples of the engineering model data
 			if (asset.getId() > EngineeringModelHelper.ENGINEERING_MODEL_EXAMPLE_ASSETS_COUNT) {
-				engineeringModelDataDao.deleteForAsset(asset);
-				engineeringModelAssetDao.delete(asset.getId());
+				for (EngineeringModelData data : dataList) {
+					data = entityManager.find(EngineeringModelData.class, data.getId());
+					entityManager.remove(data);
+				}
+				asset = entityManager.find(EngineeringModelAsset.class, asset.getId());
+				entityManager.remove(asset);
 			}
-		}
-		else if (dataElement instanceof DataElementVulnerability) {
-			weatherEventDao.delete(((DataElementVulnerability)dataElement).getWeatherEvent().getId());
 		}
 	}
 	

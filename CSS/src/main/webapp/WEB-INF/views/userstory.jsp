@@ -26,33 +26,55 @@
 		</button>
 	</a>
 	<c:choose>
-		<c:when test="${story.mode == 'published'}">
-		<a href="#" style="margin-right: 10px; float:right">
-			<button class="btnAddDataElement btn btn-icon btn-green btn-globe" >
-				<span></span>Report Published
-			</button>
-		</a>
+		<c:when test="${userstory.mode == 'published'}">
+			<a href="#" style="margin-right: 10px; float:right">
+				<button class="btnAddDataElement btn btn-icon btn-green btn-globe" >
+					<span></span>Report Published
+				</button>
+			</a>
+			<a href="#" style="margin-right: 10px; float:right">
+				<button class="btnDeleteStory btn-icon btn-grey btn-cross" >
+					<span></span>Delete the report
+				</button>
+			</a>
+			<a href="#" style="margin-right: 10px; float:right">
+				<button type="button" class="btn btn-icon btn-grey btn-check floatright">
+					<span></span>Save changes
+				</button>
+			</a>
+			<div id="dataElementAdder">
+				<a href="#" style="margin-right: 10px; float:right">
+					<button class="btnAddDataElement btn btn-icon btn-grey btn-plus">
+						<span></span>Add Text to report
+					</button>
+				</a>
+			</div>
 		</c:when>
 		<c:otherwise>
-		<a href="/CSS/auth/userstory/publish?id=${userstory.id}" style="margin-right: 10px; float:right">
-			<button class="btnAddDataElement btn btn-icon btn-blue btn-globe" >
-				<span></span>Publish the report
-			</button>
-		</a>
+			<a href="/CSS/auth/userstory/publish?id=${userstory.id}" style="margin-right: 10px; float:right">
+				<button class="btnAddDataElement btn btn-icon btn-blue btn-globe" >
+					<span></span>Publish the report
+				</button>
+			</a>
+			<a class="lnkDeleteUserStory" href="/CSS/auth/userstory/delete?id=${userstory.id}" style="margin-right: 10px; float:right">
+				<button class="btnDeleteStory btn-icon btn-blue btn-cross" >
+					<span></span>Delete the report
+				</button>
+			</a>
+			<a href="javascript: $('#userStoryForm').submit();" style="margin-right: 10px; float:right">
+				<button type="button" class="btn btn-icon btn-blue btn-check floatright">
+					<span></span>Save changes
+				</button>
+			</a>
+			<div id="dataElementAdder">
+				<a href="/CSS/auth/userstory/addText?story=${userstory.id}" style="margin-right: 10px; float:right">
+					<button class="btnAddDataElement btn btn-icon btn-blue btn-plus">
+						<span></span>Add Text to report
+					</button>
+				</a>
+			</div>
 		</c:otherwise>
 	</c:choose>
-	<a href="javascript: $('#userStoryForm').submit();" style="margin-right: 10px; float:right">
-		<button type="button" class="btn btn-icon btn-blue btn-check floatright">
-			<span></span>Save changes
-		</button>
-	</a>
-	<div id="dataElementAdder">
-		<a href="/CSS/auth/userstory/addText?story=${userstory.id}" style="margin-right: 10px; float:right">
-			<button class="btnAddDataElement btn btn-icon btn-blue btn-plus">
-				<span></span>Add Text to Story
-			</button>
-		</a>
-	</div>
 	
 	<div class="clear"></div><br />
 	
@@ -77,18 +99,20 @@
 						<div class="box-header" >
 							<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">.${dataelement.filetype}</c:if></h5>
 							
-							<!-- 'Include/Exclude' button -->
-							<button type="button" class="btn-mini ${dataelement.included == false ? 'btn-grey btn-plus' : 'btn-blue btn-minus'} floatright" onclick="location.href='/CSS/auth/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" title="Include/Exclude from the story">
-								<span></span>Include/Exclude
-							</button>
+							<c:if test="${userstory.mode != 'published'}">
+								<!-- 'Include/Exclude' button -->
+								<button type="button" class="btn-mini ${dataelement.included == false ? 'btn-grey btn-plus' : 'btn-blue btn-minus'} floatright" onclick="location.href='/CSS/auth/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" title="Include/Exclude from the story">
+									<span></span>Include/Exclude
+								</button>
 							
-							<!-- 'Remove Text' button -->
-							<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
-								<a class="lnkRemoveTextFromStory" href="/CSS/auth/userstory/deleteText?text=${dataelement.id}" title="Delete the text from the story">
-									<button type="button" class="btn btn-icon ${dataelement.included == false ? 'btn-grey' : 'btn-blue'} btn-small btn-cross floatright" style="margin-right:5px">
-										<span></span>Delete
-									</button>
-								</a>
+								<!-- 'Remove Text' button -->
+								<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
+									<a class="lnkRemoveTextFromStory" href="/CSS/auth/userstory/deleteText?text=${dataelement.id}" title="Delete the text from the story">
+										<button type="button" class="btn btn-icon ${dataelement.included == false ? 'btn-grey' : 'btn-blue'} btn-small btn-cross floatright" style="margin-right:5px">
+											<span></span>Delete
+										</button>
+									</a>
+								</c:if>
 							</c:if>
 							<div class="clear"></div>
 						</div>
@@ -99,7 +123,9 @@
 						
 						<!-- Text comment data element -->
 					 	<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
-							<textarea name="comments" class="tinymce" rows="12">${dataelement.text}</textarea>	
+							<c:if test="${userstory.mode != 'published'}"><textarea name="comments" class="tinymce" rows="12"></c:if>
+								${dataelement.text}
+							<c:if test="${userstory.mode != 'published'}"></textarea></c:if>
                  		</c:if>
                  		
 						<c:if test="${dataelement.class.simpleName != 'DataElementText'}">
@@ -180,6 +206,7 @@
 				});
 			</script>
 			
+			<c:if test="${userstory.mode != 'published'}">
 			<script type="text/javascript">
 				$(document).ready(function () {
 					
@@ -227,18 +254,26 @@
 					});
 				}
 			</script>
+			</c:if>
 		</c:if>
 		<div class="clearfix"></div><br />
-		<button type="button" class="btn btn-icon btn-blue btn-check floatright" onclick="$('#userStoryForm').submit();">
-			<span></span>Save changes
-		</button>
+		<c:if test="${userstory.mode != 'published'}">
+			<button type="button" class="btn btn-icon btn-blue btn-check floatright" onclick="$('#userStoryForm').submit();">
+				<span></span>Save changes
+			</button>
+		</c:if>
 		<div class="clearfix"></div><br />
 	</form:form>
 		
-	<div id="confirmTextDeletionModalWindow" title="Permanently delete this text ?">
+	<div id="confirmTextDeletionModalWindow" title="Permanently delete this text ?" style="display:none">
 		<p>Are you sure you want to permanently delete this text ?</p> 
+	</div>
+	<div id="confirmUserStoryDeletionModalWindow" title="Permanently delete the report ?" style="display:none">
+	  <p class="message"><span class="error"><b>Warning: this will also delete all the data elements and texts contained in this report. This action cannot be undone !</b></span></p>
+	  <p>Are you sure you want to permanently delete this report ?</p> 
 	</div>
 	<script type="text/javascript">
 		setupConfirmBox("confirmTextDeletionModalWindow", "lnkRemoveTextFromStory");
+		setupConfirmBox("confirmUserStoryDeletionModalWindow", "lnkDeleteUserStory");
 	</script>
 </div>

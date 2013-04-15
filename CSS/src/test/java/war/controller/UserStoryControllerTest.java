@@ -536,7 +536,7 @@ public class UserStoryControllerTest {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
-		Integer id = 3;
+		Integer id = 5;
 		
 		//UserStory refUserStory = userStoryDao.find(id);
 		

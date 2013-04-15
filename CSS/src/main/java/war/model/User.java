@@ -70,7 +70,7 @@ public class User implements Serializable, UserDetails {
 	/**
 	 * The stories of the user
 	 */
-	@OneToMany(targetEntity=UserStory.class, mappedBy="owner",cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(targetEntity=UserStory.class, mappedBy="owner", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH}, fetch=FetchType.EAGER)
 	private List<UserStory> userstories;
 	
 	/**

@@ -221,7 +221,7 @@ public class WorkboardControllerTest {
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addCsiroDataToWorkboard(1, 
-				"Temperature", "A1B", "Hotter and Drier", "2030", "on", model);
+				"Temperature", "A1B", "Hotter & Drier", "2030", "on", model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertNull(model.get("errorMessage"));
@@ -238,7 +238,7 @@ public class WorkboardControllerTest {
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addCsiroDataToWorkboard(1, 
-				"Temperature", "A1B", "Hotter and Drier", "2030", null, model);
+				"Temperature", "A1B", "Hotter & Drier", "2030", null, model);
 		
 		Assert.assertNotNull(result);
 		Assert.assertNull(model.get("errorMessage"));
@@ -256,7 +256,7 @@ public class WorkboardControllerTest {
 		// UNKNOWN VARIABLE
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addCsiroDataToWorkboard(1, "UNKNOWN VARIABLE", 
-				"A1B", "Hotter and Drier", "2030", "", model);
+				"A1B", "Hotter & Drier", "2030", "", model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(CsiroVariableDao.ERR_NO_RESULT, model.get("errorMessage"));

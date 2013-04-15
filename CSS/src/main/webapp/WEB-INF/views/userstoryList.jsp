@@ -29,16 +29,17 @@
 				<c:forEach items="${userStoriesList}" var="story" varStatus="status"> 
 				<tr>
 					<td>${story.name}</td>
-					<td><a href="/CSS/auth/userstory/view?id=${story.id}" title="View this Story" target="_blank"><img src="<c:url value="/resources/img/icons/page_white.png" />" alt="View" /></a></td>
-					<td><a href="/CSS/auth/userstory?id=${story.id}" title="Edit this Story"><img src="<c:url value="/resources/img/icons/pencil.png" />" alt="Edit"/></a></td>
+					<td><a href="/CSS/auth/userstory/view?id=${story.id}" title="View this Report" target="_blank"><img src="<c:url value="/resources/img/icons/page_white.png" />" alt="View" /></a></td>
 					<c:choose>
 						<c:when test="${story.mode == 'published'}">
-							<td>Published (<fmt:formatDate value="${story.publishDate}" pattern="dd MMM yyyy" />)</td>
-							<td></td>
+							<td><i>Published reports can't be edited</i></td>
+							<td>Published (<fmt:formatDate value="${story.publishDate}" pattern="dd MMM yyyy" />) <img src="<c:url value="/resources/img/icons/accept.png" />" /></td>
+							<td><i>Published reports can't be deleted</i></td>
 	                 	</c:when>
 	                 	<c:otherwise>
-	                 		<td><a href="/CSS/auth/userstory/publish?id=${story.id}" class="lnkPublishUserStory" ><img src="<c:url value="/resources/img/icons/world_go.png" />" alt="Publish" title="Publish" /></a></td>
-							<td><a href="/CSS/auth/userstory/delete?id=${story.id}" class="lnkDeleteUserStory" title="Delete this Story"><img src="<c:url value="/resources/img/icons/delete.png" />" alt="Delete" /></a></td>
+	                 		<td><a href="/CSS/auth/userstory?id=${story.id}" title="Edit this Report"><img src="<c:url value="/resources/img/icons/pencil.png" />" alt="Edit"/></a></td>
+	                 		<td><a href="/CSS/auth/userstory/publish?id=${story.id}" class="lnkPublishUserStory" title="Publish this Report"><img src="<c:url value="/resources/img/icons/world_go.png" />" alt="Publish"/></a></td>
+							<td><a href="/CSS/auth/userstory/delete?id=${story.id}" class="lnkDeleteUserStory" title="Delete this Report"><img src="<c:url value="/resources/img/icons/delete.png" />" alt="Delete" /></a></td>
 	                 	</c:otherwise>
 					</c:choose>
 				</tr>
@@ -52,21 +53,21 @@
 	 	</script>
 	</c:if>
 
-	<div id="confirmUserStoryPrivateModalWindow" title="Make this story private ?">
-	  <p>Once private, you will be the only one able to see this story.</p>
-	  <p>Are you sure you want to make this story private ?</p> 
+	<div id="confirmUserStoryPrivateModalWindow" title="Make this report private ?" style="display:none">
+	  <p>Once private, you will be the only one able to see this report.</p>
+	  <p>Are you sure you want to make this report private ?</p> 
 	</div>
-	<div id="confirmUserStoryPublicModalWindow" title="Make this story public ?">
-	  <p>Once public, everyone will be able to see this story.</p>
-	  <p>Are you sure you want to make this story public ?</p> 
+	<div id="confirmUserStoryPublicModalWindow" title="Make this report public ?" style="display:none">
+	  <p>Once public, everyone will be able to see this report.</p>
+	  <p>Are you sure you want to make this report public ?</p> 
 	</div>
-	<div id="confirmUserStoryPublishModalWindow" title="Really publish this story ?">
-	  <p>Publishing this story will automatically submit it to the ANDS RIFCS. Once published, this story cannot be edited, deleted or made private again.</p>
-	  <p>Are you sure you want to publish this story ?</p> 
+	<div id="confirmUserStoryPublishModalWindow" title="Really publish this report ?" style="display:none">
+	  <p>Publishing this story will automatically submit it to the ANDS RIFCS. Once published, this report cannot be edited, deleted or made private again.</p>
+	  <p>Are you sure you want to publish this report ?</p> 
 	</div>
-	<div id="confirmUserStoryDeletionModalWindow" title="Permanently delete the story ?">
-	  <p>Warning: this action can't be undone ! It will also delete all the data elements contained in the story.</p>
-	  <p>Are you sure you want to permanently delete this story ?</p> 
+	<div id="confirmUserStoryDeletionModalWindow" title="Permanently delete the report ?" style="display:none">
+<p class="message"><span class="error"><b>Warning: this will also delete all the data elements and texts contained in this report. This action cannot be undone !</b></span></p>
+	  <p>Are you sure you want to permanently delete this report ?</p> 
 	</div>
 	<script type="text/javascript">
 	setupConfirmBox("confirmUserStoryPrivateModalWindow", "lnkLockUserStory");

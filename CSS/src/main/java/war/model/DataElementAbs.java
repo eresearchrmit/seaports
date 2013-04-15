@@ -9,8 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -30,7 +28,6 @@ public class DataElementAbs extends DataElement {
 	 */
     @ManyToMany
     @JoinTable(name="data_element_abs_data", joinColumns={@JoinColumn(name="data_element_id")}, inverseJoinColumns={@JoinColumn(name="abs_data_id")})
-    @Cascade(value = CascadeType.DELETE)
     @LazyCollection(value=LazyCollectionOption.FALSE)
 	private List<AbsData> absDataList;
         

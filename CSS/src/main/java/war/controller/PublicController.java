@@ -62,13 +62,9 @@ public class PublicController {
 		
 		ModelAndView mav = new ModelAndView("userstoryPublicList");
 		try {
-			//mav.addObject("user", curentUser);
-			
-			// Retrieve user's Stories
+			// Retrieve all published reports
 			List<UserStory> userStoriesList = userStoryDao.getAllPublishedStories();
 			mav.addObject("userStoriesList", userStoriesList);
-			
-			// Define a title
 	 		model.addAttribute("listingTitle", "Published Reports");
 		}
 		catch (NoResultException e) {

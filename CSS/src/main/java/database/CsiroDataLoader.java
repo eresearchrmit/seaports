@@ -21,6 +21,7 @@ public class CsiroDataLoader {
 	public static final String HOTTER_DRIER = "Hotter & Drier";
 	public static final String MOST_LIKELY = "Most Likely";
 	public static final String COOLER_WETTER = "Cooler & Wetter";
+	public static final String BASELINE = "Baseline";
 	
 	public static final String csiroPictureFolderPath = "src/main/java/database/csiro-pictures/";
 	public static final String cmarPictureFolderPath = "src/main/java/database/cmar-pictures/";
@@ -505,6 +506,11 @@ public class CsiroDataLoader {
 		session.save(new CsiroData(dateCsiroData, params, rf, 2070, 2.5, null));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2070, 0.9, null));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -0.6, null));
-			
+
+
+		params = new ClimateParams(r1, reference, BASELINE, base);
+		session.save(params);
+		params = new ClimateParams(r2, reference, BASELINE, base);
+		session.save(params);
 	}
 }

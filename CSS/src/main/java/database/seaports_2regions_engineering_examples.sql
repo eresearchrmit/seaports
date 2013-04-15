@@ -1,17 +1,6 @@
 USE `seaports`;
 
 --
--- Dumping data for table `climate_params`
---
-
-LOCK TABLES `climate_params` WRITE;
-/*!40000 ALTER TABLE `climate_params` DISABLE KEYS */;
-INSERT INTO `climate_params` VALUES (19,'Baseline',3,6,1);
-INSERT INTO `climate_params` VALUES (20,'Baseline',3,6,2);
-/*!40000 ALTER TABLE `climate_params` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping data for table `engineering_model_asset`
 --
 

@@ -22,7 +22,7 @@
 	
 	<a class="lnkConvertToUserStory" href="/CSS/auth/userstory/create?id=${userstory.id}" style="margin-right: 10px; float:right">
 		<button id="btnConvertToUserStory" type="button" class="btn btn-icon btn-blue btn-arrow-right" >
-			<span></span>Create User Story
+			<span></span>Create Report
 		</button>
 	</a>
 	<a class="lnkDeleteWorkboard" href="/CSS/auth/workboard/delete?id=${userstory.id}" style="margin-right: 10px; float:right">
@@ -31,12 +31,12 @@
 		</button>
 	</a>
 	<div style="display:none" id="confirmWorkboardDeletionModalWindow" title="Delete your workboard ?">
-		<p>Deleting your workboard will also delete all the data elements it contains. This action cannot be undone.</p> 
+		<p class="message"><span class="error"><b>Warning : Deleting your workboard will also delete all the data elements it contains. This action cannot be undone !</b></span></p>
 		<p>Are you sure you want to permanently delete your current workboard ?</p> 
 	</div>
 	<div style="display:none" id="confirmConvertToUserStoryModalWindow" title="Create a story from this workboard ?">
-		<p>This will create a Story based on your Workboard. Once the Workboard becomes a Story, no more data element can be added to it.</p> 
-		<p>Are you sure you want to create a Story from your Workboard now ?</p>
+		<p>This will create a Report based on your Workboard. Once the Workboard becomes a Report, no more data can be added to it and only text can be typed.</p> 
+		<p>Are you sure you want to create a Report from your Workboard now ?</p>
 	</div>
 	<script type="text/javascript">
 		setupConfirmBox("confirmConvertToUserStoryModalWindow", "lnkConvertToUserStory");

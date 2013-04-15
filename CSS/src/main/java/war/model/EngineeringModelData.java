@@ -95,6 +95,21 @@ public class EngineeringModelData
 		setVariable(variable);
 		setValues(values);
 	}
+	
+	/**
+	 * Constructor of EngineeringModelData
+	 * @param asset: the asset to which this data is related to
+	 * @param parameters: the parameters of the computed data
+	 * @param variable: the variable that this data represents
+	 * @param year: the year for which the data is computed
+	 * @param data: the data as a string under the form "YYYY,VALUE1;YYYY,VALUE2;...YYYY,VALUE70"
+	 */
+	public EngineeringModelData(EngineeringModelAsset asset, ClimateParams parameters, EngineeringModelVariable variable, String data) {
+		setAsset(asset);
+		setParameters(parameters);
+		setVariable(variable);
+		setData(data);
+	}
 
 	/**
 	 * Getter for the unique ID of the Engineering Model Data

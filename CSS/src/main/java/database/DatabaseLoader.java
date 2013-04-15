@@ -31,9 +31,9 @@ public class DatabaseLoader {
 		User p1 = new User("gprevost", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR,"guillaume.prevost@rmit.edu.au", "Guillaume", "Prevost");
 		User p2 = new User("jmullett", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "jane.mullett@rmit.edu.au", "Jane", "Mullett");
 		User p3 = new User("atrundle", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "alexei.trundle@rmit.edu.au", "Alexei", "Trundle");
-		User p4 = new User("rsrini", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email", "Ravi", "Srini");
-		User p5 = new User("user", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email", "User", "User");
-		User p6 = new User("admin", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR, "email", "Admin", "Admin");
+		User p4 = new User("rsrini", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "ravi.sreenivasamurthy@rmit.edu.au", "Ravi", "Srini");
+		User p5 = new User("user", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "User", "User");
+		User p6 = new User("admin", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "Admin", "Admin");
 		session.save(p1);
 		session.save(p2);
 		session.save(p3);
@@ -101,5 +101,6 @@ public class DatabaseLoader {
 		BitreDataLoader.LoadBitreData(session);
 		
 		session.getTransaction().commit();
+		
 	}
 }

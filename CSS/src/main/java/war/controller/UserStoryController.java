@@ -272,13 +272,15 @@ public class UserStoryController {
 		UserStory userStory = null;
 		try {
 			DataElement dataElement = dataElementDao.find(id);
-			userStory = userStoryDao.find(dataElement.getUserStory().getId());
+			if (!(dataElement instanceof DataElementText))
+				throw new IllegalArgumentException();
 			
+			userStory = userStoryDao.find(dataElement.getUserStory().getId());
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
 			dataElementDao.delete(dataElement);
-			userStory = userStoryDao.find(dataElement.getUserStory().getId());
+			userStory = userStoryDao.find(userStory.getId());
 		}
 		catch (IllegalArgumentException e) {
 			model.addAttribute("errorMessage", ERR_REMOVE_TEXT);
@@ -315,7 +317,7 @@ public class UserStoryController {
  		return ModelForUserStory(model, userStory);
 	}
 	
-	@RequestMapping(value = "/publish",method=RequestMethod.GET) 
+	@RequestMapping(value = "/publish", method=RequestMethod.GET) 
 	public String publishUserStory(@RequestParam(value="id", required=true) Integer userStoryId, Model model) {
 		logger.debug("Inside publishUserStory");
 		
@@ -330,7 +332,7 @@ public class UserStoryController {
 			userStory.setPublishDate(new Date());
 			userStoryDao.save(userStory);
 			
-			return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
+			return "redirect:/auth/userstory?id=" + userStory.getId();
 		}
 		catch (IllegalArgumentException e) {
 			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);

@@ -51,7 +51,7 @@ public class EngineeringModelDataDao {
 	 * Retrieve an engineering model data matching the required variable and region
 	 * @param region: the unique ID of the required engineering model data
 	 * @param variable: the unique ID of the required engineering model data
-	 * @return the list of engineering model data matcing the given region and variable
+	 * @return the list of engineering model data matching the given region and variable
 	 * @throws NoResultException if the search didn't return any result
 	 */
 	@Transactional
@@ -73,6 +73,20 @@ public class EngineeringModelDataDao {
 		if (results.isEmpty())
 			throw new NoResultException(ERR_NO_RESULT);
 		return results;
+	}
+	
+	/**
+	 * Retrieve an engineering model data matching the required variable and region
+	 * @param asset: the asset for which the Engineering Model data should be retrieved
+	 * @return the list of engineering model data matching the given asset
+	 * @throws NoResultException if the search didn't return any result
+	 */
+	@Transactional
+	public List<EngineeringModelData> find(EngineeringModelAsset asset) throws NoResultException {		
+		Query query = entityManager.createQuery("SELECT d FROM " + TABLE_NAME + " d WHERE d.asset = :asset");
+		query.setParameter("asset", asset);
+		
+		return performQueryAndCheckResultList(query);
 	}
 	
 	/**

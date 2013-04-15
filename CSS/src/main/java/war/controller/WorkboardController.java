@@ -741,8 +741,9 @@ public class WorkboardController {
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
 				throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
+			User user = userStory.getOwner();
 			userStoryDao.delete(userStory); // Deletes the Workboard
-			return ModelForWorkboardCreation(model, userStory.getOwner()); // Starts the creation of a new workboard
+			return ModelForWorkboardCreation(model, user); // Starts the creation of a new workboard
 		}
 		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
