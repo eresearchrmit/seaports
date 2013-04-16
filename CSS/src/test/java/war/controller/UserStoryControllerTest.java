@@ -1,5 +1,7 @@
 package war.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -123,6 +125,10 @@ public class UserStoryControllerTest {
 		}
 	}
 	
+	/* --------------------------------------------------------------------- */
+	/* -------------------------- getUserStoryList ------------------------- */
+	/* --------------------------------------------------------------------- */
+	
 	/**
 	 * getUserStoriesList should fail to find a user, but still get the user stories listing view
 	 */
@@ -198,7 +204,7 @@ public class UserStoryControllerTest {
 		
 		Assert.assertEquals("My Reports", model.get("listingTitle"));
 		
-		// Check that the result is a list of User Stories and that they are all passive
+		// Check that the result is a list of User Stories and that they are all passive or published
 		@SuppressWarnings("unchecked")
 		List<Object> resUserStoriesList = (List<Object>)(result.getModelMap().get("userStoriesList"));
 		for (Object obj : resUserStoriesList) {
@@ -210,6 +216,10 @@ public class UserStoryControllerTest {
 				Assert.fail();
 		}
 	}
+	
+	/* --------------------------------------------------------------------- */
+	/* -------------------------- getUserStoryView ------------------------- */
+	/* --------------------------------------------------------------------- */
 	
 	/**
 	 * getUserStoryView should fail because there is no User Story with this ID
@@ -265,6 +275,10 @@ public class UserStoryControllerTest {
 		}
 	}
 	
+	/* --------------------------------------------------------------------- */
+	/* ----------------------- changeUserStoryPrivacy ---------------------- */
+	/* --------------------------------------------------------------------- */
+	
 	/**
 	 * changeUserStoryPrivacy should succeed
 	 */
@@ -310,6 +324,10 @@ public class UserStoryControllerTest {
 		UserStory changedUserstory = userStoryDao.find(id);
 		Assert.assertEquals("private", changedUserstory.getAccess());
 	}
+	
+	/* --------------------------------------------------------------------- */
+	/* --------------------------- createUserStory ------------------------- */
+	/* --------------------------------------------------------------------- */
 	
 	/**
 	 * createUserStory should succeed
@@ -360,6 +378,10 @@ public class UserStoryControllerTest {
 		UserStory changedUserstory = userStoryDao.find(id);
 		Assert.assertEquals("published", changedUserstory.getMode());
 	}
+	
+	/* --------------------------------------------------------------------- */
+	/* ---------------------------- saveUserStory -------------------------- */
+	/* --------------------------------------------------------------------- */
 	
 	/**
 	 * saveUserStory should succeed
@@ -432,6 +454,10 @@ public class UserStoryControllerTest {
 		userStoryController.saveUserStory(refTexts, updatedUserStory, model);
 	}
 	
+	/* --------------------------------------------------------------------- */
+	/* --------------------------- deleteUserStory ------------------------- */
+	/* --------------------------------------------------------------------- */
+	
 	/**
 	 * deleteUserStory should fail since the story is already published
 	 */
@@ -491,6 +517,10 @@ public class UserStoryControllerTest {
 		Assert.assertEquals(UserStoryController.ERR_DELETE_USERSTORY, model.get("errorMessage"));
 	}
 	
+	/* --------------------------------------------------------------------- */
+	/* ------------------------- addTextToUserStory ------------------------ */
+	/* --------------------------------------------------------------------- */
+	
 	/**
 	 * addTextToUserStory should succeed
 	 */
@@ -527,6 +557,10 @@ public class UserStoryControllerTest {
 		Assert.assertEquals(UserStoryController.ERR_SAVE_USERSTORY, model.get("errorMessage"));
 	}
 	
+	/* --------------------------------------------------------------------- */
+	/* ----------------------- removeTextFromUserStory --------------------- */
+	/* --------------------------------------------------------------------- */
+	
 	/**
 	 * removeTextFromUserStory should succeed
 	 */
@@ -562,6 +596,10 @@ public class UserStoryControllerTest {
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(UserStoryController.ERR_REMOVE_TEXT, model.get("errorMessage"));
 	}
+	
+	/* --------------------------------------------------------------------- */
+	/* -------------------- includeDataElementToUserStory ------------------ */
+	/* --------------------------------------------------------------------- */
 	
 	/**
 	 * includeDataElementToUserStory should succeed
@@ -606,4 +644,80 @@ public class UserStoryControllerTest {
 		
 	}
 	
+	/* --------------------------------------------------------------------- */
+	/* -------------------------- publishUserStory ------------------------- */
+	/* --------------------------------------------------------------------- */
+	
+	/**
+	 * publishUserStory should succeed
+	 */
+	@Test
+	public void publishUserStorySuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		Integer id = 2;
+		
+		// Check that the user story is private and in in 'passive' mode before the test
+		UserStory refUserStory = userStoryDao.find(id);
+		Assert.assertEquals("private", refUserStory.getAccess());
+		Assert.assertEquals("passive", refUserStory.getMode());
+		Assert.assertNull(refUserStory.getPublishDate());
+		
+		String result = userStoryController.publishUserStory(id, model);
+		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(model.get("warningMessage"));
+		Assert.assertEquals("redirect:/auth/userstory?id=" + id, result);
+		
+		// Check the the User story is now public and published
+		refUserStory = userStoryDao.find(id);
+		Assert.assertEquals("public", refUserStory.getAccess());
+		Assert.assertEquals("published", refUserStory.getMode());
+		Assert.assertNotNull(refUserStory.getPublishDate());
+		
+		// Reset the access to 'private' and the mode to 'passive' after the test
+		refUserStory.setAccess("private");
+		refUserStory.setMode("passive");
+		refUserStory.setPublishDate(null);
+		userStoryDao.save(refUserStory);
+	}
+
+	/**
+	 * publishUserStory should fails since the story ID doesn't exist
+	 */
+	@Test
+	@Transactional
+	public void publishUserStoryUnknownIDTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		Integer id = 9999; // NON-EXISTING ID
+		
+		String result = userStoryController.publishUserStory(id, model);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(UserStoryController.ERR_DELETE_USERSTORY, model.get("errorMessage"));
+		Assert.assertEquals("userstoryList", result);
+	}
+	
+	/**
+	 * publishUserStory should fails since the story is already published
+	 */
+	@Test
+	@Transactional
+	public void publishUserStoryAlreadyPublishedTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		Integer id = 4; // STORY ALREADY PUBLISHED
+		
+		String result = userStoryController.publishUserStory(id, model);
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(UserStoryController.ERR_STORY_ALREADY_PUBLISHED, model.get("warningMessage"));
+		Assert.assertEquals("redirect:/auth/userstory/list", result);
+		
+		// Check that the User Story's published date hasn't changed
+		UserStory refUserStory = userStoryDao.find(id);
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		Assert.assertEquals("2013-04-10", dateFormatter.format(refUserStory.getPublishDate()));
+	}
 }

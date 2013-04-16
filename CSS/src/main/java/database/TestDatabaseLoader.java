@@ -1,5 +1,8 @@
 package database;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,6 +15,7 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 import security.UserLoginService;
 
 import war.model.*;
+import war.model.DataElement.DisplayType;
 
 @SuppressWarnings("deprecation")
 public class TestDatabaseLoader {
@@ -127,10 +131,15 @@ public class TestDatabaseLoader {
 		user1us2.setOwner(p1);
 		user1us2.setRegion(r1);
 		
+		DateFormat dateFormatter = new SimpleDateFormat("F");
+		Date datePublish = null;
+		try { datePublish = dateFormatter.parse("2013-04-10"); } catch (ParseException e) {}
+		
 		UserStory user1us3 = new UserStory();
 		user1us3.setName("User 1 Story 3 (Published)");
 		user1us3.setMode("published");
 		user1us3.setAccess("public");
+		user1us3.setCreationDate(datePublish);
 		user1us3.setOwner(p1);
 		user1us3.setRegion(r1);
 		
@@ -158,22 +167,22 @@ public class TestDatabaseLoader {
 		// Add Data Elements
 	    Date date = new Date();
 	    String content = "This is a test for Data Element";
-	    DataElementFile de1 = new DataElementFile(date, "Test 1", true, 0, user1wb, "csv", content.getBytes());
+	    DataElementFile de1 = new DataElementFile(date, "Test 1", true, 0, DisplayType.PLAIN, user1wb, "csv", content.getBytes());
 	   
 	    content = "This is the second test";
-	    DataElementFile de2 = new DataElementFile(date, "Test 2", true, 0, user1wb, "xml", content.getBytes());
+	    DataElementFile de2 = new DataElementFile(date, "Test 2", true, 0, DisplayType.PLAIN, user1wb, "xml", content.getBytes());
 		
 	    content = "This is the third test";
-	    DataElementFile de3 = new DataElementFile(date, "Test 3", true, 0, user1wb, "txt", content.getBytes());
+	    DataElementFile de3 = new DataElementFile(date, "Test 3", true, 0, DisplayType.PLAIN, user1wb, "txt", content.getBytes());
 		
 	    content = "User Story's Data Element content test";
 	    
-	    DataElementFile de4 = new DataElementFile(date, "Test 4", true, 1, user1us1, "txt", content.getBytes());
-	    DataElementText text1 = new DataElementText(date, "Comment text 1", true, 2, user1us1, "This is a text comment");
-	    DataElementFile de5 = new DataElementFile(date, "Test 5", true, 3, user1us1, "txt", content.getBytes());
-	    DataElementText text2 = new DataElementText(date, "Comment text 2", true, 4, user1us1, "This is a second text comment");
+	    DataElementFile de4 = new DataElementFile(date, "Test 4", true, 1, DisplayType.PLAIN, user1us1, "txt", content.getBytes());
+	    DataElementText text1 = new DataElementText(date, "Comment text 1", true, 2, DisplayType.PLAIN, user1us1, "This is a text comment");
+	    DataElementFile de5 = new DataElementFile(date, "Test 5", true, 3, DisplayType.PLAIN, user1us1, "txt", content.getBytes());
+	    DataElementText text2 = new DataElementText(date, "Comment text 2", true, 4, DisplayType.PLAIN, user1us1, "This is a second text comment");
 		
-	    DataElementFile de6 = new DataElementFile(date, "Test 6", true, 1, user1us2, "txt", content.getBytes());
+	    DataElementFile de6 = new DataElementFile(date, "Test 6", true, 1, DisplayType.PLAIN, user1us2, "txt", content.getBytes());
 	    
 		session.save(de1);
 		session.save(de2);
@@ -190,13 +199,13 @@ public class TestDatabaseLoader {
 		csiroDataList.add((CsiroData)(session.get(CsiroData.class, 2)));
 		csiroDataList.add((CsiroData)(session.get(CsiroData.class, 3)));
 		csiroDataList.add((CsiroData)(session.get(CsiroData.class, 4)));
-	    DataElementCsiro deCsiro = new DataElementCsiro(date, "CSIRO Data Element Test", true, 0, user1wb, csiroDataList, true);
+	    DataElementCsiro deCsiro = new DataElementCsiro(date, "CSIRO Data Element Test", true, 0, DisplayType.TABLE, user1wb, csiroDataList, true);
 	    session.save(deCsiro);
 	    
 	    // CMAR Data Element
 	    ArrayList<CmarData> cmarDataList = new ArrayList<CmarData>();
 	    cmarDataList.add((CmarData)(session.get(CmarData.class, 1)));
-	    DataElementCmar deCmar = new DataElementCmar(date, "CMAR Data Element Test", true, 0, user1wb, cmarDataList, true);
+	    DataElementCmar deCmar = new DataElementCmar(date, "CMAR Data Element Test", true, 0, DisplayType.TABLE, user1wb, cmarDataList, true);
 	    session.save(deCmar);
 	    
 	    // Engineering Model Data Element
@@ -206,7 +215,7 @@ public class TestDatabaseLoader {
 	    // Vulnerability Data Element
 	    WeatherEvent we = new WeatherEvent("Storm", 2006, true, "Impact of the event", "1;2;4;0;0;1;5;3;2;0;1;4", "Other consequences", false, "Changes implemented");
 	    session.save(we);
-	    session.save(new DataElementVulnerability(date, "Vulnerability Assessment", true, 0, user1wb, we));
+	    session.save(new DataElementVulnerability(date, "Vulnerability Assessment", true, 0, DisplayType.GRAPH, user1wb, we));
 	    
 	    
 		// Commit all the transaction

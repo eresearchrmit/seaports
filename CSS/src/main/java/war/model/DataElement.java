@@ -240,7 +240,8 @@ public class DataElement {
 		UNDEFINED("undefined"),
 		TABLE("table"),
 		PICTURE("picture"),
-		GRAPH("graph");
+		GRAPH("graph"),
+		PLAIN("plain");
 		
 		private String text;
 
@@ -260,7 +261,7 @@ public class DataElement {
 					}
 				}
 			}
-			return null;
+			return DisplayType.UNDEFINED;
 		}
 		
 		public String toString() {

@@ -43,11 +43,12 @@ public class DataElementAcornSat extends DataElement {
 	 * @param creationDate: the date when the data element was created
 	 * @param name: the name of the data element
 	 * @param position: the position of the data element in the user story it belongs to
+	 * @param displayType: the way the data element should be displayed
 	 * @param userStory: the user story to which this data element belongs
 	 * @param acornSatDataList: the list of past data contained in this past data element
 	 */
-	public DataElementAcornSat(Date creationDate, String name, boolean included, int position, UserStory userStory, List<AcornSatData> acornSatDataList) {
-		super(creationDate, name, included, position, userStory);
+	public DataElementAcornSat(Date creationDate, String name, boolean included, int position, DisplayType displayType, UserStory userStory, List<AcornSatData> acornSatDataList) {
+		super(creationDate, name, included, position, displayType, userStory);
 		setAcornSatDataList(acornSatDataList);
 	}
 	

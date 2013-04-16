@@ -50,11 +50,12 @@ public class DataElementCmar extends DataElement {
 	 * @param creationDate: the date when the data element was created
 	 * @param name: the name of the data element
 	 * @param position: the position of the data element in the user story it belongs to
+	 * @param displayType: the way the data element should be displayed
 	 * @param userStory: the user story to which this data element belongs
 	 * @param cmarDataList: the list of CMAR data contained in this CMAR data element
 	 */
-	public DataElementCmar(Date creationDate, String name, boolean included, int position, UserStory userStory, List<CmarData> cmarDataList, Boolean picturesIncluded) {
-		super(creationDate, name, included, position, userStory);
+	public DataElementCmar(Date creationDate, String name, boolean included, int position, DisplayType displayType, UserStory userStory, List<CmarData> cmarDataList, Boolean picturesIncluded) {
+		super(creationDate, name, included, position, displayType, userStory);
 		this.cmarDataList = cmarDataList;
 		this.picturesIncluded = picturesIncluded;
 	}

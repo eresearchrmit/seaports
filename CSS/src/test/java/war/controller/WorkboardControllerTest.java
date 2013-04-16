@@ -3,12 +3,26 @@ package war.controller;
 import junit.framework.Assert;
 
 import security.UserLoginService;
+import war.dao.AbsVariableDao;
+import war.dao.BitreVariableCategoryDao;
 import war.dao.ClimateEmissionScenarioDao;
 import war.dao.ClimateParamsDao;
 import war.dao.CmarDataDao;
 import war.dao.CsiroVariableDao;
 import war.dao.DataElementDao;
+import war.dao.PastDataDao;
+import war.dao.SeaportDao;
 import war.dao.UserStoryDao;
+import war.model.AbsData;
+import war.model.AcornSatData;
+import war.model.BitreData;
+import war.model.DataElement;
+import war.model.DataElement.DisplayType;
+import war.model.DataElementAbs;
+import war.model.DataElementAcornSat;
+import war.model.DataElementBitre;
+import war.model.DataElementPast;
+import war.model.PastData;
 import war.model.Region;
 import war.model.User;
 import war.model.UserStory;
@@ -37,6 +51,9 @@ public class WorkboardControllerTest {
 	
 	@Autowired
 	private WorkboardController workboardController;
+	
+	@Autowired
+	private UserStoryDao userStoryDao;
 	
 	User loggedInUser;
 	User loggedInUserNoWB;
@@ -149,10 +166,158 @@ public class WorkboardControllerTest {
 		Assert.assertEquals(this.loggedInUser, resWorkboard.getOwner());
 	}
 	
+	/* --------------------------------------------------------------------- */
+	/* ----------------------- addAbsDataToWorkboard ----------------------- */
+	/* --------------------------------------------------------------------- */
 	
+	/**
+	 * addAbsDataToWorkboardTest should succeed & return a confirmation message
+	 */
+	@Test
+	public void addAbsDataToWorkboardSuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		int refUserStoryId = 1;
+		int refVariableId = 1;
+		String refSeaportCode = "AUSYD";
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addAbsDataToWorkboard(refUserStoryId, refVariableId, refSeaportCode, "graph", model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+
+		Assert.assertEquals(WorkboardController.MSG_ABS_DATA_ADDED, model.get("successMessage"));
+		
+		// Check that the last Data Element in the user story matches the parameters passed
+		UserStory refUserStory = userStoryDao.find(refUserStoryId);
+		DataElementAbs refDataElement = (DataElementAbs)(refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1));
+		Assert.assertEquals(DisplayType.GRAPH, refDataElement.getDisplayType());
+		Assert.assertEquals(true, refDataElement.getIncluded());
+		Assert.assertEquals(0, refDataElement.getPosition());
+		Assert.assertTrue(refDataElement.getAbsDataList().size() > 0);
+		for (AbsData data : refDataElement.getAbsDataList()) {
+			Assert.assertEquals(refSeaportCode, data.getSeaport().getCode());
+			Assert.assertEquals(refVariableId, data.getVariable().getId());
+		}
+	}
+	
+	/**
+	 * addAbsDataToWorkboardBadParametersTest should fail since the parameters passed are incorrect
+	 */
+	@Test
+	public void addAbsDataToWorkboardBadParametersTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+
+		// UNKNOWN USER STORY
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addAbsDataToWorkboard(9999, 1, "AUSYD", "graph", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		
+		// UNKNOWN VARIABLE
+		model = new ExtendedModelMap();
+		result = workboardController.addAbsDataToWorkboard(1, 9999, "AUSYD", "graph", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(AbsVariableDao.ERR_NO_RESULT, model.get("errorMessage"));
+		
+		// UNKNOWN SEAPORT
+		model = new ExtendedModelMap();
+		result = workboardController.addAbsDataToWorkboard(1, 1, "UNKNOW SEAPORT CODE", "graph", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(SeaportDao.ERR_NO_RESULT, model.get("errorMessage"));
+		
+		// UNKNOWN DISPLAY TYPE
+		model = new ExtendedModelMap();
+		result = workboardController.addAbsDataToWorkboard(1, 1, "AUSYD", "UNKNOW DISPLAY TYPE", model);
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+		UserStory refUserStory = userStoryDao.find(1);
+		DataElement refDataElement = refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1);
+		Assert.assertEquals(DisplayType.UNDEFINED, refDataElement.getDisplayType());
+	}
+
+	
+	/* --------------------------------------------------------------------- */
+	/* ---------------------- addBitreDataToWorkboard ---------------------- */
+	/* --------------------------------------------------------------------- */
+	
+	/**
+	 * addBitreDataToWorkboardTest should succeed & return a confirmation message
+	 */
+	@Test
+	public void addBitreDataToWorkboardSuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		int refUserStoryId = 1;
+		int refVariableCategoryId = 1;
+		String refSeaportCode = "AUSYD";
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addBitreDataToWorkboard(refUserStoryId, refVariableCategoryId, refSeaportCode, "table", model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+
+		Assert.assertEquals(WorkboardController.MSG_BITRE_DATA_ADDED, model.get("successMessage"));
+		
+		// Check that the last Data Element in the user story matches the parameters passed
+		UserStory refUserStory = userStoryDao.find(refUserStoryId);
+		DataElementBitre refDataElement = (DataElementBitre)(refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1));
+		Assert.assertEquals(DisplayType.TABLE, refDataElement.getDisplayType());
+		Assert.assertEquals(true, refDataElement.getIncluded());
+		Assert.assertEquals(0, refDataElement.getPosition());
+		Assert.assertTrue(refDataElement.getBitreDataList().size() > 0);
+		for (BitreData data : refDataElement.getBitreDataList()) {
+			Assert.assertEquals(refSeaportCode, data.getSeaport().getCode());
+			Assert.assertEquals(refVariableCategoryId, data.getVariable().getCategory().getId());
+		}
+	}
+	
+	/**
+	 * addBitreDataToWorkboardBadParametersTest should fail since the parameters passed are incorrect
+	 */
+	@Test
+	public void addBitreDataToWorkboardBadParametersTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+
+		// UNKNOWN USER STORY
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addBitreDataToWorkboard(9999, 1, "AUSYD", "graph", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		
+		// UNKNOWN VARIABLE
+		model = new ExtendedModelMap();
+		result = workboardController.addBitreDataToWorkboard(1, 9999, "AUSYD", "graph", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(BitreVariableCategoryDao.ERR_NO_RESULT, model.get("errorMessage"));
+		
+		// UNKNOWN SEAPORT
+		model = new ExtendedModelMap();
+		result = workboardController.addBitreDataToWorkboard(1, 1, "UNKNOW SEAPORT CODE", "graph", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(SeaportDao.ERR_NO_RESULT, model.get("errorMessage"));
+		
+		// UNKNOWN DISPLAY TYPE
+		model = new ExtendedModelMap();
+		result = workboardController.addBitreDataToWorkboard(1, 1, "AUSYD", "UNKNOW DISPLAY TYPE", model);
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+		UserStory refUserStory = userStoryDao.find(1);
+		DataElement refDataElement = refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1);
+		Assert.assertEquals(DisplayType.UNDEFINED, refDataElement.getDisplayType());
+	}
+
 
 	/* --------------------------------------------------------------------- */
-	/* ----------------------- uploadfileinWorkBoard ----------------------- */
+	/* ----------------------- uploadfileinWorkboard ----------------------- */
 	/* --------------------------------------------------------------------- */
 	
 	@Test
@@ -199,14 +364,119 @@ public class WorkboardControllerTest {
 		Assert.assertEquals(WorkboardController.ERR_INVALID_FILETYPE, model.get("errorMessage"));
 	}
 	
+	/* --------------------------------------------------------------------- */
+	/* ---------------------- addPastDataToWorkboard ----------------------- */
+	/* --------------------------------------------------------------------- */
+	
+	
+	/**
+	 * addPastDataToWorkboardTest should succeed & return a confirmation message
+	 */
+	@Test
+	public void addPastDataToWorkboardSuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		int refUserStoryId = 1;
+		int refPastDataId = 1;
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addPastDataToWorkboard(refUserStoryId, refPastDataId, model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+
+		Assert.assertEquals(WorkboardController.MSG_PAST_DATA_ADDED, model.get("successMessage"));
+		
+		// Check that the last Data Element in the user story matches the parameters passed
+		UserStory refUserStory = userStoryDao.find(refUserStoryId);
+		DataElementPast refDataElement = (DataElementPast)(refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1));
+		Assert.assertEquals(DisplayType.PICTURE, refDataElement.getDisplayType());
+		Assert.assertEquals(true, refDataElement.getIncluded());
+		Assert.assertEquals(0, refDataElement.getPosition());
+		Assert.assertTrue(refDataElement.getPastDataList().size() == 1);
+		for (PastData data : refDataElement.getPastDataList()) {
+			Assert.assertEquals(refPastDataId, data.getId());
+		}
+	}
+	
+	/**
+	 * addPastDataToWorkboardBadParametersTest should fail since the parameters passed are incorrect
+	 */
+	@Test
+	public void addPastDataToWorkboardBadParametersTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+
+		// UNKNOWN USER STORY
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addPastDataToWorkboard(9999, 1, model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		
+		// UNKNOWN VARIABLE
+		model = new ExtendedModelMap();
+		result = workboardController.addPastDataToWorkboard(1, 9999, model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(PastDataDao.ERR_NO_RESULT, model.get("errorMessage"));
+	}
 	
 	/* --------------------------------------------------------------------- */
-	/* ------------------- addEngineeringDataToWorkBoard ------------------- */
+	/* -------------------- addAcornSatDataToWorkboard --------------------- */
 	/* --------------------------------------------------------------------- */
 	
-	// TODO: Test addEngineeringDataToWorkBoard
+	/**
+	 * addAcornSatDataToWorkboardTest should succeed & return a confirmation message
+	 */
+	@Test
+	public void addAcornSatDataToWorkboardSuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		int refUserStoryId = 1;
+		String refExtreme = "extreme";
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addAcornSatDataToWorkboard(refUserStoryId, refExtreme, model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+
+		Assert.assertEquals(WorkboardController.MSG_ACORNSAT_DATA_ADDED, model.get("successMessage"));
+		
+		// Check that the last Data Element in the user story matches the parameters passed
+		UserStory refUserStory = userStoryDao.find(refUserStoryId);
+		DataElementAcornSat refDataElement = (DataElementAcornSat)(refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1));
+		Assert.assertEquals(DisplayType.TABLE, refDataElement.getDisplayType());
+		Assert.assertEquals(true, refDataElement.getIncluded());
+		Assert.assertEquals(0, refDataElement.getPosition());
+		for (AcornSatData data : refDataElement.getAcornSatDataList()) {
+			Assert.assertTrue(data.getExtreme());
+			Assert.assertEquals(refUserStory.getRegion().getId(), data.getAcornSatStation().getRegion().getId());
+		}
+	}
 	
-	
+	/**
+	 * addAcornSatDataToWorkboardBadParametersTest should fail since the parameters passed are incorrect
+	 */
+	@Test
+	public void addAcornSatDataToWorkboardBadParametersTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+
+		// UNKNOWN USER STORY
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addAcornSatDataToWorkboard(9999, "extreme", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		
+		// UNKNOWN EXTREME VALUE
+		model = new ExtendedModelMap();
+		result = workboardController.addAcornSatDataToWorkboard(1, "UNKNOWN EXTREME VALUE", model);
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+		//Assert.assertEquals(PastDataDao.ERR_NO_RESULT, model.get("errorMessage"));
+	}
+		
 	
 	/* --------------------------------------------------------------------- */
 	/* ---------------------- addCsiroDataToWorkboard ---------------------- */
@@ -281,7 +551,7 @@ public class WorkboardControllerTest {
 	
 	
 	/* --------------------------------------------------------------------- */
-	/* ---------------------- addCmarDataToWorkboard ---------------------- */
+	/* ---------------------- addCmarDataToWorkboard ----------------------- */
 	/* --------------------------------------------------------------------- */
 	
 	
@@ -341,6 +611,19 @@ public class WorkboardControllerTest {
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(CmarDataDao.ERR_NO_RESULT, model.get("errorMessage"));
 	}
+
+	/* --------------------------------------------------------------------- */
+	/* ---------------- addEngineeringModelDataToWorkboard ----------------- */
+	/* --------------------------------------------------------------------- */
+	
+	// TODO: Test addEngineeringModelDataToWorkboard
+	
+	
+	/* --------------------------------------------------------------------- */
+	/* ------------ addVulnerabilityAssessmentDataToWorkboard -------------- */
+	/* --------------------------------------------------------------------- */
+	
+	// TODO: Test addVulnerabilityAssessmentDataToWorkboard
 	
 	
 	

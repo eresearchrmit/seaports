@@ -111,9 +111,9 @@
 									</c:if>
 								</td>
 							</c:forEach>
-							<td><fmt:formatNumber type="number" value="${(lastValue - firstValue) / firstValue * 100}" /></td>
-							<td><fmt:formatNumber type="number" value="${lastValue - firstValue}" /></td>
-							<td><fmt:formatNumber type="number" value="${((lastValue - firstValue) / firstValue * 100) / totalYears}" /></td>
+							<td><b><fmt:formatNumber type="number" value="${(lastValue - firstValue) / firstValue * 100}" /></b></td>
+							<td><b><fmt:formatNumber type="number" value="${lastValue - firstValue}" /></b></td>
+							<td><b><fmt:formatNumber type="number" value="${((lastValue - firstValue) / firstValue * 100) / totalYears}" /></b></td>
 						</tr>
 				</tbody>
 			</table>

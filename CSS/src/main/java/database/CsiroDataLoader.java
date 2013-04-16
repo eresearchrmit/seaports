@@ -84,8 +84,8 @@ public class CsiroDataLoader {
 		session.save(slr);
 		
 		DateFormat dateFormatter = new SimpleDateFormat("F");
-		Date dateCsiroData;
-		Date dateCmarData;
+		Date dateCsiroData = null;
+		Date dateCmarData = null;
 		try {
 			dateCsiroData = dateFormatter.parse("2013-02-01");
 		} catch (ParseException e) {

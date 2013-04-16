@@ -65,9 +65,12 @@ public class PublicController {
 			// Retrieve all published reports
 			List<UserStory> userStoriesList = userStoryDao.getAllPublishedStories();
 			mav.addObject("userStoriesList", userStoriesList);
-	 		model.addAttribute("listingTitle", "Published Reports");
+				
+			model.addAttribute("listingTitle", "Published Reports");
+			if (userStoriesList.size() == 0)
+				model.addAttribute("warningMessage", ERR_NO_RESULT);
 		}
-		catch (NoResultException e) {
+		catch (Exception e) {
 			model.addAttribute("errorMessage", ERR_RETRIEVE_PUBLISHED_REPORT_LIST);
 		}
 
@@ -81,13 +84,15 @@ public class PublicController {
 		UserStory userStory = null;
 		try {			
 			userStory = userStoryDao.find(id);
+			if (!userStory.getMode().equals("published")) {
+				model.addAttribute("errorMessage", ERR_REPORT_NOT_PUBLISHED);
+			}
 		}
 		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		
-		
-		if (userStory != null)
+		if (userStory != null && userStory.getMode().equals("published"))
 		{
 			Collections.sort(userStory.getDataElements(), new DataElementPositionComparator());
 			
@@ -128,5 +133,7 @@ public class PublicController {
 		return new ModelAndView("userstoryPublicView");
 	}
 	
+	public static final String ERR_NO_RESULT = "No report has been published yet";
 	public static final String ERR_RETRIEVE_PUBLISHED_REPORT_LIST = "Impossible to retrieve the list of the published reports";
+	public static final String ERR_REPORT_NOT_PUBLISHED = "The report that you are looking for was not published by its owner";
 }

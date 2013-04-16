@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import war.dao.*;
 import war.model.*;
+import war.model.DataElement.DisplayType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -240,7 +241,6 @@ public class UserStoryController {
 		return "userstoryList";
 	}	
 
-	
 	@RequestMapping(value="/addText", method=RequestMethod.GET) 
 	public ModelAndView addTextToUserStory(@RequestParam(value="story",required=true) Integer id, Model model) {
 		logger.info("Inside saveUserStory");
@@ -252,7 +252,7 @@ public class UserStoryController {
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
-			DataElementText newTextItem = new DataElementText(new Date(), "Story Text", true, 0, userStory, "Add some text here...");
+			DataElementText newTextItem = new DataElementText(new Date(), "Story Text", true, 0, DisplayType.PLAIN, userStory, "Add some text here...");
 			dataElementDao.save(newTextItem);
 			userStory = userStoryDao.find(id);
 		}
@@ -327,12 +327,17 @@ public class UserStoryController {
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
-			userStory.setAccess("public");
-			userStory.setMode("published");
-			userStory.setPublishDate(new Date());
-			userStoryDao.save(userStory);
-			
-			return "redirect:/auth/userstory?id=" + userStory.getId();
+			if (!userStory.getMode().equals("published")) {
+				userStory.setAccess("public");
+				userStory.setMode("published");
+				userStory.setPublishDate(new Date());
+				userStoryDao.save(userStory);
+				
+				return "redirect:/auth/userstory?id=" + userStory.getId();
+			}
+
+			model.addAttribute("warningMessage", ERR_STORY_ALREADY_PUBLISHED);
+			return "redirect:/auth/userstory/list";
 		}
 		catch (IllegalArgumentException e) {
 			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);

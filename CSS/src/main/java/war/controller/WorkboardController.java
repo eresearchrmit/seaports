@@ -15,6 +15,7 @@ import javax.persistence.NoResultException;
 
 import war.dao.*;
 import war.model.*;
+import war.model.DataElement.DisplayType;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -241,7 +242,11 @@ public class WorkboardController {
             
             String[] arrAllowedFiletypes = {"image/jpeg", "text/plain", "text/html", "text/csv", "text/xml"};
             if(ArrayUtils.contains(arrAllowedFiletypes, uploadfile.getContentType())) {
-            	DataElementFile dataElement = new DataElementFile(new Date(), fileName, true, 0, userStory, fileExtension, uploadfile.getBytes());
+            	
+            	DisplayType displayType = DisplayType.PLAIN;
+            	if (uploadfile.getContentType().equals("image/jpeg"))
+            		displayType = DisplayType.PICTURE;
+            	DataElementFile dataElement = new DataElementFile(new Date(), fileName, true, 0, displayType, userStory, fileExtension, uploadfile.getBytes());
             	dataElementDao.save(dataElement);
             	userStory.getDataElements().add(dataElement);
             	
@@ -260,7 +265,7 @@ public class WorkboardController {
 	@RequestMapping(value= "/addPastData", method = RequestMethod.POST)
 	public ModelAndView addPastDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
-		@RequestParam(value="pastDataTitle",required=true) String pastDataTitle, Model model)
+		@RequestParam(value="pastDataTitle",required=true) Integer pastDataId, Model model)
 	{
 		logger.info("Inside addPastDataToWorkboard");
 		
@@ -271,9 +276,10 @@ public class WorkboardController {
     		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
-			List<PastData> pastDataList = pastDataDao.find(pastDataTitle);
+			List<PastData> pastDataList = new ArrayList<PastData>();
+			pastDataList.add(pastDataDao.find(pastDataId));
 			
-			DataElementPast dataElement = new DataElementPast(new Date(), "National climate and marine trends", true, 0, userStory, pastDataList);
+			DataElementPast dataElement = new DataElementPast(new Date(), "National climate and marine trends", true, 0, DisplayType.PICTURE, userStory, pastDataList);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
@@ -311,7 +317,7 @@ public class WorkboardController {
     			acornSatDataList.addAll(acornSatDataDao.find(station, extreme));
     		}
     		
-    		DataElementAcornSat dataElement = new DataElementAcornSat(new Date(), "ACORN-SAT measurements", true, 0, userStory, acornSatDataList);
+    		DataElementAcornSat dataElement = new DataElementAcornSat(new Date(), "ACORN-SAT measurements", true, 0, DisplayType.TABLE, userStory, acornSatDataList);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
@@ -353,7 +359,7 @@ public class WorkboardController {
 			
 			Boolean picturesIncluded = (includePictures != null && includePictures.equals("on")) ? true : false;
 
-			DataElementCsiro dataElement = new DataElementCsiro(new Date(), "Future Climate Change Data", true, 0, userStory, csiroDataList, picturesIncluded);
+			DataElementCsiro dataElement = new DataElementCsiro(new Date(), "Future Climate Change Data", true, 0, DisplayType.TABLE, userStory, csiroDataList, picturesIncluded);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
@@ -389,7 +395,7 @@ public class WorkboardController {
 			
 			Boolean picturesIncluded = (includePictures != null && includePictures.equals("on")) ? true : false;
 			
-			DataElementCmar dataElement = new DataElementCmar(new Date(), "CMAR Data", true, 0, userStory, cmarDataList, picturesIncluded);
+			DataElementCmar dataElement = new DataElementCmar(new Date(), "CMAR Data", true, 0, DisplayType.TABLE, userStory, cmarDataList, picturesIncluded);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
@@ -410,7 +416,7 @@ public class WorkboardController {
 			@RequestParam(value="engVariable",required=true) String engVariableName,
 			@RequestParam(value="engVariableCategory",required=true) String engVariableCategory,
 			@RequestParam(value="id",required=true) Integer userStoryId, 
-			Model model) {
+			@RequestParam(value="displayType",required=true) String displayTypeString, Model model) {
 		logger.info("Inside addEngineeringDataToWorkBoard");
 		
     	UserStory userStory = null;
@@ -429,6 +435,8 @@ public class WorkboardController {
 				throw (e);
 			}
     		
+			DataElement.DisplayType displayType = DataElement.DisplayType.fromString(displayTypeString);
+			
     		if (sourceType.equals("upload")) {
     			logger.info("Excel File Upload");
     			
@@ -461,7 +469,7 @@ public class WorkboardController {
     					engineeringModelDataDao.save(data);
     				}
     				
-    				DataElementEngineeringModel de = new DataElementEngineeringModel(new Date(), "Concrete deterioration for " + asset.getAssetCode(), true, 0, userStory, extractedDataList);
+    				DataElementEngineeringModel de = new DataElementEngineeringModel(new Date(), "Concrete deterioration for " + asset.getAssetCode(), true, 0, displayType, userStory, extractedDataList);
     				dataElementDao.save(de);
     				
     				userStory = userStoryDao.find(userStoryId);
@@ -480,7 +488,7 @@ public class WorkboardController {
     			// Create the data element
     			if (engineeringModelDataList != null && engineeringModelDataList.size() > 0) {
     				String dataElementTitle = "Concrete deterioration for " + engineeringModelDataList.get(0).getAsset().getAssetCode();
-					DataElementEngineeringModel de = new DataElementEngineeringModel(new Date(), dataElementTitle, true, 0, userStory, engineeringModelDataList);
+					DataElementEngineeringModel de = new DataElementEngineeringModel(new Date(), dataElementTitle, true, 0, displayType, userStory, engineeringModelDataList);
 					dataElementDao.save(de);
 					
 					userStory = userStoryDao.find(userStoryId);
@@ -644,7 +652,7 @@ public class WorkboardController {
 	}
 	
 	@RequestMapping(value= "/addVulnerability", method = RequestMethod.POST)
-	public ModelAndView addVulnerabilityToWorkboard(
+	public ModelAndView addVulnerabilityAssessmentToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="weatherEventType",required=true) String type,
 		@RequestParam(value="weatherEventYear",required=true) String yearString,
@@ -667,7 +675,6 @@ public class WorkboardController {
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
 			Boolean direct = (directString != null && directString.equals("direct")) ? true : false;
-			//ConsequencesRating consequencesRating = ConsequencesRating.valueOf(consequencesRatingString.toUpperCase());
 			Boolean responseAdequate = (responseAdequateString != null && responseAdequateString.equals("adequate")) ? true : false;
 			Integer year = Integer.valueOf(yearString);
 			
@@ -679,7 +686,7 @@ public class WorkboardController {
 
 			WeatherEvent weatherEvent = new WeatherEvent(type, year, direct, impact, consequencesRating, consequencesOther, responseAdequate, changes);
 			weatherEventDao.save(weatherEvent);
-			DataElementVulnerability dataElement = new DataElementVulnerability(new Date(), "Vulnerability Assessment", true, 0, userStory, weatherEvent);
+			DataElementVulnerability dataElement = new DataElementVulnerability(new Date(), "Vulnerability Assessment", true, 0, DisplayType.GRAPH, userStory, weatherEvent);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
@@ -820,6 +827,9 @@ public class WorkboardController {
 		 			}
 		 			else if (dataElement.getClass().equals(DataElementAcornSat.class)) {
 		 				dataelementsCounts[1]++;
+		 			}
+		 			else if (dataElement.getClass().equals(DataElementCmar.class)) {
+		 				dataelementsCounts[2]++;
 		 			}
 		 			else if (dataElement.getClass().equals(DataElementCsiro.class)) {
 		 				for (CsiroData data : ((DataElementCsiro)dataElement).getCsiroDataList()) {

@@ -41,11 +41,12 @@ public class DataElementText extends DataElement {
 	 * @param name: the name of the text item
 	 * @param included: whether the text item is included or not in the publication of its parent User Story.
 	 * @param position: the position of the text item in the user story it belongs to
+	 * @param displayType: the way the data element should be displayed
 	 * @param userStory: the user story to which this text item belongs
 	 * @param content: the text of the text item
 	 */
-	public DataElementText(Date creationDate, String name, boolean included, int position, UserStory userStory, String text) {
-		super(creationDate, name, included, position, userStory);
+	public DataElementText(Date creationDate, String name, boolean included, int position, DisplayType displayType, UserStory userStory, String text) {
+		super(creationDate, name, included, position, displayType, userStory);
 		this.text = text;
 	}
 	

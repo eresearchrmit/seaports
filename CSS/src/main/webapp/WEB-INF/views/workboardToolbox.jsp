@@ -15,10 +15,10 @@
 </p>
 <div id="add${dataelementsfilter}DataElementModalWindow" class="box round first" title="New Data Element" style="display:none">
 	<div class="block">
-		<p><strong>1. Choose a Data Source:</strong></p>
+		<p><strong>1. Data Source:</strong></p>
 		<table width="auto" height="auto" class="form">
 			<tr>
-				<td class="col1">Source:</td>
+				<td class="col1">Choose a data source:</td>
 				<td class="col2">
 					<select id="cbb${dataelementsfilter}DataSource" name="dataSource">
 						<option value="none">- Select Data Source -</option>
@@ -355,6 +355,16 @@
 						</td>
 					</tr>
 				</table>
+				<p><strong>3. Display Options:</strong></p>
+				<table width="auto" height="auto" class="form">
+					<tr>
+						<td class="col1">Display data as:</td>
+						<td class="col2">
+							<input type="radio" name="displayType" value="graph" checked="checked" /> Graph
+							<input type="radio" name="displayType" value="table" /> Table
+						</td>
+					</tr>
+				</table>
 				<button type="button" id="btnAddEngineeringModelDataElement" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
 					<span></span>Add Engineering Model Data
 				</button><br />
@@ -400,7 +410,7 @@
 					<tr>
 						<td class="top">Date<a href="#" id="lnkHelpVulnerabilityDate" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
-							<select id="cbbWeatherEventYear" name="weatherEventYear">
+							<select id="cbbWeatherEventYear" name="weatherEventYear">					
 								<c:forEach var="i" begin="2003" end="2013" step="1" varStatus ="status">
 									<option value="<c:out value="${i}" />"><c:out value="${i}" /></option>
 								</c:forEach>
@@ -609,7 +619,6 @@
 
 		
 		// Help bubble popups
-		
 		var strPathToBubblePopupTheme = "${pageContext.request.contextPath}/resources/img/bubblepopup";
 		
 		<c:if test="${dataelementsfilter == 'NonClimate'}">

@@ -32,9 +32,9 @@
 					<td><a href="/CSS/auth/userstory/view?id=${story.id}" title="View this Report" target="_blank"><img src="<c:url value="/resources/img/icons/page_white.png" />" alt="View" /></a></td>
 					<c:choose>
 						<c:when test="${story.mode == 'published'}">
-							<td><i>Published reports can't be edited</i></td>
+							<td></td>
 							<td>Published (<fmt:formatDate value="${story.publishDate}" pattern="dd MMM yyyy" />) <img src="<c:url value="/resources/img/icons/accept.png" />" /></td>
-							<td><i>Published reports can't be deleted</i></td>
+							<td></td>
 	                 	</c:when>
 	                 	<c:otherwise>
 	                 		<td><a href="/CSS/auth/userstory?id=${story.id}" title="Edit this Report"><img src="<c:url value="/resources/img/icons/pencil.png" />" alt="Edit"/></a></td>

@@ -49,12 +49,13 @@ public class DataElementFile extends DataElement {
 	 * @param creationDate: the date when the data element was created
 	 * @param name: the name of the data element
 	 * @param position: the position of the data element in the user story it belongs to
+	 * @param displayType: the way the data element should be displayed
 	 * @param userStory: the user story to which this data element belongs
 	 * @param filetype: the type of the file. 
 	 * @param content: the binary content of the file
 	 */
-	public DataElementFile(Date creationDate, String name, boolean included, int position, UserStory userStory, String filetype, byte[] content) {
-		super(creationDate, name, included, position, userStory);
+	public DataElementFile(Date creationDate, String name, boolean included, int position, DisplayType displayType, UserStory userStory, String filetype, byte[] content) {
+		super(creationDate, name, included, position, displayType, userStory);
 		this.filetype = filetype;
 		this.content = content;
 		

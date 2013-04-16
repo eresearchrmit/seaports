@@ -50,12 +50,13 @@ public class DataElementCsiro extends DataElement {
 	 * @param creationDate: the date when the data element was created
 	 * @param name: the name of the data element
 	 * @param position: the position of the data element in the user story it belongs to
+	 * @param displayType: the way the data element should be displayed
 	 * @param userStory: the user story to which this data element belongs
 	 * @param csiroDataList: the list of CSIRO data contained in this CSIRO data element
 	 * @param picturesIncluded: whether the pictures related to the raw data should be displayed as part of this data element
 	 */
-	public DataElementCsiro(Date creationDate, String name, boolean included, int position, UserStory userStory, List<CsiroData> csiroDataList, Boolean picturesIncluded) {
-		super(creationDate, name, included, position, userStory);
+	public DataElementCsiro(Date creationDate, String name, boolean included, int position, DisplayType displayType, UserStory userStory, List<CsiroData> csiroDataList, Boolean picturesIncluded) {
+		super(creationDate, name, included, position, displayType, userStory);
 		this.csiroDataList = csiroDataList;
 		this.picturesIncluded = picturesIncluded;
 	}
