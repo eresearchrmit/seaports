@@ -14,6 +14,12 @@
 
 <div class="grid_12">
 	<h2>${listingTitle}</h2>
+	
+	<c:set var="successMessage" scope="request" value="${successMessage}"/>
+	<c:set var="warningMessage" scope="request" value="${warningMessage}"/>
+	<c:set var="errorMessage" scope="request" value="${errorMessage}"/> 			
+	<jsp:include page="notifications.jsp" />
+	
 	<c:if test="${not empty userStoriesList}">
 		<table class="data display datatable" id="tblUserStoryList">
 			<thead>
@@ -28,7 +34,7 @@
 			<tbody>
 				<c:forEach items="${userStoriesList}" var="story" varStatus="status"> 
 				<tr>
-					<td>${story.name}</td>
+					<td><c:out value="${story.name}" /></td>
 					<td><a href="/CSS/auth/userstory/view?id=${story.id}" title="View this Report" target="_blank"><img src="<c:url value="/resources/img/icons/page_white.png" />" alt="View" /></a></td>
 					<c:choose>
 						<c:when test="${story.mode == 'published'}">

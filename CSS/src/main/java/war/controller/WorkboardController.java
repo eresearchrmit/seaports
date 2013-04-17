@@ -39,7 +39,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.ui.Model;
 
-
 @Controller
 @RequestMapping("auth/workboard")
 public class WorkboardController {
@@ -265,7 +264,7 @@ public class WorkboardController {
 	@RequestMapping(value= "/addPastData", method = RequestMethod.POST)
 	public ModelAndView addPastDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
-		@RequestParam(value="pastDataTitle",required=true) Integer pastDataId, Model model)
+		@RequestParam(value="pastDataId",required=true) Integer pastDataId, Model model)
 	{
 		logger.info("Inside addPastDataToWorkboard");
 		
@@ -673,16 +672,24 @@ public class WorkboardController {
 			
     		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
-			
+    		
 			Boolean direct = (directString != null && directString.equals("direct")) ? true : false;
 			Boolean responseAdequate = (responseAdequateString != null && responseAdequateString.equals("adequate")) ? true : false;
 			Integer year = Integer.valueOf(yearString);
 			
 			String consequencesRating = String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", 
-					weatherEventConsequence1, weatherEventConsequence2, weatherEventConsequence3,
-					weatherEventConsequence4, weatherEventConsequence5, weatherEventConsequence6, 
-					weatherEventConsequence7, weatherEventConsequence8, weatherEventConsequence9, 
-					weatherEventConsequence10, weatherEventConsequence11, weatherEventConsequence12);
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence1), 
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence2), 
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence3),
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence4), 
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence5), 
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence6), 
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence7), 
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence8), 
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence9), 
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence10), 
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence11), 
+					WeatherEvent.parseConsequenceRating(weatherEventConsequence12));
 
 			WeatherEvent weatherEvent = new WeatherEvent(type, year, direct, impact, consequencesRating, consequencesOther, responseAdequate, changes);
 			weatherEventDao.save(weatherEvent);
@@ -693,7 +700,7 @@ public class WorkboardController {
 			
 			model.addAttribute("successMessage", WorkboardController.MSG_VULNERABILITY_DATA_ADDED);
 		}
-		catch (NoResultException e) {
+		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		

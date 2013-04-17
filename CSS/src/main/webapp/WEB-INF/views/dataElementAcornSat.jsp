@@ -28,33 +28,44 @@
 				<th>Maximum wind gust</th>
 				</c:if>
 				<c:if test="${dataelement.acornSatDataList[0].extreme == false}">
-				<th>Annual mean surface <br />temperature (&#8451;)</th>
-				<th>Annual mean <br />rainfall (mm)</th>
-				<th colspan="2">Relative humidity</th>
-				<th colspan="2">Mean wind speed</th>
+				<th>Annual mean surface <br />temperature</th>
+				<th>Annual mean <br />rainfall</th>
+				<th colspan="2">Annual mean <br />Relative humidity</th>
+				<th colspan="2">Annual Mean <br />wind speed</th>
 				</c:if>
 			</tr>
 			</thead>
 			<tbody>
+				<c:if test="${dataelement.acornSatDataList[0].extreme == false}">
+				<tr>
+				<td colspan="6"></td>
+					<td><b>9am</b></td>
+					<td><b>3pm</b></td>
+					<td><b>9am</b></td>
+					<td><b>3pm</b></td>
+				</tr>
+				</c:if>
 				<c:forEach items="${dataelement.acornSatDataList}" var="acornSatData" varStatus="dataLoopStatus">
 					<c:if test="${prevData.acornSatStation.name != acornSatData.acornSatStation.name}">
 					<td></td>
 					</tr>
 					<tr class="${dataLoopStatus.index % 2 == 0 ? 'even' : 'odd'}">
 						<td>${acornSatData.acornSatStation.name}</td>
-						<td>${acornSatData.acornSatStation.number}</td>
+						<td><fmt:formatNumber minIntegerDigits="6" groupingUsed="false" value="${acornSatData.acornSatStation.number}" /></td>
 						<td>${acornSatData.acornSatStation.latitude}</td>
 						<td>${acornSatData.acornSatStation.longitude}</td>
 					</c:if>
 
 					<td>
-						${acornSatData.value}<br />
+						<c:out value="${acornSatData.value}" /> ${acornSatData.variable.uom}<br />
 						<c:if test="${acornSatData.extreme == true}">
 							<fmt:formatDate value="${acornSatData.dateMeasured}" pattern="dd MMM yyyy" />
 						</c:if>
+						<%--
 						<c:if test="${acornSatData.extreme == false && not empty acornSatData.dateMeasured}">
 							at <fmt:formatDate value="${acornSatData.dateMeasured}" pattern="hha" />
 						</c:if>
+						--%>
 					</td>	
 					<c:set var="prevData" value="${acornSatData}" />
 				</c:forEach>

@@ -29,7 +29,7 @@
 			<tbody>
 				<c:forEach items="${userStoriesList}" var="story" varStatus="status"> 
 				<tr>
-					<td>${story.name}</td>
+					<td><c:out value="${story.name}" /></td>
 					<td>${story.owner.firstname} ${story.owner.lastname}</td>
 					<td><fmt:formatDate value="${story.publishDate}" pattern="dd MMM yyyy" /></td>
 					<td>${story.region.name}</td>

@@ -22,10 +22,12 @@ import war.model.DataElementAbs;
 import war.model.DataElementAcornSat;
 import war.model.DataElementBitre;
 import war.model.DataElementPast;
+import war.model.DataElementVulnerability;
 import war.model.PastData;
 import war.model.Region;
 import war.model.User;
 import war.model.UserStory;
+import war.model.WeatherEvent;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -591,7 +593,7 @@ public class WorkboardControllerTest {
 	
 	
 	/**
-	 * addCmarDataToWorkboard should succeed & return a confirmation message
+	 * addCmarDataToWorkboard fail since the parameters passed are incorrect
 	 */
 	@Test
 	public void addCmarDataToWorkboardBadParametersTest() {
@@ -623,9 +625,106 @@ public class WorkboardControllerTest {
 	/* ------------ addVulnerabilityAssessmentDataToWorkboard -------------- */
 	/* --------------------------------------------------------------------- */
 	
-	// TODO: Test addVulnerabilityAssessmentDataToWorkboard
 	
+	/**
+	 * addVulnerabilityAssessmentDataToWorkboard should succeed & return a confirmation message
+	 */
+	@Test
+	public void addVulnerabilityAssessmentDataToWorkboardSuccessTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		int refUserStoryId = 1;
+		String refType = "Heavy Rain";
+		String refImpact = "Impact of the event";
+		String refConsequences = "Other consequences";
+		String refChanges = "Cahnges Implemented";
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addVulnerabilityAssessmentToWorkboard(refUserStoryId, refType, "2008", "direct", refImpact, "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", refConsequences, "adequate", refChanges, model);
+		
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+
+		Assert.assertNotNull(model.get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_VULNERABILITY_DATA_ADDED, model.get("successMessage"));
+		
+		UserStory refUserStory = userStoryDao.find(refUserStoryId);
+		DataElementVulnerability refDataElement = (DataElementVulnerability)(refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1));
+
+		
+		Assert.assertEquals(refType, refDataElement.getWeatherEvent().getType());
+		Assert.assertEquals(2008, (int)(refDataElement.getWeatherEvent().getYear()));
+		Assert.assertTrue(refDataElement.getWeatherEvent().getDirect());
+		Assert.assertEquals(refImpact, refDataElement.getWeatherEvent().getImpact());
+		Assert.assertEquals(refChanges, refDataElement.getWeatherEvent().getChanges());
+		Assert.assertEquals("2,4,1,1,0,5,2,3,4,2,1,5", refDataElement.getWeatherEvent().getConsequencesRating());
+	}
 	
+	/**
+	 * addVulnerabilityAssessmentDataToWorkboard should fail since the parameters passed are incorrect
+	 */
+	@Test
+	public void addVulnerabilityAssessmentDataToWorkboardBadParametersTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedIn);
+		
+		// UNKNOWN USER STORY
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = workboardController.addVulnerabilityAssessmentToWorkboard(9999, "Heavy Rain", "2006", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		
+		// UNKNOWN WEATHER EVENT TYPE
+		model = new ExtendedModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "UNKNOW WEATHER EVENT TYPE", "2008", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(WeatherEvent.ERR_INVALID_WEATHER_EVENT_TYPE, model.get("errorMessage"));
+		
+		// UNKNOWN YEAR
+		model = new ExtendedModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy Rain", "UNKNOWN YEAR", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals("For input string: \"UNKNOWN YEAR\"", model.get("errorMessage"));
+		
+		// UNKNOWN DIRECT PARAM
+		model = new ExtendedModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy Rain", "2005", "UNKNOWN DIRECT PARAM", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNotNull(model.get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_VULNERABILITY_DATA_ADDED, model.get("successMessage"));
+		UserStory refUserStory = userStoryDao.find(1);
+		DataElementVulnerability refDataElement = (DataElementVulnerability)(refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1));
+		Assert.assertFalse(refDataElement.getWeatherEvent().getDirect());
+		
+		// UNKNOWN ADEQUATE PARAM
+		model = new ExtendedModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy Rain", "2005", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
+		Assert.assertNotNull(result);
+		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNotNull(model.get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_VULNERABILITY_DATA_ADDED, model.get("successMessage"));
+		refUserStory = userStoryDao.find(1);
+		refDataElement = (DataElementVulnerability)(refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1));
+		Assert.assertFalse(refDataElement.getWeatherEvent().getResponseAdequate());
+		
+		// UNKNOWN CONSEQUENCE RATING
+		model = new ExtendedModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy Rain", "2005", "direct", "Impact of the event", "UNKNOWN RATING", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals("For input string: \"UNKNOWN RATING\"", model.get("errorMessage"));
+		
+		// CONSEQUENCE RATING OUT OF RANGE
+		model = new ExtendedModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy Rain", "2005", "direct", "Impact of the event", "9999", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(WeatherEvent.ERR_CONSEQUENCE_RATING_OUT_OF_RANGE, model.get("errorMessage"));
+	}
+
 	
 	/* --------------------------------------------------------------------- */
 	/* --------------------------- addWorkboard ---------------------------- */

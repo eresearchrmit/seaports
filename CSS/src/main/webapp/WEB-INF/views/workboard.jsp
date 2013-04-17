@@ -16,8 +16,8 @@
 
 	<!-- Titles -->
 	<div style="margin-left: 20px; float:left">
-		<h2>${userstory.name}</h2>
-		<h4>${userstory.region.name} region</h4>
+		<h2><c:out value="${userstory.name}" /></h2>
+		<h4><c:out value="${userstory.region.name}" /> region</h4>
 	</div>
 	
 	<a class="lnkConvertToUserStory" href="/CSS/auth/userstory/create?id=${userstory.id}" style="margin-right: 10px; float:right">

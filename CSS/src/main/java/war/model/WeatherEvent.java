@@ -1,5 +1,7 @@
 package war.model;
 
+import java.util.Arrays;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,8 @@ import javax.persistence.Table;
 public class WeatherEvent
 {
 	private static final long serialVersionUID = -1308795024262635690L;
+	
+	public static final String[] allowedTypes = new String[] {"Heatwave", "Strong Wind", "Heavy Rain", "Electrical storm", "Storm (wind and rain combined)", "Cyclone", "Hail", "Storm Surge", "Sea level rise", "Fog", "Drought", "Flood", "Other"};
 	
 	/**
 	 * The unique ID of the Weather Event
@@ -93,7 +97,11 @@ public class WeatherEvent
 	 * @param changes: description of the changes implemented after the Weather Event
 	 */
 	public WeatherEvent(String type, Integer year, Boolean direct, String impact, 
-			String consequencesRating, String consequencesOther, Boolean responseAdequate, String changes) {
+			String consequencesRating, String consequencesOther, Boolean responseAdequate, String changes) throws IllegalArgumentException {
+		
+		if (!(Arrays.asList(allowedTypes).contains(type))) 
+			throw new IllegalArgumentException(ERR_INVALID_WEATHER_EVENT_TYPE);
+		
 		setType(type);
 		setYear(year);
 		setDirect(direct);
@@ -247,4 +255,23 @@ public class WeatherEvent
 	public void setChanges(String changes) {
 		this.changes = changes;
 	}
+	
+	/**
+	 * Parses a given string as a consequence rating: 1 = None, 2 = Insignificant, 3 = Moderate, 4 = Major, 5 = Extreme
+	 * @param weatherEventConsequenceString: string corresponding to the rating of a weather event consequence
+	 * @return the integer corresponding to the rating of the weather event consequence 
+	 * @throws NumberFormatException if the given string isn't a Integer
+	 * @throws IllegalArgumentException if the given string correspond to a number out of the range 0-5
+	 */
+	public static Integer parseConsequenceRating(String weatherEventConsequenceString) throws NumberFormatException, IllegalArgumentException {
+		Integer weatherEventConsequence = Integer.parseInt(weatherEventConsequenceString);
+		
+		if (weatherEventConsequence < 0 || weatherEventConsequence > 5)
+			throw new IllegalArgumentException(ERR_CONSEQUENCE_RATING_OUT_OF_RANGE);
+		
+		return weatherEventConsequence;
+	}
+	
+	public static final String ERR_INVALID_WEATHER_EVENT_TYPE = "Invalid weather event type";
+	public static final String ERR_CONSEQUENCE_RATING_OUT_OF_RANGE = "The rating of a consequence must be between 0 (none) and 5 (extreme)";
 }

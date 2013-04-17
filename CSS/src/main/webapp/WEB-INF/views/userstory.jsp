@@ -16,8 +16,8 @@
 <div class="grid_12">
 	<!-- Titles -->
 	<div style="margin-left: 20px; float:left">
-		<h2>${userstory.name} </h2>
-		<h4>${userstory.region.name}</h4>
+		<h2><c:out value="${userstory.name}" /></h2>
+		<h4><c:out value="${userstory.region.name}" /> region</h4>
 	</div>
 	
 	<a href="/CSS/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">
@@ -124,7 +124,7 @@
 						<!-- Text comment data element -->
 					 	<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
 							<c:if test="${userstory.mode != 'published'}"><textarea name="comments" class="tinymce" rows="12"></c:if>
-								${dataelement.text}
+								<c:out value="${dataelement.text}" />
 							<c:if test="${userstory.mode != 'published'}"></textarea></c:if>
                  		</c:if>
                  		

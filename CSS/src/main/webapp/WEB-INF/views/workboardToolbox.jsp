@@ -57,7 +57,16 @@
 							<c:if test="${not empty regionSeaports}">
 							<select id="cbbAbsDataSeaport" name="seaport">
 								<c:forEach items="${regionSeaports}" var="regionSeaport" varStatus="regionSeaportLoopStatus">
-									<option value="${regionSeaport.code}">${regionSeaport.name}</option>
+									<option value="${regionSeaport.code}" <c:if test="${empty regionSeaport.urbanCenter}">disabled</c:if>>
+										<c:choose>
+											<c:when test="${not empty regionSeaport.urbanCenter}">
+												${regionSeaport.name} (${regionSeaport.urbanCenter})
+											</c:when>
+											<c:otherwise>
+												${regionSeaport.name} (No Data Available)
+											</c:otherwise>
+										</c:choose>
+									</option>
 								</c:forEach>
 							</select>
 							</c:if>
@@ -157,12 +166,12 @@
 				<tr>
 					<td>Variable:</td>
 					<td class="col2">
-						<select id="cbbPastDataTitle" name="pastDataTitle">
-							<option value="Trend in mean temperatures">Trend in mean temperatures</option>
-							<option value="Trend in maximum temperatures">Trend in maximum temperatures</option>
-							<option value="Trend in total annual rainfall">Trend in total annual rainfall</option>
-							<option value="Long-term sea level rise measurements">Long-term sea level rise measurements</option>
-							<option value="Shorter-term changes in sea level">Shorter-term changes in sea level</option>
+						<select id="cbbPastDataId" name="pastDataId">
+							<option value="1">Trend in mean temperatures</option>
+							<option value="2">Trend in maximum temperatures</option>
+							<option value="3">Trend in total annual rainfall</option>
+							<option value="4">Long-term sea level rise measurements</option>
+							<option value="5">Shorter-term changes in sea level</option>
 						</select>
 					</td>
 				</tr>

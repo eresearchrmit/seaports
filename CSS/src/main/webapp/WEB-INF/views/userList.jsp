@@ -14,34 +14,10 @@
 <div class="grid_12">
 	<h2>${listingTitle}</h2>
 	
-	<c:if test="${not empty successMessage}">
-		<div id="successMessage" class="message success">
-			<h5>Success !</h5>
-			<p>${successMessage}.</p>
-		</div>
-		<!-- Makes the success messages fade out after 3 seconds -->
-		<script type="text/javascript">
-			$(document).ready(function(){
-				setTimeout(function(){
-					$("#successMessage").fadeOut("slow", function () {
-						$("#successMessage").remove();
-					});
-				}, 3000);
-			});
-		</script>
-	</c:if>
-	<c:if test="${not empty warningMessage}">
-		<div class="message warning">
-			<h5>Warning</h5>
-			<p>${warningMessage}.</p>
-		</div>
-	</c:if>
-	<c:if test="${not empty errorMessage}">
-		<div class="message error">
-			<h5>Error</h5>
-			<p>${errorMessage}.</p>
-		</div>
-	</c:if>
+	<c:set var="successMessage" scope="request" value="${successMessage}"/>
+	<c:set var="warningMessage" scope="request" value="${warningMessage}"/>
+	<c:set var="errorMessage" scope="request" value="${errorMessage}"/> 			
+	<jsp:include page="notifications.jsp" />
 	
 	<c:if test="${not empty usersList}">
 		<table class="data display datatable" id="tblUserList">

@@ -31,8 +31,8 @@
 		</c:if>
 		<div class="clear"></div>
 		<center>
-			<h2>${userstory.name} </h2>
-			<h4>${userstory.region.name}</h4>
+			<h2><c:out value="${userstory.name}" /></h2>
+			<h4><c:out value="${userstory.region.name}" /> region</h4>
 		</center>
 	</c:if>
 	
@@ -72,6 +72,11 @@
 			<c:set var="dataelement" scope="request" value="${dataelement}"/>
 			
 			<c:if test="${dataelement.included == true}">
+			
+				<!-- Text comment data element -->
+			 	<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
+					<c:out value="${dataelement.text}" />
+               	</c:if>
 			
 				<%-- ABS Data Element --%>
  				<c:if test="${dataelement.class.simpleName == 'DataElementAbs'}">

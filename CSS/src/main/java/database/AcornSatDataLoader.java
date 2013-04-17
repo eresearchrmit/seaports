@@ -55,7 +55,7 @@ public class AcornSatDataLoader {
 		AcornSatStation sydney = new AcornSatStation(066062D, "Sydney", -33.86, 151.21, r1);
 		
 		AcornSatStation moruyaHeads = new AcornSatStation(069018D, "Moruya Heads", -35.91, 150.15, r2);
-		AcornSatStation gaboIslands = new AcornSatStation(069018D, "Gabo Island", -37.57, 149.92, r2);
+		AcornSatStation gaboIslands = new AcornSatStation(084016D, "Gabo Island", -37.57, 149.92, r2);
 		AcornSatStation sale = new AcornSatStation(085072D, "Sale", -38.12, 147.13, r2);
 		AcornSatStation wilsonPromontory = new AcornSatStation(085096D, "Wilsons Promontory", -39.13, 146.42, r2);
 		

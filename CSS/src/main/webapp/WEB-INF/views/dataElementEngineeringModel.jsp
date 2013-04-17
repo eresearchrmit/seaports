@@ -14,7 +14,7 @@
 	                spacingRight: 20
 	            },
 	            title: {
-	                text: '${dataelement.engineeringModelDataList[0].variable.name} over Time'
+	                text: '<c:out value="${dataelement.engineeringModelDataList[0].variable.name} over Time" />'
 	            },
 	            subtitle: {
 	                text: document.ontouchstart === undefined ?
@@ -30,12 +30,12 @@
 	            },
 	            yAxis: {
 	                title: {
-	                	text: '${dataelement.engineeringModelDataList[0].variable.shortName} (${dataelement.engineeringModelDataList[0].variable.uom})'
+	                	text: '<c:out value="${dataelement.engineeringModelDataList[0].variable.shortName} (${dataelement.engineeringModelDataList[0].variable.uom})" />'
 	                }
 	            },
 	            tooltip: {
 	                shared: true,
-	                valueSuffix: '${dataelement.engineeringModelDataList[0].variable.uom}'
+	                valueSuffix: '<c:out value="${dataelement.engineeringModelDataList[0].variable.uom}" />'
 	            },
 	            legend: {
 	                enabled: false
@@ -65,7 +65,7 @@
 	            
 	            series: [
 	                <c:forEach items="${dataelement.engineeringModelDataList}" var="engModelData" varStatus="loop">{
-	                	name: '${engModelData.parameters.emissionScenario.name} ${engModelData.parameters.model.name}',
+	                	name: '<c:out value="${engModelData.parameters.emissionScenario.name} ${engModelData.parameters.model.name}" />',
 	                	pointInterval: 365 * 24 * 3600 * 1000, // 1 year
 	                    pointStart: Date.UTC(2000, 0, 01),
 	                    data: [
