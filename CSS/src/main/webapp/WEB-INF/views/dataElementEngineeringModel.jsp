@@ -8,6 +8,8 @@
 <c:if test="${dataelement.displayType == 'GRAPH'}">
 	<script type="text/javascript">
 		$(function () {
+			setTimeout(function(){
+				
 	        $('#${dataelementsfilter}-engineeringmodel-LineGraph${dataElementLoopIndex}').highcharts({
 	            chart: {
 	                zoomType: 'x',
@@ -30,12 +32,12 @@
 	            },
 	            yAxis: {
 	                title: {
-	                	text: '<c:out value="${dataelement.engineeringModelDataList[0].variable.shortName} (${dataelement.engineeringModelDataList[0].variable.uom})" />'
+	                	text: '<c:out value="${dataelement.engineeringModelDataList[0].variable.shortName}" /> (${dataelement.engineeringModelDataList[0].variable.uom})'
 	                }
 	            },
 	            tooltip: {
 	                shared: true,
-	                valueSuffix: '<c:out value="${dataelement.engineeringModelDataList[0].variable.uom}" />'
+	                valueSuffix: '${dataelement.engineeringModelDataList[0].variable.uom}'
 	            },
 	            legend: {
 	                enabled: false
@@ -75,6 +77,7 @@
 					}<c:if test="${!loop.last}">,</c:if>
 	            </c:forEach>]
 	        });
+			},3);
 	    });
 	</script>
 	<div id="${dataelementsfilter}-engineeringmodel-LineGraph${dataElementLoopIndex}" class="highcharts" style="width:95%; margin-bottom:30px">

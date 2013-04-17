@@ -41,6 +41,7 @@
 					<c:when test="${categoryName == 'Freight throuput by cargo type'}">
 						<script type="text/javascript">
 							$(function () {
+								setTimeout(function(){
 								
 								$('#${dataelementsfilter}-bitre-bycargo-StackedAreaGraph${dataElementLoopIndex}').highcharts({
 						            chart: {
@@ -95,7 +96,8 @@
 													</c:forEach>]
 						     				}<c:if test="${!loop.last}">,</c:if>
 						                 </c:forEach>]
-						        });
+								});
+								}, 0);
 						    });
 						</script>
 		
@@ -106,6 +108,8 @@
 					<c:when test="${categoryName == 'Commercial vessel calls by type'}">
 						<script type="text/javascript">
 							$(function () {
+								setTimeout(function(){
+								
 								$('#${dataelementsfilter}-bitre-byvessel-StackedColumnGraph${dataElementLoopIndex}').highcharts({
 						            chart: {
 						                type: 'column'
@@ -159,7 +163,8 @@
 														</c:forEach>]
 							     				}<c:if test="${!loop.last}">,</c:if>
 							                 </c:forEach>]
-						        });
+								});
+								}, 0);
 						    });
 						</script>
 		
@@ -168,7 +173,9 @@
 					</c:when>
 					<c:when test="${categoryName == 'Export Commodities by type'}">
 						<script type="text/javascript">
-						$(function () {	
+						$(function () {
+							setTimeout(function(){
+														
 							$('#${dataelementsfilter}-bitre-bycommodities-LinesGraph${dataElementLoopIndex}').highcharts({
 					            chart: {
 					                type: 'line',
@@ -205,7 +212,8 @@
 												</c:forEach>]
 					     				}<c:if test="${!loop.last}">,</c:if>
 					                 </c:forEach>]
-					        });
+							});
+							}, 0);
 					    });
 						</script>
 						<div id="${dataelementsfilter}-bitre-bycommodities-LinesGraph${dataElementLoopIndex}" class="highcharts" style="width:95%; margin-bottom:30px">

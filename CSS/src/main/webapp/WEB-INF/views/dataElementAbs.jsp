@@ -15,11 +15,12 @@
 	
 	<c:when test="${not empty dataelement.absDataList}">
 		<c:choose>
-			<c:when test="${dataelement.displayType == 'GRAPH'}">	
+			<c:when test="${dataelement.displayType == 'GRAPH'}">
 				<script type="text/javascript">
-					$(function() {
+					$(function () {
+						setTimeout(function(){
 						var colors = Highcharts.getOptions().colors;
-										
+						
 				        $('#${dataelementsfilter}-abs-LineAndBarGraph${dataElementLoopIndex}').highcharts({
 				            chart: {
 				                spacingRight: 20
@@ -78,6 +79,7 @@
 				                    valueSuffix: '${dataelement.absDataList[0].variable.uom}'
 								}]
 				        });
+						}, 0);
 					});
 				</script>
 				<div id="${dataelementsfilter}-abs-LineAndBarGraph${dataElementLoopIndex}" class="highcharts ${dataelementsfilter}-abs" style="width:95%; margin-bottom:30px">
