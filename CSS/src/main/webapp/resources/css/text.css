@@ -96,3 +96,10 @@ fieldset
 {
 	margin-bottom: 20px;
 }
+
+.hint {
+	text-align:justify;
+	font-size:8pt;
+	color:#3f7227;
+	max-width: 800px
+}

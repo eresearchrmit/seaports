@@ -18,7 +18,7 @@
 		<p><strong>1. Data Source:</strong></p>
 		<table width="auto" height="auto" class="form">
 			<tr>
-				<td class="col1">Choose a data source:</td>
+				<td>Choose a data source:</td>
 				<td class="col2">
 					<select id="cbb${dataelementsfilter}DataSource" name="dataSource">
 						<option value="none">- Select Data Source -</option>
@@ -76,7 +76,7 @@
 				<p><strong>3. Display Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td class="col1">Display data as:</td>
+						<td>Display data as:</td>
 						<td class="col2">
 							<input type="radio" name="displayType" value="graph" checked="checked" /> Graph 
 							<input type="radio" name="displayType" value="picture" /> Map
@@ -124,7 +124,7 @@
 				<p><strong>3. Display Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td class="col1">Display data as:</td>
+						<td>Display data as:</td>
 						<td class="col2">
 							<input type="radio" name="displayType" value="graph" checked="checked" /> Graph
 							<input type="radio" name="displayType" value="table" /> Table
@@ -144,9 +144,12 @@
 				<p><strong>2. Custom Data Element Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td>Select a file to upload <a href="#" id="lnkHelpFileUpload" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</td>
+						<td>Select a file to upload:</td>
 						<td class="col2">
-							<input type="file" name="file" id="file" />
+							<input type="file" name="file" id="customFileUpload" />
+							<p class="hint">
+								<i>Accepted formats: Text (txt) or Image (jpeg, jpg)</i>
+							</p>
 						</td>
 					</tr>
 				</table>
@@ -200,7 +203,7 @@
 				</tr>
 			</table>
 			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-				<span></span>Add ACORN-SAT Data Element
+				<span></span>Add ACORN-SAT Data
 			</button>
 			</form:form>
 		</div>
@@ -213,7 +216,7 @@
 				<p><strong>2. CSIRO Data Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td class="col1">Variable <a href="#" id="lnkHelpCsiroVariable" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td>Variable <a href="#" id="lnkHelpCsiroVariable" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateVariable" name="climateVariable">
 								<option value="All">All Variables</option>
@@ -225,7 +228,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Emission Scenario <a href="#" id="lnkHelpCsiroEmissionScenario" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td>Emission Scenario <a href="#" id="lnkHelpCsiroEmissionScenario" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateEmissionScenario" name="climateEmissionScenario">
 								<option value="A1B">Medium CO2 emissions (A1B)</option>
@@ -234,7 +237,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Climate Model <a href="#" id="lnkHelpCsiroClimateModel" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td>Climate Model <a href="#" id="lnkHelpCsiroClimateModel" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateClimateModel" name="climateModel">
 								<option value="Most Likely">Most Likely</option>
@@ -244,7 +247,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Time Period <a href="#" class="lnkHelpCmarTimePeriod" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td>Time Period <a href="#" class="lnkHelpCmarTimePeriod" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbYear" name="year">
 								<option value="2030">2030</option>
@@ -257,11 +260,20 @@
 				<p><strong>3. Display Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td class="col1">Include map image:</td>
+						<td>Display data as:</td>
 						<td class="col2">
-							<input type="checkbox" id="cbIncludePictures" name="includePictures" /> <i>Check this if you want to include pictures of the region map corresponding to the data</i>  
+							<input type="radio" name="displayType" value="picture" checked="checked" /> Map
+							<input type="radio" name="displayType" value="table" /> Table
 						</td>
 					</tr>
+					<%-- 
+					<tr>
+						<td>Include map image:</td>
+						<td class="col2">
+							<input type="checkbox" id="cbIncludePictures" name="includePictures" /> <span class="hint"><i>Check this if you want to include pictures of the region map corresponding to the data</i></span>  
+						</td>
+					</tr>
+					--%>
 				</table>
 				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
 					<span></span>Add CSIRO Data
@@ -277,7 +289,7 @@
 				<p><strong>2. CMAR Data Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td class="col1">Variable <a href="#" id="lnkHelpCmarVariable" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td>Variable <a href="#" id="lnkHelpCmarVariable" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateVariable" name="climateVariable" disabled="disabled">
 								<option value="Sea Level Rise">Sea Level Rise</option>
@@ -285,7 +297,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Emission Scenario <a href="#" id="lnkHelpCmarEmissionScenario" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td>Emission Scenario <a href="#" id="lnkHelpCmarEmissionScenario" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateEmissionScenario" name="climateEmissionScenario" disabled="disabled">
 								<option value="A1B">Medium CO2 emissions (A1B)</option>
@@ -294,7 +306,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Climate Model <a href="#" id="lnkHelpCmarClimateModel" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td>Climate Model <a href="#" id="lnkHelpCmarClimateModel" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbClimateClimateModel" name="climateModel" disabled="disabled">
 								<option value="Most Likely">Most Likely</option>
@@ -304,7 +316,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td class="col1">Time Period <a href="#" id="lnkHelpCsiroTimePeriod" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
+						<td>Time Period <a href="#" id="lnkHelpCsiroTimePeriod" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<select id="cbbYear" name="year">
 								<option value="2030">2030</option>
@@ -317,9 +329,9 @@
 				<p><strong>3. Display Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td class="col1">Include map image:</td>
+						<td>Include map image:</td>
 						<td class="col2">
-							<input type="checkbox" id="cbIncludePictures" name="includePictures" /> <i>Check this if you want to include pictures of the region map corresponding to the data</i>  
+							<input type="checkbox" id="cbIncludePictures" name="includePictures" /> <span class="hint"><i>Check this if you want to include pictures of the region map corresponding to the data</i></span>  
 						</td>
 					</tr>
 				</table>
@@ -367,7 +379,7 @@
 				<p><strong>3. Display Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
-						<td class="col1">Display data as:</td>
+						<td>Display data as:</td>
 						<td class="col2">
 							<input type="radio" name="displayType" value="graph" checked="checked" /> Graph
 							<input type="radio" name="displayType" value="table" /> Table
@@ -379,7 +391,7 @@
 				</button><br />
 				<div id="loading" class="center">
 					<p>Extracting data and preparing your data element...</p>
-					<img src="<c:url value="/resources/img/ajax-loader.gif" />" alt="Loading..." title="Loading..." /><br />
+					<img src="<c:url value="/resources/img/theme/ajax-loader.gif" />" alt="Loading..." title="Loading..." /><br />
 					<p>Please don't refresh the page.</p>
 				</div>
 			</form:form>
@@ -393,7 +405,7 @@
 				
 				<p><strong>2. Current Vulnerability Assessment Options:</strong></p>
 				
-				<p style="width:800px; text-align:justify; font-size:8pt;color:#3f7227"><i>This section identifies your current vulnerability to particular climate related events. When considering the questions below, think of the impact on Port assets (machinery, buildings, equipment), infrastructure (drainage, rail, road, berths), and people (injuries, work disruptions). Please complete this page for each different climate related event that has impacted the port in recent years.</i></p>
+				<p class="hint"><i>This section identifies your current vulnerability to particular climate related events. When considering the questions below, think of the impact on Port assets (machinery, buildings, equipment), infrastructure (drainage, rail, road, berths), and people (injuries, work disruptions). Please complete this page for each different climate related event that has impacted the port in recent years.</i></p>
 				
 				<table width="auto" height="auto" class="form">
 					<tr>
@@ -591,8 +603,8 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$(document).ready(function () {
-		
+	$(function () {
+		setTimeout(function(){
 		// Dynamic forms display from the Data Source" dropdownlist
 		$('select#cbb${dataelementsfilter}DataSource').change(function() {
 			$('.dataElementForm').hide();			
@@ -631,7 +643,7 @@
 		var strPathToBubblePopupTheme = "${pageContext.request.contextPath}/resources/img/bubblepopup";
 		
 		<c:if test="${dataelementsfilter == 'NonClimate'}">
-			setupBubblePopup("lnkHelpFileUpload", "Accepted formats: Text (txt) or Image (jpeg, jpg)", strPathToBubblePopupTheme);
+			//setupBubblePopup("lnkHelpFileUpload", "", strPathToBubblePopupTheme);
 		</c:if>
 		
 		<c:if test="${dataelementsfilter == 'Future'}">
@@ -673,6 +685,7 @@
 			setupBubblePopup("lnkHelpVulnerabilityChanges", "Changes may be to management systems, to safety protocols, maintenance processes, communication protocols and so forth.", strPathToBubblePopupTheme);
 			
 		</c:if>
+		}, 0);
 	});
 </script>
 </c:if>

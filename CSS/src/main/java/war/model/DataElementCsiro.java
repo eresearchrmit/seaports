@@ -3,7 +3,6 @@ package war.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -31,13 +30,7 @@ public class DataElementCsiro extends DataElement {
     @JoinTable(name="data_element_csiro_data", joinColumns={@JoinColumn(name="data_element_id")}, inverseJoinColumns={@JoinColumn(name="csiro_data_id")})
     @LazyCollection(value=LazyCollectionOption.FALSE)
 	private List<CsiroData> csiroDataList;
-    
-    /**
-     * Whether the pictures related to the raw data should be displayed as part of this data element 
-     */
-    @Column
-    private Boolean picturesIncluded;
-    
+        
 	/**
 	 * Default constructor of DataElementCsiro
 	 */
@@ -53,12 +46,10 @@ public class DataElementCsiro extends DataElement {
 	 * @param displayType: the way the data element should be displayed
 	 * @param userStory: the user story to which this data element belongs
 	 * @param csiroDataList: the list of CSIRO data contained in this CSIRO data element
-	 * @param picturesIncluded: whether the pictures related to the raw data should be displayed as part of this data element
 	 */
-	public DataElementCsiro(Date creationDate, String name, boolean included, int position, DisplayType displayType, UserStory userStory, List<CsiroData> csiroDataList, Boolean picturesIncluded) {
+	public DataElementCsiro(Date creationDate, String name, boolean included, int position, DisplayType displayType, UserStory userStory, List<CsiroData> csiroDataList) {
 		super(creationDate, name, included, position, displayType, userStory);
 		this.csiroDataList = csiroDataList;
-		this.picturesIncluded = picturesIncluded;
 	}
 	
 	/**
@@ -75,22 +66,6 @@ public class DataElementCsiro extends DataElement {
 	 */
 	public void setCsiroDataList(List<CsiroData> csiroDataList) {
 		this.csiroDataList = csiroDataList;
-	}
-	
-	/**
-	 * Getter for whether illustration pictures should be displayed or not for this data element
-	 * @return The current display status of illustration pictures in the data element
-	 */
-	public Boolean getPicturesIncluded() {
-		return this.picturesIncluded;
-	}
-	
-	/**
-	 * Setter for whether illustration pictures should be displayed or not for this data element
-	 * @param picturesIncluded: the new display status of illustration pictures in the data element
-	 */
-	public void setPicturesIncluded(Boolean picturesIncluded) {
-		this.picturesIncluded = picturesIncluded;
 	}
 	
 	public static long getSerialversionuid() {

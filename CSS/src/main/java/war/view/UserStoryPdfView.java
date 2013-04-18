@@ -73,16 +73,16 @@ public class UserStoryPdfView extends AbstractPdfView {
 		
 		// Number of columns
 		int columnNumber = 4;
-		if (!(de.getPicturesIncluded()))
-			columnNumber--;
+		/*if (!(de.getPicturesIncluded()))
+			columnNumber--;*/
 		
 		// Table creation
 		PdfPTable table = new PdfPTable(columnNumber);
 		table.addCell("Variable");
 		table.addCell("Baseline");
 		table.addCell("Change for the " + de.getCsiroDataList().get(0).getYear() + "'s");
-		if (de.getPicturesIncluded())
-			table.addCell("Map");
+		/*if (de.getPicturesIncluded())
+			table.addCell("Map");*/
 		
 		table.setWidthPercentage(100f);
         table.getDefaultCell().setPadding(3);
@@ -95,12 +95,12 @@ public class UserStoryPdfView extends AbstractPdfView {
 			table.addCell(data.getVariable().getName());
 			table.addCell(data.getBaseline().getValue().toString() + data.getVariable().getUom());
 			table.addCell(data.getValue().toString() + data.getVariable().getUomVariation());
-			if (de.getPicturesIncluded()) {
+			/*if (de.getPicturesIncluded()) {
 			if(data.getPicture() != null)
 				table.addCell(Image.getInstance(data.getPicture()));
 			else
 				table.addCell("No map available");
-			}
+			}*/
 		}
 		document.add(table);
 	}

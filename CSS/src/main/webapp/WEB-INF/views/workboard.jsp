@@ -38,18 +38,16 @@
 		<p>This will create a Report based on your Workboard. Once the Workboard becomes a Report, no more data can be added to it and only text can be typed.</p> 
 		<p>Are you sure you want to create a Report from your Workboard now ?</p>
 	</div>
-	<script type="text/javascript">
-		setupConfirmBox("confirmConvertToUserStoryModalWindow", "lnkConvertToUserStory");
-		setupConfirmBox("confirmWorkboardDeletionModalWindow", "lnkDeleteWorkboard");
-	</script>
-	
+	<div style="display:none" id="confirmDataElementDeletionModalWindow" title="Delete this data element ?">
+		<p>Are you sure you want to delete this data element from your Workboard ?</p> 
+	</div>
 	<div class="clear"></div><br />
 	
 	<c:set var="successMessage" scope="request" value="${successMessage}"/>
 	<c:set var="warningMessage" scope="request" value="${warningMessage}"/>
-	<c:set var="errorMessage" scope="request" value="${errorMessage}"/> 			
+	<c:set var="errorMessage" scope="request" value="${errorMessage}"/>
 	<jsp:include page="notifications.jsp" />
-		
+	
 	<script type="text/javascript">
 		$(function() {
 			$("#tabs").tabs({
@@ -61,6 +59,9 @@
 				}
 			});
 
+			setupConfirmBox("confirmConvertToUserStoryModalWindow", "lnkConvertToUserStory");
+			setupConfirmBox("confirmWorkboardDeletionModalWindow", "lnkDeleteWorkboard");
+			setupConfirmBox("confirmDataElementDeletionModalWindow", "lnkDeleteDataElement");
 		});
 	</script>
 	
@@ -180,13 +181,5 @@
 			<c:set var="dataelementsfilter" scope="request" value="All"/>
 			<jsp:include page="dataElements.jsp" />
 		</div>
-	</div>
-	
-	<div id="confirmDataElementDeletionModalWindow" title="Delete this data element ?">
-		<p>Are you sure you want to delete this data element from your Workboard ?</p> 
-	</div>
-	<script type="text/javascript">
-		setupConfirmBox("confirmDataElementDeletionModalWindow", "lnkDeleteDataElement");
-	</script>
-</div>
+	</div></div>
 </c:if>

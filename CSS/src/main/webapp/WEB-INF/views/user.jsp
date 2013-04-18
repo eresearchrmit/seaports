@@ -6,7 +6,7 @@
 <sec:authorize access="isAuthenticated()">
 <div id="userInformations">
 	<div class="floatleft">
-		<img src="<c:url value="/resources/img/icon-profile.png" />" alt="Profile Picture" />
+		<img src="<c:url value="/resources/img/theme/icon-profile.png" />" alt="Profile Picture" />
 	</div>
 	<div class="floatleft marginleft10">
 		<ul class="inline-ul floatleft">

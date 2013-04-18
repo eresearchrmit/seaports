@@ -9,7 +9,7 @@ ul.nav,
 ul.nav * { margin:0;padding:0;}
 ul.nav {
   position:relative;
-  background:url(../img/nav-repeat2.jpg) repeat-x !important;
+  background:url(../img/theme/nav-repeat2.jpg) repeat-x !important;
   max-width:100%;
   height:3.7em;
   }
@@ -167,12 +167,12 @@ ul.nav li.secondary:hover a:hover {
 }
 ul.nav li.secondary:hover a:active {background:#1F4562;}
 
-ul.nav li.ic-home a span, .ic-home{background:url(../img/icon-home.png) no-repeat center left;}
-ul.nav li.ic-workboard a span, .ic-workboard{background:url(../img/icon-workboard.png) no-repeat center left;}
-ul.nav li.ic-story a span, .ic-story{background:url(../img/icon-story.png) no-repeat center left;}
-ul.nav li.ic-data-element a span, .ic-data-element{background:url(../img/icon-line-chart.png) no-repeat center left;}
-ul.nav li.ic-search a span, .ic-search{background:url(../img/icon-search.png) no-repeat center left;}
-ul.nav li.ic-admin a span, .ic-admin{background:url(../img/icon-admin.png) no-repeat center left;}
+ul.nav li.ic-home a span, .ic-home{background:url(../img/theme/icon-home.png) no-repeat center left;}
+ul.nav li.ic-workboard a span, .ic-workboard{background:url(../img/theme/icon-workboard.png) no-repeat center left;}
+ul.nav li.ic-story a span, .ic-story{background:url(../img/theme/icon-story.png) no-repeat center left;}
+ul.nav li.ic-data-element a span, .ic-data-element{background:url(../img/theme/icon-line-chart.png) no-repeat center left;}
+ul.nav li.ic-search a span, .ic-search{background:url(../img/theme/icon-search.png) no-repeat center left;}
+ul.nav li.ic-admin a span, .ic-admin{background:url(../img/theme/icon-admin.png) no-repeat center left;}
 ul.nav li {
 background-image: none !important;
 }

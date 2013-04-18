@@ -3,15 +3,14 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/reset.css" />"  media="screen" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/text.css" />"  media="screen" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/grid.css" />"  media="screen" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/fancy-button/fancy-button.css" />" />
-<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/themes/base/jquery.ui.all.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery/jquery.ui.all.css" />" />
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/layout.css" />"  media="screen" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/nav.css" />"  media="screen" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/tabs.css" />"  media="screen" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/buttons.css" />"  media="screen" />
 <!--[if IE 6]><link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/ie6.css" />" media="screen" /><![endif]-->
 <!--[if IE 7]><link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/ie.css" />" media="screen" /><![endif]-->
-<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/table/demo_page.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/prettyPhoto.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bubblepopup.css" />" />
 
@@ -36,7 +35,6 @@
 <!-- jQuery plugins -->
 <script type="text/javascript" src="<c:url value="/resources/js/table/jquery.dataTables.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.maphilight.js" />"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/fancy-button/fancy-button.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.bubble-popup-v3.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts-more.js" />" ></script>

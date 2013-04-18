@@ -337,7 +337,7 @@ public class WorkboardController {
 		@RequestParam(value="climateEmissionScenario",required=true) String climateEmissionScenario,
 		@RequestParam(value="climateModel",required=true) String climateModel,
 		@RequestParam(value="year",required=true) String year,
-		@RequestParam(value="includePictures",required=false) String includePictures, Model model)
+		@RequestParam(value="displayType",required=false) String displayTypeString, Model model)
 	{
 		logger.info("Inside addCsiroDataToWorkboard");
 		
@@ -356,9 +356,9 @@ public class WorkboardController {
 				csiroDataList.add(csiroDataDao.find(userStory.getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year), climateVariable));
 			}
 			
-			Boolean picturesIncluded = (includePictures != null && includePictures.equals("on")) ? true : false;
-
-			DataElementCsiro dataElement = new DataElementCsiro(new Date(), "Future Climate Change Data", true, 0, DisplayType.TABLE, userStory, csiroDataList, picturesIncluded);
+			DataElement.DisplayType displayType = DataElement.DisplayType.fromString(displayTypeString);
+			
+			DataElementCsiro dataElement = new DataElementCsiro(new Date(), "Future Climate Change Data", true, 0, displayType, userStory, csiroDataList);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);

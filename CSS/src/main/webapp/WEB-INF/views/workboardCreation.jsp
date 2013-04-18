@@ -41,7 +41,7 @@
 	   </tr>
 	</table>
 	<div id="map-container" style="float:left">
-	    <img class="map" src="<c:url value="/resources/img/nrm-regions-clusters-map.png" />" usemap="#nrm-clusters" 
+	    <img class="map" src="<c:url value="/resources/img/data/nrm-regions-clusters-map.png" />" usemap="#nrm-clusters" 
 			data-maphilight='{"strokeColor":"ff0000","fillColor":"0055A8","groupBy":"alt"}' />
 		<!-- Map has been generated using the software MapEdit v3.16 -->
 		<map name="nrm-clusters">	
@@ -107,7 +107,7 @@
 			});
 		</script>
 	</div>
-	<img id="nrmLegend" src="<c:url value="/resources/img/nrm-regions-clusters-legend.png" />" style="float:left" />
+	<img id="nrmLegend" src="<c:url value="/resources/img/data/nrm-regions-clusters-legend.png" />" style="float:left" />
 	<div class="clear"></div><br />
 	
 	<div align="center">

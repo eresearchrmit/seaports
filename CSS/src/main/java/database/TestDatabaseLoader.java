@@ -199,7 +199,7 @@ public class TestDatabaseLoader {
 		csiroDataList.add((CsiroData)(session.get(CsiroData.class, 2)));
 		csiroDataList.add((CsiroData)(session.get(CsiroData.class, 3)));
 		csiroDataList.add((CsiroData)(session.get(CsiroData.class, 4)));
-	    DataElementCsiro deCsiro = new DataElementCsiro(date, "CSIRO Data Element Test", true, 0, DisplayType.TABLE, user1wb, csiroDataList, true);
+	    DataElementCsiro deCsiro = new DataElementCsiro(date, "CSIRO Data Element Test", true, 0, DisplayType.TABLE, user1wb, csiroDataList);
 	    session.save(deCsiro);
 	    
 	    // CMAR Data Element
