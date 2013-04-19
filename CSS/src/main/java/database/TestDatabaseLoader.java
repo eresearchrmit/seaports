@@ -107,13 +107,16 @@ public class TestDatabaseLoader {
 		session.save(p5);
 		session.save(p6);
 		
-		
+		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = null;
+		try { date = dateFormatter.parse("2013-04-10"); } catch (ParseException e) {}
 		
 		// Add Workboards & User Stories
 		UserStory user1wb = new UserStory();
 		user1wb.setName("User 1 Workboard");
 		user1wb.setMode("active");
 		user1wb.setAccess("private");
+		user1wb.setCreationDate(date);
 		user1wb.setOwner(p1);
 		user1wb.setRegion(r1);
 		
@@ -121,6 +124,7 @@ public class TestDatabaseLoader {
 		user1us1.setName("User 1 Story 1");
 		user1us1.setMode("passive");
 		user1us1.setAccess("private");
+		user1us1.setCreationDate(date);
 		user1us1.setOwner(p1);
 		user1us1.setRegion(r2);
 		
@@ -128,18 +132,16 @@ public class TestDatabaseLoader {
 		user1us2.setName("User 1 Story 2 (Public)");
 		user1us2.setMode("passive");
 		user1us2.setAccess("public");
+		user1us2.setCreationDate(date);
 		user1us2.setOwner(p1);
 		user1us2.setRegion(r1);
-		
-		DateFormat dateFormatter = new SimpleDateFormat("F");
-		Date datePublish = null;
-		try { datePublish = dateFormatter.parse("2013-04-10"); } catch (ParseException e) {}
 		
 		UserStory user1us3 = new UserStory();
 		user1us3.setName("User 1 Story 3 (Published)");
 		user1us3.setMode("published");
 		user1us3.setAccess("public");
-		user1us3.setCreationDate(datePublish);
+		user1us3.setCreationDate(date);
+		user1us3.setPublishDate(date);
 		user1us3.setOwner(p1);
 		user1us3.setRegion(r1);
 		
@@ -147,6 +149,7 @@ public class TestDatabaseLoader {
 		user2wb.setName("User 2 Workboard (Empty)");
 		user2wb.setMode("active");
 		user2wb.setAccess("private");
+		user2wb.setCreationDate(date);
 		user2wb.setOwner(p2);
 		user2wb.setRegion(r2);
 		
@@ -154,6 +157,7 @@ public class TestDatabaseLoader {
 		user2us.setName("User 2 Story (Empty)");
 		user2us.setMode("passive");
 		user2us.setAccess("private");
+		user2us.setCreationDate(date);
 		user2us.setOwner(p2);
 		user2us.setRegion(r1);
 		
@@ -165,7 +169,7 @@ public class TestDatabaseLoader {
 		session.save(user2us);
 		
 		// Add Data Elements
-	    Date date = new Date();
+	    date = new Date();
 	    String content = "This is a test for Data Element";
 	    DataElementFile de1 = new DataElementFile(date, "Test 1", true, 0, DisplayType.PLAIN, user1wb, "csv", content.getBytes());
 	   
