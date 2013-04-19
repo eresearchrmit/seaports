@@ -213,7 +213,7 @@ public class TestDatabaseLoader {
 	    session.save(deEngModel);*/
 	    
 	    // Vulnerability Data Element
-	    WeatherEvent we = new WeatherEvent("Storm", 2006, true, "Impact of the event", "1;2;4;0;0;1;5;3;2;0;1;4", "Other consequences", false, "Changes implemented");
+	    WeatherEvent we = new WeatherEvent("Heavy Rain", 2006, true, "Impact of the event", "1;2;4;0;0;1;5;3;2;0;1;4", "Other consequences", false, "Changes implemented");
 	    session.save(we);
 	    session.save(new DataElementVulnerability(date, "Vulnerability Assessment", true, 0, DisplayType.GRAPH, user1wb, we));
 	    
