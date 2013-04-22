@@ -20,7 +20,7 @@ public class WeatherEvent
 {
 	private static final long serialVersionUID = -1308795024262635690L;
 	
-	public static final String[] allowedTypes = new String[] {"Heatwave", "Strong Wind", "Heavy Rain", "Electrical storm", "Storm (wind and rain combined)", "Cyclone", "Hail", "Storm Surge", "Sea level rise", "Fog", "Drought", "Flood", "Other"};
+	public static final String[] allowedTypes = new String[] {"Heatwave", "Strong wind", "Heavy rain", "Electrical storm", "Storm (wind and rain combined)", "Cyclone", "Hail", "Storm surge", "Sea level rise", "Fog", "Drought", "Flood", "Other"};
 	
 	/**
 	 * The unique ID of the Weather Event

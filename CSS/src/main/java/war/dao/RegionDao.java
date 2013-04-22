@@ -62,8 +62,8 @@ public class RegionDao {
 	 * @return the list of all the regions in the database
 	 */
 	@Transactional
-	public List<Region> getAllRegions() {
-		Query query = entityManager.createQuery("SELECT r FROM " + TABLE_NAME );
+	public List<Region> getAll() {
+		Query query = entityManager.createQuery("SELECT r FROM " + TABLE_NAME + " r");
 	    return performQueryAndCheckResultList(query);
 	}
 	

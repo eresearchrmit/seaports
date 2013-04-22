@@ -62,7 +62,7 @@ public class TestDatabaseLoader {
 		Seaport port7 = new Seaport("AUPKL", "Port Kembla", r2);
 		Seaport port8 = new Seaport("AUQDN", "Port of Eden", r2);
 		Seaport port9 = new Seaport("AUXMC", "Port of Mallacoota", r2);
-		Seaport port10 = new Seaport("AUWHL", "Port of Corner Inlet & Port Albert (Welshpool)", r2);
+		Seaport port10 = new Seaport("AUWHL", "Port of Corner Inlet & Port Albert", r2);
 		
 		Seaport port11 = new Seaport("AUEPR", "Esperance Port", r3);
 		Seaport port12 = new Seaport("AUALH", "Albany Port", r3);
@@ -118,7 +118,7 @@ public class TestDatabaseLoader {
 		user1wb.setAccess("private");
 		user1wb.setCreationDate(date);
 		user1wb.setOwner(p1);
-		user1wb.setRegion(r1);
+		user1wb.setSeaport(port3);
 		
 		UserStory user1us1 = new UserStory();
 		user1us1.setName("User 1 Story 1");
@@ -126,7 +126,7 @@ public class TestDatabaseLoader {
 		user1us1.setAccess("private");
 		user1us1.setCreationDate(date);
 		user1us1.setOwner(p1);
-		user1us1.setRegion(r2);
+		user1us1.setSeaport(port7);
 		
 		UserStory user1us2 = new UserStory();
 		user1us2.setName("User 1 Story 2 (Public)");
@@ -134,7 +134,7 @@ public class TestDatabaseLoader {
 		user1us2.setAccess("public");
 		user1us2.setCreationDate(date);
 		user1us2.setOwner(p1);
-		user1us2.setRegion(r1);
+		user1us2.setSeaport(port3);
 		
 		UserStory user1us3 = new UserStory();
 		user1us3.setName("User 1 Story 3 (Published)");
@@ -143,7 +143,7 @@ public class TestDatabaseLoader {
 		user1us3.setCreationDate(date);
 		user1us3.setPublishDate(date);
 		user1us3.setOwner(p1);
-		user1us3.setRegion(r1);
+		user1us3.setSeaport(port3);
 		
 		UserStory user2wb = new UserStory();
 		user2wb.setName("User 2 Workboard (Empty)");
@@ -151,7 +151,7 @@ public class TestDatabaseLoader {
 		user2wb.setAccess("private");
 		user2wb.setCreationDate(date);
 		user2wb.setOwner(p2);
-		user2wb.setRegion(r2);
+		user2wb.setSeaport(port7);
 		
 		UserStory user2us = new UserStory();
 		user2us.setName("User 2 Story (Empty)");
@@ -159,7 +159,7 @@ public class TestDatabaseLoader {
 		user2us.setAccess("private");
 		user2us.setCreationDate(date);
 		user2us.setOwner(p2);
-		user2us.setRegion(r1);
+		user2us.setSeaport(port3);
 		
 		session.save(user1wb);
 		session.save(user1us1);
@@ -217,7 +217,7 @@ public class TestDatabaseLoader {
 	    session.save(deEngModel);*/
 	    
 	    // Vulnerability Data Element
-	    WeatherEvent we = new WeatherEvent("Heavy Rain", 2006, true, "Impact of the event", "1;2;4;0;0;1;5;3;2;0;1;4", "Other consequences", false, "Changes implemented");
+	    WeatherEvent we = new WeatherEvent("Heavy rain", 2006, true, "Impact of the event", "1;2;4;0;0;1;5;3;2;0;1;4", "Other consequences", false, "Changes implemented");
 	    session.save(we);
 	    session.save(new DataElementVulnerability(date, "Vulnerability Assessment", true, 0, DisplayType.GRAPH, user1wb, we));
 	    

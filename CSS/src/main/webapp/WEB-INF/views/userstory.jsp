@@ -17,7 +17,7 @@
 	<!-- Titles -->
 	<div style="margin-left: 20px; float:left">
 		<h2><c:out value="${userstory.name}" /></h2>
-		<h4><c:out value="${userstory.region.name}" /> region</h4>
+		<h4><c:out value="${userstory.seaport.region.name}" /> region</h4>
 	</div>
 	
 	<a href="/CSS/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">

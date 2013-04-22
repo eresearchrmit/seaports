@@ -8,10 +8,10 @@
 	<c:when test="${not empty dataelement.acornSatDataList}">
 		<h6>
 		<c:if test="${dataelement.acornSatDataList[0].extreme == true}">
-			Extreme measurements by Acorn-Sat stations in the ${userstory.region.name} region within the period <fmt:formatDate value="${dataelement.acornSatDataList[0].periodStart}" pattern="yyyy" />-<fmt:formatDate value="${dataelement.acornSatDataList[0].periodEnd}" pattern="yyyy" />
+			Extreme measurements by Acorn-Sat stations in the ${userstory.seaport.region.name} region within the period <fmt:formatDate value="${dataelement.acornSatDataList[0].periodStart}" pattern="yyyy" />-<fmt:formatDate value="${dataelement.acornSatDataList[0].periodEnd}" pattern="yyyy" />
 		</c:if>
 		<c:if test="${dataelement.acornSatDataList[0].extreme == false}">
-			Annual mean measurements by Acorn-Sat stations in ${userstory.region.name} within the period <fmt:formatDate value="${dataelement.acornSatDataList[0].periodStart}" pattern="yyyy" />-<fmt:formatDate value="${dataelement.acornSatDataList[0].periodEnd}" pattern="yyyy" />
+			Annual mean measurements by Acorn-Sat stations in ${userstory.seaport.region.name} within the period <fmt:formatDate value="${dataelement.acornSatDataList[0].periodStart}" pattern="yyyy" />-<fmt:formatDate value="${dataelement.acornSatDataList[0].periodEnd}" pattern="yyyy" />
 		</c:if>
 		</h6>
 		<br />

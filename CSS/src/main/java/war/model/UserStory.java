@@ -46,6 +46,12 @@ public class UserStory {
 	private String name;
 	
 	/**
+	 * The purpose of the user story
+	 */
+	@Column
+	private String purpose;
+	
+	/**
 	 * The mode of the user story. It can be 'active', 'passive' or 'published'.
 	 * Active: there is only one active user story per user, it is considered as its 'Workboard'. The user can add and remove data elements form the user story.
 	 * Passive: the user story is being edited by the user
@@ -70,11 +76,11 @@ public class UserStory {
 	private User owner;
 	
 	/**
-	 * The region to which the user story is related
+	 * The seaport to which the user story is related
 	 */
 	@ManyToOne
-	@JoinColumn(name="region_id")
-	private Region region;
+	@JoinColumn(name="seaport_id")
+	private Seaport seaport;
 	
 	/**
 	 * The list of data elements contained in the user story
@@ -104,19 +110,21 @@ public class UserStory {
 	/**
 	 * Constructor of User Story specifying all its fields
 	 * @param name: the name of the user story
+	 * @param purpose: the purpose of the user story
 	 * @param mode: the mode of the user story
 	 * @param access: the level of privacy for this suer story
 	 * @param owner: the user who created the user story
-	 * @param region: the region to which the user stories is related
+	 * @param seaport: the seaport to which the user stories is related
 	 * @param dataElements: the list of data elements contained in the user story
 	 */
-	public UserStory(String name, String mode, String access, User owner, Region region, List<DataElement> dataElements) {
-		this.name = name;
-		this.mode = mode;
-		this.access = access;
-		this.owner = owner;
-		this.region = region;
-		this.dataElements = dataElements;
+	public UserStory(String name, String purpose, String mode, String access, User owner, Seaport seaport, List<DataElement> dataElements) {
+		setName(name);
+		setPurpose(purpose);
+		setMode(mode);
+		setAccess(access);
+		setOwner(owner);
+		setSeaport(seaport);
+		setDataElements(dataElements);
 	}
 
 	/**
@@ -141,6 +149,22 @@ public class UserStory {
 	 */
 	public String getName() {
 		return this.name;
+	}
+	
+	/**
+	 * Setter for the purpose of the user story
+	 * @return The new purpose of the user story
+	 */
+	public void setPurpose(String purpose) {
+		this.purpose = purpose;
+	}
+	
+	/**
+	 * Getter for the purpose of the user story
+	 * @return The current purpose of the user story
+	 */
+	public String getPurpose() {
+		return this.purpose;
 	}
 	
 	/**
@@ -221,19 +245,19 @@ public class UserStory {
 	}
 	
 	/**
-	 * Getter for the region to which the user story is related
-	 * @return The region to which the user story is related
+	 * Getter for the seaport to which the user story is related
+	 * @return The seaport to which the user story is related
 	 */
-	public Region getRegion() {
-		return this.region;
+	public Seaport getSeaport() {
+		return this.seaport;
 	}
 	
 	/**
-	 * Setter for the region to which the user story is related
-	 * @param region: the new region to which the user story is related
+	 * Setter for the seaport to which the user story is related
+	 * @param seaport: the new seaport to which the user story is related
 	 */
-	public void setRegion(Region region) {
-		this.region = region;
+	public void setSeaport(Seaport seaport) {
+		this.seaport = seaport;
 	}
 
 	/**

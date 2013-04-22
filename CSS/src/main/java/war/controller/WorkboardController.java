@@ -306,7 +306,7 @@ public class WorkboardController {
     		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
-    		Region region = regionDao.find(userStory.getRegion().getName());
+    		Region region = regionDao.find(userStory.getSeaport().getRegion().getName());
     		List<AcornSatStation> stations = acornSatStationDao.find(region);
     		
     		Boolean extreme = acornSatExtremeData.equals("extreme");
@@ -350,10 +350,10 @@ public class WorkboardController {
 			
 			List<CsiroData> csiroDataList = null;
 			if (climateVariable.equals("All"))
-				csiroDataList = csiroDataDao.find(userStory.getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year));
+				csiroDataList = csiroDataDao.find(userStory.getSeaport().getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year));
 			else {
 				csiroDataList = new ArrayList<CsiroData>();
-				csiroDataList.add(csiroDataDao.find(userStory.getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year), climateVariable));
+				csiroDataList.add(csiroDataDao.find(userStory.getSeaport().getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year), climateVariable));
 			}
 			
 			DataElement.DisplayType displayType = DataElement.DisplayType.fromString(displayTypeString);
@@ -390,7 +390,7 @@ public class WorkboardController {
     		// Retrieve data using static Climate Model, Emission scenario and Variable since it is fixed
     		// Refer to the method "addCsiroDataToWorkBoard" to see how to enable dynamic data
 			List<CmarData> cmarDataList = new ArrayList<CmarData>();
-			cmarDataList.add(cmarDataDao.find(userStory.getRegion().getName(), "A1B", "Most Likely", Integer.valueOf(year), "Sea Level Rise"));
+			cmarDataList.add(cmarDataDao.find(userStory.getSeaport().getRegion().getName(), "A1B", "Most Likely", Integer.valueOf(year), "Sea Level Rise"));
 			
 			Boolean picturesIncluded = (includePictures != null && includePictures.equals("on")) ? true : false;
 			
@@ -482,7 +482,7 @@ public class WorkboardController {
     			logger.info("Example selected");
     			
     			//Find the Data
-    			List<EngineeringModelData> engineeringModelDataList = engineeringModelDataDao.find(userStory.getRegion(), engVariable);
+    			List<EngineeringModelData> engineeringModelDataList = engineeringModelDataDao.find(userStory.getSeaport().getRegion(), engVariable);
     			
     			// Create the data element
     			if (engineeringModelDataList != null && engineeringModelDataList.size() > 0) {
@@ -610,13 +610,13 @@ public class WorkboardController {
     		
 			ClimateParams climateParams = null;
        		try {
-       			climateParams = climateParamsDao.find(userStory.getRegion().getName(), emissionScenarioName, climateModelName);
+       			climateParams = climateParamsDao.find(userStory.getSeaport().getRegion().getName(), emissionScenarioName, climateModelName);
        		}
             catch (NoResultException e) {
             	logger.info("Could not find climate params in the database: Emission Scenario: " + emissionScenarioName + ", Climate Model: " + climateModelName);
             	
             	// If the set of parameters is not found, create it
-            	climateParams = new ClimateParams(userStory.getRegion(), climateModel, climateModelName, emissionScenario);
+            	climateParams = new ClimateParams(userStory.getSeaport().getRegion(), climateModel, climateModelName, emissionScenario);
             	climateParams = climateParamsDao.save(climateParams);
             }
    			
@@ -714,19 +714,18 @@ public class WorkboardController {
 		try {
 			User user = userDao.find(SecurityHelper.getCurrentlyLoggedInUsername());
 			UserStory currentWorkboard = userStoryDao.getWorkboard(user);
-			if (currentWorkboard != null)
-			{
+			if (currentWorkboard != null) {
 				model.addAttribute("warningMessage", WorkboardController.ERR_ALREADY_CURRENT_WORKBOARD);
 				return ModelForWorkboard(model, currentWorkboard);
 			}
 			
-			if (userStory.getRegion() == null)
+			if (userStory.getSeaport() == null || userStory.getSeaport().getRegion() == null)
 				throw new IllegalArgumentException(WorkboardController.ERR_REGION_NOT_DEFINED);
 			
-			Region region = regionDao.find(userStory.getRegion().getName());
+			Seaport seaport = seaportDao.find(userStory.getSeaport().getCode());
 			
 			userStory.setOwner(user);
-			userStory.setRegion(region);
+			userStory.setSeaport(seaport);
 			userStory.setMode("active");
 			userStory.setAccess("private");
 			userStory.setDataElements(new ArrayList<DataElement>());
@@ -741,8 +740,11 @@ public class WorkboardController {
 		catch (IllegalArgumentException e) {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", ERR_CREATE_WORKBOARD + ". Details: " + e.getMessage());
+		}
 		
-		return ModelForWorkboard(model, null);
+		return ModelForWorkboardCreation(model, null);
 	}
 
 	@RequestMapping(value = "/delete",method=RequestMethod.GET) 
@@ -868,7 +870,7 @@ public class WorkboardController {
 		 		mav.addObject("carbonationEngineeringModelVariables", carbonationEngineeringModelVariables);
 		 		
 		 		// List of seaports in the workboard's region
-		 		List<Seaport> regionSeaports = seaportDao.getAllInRegion(userStory.getRegion());
+		 		List<Seaport> regionSeaports = seaportDao.getAllInRegion(userStory.getSeaport().getRegion());
 		 		mav.addObject("regionSeaports", regionSeaports);
 			}
 			catch (Exception e) {
@@ -882,16 +884,18 @@ public class WorkboardController {
 	private ModelAndView ModelForWorkboardCreation(Model model, User user) {
 		logger.info("Inside ModelForWorkboardCreation");
 		
-		ModelAndView mav = new ModelAndView();
+		ModelAndView mav = new ModelAndView("workboardCreation");
 		try {
 			model.addAttribute("user", user);
 			
 			UserStory userStory = new UserStory();
 			userStory.setOwner(user);
-			userStory.setRegion(new Region(""));
+			userStory.setSeaport(new Seaport("", "", new Region("")));
 			mav.addObject("userstory", userStory);
 			
-			mav.setViewName("workboardCreation");
+			// List of all the seaports
+	 		List<Seaport> allSeaports = seaportDao.getAll();
+	 		mav.addObject("allSeaports", allSeaports);
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -901,6 +905,7 @@ public class WorkboardController {
 	
 	public static final String ERR_ACCESS_DENIED = "You are not allowed to access this Workboard";
 	
+	public static final String ERR_CREATE_WORKBOARD = "An error happened while creating your Workboard. Please contact an administrator";
 	public static final String ERR_ALREADY_CURRENT_WORKBOARD = "There is already a current workboard. Delete it or make a User Story before creating a new Workboard";
 	public static final String ERR_REGION_NOT_DEFINED = "Region is not defined";
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";

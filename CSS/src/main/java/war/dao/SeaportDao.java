@@ -27,11 +27,11 @@ public class SeaportDao {
 	/**
 	 * Retrieve the region in the database associated to a unique ID 
 	 * @param id: the unique ID of the required region
-	 * @return the seaport associated to the given unique ID
+	 * @return the seaport associated to the given code
 	 * @throws NoResultException if the search didn't return any result
 	 */
-	public Seaport find(String number) throws NoResultException {
-		Seaport seaport = entityManager.find(Seaport.class, number);
+	public Seaport find(String code) throws NoResultException {
+		Seaport seaport = entityManager.find(Seaport.class, code);
 		if (seaport == null)
 			throw new NoResultException(ERR_NO_RESULT);
 		return seaport;
@@ -43,7 +43,7 @@ public class SeaportDao {
 	 */
 	@Transactional
 	public List<Seaport> getAll() {
-		Query query = entityManager.createQuery("SELECT s FROM " + TABLE_NAME );
+		Query query = entityManager.createQuery("SELECT s FROM " + TABLE_NAME + " s");
 	    return performQueryAndCheckResultList(query);
 	}
 	

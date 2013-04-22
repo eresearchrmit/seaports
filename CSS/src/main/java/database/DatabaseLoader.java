@@ -27,19 +27,22 @@ public class DatabaseLoader {
 		Session session = factory.getCurrentSession();
 		session.beginTransaction();	
 
-		
-		User p1 = new User("gprevost", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR,"guillaume.prevost@rmit.edu.au", "Guillaume", "Prevost");
-		User p2 = new User("jmullett", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "jane.mullett@rmit.edu.au", "Jane", "Mullett");
-		User p3 = new User("atrundle", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "alexei.trundle@rmit.edu.au", "Alexei", "Trundle");
-		User p4 = new User("rsrini", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "ravi.sreenivasamurthy@rmit.edu.au", "Ravi", "Srini");
-		User p5 = new User("user", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "User", "User");
-		User p6 = new User("admin", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "Admin", "Admin");
-		session.save(p1);
-		session.save(p2);
-		session.save(p3);
-		session.save(p4);
-		session.save(p5);
-		session.save(p6);
+		User guillaume = new User("gprevost", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR,"guillaume.prevost@rmit.edu.au", "Guillaume", "Prevost");
+		User jane = new User("jmullett", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "jane.mullett@rmit.edu.au", "Jane", "Mullett");
+		User alexei = new User("atrundle", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "alexei.trundle@rmit.edu.au", "Alexei", "Trundle");
+		User helen = new User("hscott", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "helen.scott@rmit.edu.au", "Helen", "Scott");
+		User darryn = new User("dmcevoy", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "darryn.mcevoy@rmit.edu.au", "Darryn", "McEvoy");
+		User ravi = new User("rsrini", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "ravi.sreenivasamurthy@rmit.edu.au", "Ravi", "Srini");
+		User user = new User("user", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "User", "User");
+		User admin = new User("admin", DEFAULT_PASSWORD, true, true, UserLoginService.ROLE_ADMINISTRATOR, "email@company.com", "Admin", "Admin");
+		session.save(guillaume);
+		session.save(jane);
+		session.save(alexei);
+		session.save(helen);
+		session.save(darryn);
+		session.save(ravi);
+		session.save(user);
+		session.save(admin);
 
 		// Regions & Ports
 		Region r1 = new Region("East Coast South");
@@ -69,7 +72,7 @@ public class DatabaseLoader {
 		Seaport port7 = new Seaport("AUPKL", "Port Kembla", r2, "Wollongong");
 		Seaport port8 = new Seaport("AUQDN", "Port of Eden", r2);
 		Seaport port9 = new Seaport("AUXMC", "Port of Mallacoota", r2);
-		Seaport port10 = new Seaport("AUWHL", "Port of Corner Inlet & Port Albert (Welshpool)", r2);
+		Seaport port10 = new Seaport("AUWHL", "Port of Corner Inlet & Port Albert", r2);
 		
 		Seaport port11 = new Seaport("AUEPR", "Esperance Port", r3);
 		Seaport port12 = new Seaport("AUALH", "Albany Port", r3, "Albany");

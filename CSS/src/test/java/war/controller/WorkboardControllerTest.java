@@ -25,6 +25,7 @@ import war.model.DataElementPast;
 import war.model.DataElementVulnerability;
 import war.model.PastData;
 import war.model.Region;
+import war.model.Seaport;
 import war.model.User;
 import war.model.UserStory;
 import war.model.WeatherEvent;
@@ -453,7 +454,7 @@ public class WorkboardControllerTest {
 		Assert.assertEquals(0, refDataElement.getPosition());
 		for (AcornSatData data : refDataElement.getAcornSatDataList()) {
 			Assert.assertTrue(data.getExtreme());
-			Assert.assertEquals(refUserStory.getRegion().getId(), data.getAcornSatStation().getRegion().getId());
+			Assert.assertEquals(refUserStory.getSeaport().getRegion().getId(), data.getAcornSatStation().getRegion().getId());
 		}
 	}
 	
@@ -760,7 +761,7 @@ public class WorkboardControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTest");
-		userStory.setRegion(new Region("East Coast South"));
+		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")));
 		ModelAndView result = workboardController.addWorkboard(userStory, model);
 
 		Assert.assertNotNull(result);
@@ -783,7 +784,7 @@ public class WorkboardControllerTest {
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory refUserStory = new UserStory();
-		refUserStory.setRegion(new Region("East Coast South"));
+		refUserStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")));
 		refUserStory.setName("addWorkBoardTest");
 		ModelAndView result = workboardController.addWorkboard(refUserStory, model);
 

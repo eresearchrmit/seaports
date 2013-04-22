@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import security.UserLoginService;
 
 import war.model.Region;
+import war.model.Seaport;
 import war.model.User;
 import war.model.UserStory;
 
@@ -38,7 +39,8 @@ public class UserStoryDaoTest {
 		userForTest = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");
 		userWithoutStory = new User("testuser4", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4");
 		
-		userStoryForTest = new UserStory("User 1 WorkBoard", "active", "private", userForTest, new Region("East Coast South"), null);
+		userStoryForTest = new UserStory("User 1 WorkBoard", "User story Purpose", "active", "private", userForTest, 
+				new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")), null);
 	}
 
 	/**
@@ -55,7 +57,7 @@ public class UserStoryDaoTest {
 		Assert.assertEquals("active", story.getMode());
 		Assert.assertEquals("private", story.getAccess());
 		Assert.assertEquals("testuser1", story.getOwner().getUsername());
-		Assert.assertEquals("East Coast South", story.getRegion().getName());
+		Assert.assertEquals("East Coast South", story.getSeaport().getRegion().getName());
 	}
 	
 	/**
@@ -195,7 +197,8 @@ public class UserStoryDaoTest {
 	 */
 	@Test
 	public void userSaveNewUserStoryTest() {
-		UserStory savedUserStory = userStoryDao.save(new UserStory("test", "active", "private", userForTest, new Region("East Coast South"), null));
+		UserStory savedUserStory = userStoryDao.save(new UserStory("test", "Purpose", "active", "private", userForTest, 
+				new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")), null));
 		
 		Assert.assertNotNull(savedUserStory.getName());
 		Assert.assertEquals("test", savedUserStory.getName());
@@ -209,8 +212,8 @@ public class UserStoryDaoTest {
 		Assert.assertNotNull(savedUserStory.getOwner());
 		Assert.assertEquals("testuser1", savedUserStory.getOwner().getUsername());
 		
-		Assert.assertNotNull(savedUserStory.getRegion());
-		Assert.assertEquals("East Coast South", savedUserStory.getRegion().getName());
+		Assert.assertNotNull(savedUserStory.getSeaport().getRegion());
+		Assert.assertEquals("East Coast South", savedUserStory.getSeaport().getRegion().getName());
 		
 		Assert.assertNull(savedUserStory.getDataElements());
 	}
@@ -234,7 +237,7 @@ public class UserStoryDaoTest {
 		Assert.assertEquals("private", savedUserStory.getAccess());
 		
 		Assert.assertNull(savedUserStory.getOwner());
-		Assert.assertNull(savedUserStory.getRegion());
+		Assert.assertNull(savedUserStory.getSeaport().getRegion());
 		Assert.assertNull(savedUserStory.getDataElements());
 	}
 	

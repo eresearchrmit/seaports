@@ -43,7 +43,7 @@ public class UserStoryPdfView extends AbstractPdfView {
 		
 		// Page Title
 		document.add(new Paragraph(userstory.getName(), h2));
-		document.add(new Paragraph(userstory.getRegion().getName(), h4));
+		//document.add(new Paragraph(userstory.getRegion().getName(), h4));
 		document.add(Chunk.NEWLINE);
 		
 		// Statement about author

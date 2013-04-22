@@ -32,7 +32,7 @@
 		<div class="clear"></div>
 		<center>
 			<h2><c:out value="${userstory.name}" /></h2>
-			<h4><c:out value="${userstory.region.name}" /> region</h4>
+			<h4><c:out value="${userstory.seaport.region.name}" /> region</h4>
 		</center>
 	</c:if>
 	
@@ -61,7 +61,8 @@
 	</c:if>
 	
 	<c:if test="${not empty userstory}">
-	<p style="text-align:left; width:90%; margin-right:auto;margin-left:auto">This report has been created by ${userstory.owner.firstname} ${userstory.owner.lastname} (${userstory.owner.email}) using the Climate Smart Seaports toolkit available at <a href="http://www.DOMAIN.com.au">http://www.DOMAIN.com.au</a></p>
+	<p class="report-content">This report has been created by ${userstory.owner.firstname} ${userstory.owner.lastname} (${userstory.owner.email}) using the Climate Smart Seaports toolkit available at <a href="http://www.DOMAIN.com.au">http://www.DOMAIN.com.au</a></p>
+	<p class="report-content">This report was created for ${userstory.seaport.name} (${userstory.seaport.code}), located in the ${userstory.seaport.region.name} NRM region.</p> 
 	<br/><br/><br/>
 	
 	<c:if test="${not empty userstory.dataElements}">
@@ -75,7 +76,7 @@
 			
 				<!-- Text comment data element -->
 			 	<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
-					<c:out value="${dataelement.text}" />
+					<c:out value="${dataelement.text}" escapeXml="false" />
                	</c:if>
 			
 				<%-- ABS Data Element --%>

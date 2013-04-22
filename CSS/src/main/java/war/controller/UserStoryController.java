@@ -331,6 +331,7 @@ public class UserStoryController {
 				userStory.setAccess("public");
 				userStory.setMode("published");
 				userStory.setPublishDate(new Date());
+								
 				userStoryDao.save(userStory);
 				
 				return "redirect:/auth/userstory?id=" + userStory.getId();

@@ -16,6 +16,10 @@
 			 
 			<form:form method="POST" modelAttribute="user" >
 				<table class="form">
+					<tr>
+				    	<td class="col1" align="right"></td>
+				    	<td class="col2" align="left"><i> All fields marked with * are required</i></td>
+				    </tr>
 				    <tr>
 				    	<td class="col1" align="right">Username:</td>
 				    	<td class="col2" align="left">
@@ -58,9 +62,12 @@
 				    		<span id="emailErrorMessage" style="color:red;"></span>
 				    	</td>
 				    </tr>
-					<tr>
-				    	<td class="col1" align="right"></td>
-				    	<td class="col2" align="left">*<i> All fields are required</i></td>
+				    <tr>
+				    	<td class="col1" align="right">NLA Number:</td>
+				    	<td class="col2" align="left">
+				    		<form:input id="txtNlaNumber" path="nlaNumber" />&nbsp;
+				    		Please specify your NLA number if you have one.
+				    	</td>
 				    </tr>
 				</table>
 				<input type="submit" value="Sign Up" id="btnSignUp" class="btn btn-blue" />

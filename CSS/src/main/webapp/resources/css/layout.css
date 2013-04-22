@@ -361,7 +361,7 @@ input.button
 }
 
 
-input.error
+input.error, textarea.error
 {
 	background: #FBE3E4;
 	border-top: 1px solid #e1b2b3;
@@ -370,7 +370,7 @@ input.error
 	border-bottom: 1px solid #FBC2C4;
 }
 
- input.success
+ input.success, textarea.success
 {
 	background: #E6EFC2;
 	border-top: 1px solid #cebb98;
@@ -379,7 +379,7 @@ input.error
 	border-bottom: 1px solid #c6d880;
 }
 
- input.warning
+ input.warning, textarea.warning
 {
 	background: #fff3b3;
 	border-top: 1px solid #cebb98;
@@ -951,6 +951,13 @@ img.csiroIllustrationPicture {
 img.cmarIllustrationPicture {
 	max-width: 600px;
 	max-height: 600px;
+}
+
+p.report-content {
+	text-align:left;
+	width:90%;
+	margin-right:auto;
+	margin-left:auto
 }
 
 /* Fluid TinyMCE toolbar when resizing */

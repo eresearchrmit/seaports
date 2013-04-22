@@ -57,6 +57,11 @@ public class User implements Serializable, UserDetails {
      */
     private String email;
     
+    /**
+     * The NLA number of the user
+     */
+    private String nlaNumber;
+    
 	/**
 	 * The first name of the user
 	 */
@@ -80,7 +85,7 @@ public class User implements Serializable, UserDetails {
 	}
 
 	/**
-	 * Constructor of User specifying the name, login and password 
+	 * Constructor of User specifying all fields
 	 * @param username: the username of the user. This is the unique identifier of the user
 	 * @param password: the password of the user
 	 * @param enabled: whether the user account is enabled or disabled
@@ -91,14 +96,38 @@ public class User implements Serializable, UserDetails {
 	 */
 	public User(String username, String password, Boolean enabled, Boolean nonLocked, String roles, String email, String firstname, String lastname) {
 		super();
-		this.username = username;
-		this.password = password;
-		this.enabled = enabled;
-		this.nonLocked = nonLocked;
-		this.roles = roles;
-		this.email = email;
-		this.firstname = firstname;
-		this.lastname = lastname;
+		setUsername(username);
+		setPassword(password);
+		setEnabled(enabled);
+		setNonLocked(nonLocked);
+		setRoles(roles);
+		setEmail(email);
+		setFirstname(firstname);
+		setLastname(lastname);
+	}
+	
+	/**
+	 * Constructor of User specifying all fields
+	 * @param username: the username of the user. This is the unique identifier of the user
+	 * @param password: the password of the user
+	 * @param enabled: whether the user account is enabled or disabled
+	 * @param role: the role of the user in the application
+	 * @param email: the email address of the user
+	 * @param nlaNumber: the NLA number of the user
+	 * @param firstname: the first name of the user
+	 * @param lastname: the last name of the user
+	 */
+	public User(String username, String password, Boolean enabled, Boolean nonLocked, String roles, String email, String nlaNumber, String firstname, String lastname) {
+		super();
+		setUsername(username);
+		setPassword(password);
+		setEnabled(enabled);
+		setNonLocked(nonLocked);
+		setRoles(roles);
+		setEmail(email);
+		setNlaNumber(nlaNumber);
+		setFirstname(firstname);
+		setLastname(lastname);
 	}
 	
 	/**
@@ -197,6 +226,22 @@ public class User implements Serializable, UserDetails {
 		this.email = email;
 	}
 	
+	/**
+	 * Getter for the NLA number of the user
+	 * @param nlaNumber: the new NLA number of the user
+	 */
+	public void setNlaNumber(String nlaNumber) {
+		this.nlaNumber = nlaNumber;
+	}
+
+	/**
+	 * Setter for the NLA number of the user
+	 * @return the current NLA number of the user
+	 */
+	public String getNlaNumber() {
+		return this.nlaNumber;
+	}
+
 	/**
 	 * Getter for the first name of the user
 	 * @return the first name of the user

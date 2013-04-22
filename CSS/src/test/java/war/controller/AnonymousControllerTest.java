@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import war.dao.UserStoryDao;
 import war.model.Region;
+import war.model.Seaport;
 import war.model.UserStory;
 
 /**
@@ -169,7 +170,7 @@ public class AnonymousControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTest");
-		userStory.setRegion(new Region("East Coast South"));
+		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")));
 		workboardController.addWorkboard(userStory, model);
 	}
 	
