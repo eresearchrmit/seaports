@@ -17,9 +17,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-
 import war.model.User;
-import war.model.Region;
 
 /**
  * Class representing

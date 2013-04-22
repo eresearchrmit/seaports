@@ -12,8 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.codec.binary.Base64;
-
 /**
  * Class representing variation data from the dataset available from CSIRO. 
  * It associates values to the climate variables and climate parameters.
@@ -72,8 +70,8 @@ public class CsiroData
 	/**
 	 * The picture representing the value
 	 */
-	@Column(columnDefinition = "LONGBLOB")
-	private byte[] picture;
+	@Column//(columnDefinition = "LONGBLOB")
+	private String picture;
 	
 	/**
 	 * Default constructor of CsiroData
@@ -91,7 +89,7 @@ public class CsiroData
 	 * @param value: the value of the data
 	 * @param picture: the picture representing the value
 	 */
-	public CsiroData(Date creationDate, ClimateParams parameters, CsiroVariable variable, int year, Double value, byte[] picture) {
+	public CsiroData(Date creationDate, ClimateParams parameters, CsiroVariable variable, int year, Double value, String picture) {
 		setCreationDate(creationDate);
 		setParameters(parameters);
 		setVariable(variable);
@@ -208,7 +206,7 @@ public class CsiroData
 	 * Getter for the picture representing the value
 	 * @return: the current picture representing the value
 	 */
-	public byte[] getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 	
@@ -216,14 +214,7 @@ public class CsiroData
 	 * Getter for the picture representing the value
 	 * @param value: the new picture representing the value
 	 */
-	public void setPicture(byte[] picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
-	}
-	
-	public String getStringPicture() {
-		if (this.picture != null && this.picture.length > 0)
-			return Base64.encodeBase64String(this.picture);
-		else
-			return "";
 	}
 }

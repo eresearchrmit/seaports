@@ -7,7 +7,7 @@
 
 <c:choose>
 	<c:when test="${not empty dataelement.cmarDataList}">
-		<p style="margin-top:10px; text-align:center; font-weight"><b>Data shown for the ${dataelement.cmarDataList[0].parameters.modelName} model (${dataelement.cmarDataList[0].parameters.model.name}) in the ${dataelement.cmarDataList[0].parameters.seaport.region.name} region under a ${dataelement.cmarDataList[0].parameters.emissionScenario.description} (${dataelement.cmarDataList[0].parameters.emissionScenario.name}) emissions scenario.</b></p>
+		<p style="margin-top:10px; text-align:center; font-weight"><b>Data shown for the ${dataelement.cmarDataList[0].parameters.modelName} model (${dataelement.cmarDataList[0].parameters.model.name}) in the ${dataelement.cmarDataList[0].parameters.region.name} region under a ${dataelement.cmarDataList[0].parameters.emissionScenario.description} (${dataelement.cmarDataList[0].parameters.emissionScenario.name}) emissions scenario.</b></p>
 		
 		<table class="data display datatable" id="example">
 		<thead>
@@ -38,8 +38,8 @@
 						<c:if test="${dataelement.picturesIncluded && entryLoopStatus.index == 0}">
 							<td rowspan="${fn:length(cmarData.values)}" class="top center">
 								<c:choose>
-								<c:when test="${not empty cmarData.stringPicture}">
-									<img name="${cmarData.variable.name}" src="data:image/png;charset=utf-8;base64,${cmarData.stringPicture}" class="dataelementIllustrationPicture cmarIllustrationPicture" />
+								<c:when test="${not empty cmarData.picture}">
+									<img name="${cmarData.variable.name}" src="<c:url value="/resources/img/data/cmar/${cmarData.picture}" />" class="dataelementIllustrationPicture cmarIllustrationPicture" />
 								</c:when>
 								<c:otherwise>
 									No picture available

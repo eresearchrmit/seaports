@@ -1,12 +1,9 @@
 package database;
-import java.io.File;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.io.FileUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
@@ -127,9 +124,6 @@ public class CsiroDataLoader {
 		
 		// Climate Parameters & Data
 		
-		File file = null;
-		byte[] arrPictureContent = null;
-		
 		ClimateParams params = new ClimateParams(r1, csiro_mk3_5, HOTTER_DRIER, A1B);
 		session.save(params);
 		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.3, null));
@@ -165,46 +159,19 @@ public class CsiroDataLoader {
 		session.save(params);
 		
 		// CMAR Data
-		file = new File(cmarPictureFolderPath + "sealevelrise-ecs-2030.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CmarData(dateCmarData, params, slr, 2030, "-34.5,151.5,167;-33.5,152.5,176;-32.5,152.5,168;-31.5,153.5,166;-30.5,153.5,164;-29.5,153.5,163;-28.5,153.5,159", arrPictureContent));
-		// CMAR Data
-		file = new File(cmarPictureFolderPath + "sealevelrise-ecs-2070.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CmarData(dateCmarData, params, slr, 2070, "-34.5,151.5,437;-33.5,152.5,447;-32.5,152.5,445;-31.5,153.5,439;-30.5,153.5,436;-29.5,153.5,434;-28.5,153.5,429", arrPictureContent));
+		session.save(new CmarData(dateCmarData, params, slr, 2030, "-34.5,151.5,167;-33.5,152.5,176;-32.5,152.5,168;-31.5,153.5,166;-30.5,153.5,164;-29.5,153.5,163;-28.5,153.5,159", "sealevelrise-ecs-2030.png"));
+		session.save(new CmarData(dateCmarData, params, slr, 2070, "-34.5,151.5,437;-33.5,152.5,447;-32.5,152.5,445;-31.5,153.5,439;-30.5,153.5,436;-29.5,153.5,434;-28.5,153.5,429", "sealevelrise-ecs-2070.png"));
 		
-		
-		
-		file = new File(csiroPictureFolderPath + "temperature-ecs-2030.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.0, arrPictureContent));
-		file = new File(csiroPictureFolderPath + "rainfall-ecs-2030.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -4.50, arrPictureContent));
+		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.0, "temperature-ecs-2030.png"));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -4.50, "rainfall-ecs-2030.png"));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2030, -2.10, null));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -0.20, null));
-		file = new File(csiroPictureFolderPath + "temperature-ecs-2055.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, te, 2055, 2.0, arrPictureContent));
-		file = new File(csiroPictureFolderPath + "rainfall-ecs-2055.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -8.40, arrPictureContent));
+		session.save(new CsiroData(dateCsiroData, params, te, 2055, 2.0, "temperature-ecs-2055.png"));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -8.40, "rainfall-ecs-2055.png"));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2055, -4.00, null));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -0.40, null));
-		file = new File(csiroPictureFolderPath + "temperature-ecs-2070.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.5, arrPictureContent));
-		file = new File(csiroPictureFolderPath + "rainfall-ecs-2070.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -10.60, arrPictureContent));
+		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.5, "temperature-ecs-2070.png"));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -10.60, "rainfall-ecs-2070.png"));
 		
 		session.save(new CsiroData(dateCsiroData, params, ws, 2070, -5.00, null));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -0.50, null));
@@ -294,44 +261,19 @@ public class CsiroDataLoader {
 		session.save(params);
 		
 		// CMAR Data
-		file = new File(cmarPictureFolderPath + "sealevelrise-ssve-2030.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CmarData(dateCmarData, params, slr, 2030, "-39.5,146.5,128;-39.5,147.5,132;-38.5,148.5,156;-38.5,149.5,163;-37.5,150.5,180;-36.5,150.5,176;-35.5,151.5,172;-34.5,151.5,167", arrPictureContent));
-		// CMAR Data
-		file = new File(cmarPictureFolderPath + "sealevelrise-ssve-2070.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CmarData(dateCmarData, params, slr, 2070, "-39.5,146.5,369;-39.5,147.5,375;-38.5,148.5,416;-38.5,149.5,426;-37.5,150.5,444;-36.5,150.5,440;-35.5,151.5,440;-34.5,151.5,437", arrPictureContent));
+		session.save(new CmarData(dateCmarData, params, slr, 2030, "-39.5,146.5,128;-39.5,147.5,132;-38.5,148.5,156;-38.5,149.5,163;-37.5,150.5,180;-36.5,150.5,176;-35.5,151.5,172;-34.5,151.5,167", "sealevelrise-ssve-2030.png"));
+		session.save(new CmarData(dateCmarData, params, slr, 2070, "-39.5,146.5,369;-39.5,147.5,375;-38.5,148.5,416;-38.5,149.5,426;-37.5,150.5,444;-36.5,150.5,440;-35.5,151.5,440;-34.5,151.5,437", "sealevelrise-ssve-2070.png"));
 		
-		file = new File(csiroPictureFolderPath + "temperature-ssve-2030.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.0, arrPictureContent));
-		file = new File(csiroPictureFolderPath + "rainfall-ssve-2030.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -4.10, arrPictureContent));
+		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.0, "temperature-ssve-2030.png"));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -4.10, "rainfall-ssve-2030.png"));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2030, -2.70, null));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -0.80, null));
-		file = new File(csiroPictureFolderPath + "temperature-ssve-2055.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, te, 2055, 1.9, arrPictureContent));
-		file = new File(csiroPictureFolderPath + "rainfall-ssve-2055.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -7.70, arrPictureContent));
+		session.save(new CsiroData(dateCsiroData, params, te, 2055, 1.9, "temperature-ssve-2055.png"));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -7.70, "rainfall-ssve-2055.png"));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2055, -5.00, null));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -1.60, null));
-		file = new File(csiroPictureFolderPath + "temperature-ssve-2070.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.4, arrPictureContent));
-		file = new File(csiroPictureFolderPath + "rainfall-ssve-2070.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -9.80, arrPictureContent));
+		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.4, "temperature-ssve-2070.png"));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -9.80, "rainfall-ssve-2070.png"));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2070, -6.40, null));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -2.00, null));
 		
@@ -421,44 +363,19 @@ public class CsiroDataLoader {
 		session.save(params);
 		
 		// CMAR Data
-		file = new File(cmarPictureFolderPath + "sealevelrise-sswfw-2030.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CmarData(dateCmarData, params, slr, 2030, "-27.5,113.5,125;-28.5,113.5,124;-29.5,114.5,121;-30.5,114.5,120;-31.5,115.5,119;-32.5,115.5,118;-33.5,114.5,118;-34.5,114.5,117;-34.5,115.5,117;-35.5,116.5,119;-35.5,117.5,119;-35.5,118.5,121;-34.5,119.5,118;-34.5,120.5,118;-34.5,121.5,123;-34.5,122.5,123;-34.5,123.5,124;-33.5,124.5,120", arrPictureContent));
-		// CMAR Data
-		file = new File(cmarPictureFolderPath + "sealevelrise-sswfw-2070.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CmarData(dateCmarData, params, slr, 2070, "-27.5,113.5,370;-28.5,113.5,369;-29.5,114.5,365;-30.5,114.5,363;-31.5,115.5,361;-32.5,115.5,360;-33.5,114.5,360;-34.5,114.5,360;-34.5,115.5,361;-35.5,116.5,363;-35.5,117.5,363;-35.5,118.5,364;-34.5,119.5,354;-34.5,120.5,354;-34.5,121.5,361;-34.5,122.5,360;-34.5,123.5,360;-33.5,124.5,354", arrPictureContent));
+		session.save(new CmarData(dateCmarData, params, slr, 2030, "-27.5,113.5,125;-28.5,113.5,124;-29.5,114.5,121;-30.5,114.5,120;-31.5,115.5,119;-32.5,115.5,118;-33.5,114.5,118;-34.5,114.5,117;-34.5,115.5,117;-35.5,116.5,119;-35.5,117.5,119;-35.5,118.5,121;-34.5,119.5,118;-34.5,120.5,118;-34.5,121.5,123;-34.5,122.5,123;-34.5,123.5,124;-33.5,124.5,120", "sealevelrise-sswfw-2030.png"));
+		session.save(new CmarData(dateCmarData, params, slr, 2070, "-27.5,113.5,370;-28.5,113.5,369;-29.5,114.5,365;-30.5,114.5,363;-31.5,115.5,361;-32.5,115.5,360;-33.5,114.5,360;-34.5,114.5,360;-34.5,115.5,361;-35.5,116.5,363;-35.5,117.5,363;-35.5,118.5,364;-34.5,119.5,354;-34.5,120.5,354;-34.5,121.5,361;-34.5,122.5,360;-34.5,123.5,360;-33.5,124.5,354", "sealevelrise-sswfw-2070.png"));
 		
-		file = new File(csiroPictureFolderPath + "temperature-sswfw-2030.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.1, arrPictureContent));
-		file = new File(csiroPictureFolderPath + "rainfall-sswfw-2030.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -6.2, arrPictureContent));
+		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.1, "temperature-sswfw-2030.png"));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -6.2, "rainfall-sswfw-2030.png"));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2030, -1.5, null));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -1.5, null));
-		file = new File(csiroPictureFolderPath + "temperature-sswfw-2055.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, te, 2055, 2.1, arrPictureContent));
-		file = new File(csiroPictureFolderPath + "rainfall-sswfw-2055.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -11.6, arrPictureContent));
+		session.save(new CsiroData(dateCsiroData, params, te, 2055, 2.1, "temperature-sswfw-2055.png"));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -11.6, "rainfall-sswfw-2055.png"));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2055, -2.8, null));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -2.9, null));
-		file = new File(csiroPictureFolderPath + "temperature-sswfw-2070.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.6, arrPictureContent));
-		file = new File(csiroPictureFolderPath + "rainfall-sswfw-2070.png");
-		try { arrPictureContent = FileUtils.readFileToByteArray(file); }
-		catch (IOException e) { arrPictureContent = null; e.printStackTrace(); }
-		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -14.70, arrPictureContent));
+		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.6, "temperature-sswfw-2070.png"));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -14.70, "rainfall-sswfw-2070.png"));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2070, -3.60, null));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -3.70, null));
 		

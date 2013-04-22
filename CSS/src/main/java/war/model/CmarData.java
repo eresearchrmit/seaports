@@ -15,7 +15,6 @@ import javax.persistence.Table;
 
 import java.awt.Point;
 
-import org.apache.commons.codec.binary.Base64;
 import org.hibernate.annotations.Type;
 
 /**
@@ -72,8 +71,8 @@ public class CmarData
 	/**
 	 * The picture representing the values
 	 */
-	@Column(columnDefinition = "LONGBLOB")
-	private byte[] picture;
+	@Column//(columnDefinition = "LONGBLOB")
+	private String picture;
 	
 	/**
 	 * Default constructor of CsiroData
@@ -91,7 +90,7 @@ public class CmarData
 	 * @param value: the value of the data
 	 * @param picture: the picture representing the value
 	 */
-	public CmarData(Date creationDate, ClimateParams parameters, CsiroVariable variable, int year, String value, byte[] picture) {
+	public CmarData(Date creationDate, ClimateParams parameters, CsiroVariable variable, int year, String value, String picture) {
 		setCreationDate(creationDate);
 		setParameters(parameters);
 		setVariable(variable);
@@ -209,7 +208,7 @@ public class CmarData
 	 * Getter for the picture representing the value
 	 * @return: the current picture representing the value
 	 */
-	public byte[] getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 	
@@ -217,14 +216,7 @@ public class CmarData
 	 * Getter for the picture representing the value
 	 * @param value: the new picture representing the value
 	 */
-	public void setPicture(byte[] picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
-	}
-	
-	public String getStringPicture() {
-		if (this.picture != null && this.picture.length > 0)
-			return Base64.encodeBase64String(this.picture);
-		else
-			return "";
 	}
 }

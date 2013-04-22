@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.apache.commons.codec.binary.Base64;
-
 /**
  * Class representing the past observed data from Bureau of Meteorology and CSIRO
  * @author Guillaume Prevost
@@ -58,8 +56,8 @@ public class PastData
 	/**
 	 * The picture representing the data
 	 */
-	@Column(columnDefinition = "LONGBLOB")
-	private byte[] picture;
+	@Column//(columnDefinition = "LONGBLOB")
+	private String picture;
 	
 	/**
 	 * Default constructor of CsiroData
@@ -76,7 +74,7 @@ public class PastData
 	 * @param sourceURL: the URL of the source of the data
 	 * @param picture: the picture representing the value
 	 */
-	public PastData(String title, Date creationDate, Date periodStart, Date periodEnd, String sourceUrl, byte[] picture) {
+	public PastData(String title, Date creationDate, Date periodStart, Date periodEnd, String sourceUrl, String picture) {
 		setTitle(title);
 		setCreationDate(creationDate);
 		setPeriodStart(periodStart);
@@ -177,7 +175,7 @@ public class PastData
 	 * Getter for the picture representing the value
 	 * @return: the current picture representing the value
 	 */
-	public byte[] getPicture() {
+	public String getPicture() {
 		return picture;
 	}
 	
@@ -185,14 +183,7 @@ public class PastData
 	 * Setter for the picture representing the value
 	 * @param value: the new picture representing the value
 	 */
-	public void setPicture(byte[] picture) {
+	public void setPicture(String picture) {
 		this.picture = picture;
-	}
-	
-	public String getStringPicture() {
-		if (this.picture != null && this.picture.length > 0)
-			return Base64.encodeBase64String(this.picture);
-		else
-			return "";
 	}
 }
