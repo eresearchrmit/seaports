@@ -19,11 +19,7 @@ public class CsiroDataLoader {
 	public static final String MOST_LIKELY = "Most Likely";
 	public static final String COOLER_WETTER = "Cooler & Wetter";
 	public static final String BASELINE = "Baseline";
-	
-	public static final String csiroPictureFolderPath = "src/main/java/database/csiro-pictures/";
-	public static final String cmarPictureFolderPath = "src/main/java/database/cmar-pictures/";
-	public static final String bomPictureFolderPath = "src/main/java/database/bom-pictures/";
-	
+		
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
@@ -164,17 +160,16 @@ public class CsiroDataLoader {
 		
 		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.0, "temperature-ecs-2030.png"));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -4.50, "rainfall-ecs-2030.png"));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2030, -2.10, null));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -0.20, null));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2030, -2.10, "windspeed-ecs-2030.png"));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -0.20, "humidity-ecs-2030.png"));
 		session.save(new CsiroData(dateCsiroData, params, te, 2055, 2.0, "temperature-ecs-2055.png"));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -8.40, "rainfall-ecs-2055.png"));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2055, -4.00, null));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -0.40, null));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2055, -4.00, "windspeed-ecs-2055.png"));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -0.40, "humidity-ecs-2055.png"));
 		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.5, "temperature-ecs-2070.png"));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -10.60, "rainfall-ecs-2070.png"));
-		
-		session.save(new CsiroData(dateCsiroData, params, ws, 2070, -5.00, null));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -0.50, null));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2070, -5.00, "windspeed-ecs-2070.png"));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -0.50, "humidity-ecs-2070.png"));
 		
 		params = new ClimateParams(r1, ipsl_cm4, MOST_LIKELY, A1FI);
 		session.save(params);
@@ -266,16 +261,16 @@ public class CsiroDataLoader {
 		
 		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.0, "temperature-ssve-2030.png"));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -4.10, "rainfall-ssve-2030.png"));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2030, -2.70, null));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -0.80, null));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2030, -2.70, "windspeed-ssve-2030.png"));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -0.80, "humidity-ssve-2030.png"));
 		session.save(new CsiroData(dateCsiroData, params, te, 2055, 1.9, "temperature-ssve-2055.png"));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -7.70, "rainfall-ssve-2055.png"));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2055, -5.00, null));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -1.60, null));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2055, -5.00, "windspeed-ssve-2055.png"));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -1.60, "humidity-ssve-2055.png"));
 		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.4, "temperature-ssve-2070.png"));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -9.80, "rainfall-ssve-2070.png"));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2070, -6.40, null));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -2.00, null));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2070, -6.40, "windspeed-ssve-2070.png"));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -2.00, "humidity-ssve-2070.png"));
 		
 		params = new ClimateParams(r2, ipsl_cm4, MOST_LIKELY, A1FI);
 		session.save(params);
@@ -368,16 +363,16 @@ public class CsiroDataLoader {
 		
 		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.1, "temperature-sswfw-2030.png"));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -6.2, "rainfall-sswfw-2030.png"));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2030, -1.5, null));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -1.5, null));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2030, -1.5, "windspeed-sswfw-2030.png"));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -1.5, "humidity-sswfw-2030.png"));
 		session.save(new CsiroData(dateCsiroData, params, te, 2055, 2.1, "temperature-sswfw-2055.png"));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -11.6, "rainfall-sswfw-2055.png"));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2055, -2.8, null));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -2.9, null));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2055, -2.8, "windspeed-sswfw-2055.png"));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -2.9, "humidity-sswfw-2055.png"));
 		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.6, "temperature-sswfw-2070.png"));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -14.70, "rainfall-sswfw-2070.png"));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2070, -3.60, null));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -3.70, null));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2070, -3.60, "windspeed-sswfw-2070.png"));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -3.70, "humidity-sswfw-2070.png"));
 		
 		params = new ClimateParams(r3, csiro_mk3_5, MOST_LIKELY, A1FI);
 		session.save(params);

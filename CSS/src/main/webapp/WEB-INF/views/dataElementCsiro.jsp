@@ -34,11 +34,11 @@
 				<table>
 				<tr>
 				<c:forEach items="${dataelement.csiroDataList}" var="csiroData" varStatus="dataLoopStatus">
-					<td style="width:25%">
+					<td>
 						<center><strong>${csiroData.variable.name}</strong></center><br />
 						<c:choose>
 							<c:when test="${not empty csiroData.picture}">
-								<img name="${csiroData.variable.name}" src="<c:url value="/resources/img/data/csiro/${csiroData.picture}" />" class="dataelementIllustrationPicture csiroIllustrationPicture" />
+								<img style="width:100%" name="${csiroData.variable.name}" src="<c:url value="/resources/img/data/csiro/${csiroData.picture}" />" class="dataelementIllustrationPicture csiroIllustrationPicture" />
 							</c:when>
 							<c:otherwise>
 								<center>No map available</center>
