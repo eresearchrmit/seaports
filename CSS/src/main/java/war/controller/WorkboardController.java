@@ -722,6 +722,9 @@ public class WorkboardController {
 			if (userStory.getSeaport() == null || userStory.getSeaport().getRegion() == null)
 				throw new IllegalArgumentException(WorkboardController.ERR_REGION_NOT_DEFINED);
 			
+			if (userStory.getPurpose() == null || userStory.getPurpose().length() <= 0)
+				throw new IllegalArgumentException(WorkboardController.ERR_PURPOSE_NOT_DEFINED);
+			
 			Seaport seaport = seaportDao.find(userStory.getSeaport().getCode());
 			
 			userStory.setOwner(user);
@@ -733,6 +736,9 @@ public class WorkboardController {
 			userStoryDao.save(userStory);
 			
 			return ModelForWorkboard(model, userStory);
+		}
+		catch (AccessDeniedException e) {
+			throw e;
 		}
 		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -907,7 +913,8 @@ public class WorkboardController {
 	
 	public static final String ERR_CREATE_WORKBOARD = "An error happened while creating your Workboard. Please contact an administrator";
 	public static final String ERR_ALREADY_CURRENT_WORKBOARD = "There is already a current workboard. Delete it or make a User Story before creating a new Workboard";
-	public static final String ERR_REGION_NOT_DEFINED = "Region is not defined";
+	public static final String ERR_REGION_NOT_DEFINED = "Please select a region and a seaport for your workboard";
+	public static final String ERR_PURPOSE_NOT_DEFINED = "Please describe the activity that leads you to use this application";
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";
 	public static final String ERR_DELETE_DATA_ELEMENT = "The Data Element could not be deleted";
 	public static final String ERR_FILE_UPLOAD = "Unable to upload the file to your workboard";

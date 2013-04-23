@@ -635,10 +635,10 @@ public class WorkboardControllerTest {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
 		int refUserStoryId = 1;
-		String refType = "Heavy Rain";
+		String refType = "Heavy rain";
 		String refImpact = "Impact of the event";
 		String refConsequences = "Other consequences";
-		String refChanges = "Cahnges Implemented";
+		String refChanges = "Changes Implemented";
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addVulnerabilityAssessmentToWorkboard(refUserStoryId, refType, "2008", "direct", refImpact, "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", refConsequences, "adequate", refChanges, model);
@@ -670,7 +670,7 @@ public class WorkboardControllerTest {
 		
 		// UNKNOWN USER STORY
 		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addVulnerabilityAssessmentToWorkboard(9999, "Heavy Rain", "2006", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
+		ModelAndView result = workboardController.addVulnerabilityAssessmentToWorkboard(9999, "Heavy rain", "2006", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
@@ -684,14 +684,14 @@ public class WorkboardControllerTest {
 		
 		// UNKNOWN YEAR
 		model = new ExtendedModelMap();
-		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy Rain", "UNKNOWN YEAR", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "UNKNOWN YEAR", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals("For input string: \"UNKNOWN YEAR\"", model.get("errorMessage"));
 		
 		// UNKNOWN DIRECT PARAM
 		model = new ExtendedModelMap();
-		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy Rain", "2005", "UNKNOWN DIRECT PARAM", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "UNKNOWN DIRECT PARAM", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
 		Assert.assertNotNull(result);
 		Assert.assertNull(model.get("errorMessage"));
 		Assert.assertNotNull(model.get("successMessage"));
@@ -702,7 +702,7 @@ public class WorkboardControllerTest {
 		
 		// UNKNOWN ADEQUATE PARAM
 		model = new ExtendedModelMap();
-		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy Rain", "2005", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
 		Assert.assertNotNull(result);
 		Assert.assertNull(model.get("errorMessage"));
 		Assert.assertNotNull(model.get("successMessage"));
@@ -713,14 +713,14 @@ public class WorkboardControllerTest {
 		
 		// UNKNOWN CONSEQUENCE RATING
 		model = new ExtendedModelMap();
-		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy Rain", "2005", "direct", "Impact of the event", "UNKNOWN RATING", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "direct", "Impact of the event", "UNKNOWN RATING", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals("For input string: \"UNKNOWN RATING\"", model.get("errorMessage"));
 		
 		// CONSEQUENCE RATING OUT OF RANGE
 		model = new ExtendedModelMap();
-		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy Rain", "2005", "direct", "Impact of the event", "9999", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "direct", "Impact of the event", "9999", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(WeatherEvent.ERR_CONSEQUENCE_RATING_OUT_OF_RANGE, model.get("errorMessage"));
@@ -741,6 +741,7 @@ public class WorkboardControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTestWithoutRegion");
+		userStory.setPurpose("Activity description");
 		ModelAndView result = workboardController.addWorkboard(userStory, model);
 
 		Assert.assertNotNull(result);
@@ -748,7 +749,28 @@ public class WorkboardControllerTest {
 		Assert.assertEquals(WorkboardController.ERR_REGION_NOT_DEFINED, model.get("errorMessage"));
 		
  		// Check the view name
- 		Assert.assertEquals("workboard", result.getViewName());
+ 		Assert.assertEquals("workboardCreation", result.getViewName());
+	}
+	
+	/**
+	 * addWorkBoardAlreadyCurrentWorkboardTest : Creation should fail because the region is not defined
+	 */
+	@Test
+	public void addWorkboardPurposeUndefinedTest() {
+		SecurityContextHolder.setContext(securityContextUserLoggedInNoWB);
+		
+		ExtendedModelMap model = new ExtendedModelMap();
+		UserStory userStory = new UserStory();
+		userStory.setName("addWorkBoardTestWithoutPurpose");
+		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")));
+		ModelAndView result = workboardController.addWorkboard(userStory, model);
+
+		Assert.assertNotNull(result);
+		Assert.assertNotNull(model.get("errorMessage"));
+		Assert.assertEquals(WorkboardController.ERR_PURPOSE_NOT_DEFINED, model.get("errorMessage"));
+		
+ 		// Check the view name
+ 		Assert.assertEquals("workboardCreation", result.getViewName());
 	}
 	
 	/**
@@ -762,6 +784,7 @@ public class WorkboardControllerTest {
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTest");
 		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")));
+		userStory.setPurpose("Activity description");
 		ModelAndView result = workboardController.addWorkboard(userStory, model);
 
 		Assert.assertNotNull(result);
@@ -785,6 +808,7 @@ public class WorkboardControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory refUserStory = new UserStory();
 		refUserStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")));
+		refUserStory.setPurpose("Activity description");
 		refUserStory.setName("addWorkBoardTest");
 		ModelAndView result = workboardController.addWorkboard(refUserStory, model);
 

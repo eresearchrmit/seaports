@@ -222,7 +222,7 @@ public class UserStoryDaoTest {
 	 * Test for save.
 	 */
 	@Test
-	public void userSaveOnlyNameTest() {
+	public void userSaveStoryOnlyNameTest() {
 		UserStory userStory = new UserStory();
 		userStory.setName("test");
 		UserStory savedUserStory = userStoryDao.save(userStory);
@@ -237,7 +237,7 @@ public class UserStoryDaoTest {
 		Assert.assertEquals("private", savedUserStory.getAccess());
 		
 		Assert.assertNull(savedUserStory.getOwner());
-		Assert.assertNull(savedUserStory.getSeaport().getRegion());
+		Assert.assertNull(savedUserStory.getSeaport());
 		Assert.assertNull(savedUserStory.getDataElements());
 	}
 	
