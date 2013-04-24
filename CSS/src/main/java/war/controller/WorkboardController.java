@@ -110,6 +110,11 @@ public class WorkboardController {
 
 	@Autowired
 	private WeatherEventDao weatherEventDao;
+
+	@RequestMapping(value= "/workboard-created", method = RequestMethod.GET)
+	public String workboardCreated(Model model) {
+		return "workboardCreated";
+	}
 	
 	@RequestMapping(value= "/my-workboard", method = RequestMethod.GET)
 	public String getWorkboard(Model model) {
@@ -735,7 +740,7 @@ public class WorkboardController {
 			userStory.setCreationDate(new Date());
 			userStoryDao.save(userStory);
 			
-			return ModelForWorkboard(model, userStory);
+			return new ModelAndView("workboardCreated");
 		}
 		catch (AccessDeniedException e) {
 			throw e;

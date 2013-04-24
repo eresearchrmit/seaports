@@ -817,16 +817,7 @@ public class WorkboardControllerTest {
 		Assert.assertNull(model.get("errorMessage"));
  		
  		// Check the view name
- 		Assert.assertEquals("workboard", result.getViewName());
- 		
- 		// Check the user story is set in the model
-		Assert.assertTrue(result.getModelMap().get("userstory").getClass().equals(UserStory.class));
-		UserStory userStory = (UserStory)(result.getModelMap().get("userstory"));
-		Assert.assertEquals(refUserStory.getName(), userStory.getName());
-		
-		// Check the user story is active and private
-		Assert.assertEquals("active", userStory.getMode());
-		Assert.assertEquals("private", userStory.getAccess());
+ 		Assert.assertEquals("workboardCreated", result.getViewName());
 	}
 	
 	

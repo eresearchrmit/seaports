@@ -61,9 +61,6 @@
 					</map>
 
 				</div>
-				<div class="center" style="float:left">
-					<img id="nrmLegend" src="<c:url value="/resources/img/data/nrm-regions-clusters-legend.png" />" />
-				</div>
 			</td>
 		</tr>
 		<tr>

@@ -48,6 +48,11 @@
         <put-attribute name="body" value="/WEB-INF/views/workboardCreation.jsp" />
 	</definition>
 	
+	<definition name="workboardCreated" extends="base.definition">
+		<put-attribute name="title" value="Workboard created - Climate Smart Seaports" />
+        <put-attribute name="body" value="/WEB-INF/views/workboardCreated.jsp" />
+	</definition>
+	
 	<definition name="workboard" extends="base.definition">
 		<put-attribute name="title" value="Workboard - Climate Smart Seaports" />
 		<put-attribute name="sidemenu" value="/WEB-INF/views/workboardToolbox.jsp" />
