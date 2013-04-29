@@ -45,14 +45,14 @@ public class DatabaseLoader {
 		session.save(admin);
 
 		// Regions & Ports
-		Region r1 = new Region("East Coast South");
-		Region r2 = new Region("Southern Slopes Vic East");
-		Region r3 = new Region("Southern and South-Western Flatlands");
-		Region r4 = new Region("Monsoonal North");
-		Region r5 = new Region("Wet Tropics");
-		Region r6 = new Region("Rangelands");
-		Region r7 = new Region("Central Slopes");
-		Region r8 = new Region("Murray Basin");
+		Region r1 = new Region("East Coast South", "149.0547914184899,-28.24548513942176 148.9609907444339,-35.25426489702431 155.2660617233398,-35.19627668034501 154.8867619045885,-27.90208550082615 149.0547914184899,-28.24548513942176");
+		Region r2 = new Region("Southern Slopes Vic East", "145.3189141977523,-33.8991314327851 145.0790050622273,-39.34717405549549 153.0808752795217,-39.39167277749677 152.564341927145,-34.0115196362042 145.3189141977523,-33.8991314327851");
+		Region r3 = new Region("Southern and South-Western Flatlands", "112.7632954156051,-26.52537830109324 112.2397686001995,-35.9640923319097 125.4390964302563,-36.01229549528745 124.759915381913,-26.54545205884348 112.7632954156051,-26.52537830109324");
+		Region r4 = new Region("Monsoonal North", "");
+		Region r5 = new Region("Wet Tropics", "");
+		Region r6 = new Region("Rangelands", "");
+		Region r7 = new Region("Central Slopes", "");
+		Region r8 = new Region("Murray Basin", "");
 		session.save(r1);
 		session.save(r2);
 		session.save(r3);
@@ -65,14 +65,14 @@ public class DatabaseLoader {
 		Seaport port1 = new Seaport("AUYBA", "Port of Yamba", r1);
 		Seaport port2 = new Seaport("AUNTL", "Newcastle Port", r1, "Newcastle");
 		Seaport port3 = new Seaport("AUSYD", "Sydney Harbour", r1, "Sydney");
-		Seaport port4 = new Seaport("AUBTB", "Port of Botany Bay", r1);
-		Seaport port5 = new Seaport("AUCFS", "Coffs Harbour", r1);
+		//Seaport port4 = new Seaport("AUBTB", "Port of Botany Bay", r1);
+		//Seaport port5 = new Seaport("AUCFS", "Coffs Harbour", r1);
 		
 		Seaport port6 = new Seaport("AUBSJ", "Lakes Entrance", r2, "Bairnsdale");
 		Seaport port7 = new Seaport("AUPKL", "Port Kembla", r2, "Wollongong");
 		Seaport port8 = new Seaport("AUQDN", "Port of Eden", r2);
 		Seaport port9 = new Seaport("AUXMC", "Port of Mallacoota", r2);
-		Seaport port10 = new Seaport("AUWHL", "Port of Corner Inlet & Port Albert", r2);
+		Seaport port10 = new Seaport("AUWHL", "Port Welshpool", r2);
 		
 		Seaport port11 = new Seaport("AUEPR", "Esperance Port", r3);
 		Seaport port12 = new Seaport("AUALH", "Albany Port", r3, "Albany");
@@ -83,8 +83,8 @@ public class DatabaseLoader {
 		session.save(port1);
 		session.save(port2);
 		session.save(port3);
-		session.save(port4);
-		session.save(port5);
+		//session.save(port4);
+		//session.save(port5);
 		session.save(port6);
 		session.save(port7);
 		session.save(port8);

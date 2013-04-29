@@ -762,7 +762,7 @@ public class WorkboardControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTestWithoutPurpose");
-		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")));
+		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South", "")));
 		ModelAndView result = workboardController.addWorkboard(userStory, model);
 
 		Assert.assertNotNull(result);
@@ -783,7 +783,7 @@ public class WorkboardControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTest");
-		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")));
+		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South", "")));
 		userStory.setPurpose("Activity description");
 		ModelAndView result = workboardController.addWorkboard(userStory, model);
 
@@ -807,7 +807,7 @@ public class WorkboardControllerTest {
 		
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory refUserStory = new UserStory();
-		refUserStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")));
+		refUserStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South", "")));
 		refUserStory.setPurpose("Activity description");
 		refUserStory.setName("addWorkBoardTest");
 		ModelAndView result = workboardController.addWorkboard(refUserStory, model);

@@ -2,6 +2,7 @@
 <%@ page session="true" %>
 <%@ page import= "org.springframework.web.servlet.tags.*" %>
 <%@ page import="war.model.DataElementCsiro" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <c:choose>
@@ -14,10 +15,17 @@
 			Annual mean measurements by Acorn-Sat stations in ${userstory.seaport.region.name} within the period <fmt:formatDate value="${dataelement.acornSatDataList[0].periodStart}" pattern="yyyy" />-<fmt:formatDate value="${dataelement.acornSatDataList[0].periodEnd}" pattern="yyyy" />
 		</c:if>
 		</h6>
-		<br />
-		<table class="data display datatable" id="example">
+		
+		<p style="margin: 20px 0">
+			<c:set var="pictureName" value="/resources/img/data/acornsat/acornsat-${fn:replace(userstory.seaport.region.name, ' ', '-')}.png" />
+			<c:set var="formattedPictureName" value="${fn:toLowerCase(pictureName)}" />
+			<img src="<c:url value="${formattedPictureName}" />" alt="ACORN-SAT stations map" />
+		</p>
+		
+		<table class="data display datatable">
 		<thead>
 			<tr>
+				<th>ACORN-SAT stations</th>
 				<th>Station name</th>
 				<th>Number</th>
 				<th>Latitude</th>
@@ -38,7 +46,7 @@
 			<tbody>
 				<c:if test="${dataelement.acornSatDataList[0].extreme == false}">
 				<tr>
-				<td colspan="6"></td>
+					<td colspan="6"></td>
 					<td><b>9am</b></td>
 					<td><b>3pm</b></td>
 					<td><b>9am</b></td>

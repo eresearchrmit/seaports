@@ -51,7 +51,7 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-			<a href="/CSS/auth/userstory/publish?id=${userstory.id}" style="margin-right: 10px; float:right">
+			<a class="lnkPublishUserStory" href="/CSS/auth/userstory/publish?id=${userstory.id}" style="margin-right: 10px; float:right">
 				<button class="btnAddDataElement btn btn-icon btn-blue btn-globe" >
 					<span></span>Publish the report
 				</button>
@@ -268,12 +268,18 @@
 	<div id="confirmTextDeletionModalWindow" title="Permanently delete this text ?" style="display:none">
 		<p>Are you sure you want to permanently delete this text ?</p> 
 	</div>
+	<div id="confirmUserStoryPublishModalWindow" title="Really publish this report ?" style="display:none">
+		<p class="message"><span class="error"><b>Publishing this report will automatically submit it to ANDS, and appear on Research Data Australia.</b></span></p>
+		<p class="message"><span class="error"><b>Once published, a report cannot be edited, deleted or made private again.</b></span></p>
+		<p>Are you sure you want to publish this report ?</p> 
+	</div>
 	<div id="confirmUserStoryDeletionModalWindow" title="Permanently delete the report ?" style="display:none">
 	  <p class="message"><span class="error"><b>Warning: this will also delete all the data elements and texts contained in this report. This action cannot be undone !</b></span></p>
 	  <p>Are you sure you want to permanently delete this report ?</p> 
 	</div>
 	<script type="text/javascript">
 		setupConfirmBox("confirmTextDeletionModalWindow", "lnkRemoveTextFromStory");
+		setupConfirmBox("confirmUserStoryPublishModalWindow", "lnkPublishUserStory");
 		setupConfirmBox("confirmUserStoryDeletionModalWindow", "lnkDeleteUserStory");
 	</script>
 </div>

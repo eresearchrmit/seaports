@@ -38,6 +38,11 @@ public class Region {
 	private String name;
 	
 	/**
+	 * The coordinates of the region, in KML format
+	 */
+	private String coordinates;
+	
+	/**
 	 * A list of the seaports located in the region
 	 */
 	@OneToMany(targetEntity=Seaport.class, mappedBy="region",cascade=CascadeType.ALL)
@@ -51,11 +56,13 @@ public class Region {
 	}
 	
 	/**
-	 * Constructor of Region specifying the name
+	 * Constructor of Region specifying the name and the coordinates
 	 * @param name: the name of the region
+	 * @param coordinates: the coordinates of the region
 	 */
-	public Region(String name) {
-		this.name = name;
+	public Region(String name, String coordinates) {
+		setName(name);
+		setCoordinates(coordinates);
 	}
 	
 	/**
@@ -68,7 +75,7 @@ public class Region {
 	
 	/**
 	 * Getter for the name of the region
-	 * @return the name of the region
+	 * @return the current name of the region
 	 */
 	public String getName() {
 		return name;
@@ -81,7 +88,22 @@ public class Region {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * Getter for the coordinates of the region
+	 * @return the current coordinates of the region
+	 */
+	public void setCoordinates(String coordinates) {
+		this.coordinates = coordinates;
+	}
 
+	/**
+	 * Setter for the coordinates of the region
+	 * @param name: the new coordinates of the region
+	 */
+	public String getCoordinates() {
+		return coordinates;
+	}
 	
 	/**
 	 * Getter for the seaports located in this region

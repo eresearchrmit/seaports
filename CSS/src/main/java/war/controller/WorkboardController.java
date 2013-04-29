@@ -212,7 +212,7 @@ public class WorkboardController {
     		List<BitreData> bitreDataList = bitreDataDao.find(seaport, category);
     		DataElement.DisplayType displayType = DataElement.DisplayType.fromString(displayTypeString);
     		
-			DataElementBitre dataElement = new DataElementBitre(new Date(), "BITRE Data - " + category.getName(), true, 0, displayType, userStory, bitreDataList);
+			DataElementBitre dataElement = new DataElementBitre(new Date(), "Ports Australia Data - " + category.getName(), true, 0, displayType, userStory, bitreDataList);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
@@ -901,7 +901,7 @@ public class WorkboardController {
 			
 			UserStory userStory = new UserStory();
 			userStory.setOwner(user);
-			userStory.setSeaport(new Seaport("", "", new Region("")));
+			userStory.setSeaport(new Seaport("", "", new Region("", "")));
 			mav.addObject("userstory", userStory);
 			
 			// List of all the seaports

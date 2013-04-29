@@ -23,7 +23,7 @@
 					<select id="cbb${dataelementsfilter}DataSource" name="dataSource">
 						<option value="none">- Select Data Source -</option>
 						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="abs">ABS data</option></c:if>
-						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="bitre">BITRE data</option></c:if>
+						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="bitre">Ports Australia data</option></c:if>
 						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="customFile">Custom file</option></c:if>
 						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="past">Past data</option></c:if>
 						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="acornSat">ACORN-SAT data</option></c:if>
@@ -96,7 +96,7 @@
 		<div id="bitreDataForm" class="dataElementForm">
 			<form:form method="post" action="/CSS/auth/workboard/addBitreData#tabs-non-climate-context">
 				<input type="hidden" name="userstoryid" value="${userstory.id}" />
-				<p><strong>2. BITRE Data Element Options:</strong></p>
+				<p><strong>2. Ports Australia Data Element Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
 						<td>Variable type:</td>
@@ -132,7 +132,7 @@
 					</tr>
 				</table>
 				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add BITRE Data
+					<span></span>Add Ports Australia Data
 				</button>
 			</form:form>
 		</div>

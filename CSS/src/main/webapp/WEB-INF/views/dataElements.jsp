@@ -32,7 +32,7 @@
 		 					<jsp:include page="dataElementAbs.jsp" />
 		 				</c:if>
 		 				
-		 				<%-- BITRE Data Element --%>
+		 				<%-- Port Australia Data Element --%>
 		 				<c:if test="${dataelement.class.simpleName == 'DataElementBitre'}">
 		 					<jsp:include page="dataElementBitre.jsp" />
 		 				</c:if>

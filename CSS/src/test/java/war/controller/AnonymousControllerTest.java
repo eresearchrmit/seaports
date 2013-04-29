@@ -170,7 +170,7 @@ public class AnonymousControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTest");
-		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")));
+		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South", "")));
 		workboardController.addWorkboard(userStory, model);
 	}
 	

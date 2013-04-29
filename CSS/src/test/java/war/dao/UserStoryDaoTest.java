@@ -40,7 +40,7 @@ public class UserStoryDaoTest {
 		userWithoutStory = new User("testuser4", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser4", "testuser4");
 		
 		userStoryForTest = new UserStory("User 1 WorkBoard", "User story Purpose", "active", "private", userForTest, 
-				new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")), null);
+				new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South", "")), null);
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class UserStoryDaoTest {
 	@Test
 	public void userSaveNewUserStoryTest() {
 		UserStory savedUserStory = userStoryDao.save(new UserStory("test", "Purpose", "active", "private", userForTest, 
-				new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South")), null));
+				new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South", "")), null));
 		
 		Assert.assertNotNull(savedUserStory.getName());
 		Assert.assertEquals("test", savedUserStory.getName());
