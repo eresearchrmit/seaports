@@ -77,7 +77,7 @@
 		</tr>
 		<tr>
 			<td class="top">
-				<label style="font-size:13px">Purpose: <a href="#" id="lnkHelpPurpose" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a></label>
+				<label style="font-size:13px">Workboard purpose: <a href="#" id="lnkHelpPurpose" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a></label>
 			</td>
 			<td class="col2" valign="top">
 				<form:textarea id ="txtWorkboardPurpose" path="purpose" rows="5" cols="30" style="width:300px" onblur="checkPurpose()" value="Test" />
