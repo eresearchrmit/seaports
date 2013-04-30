@@ -29,7 +29,7 @@
 						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="acornSat">ACORN-SAT data</option></c:if>
 						<c:if test="${dataelementsfilter == 'Future'}"><option value="csiro">CSIRO</option></c:if>
 						<c:if test="${dataelementsfilter == 'Future'}"><option value="cmar">CMAR</option></c:if>
-						<c:if test="${dataelementsfilter == 'Applications'}"><option value="engineering">Engineering Model</option></c:if>
+						<c:if test="${dataelementsfilter == 'Applications'}"><option value="engineering">Concrete Deterioration Model</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="vulnerability">Vulnerability Assessment</option></c:if>
 					</select>
 				</td>
@@ -79,7 +79,7 @@
 						<td>Display data as:</td>
 						<td class="col2">
 							<input type="radio" name="displayType" value="graph" checked="checked" /> Graph 
-							<input type="radio" name="displayType" value="picture" /> Map
+							<input type="radio" name="displayType" value="picture" /> Map image
 							<input type="radio" name="displayType" value="table" /> Table
 						</td>
 					</tr>
@@ -262,18 +262,11 @@
 					<tr>
 						<td>Display data as:</td>
 						<td class="col2">
-							<input type="radio" name="displayType" value="picture" checked="checked" /> Map
-							<input type="radio" name="displayType" value="table" /> Table
+							<input type="radio" name="displayType" value="picture" checked="checked" /> Map image
+							<input type="radio" name="displayType" value="table" /> Table<br />
+							<span class="hint"><i>Maps are available only for the 'Most Likely'<br />model and the 'Medium' emission scenario.</i></span>
 						</td>
 					</tr>
-					<%-- 
-					<tr>
-						<td>Include map image:</td>
-						<td class="col2">
-							<input type="checkbox" id="cbIncludePictures" name="includePictures" /> <span class="hint"><i>Check this if you want to include pictures of the region map corresponding to the data</i></span>  
-						</td>
-					</tr>
-					--%>
 				</table>
 				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
 					<span></span>Add CSIRO Data
@@ -331,7 +324,8 @@
 					<tr>
 						<td>Include map image:</td>
 						<td class="col2">
-							<input type="checkbox" id="cbIncludePictures" name="includePictures" /> <span class="hint"><i>Check this if you want to include pictures of the region map corresponding to the data</i></span>  
+							<input type="checkbox" id="cbIncludePictures" name="includePictures" />
+							<span class="hint"><i>Check this if you want to include pictures<br />of the region map corresponding to the data.</i></span>  
 						</td>
 					</tr>
 				</table>
@@ -345,7 +339,7 @@
 		<c:if test="${dataelementsfilter == 'Applications'}">
 		<div id="engineeringDataForm" class="dataElementForm">
 			<form:form id="formEngineeringData" method="post" action="/CSS/auth/workboard/addEngineeringData?id=${userstory.id}#tabs-applications" enctype="multipart/form-data">
-				<p><strong>2. Engineering Model Data Element Options:</strong></p>
+				<p><strong>2. Concrete Deterioration Model Data:</strong></p>
 				
 				<input type="hidden" name="sourceType" id="hdnEngineeringSourceType" value="upload" />
 				
@@ -354,7 +348,7 @@
 						<td><input type="radio" name="rdEngineeringSourceType" value="example" /> Use a predefined example for this region</td>
 					</tr>
 					<tr>
-						<td><input type="radio" name="rdEngineeringSourceType" value="upload" checked="checked" /> Or select an engineering model file to upload <a href="#" id="lnkHelpEngUpload" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</td>
+						<td><input type="radio" name="rdEngineeringSourceType" value="upload" checked="checked" /> Or select an concrete deterioration model file to upload <a href="#" id="lnkHelpEngUpload" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
 							<input type="file" name="file" id="file" />
 						</td>
@@ -387,7 +381,7 @@
 					</tr>
 				</table>
 				<button type="button" id="btnAddEngineeringModelDataElement" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add Engineering Model Data
+					<span></span>Add Concrete Deterioration Model Data
 				</button><br />
 				<div id="loading" class="center">
 					<p>Extracting data and preparing your data element...</p>
@@ -664,7 +658,7 @@
 		</c:if>
 		
 		<c:if test="${dataelementsfilter == 'Applications'}">
-			setupBubblePopup("lnkHelpEngUpload", "Please use the Excel template (available <a href=\"http://10.118.96.11/ccimt\" title=\"Go to the engineering model tool\" target=\"blank\">here</a>) to import the asset data for the concrete deterioration modelling. Once uploaded, the tool will verify each entry to ensure it meets the requirements of the analysis.", strPathToBubblePopupTheme);
+			setupBubblePopup("lnkHelpEngUpload", "Please use the Excel template (available <a href=\"http://10.118.96.11/ccimt\" title=\"Go to the concrete deterioration model tool\" target=\"blank\">here</a>) to import the asset data for the concrete deterioration modelling. Once uploaded, the tool will verify each entry to ensure it meets the requirements of the analysis.", strPathToBubblePopupTheme);
 			setupBubblePopup("lnkHelpEngVariable", "Each excel file and example contains data for many engineering variables. Choose one of these variables to use in the new Data Element. If you need more than one variable, add several Data Elements to your workboard.", strPathToBubblePopupTheme);
 			
 			setupBubblePopup("lnkHelpVulnerabilityWeatherEvent", "What disruptive climate related events has the port experienced in the last 15 years? Select from the drop down list", strPathToBubblePopupTheme);

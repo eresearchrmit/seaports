@@ -121,6 +121,8 @@
 						<input type="hidden" name="dataElements[${status.index}].name" value="${dataelement.name}" id="dataElements[${status.index}].name">
 						<input type="hidden" name="dataElements[${status.index}].position" value="${dataelement.position}" id="dataElements[${status.index}].position" class="dataElementPosition">
 						
+						<c:if test="${dataelement.included == true}">
+						
 						<!-- Text comment data element -->
 					 	<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
 							<c:if test="${userstory.mode != 'published'}"><textarea name="comments" class="tinymce" rows="12"></c:if>
@@ -175,7 +177,9 @@
 				 					<jsp:include page="dataElementFile.jsp" />
 								</c:if>
 	                 		</div>
-                 		</c:if>
+                 		</c:if><%-- End if data element is not text comment --%>
+					
+						</c:if><%-- End if data element included --%>
 					</div>
 				</li>
 				<c:if test="${status.index} % 2 != 0">
