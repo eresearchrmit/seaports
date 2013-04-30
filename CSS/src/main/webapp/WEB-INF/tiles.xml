@@ -17,6 +17,7 @@
 		<put-attribute name="title" value="Seaport Project" />
 		<put-attribute name="imports" value="/WEB-INF/views/imports.jsp" />
 		<put-attribute name="header" value="/WEB-INF/views/header.jsp" />
+		<put-attribute name="menu" value="/WEB-INF/views/menu.jsp" />
 		<put-attribute name="user" value="/WEB-INF/views/user.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
 	</definition>
@@ -26,6 +27,16 @@
 	<definition name="home" extends="public.base.definition">
 		<put-attribute name="title" value="Home - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
+	</definition>
+	
+	<definition name="copyright" extends="public.base.definition">
+		<put-attribute name="title" value="Terms of Service - Climate Smart Seaports" />
+		<put-attribute name="body" value="/WEB-INF/views/termsOfService.jsp" />
+	</definition>
+	
+	<definition name="guidelines" extends="public.base.definition">
+		<put-attribute name="title" value="Guidelines - Climate Smart Seaports" />
+		<put-attribute name="body" value="/WEB-INF/views/guidelines.jsp" />
 	</definition>
 	
 	<definition name="register" extends="public.base.definition">

@@ -1,6 +1,7 @@
 package war.controller;
 
 import helpers.DataElementPositionComparator;
+import helpers.SecurityHelper;
 
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import war.dao.CsiroDataBaselineDao;
+import war.dao.UserDao;
 import war.dao.UserStoryDao;
 import war.model.AbsData;
 import war.model.BitreData;
@@ -38,6 +40,9 @@ import war.model.UserStory;
 public class PublicController {
 
 	private static final Logger logger = LoggerFactory.getLogger(PublicController.class);
+
+	@Autowired
+	private UserDao userDao;
 	
 	@Autowired
 	private UserStoryDao userStoryDao;
@@ -45,12 +50,40 @@ public class PublicController {
 	@Autowired
 	private CsiroDataBaselineDao csiroDataBaselineDao;
 	
+	private void tryGetLoggedInUser(Model model) {
+		try {
+			model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
+		}
+		catch (Exception e) {
+			// User is not logged in. Not a big deal on the home page
+		}
+	}
+	
 	/**
 	 * Displays the home page view
 	 */
 	@RequestMapping(value = {"/", "/public"}, method = RequestMethod.GET)
-	public String home(Model model) {		
-		return "home";
+	public ModelAndView home(Model model) {		
+		tryGetLoggedInUser(model);
+		return new ModelAndView("home");
+	}
+	
+	/**
+	 * Displays the "Terms of Service" page
+	 */
+	@RequestMapping(value = {"/public/terms-of-service"}, method = RequestMethod.GET)
+	public ModelAndView copyright(Model model) {		
+		tryGetLoggedInUser(model);
+		return new ModelAndView("copyright");
+	}
+	
+	/**
+	 * Displays the Guidelines page
+	 */
+	@RequestMapping(value = {"/public/guidelines"}, method = RequestMethod.GET)
+	public ModelAndView guidelines(Model model) {		
+		tryGetLoggedInUser(model);
+		return new ModelAndView("guidelines");
 	}
 	
 	/**
@@ -59,6 +92,8 @@ public class PublicController {
 	@RequestMapping(value = {"/public/reports/list"}, method = RequestMethod.GET)
 	public ModelAndView getPublishedUserStoriesList(Model model) {
 		logger.info("Inside getPublishedUserStoriesList");
+
+		tryGetLoggedInUser(model);
 		
 		ModelAndView mav = new ModelAndView("userstoryPublicList");
 		try {
@@ -80,6 +115,8 @@ public class PublicController {
 	@RequestMapping(value= "/public/reports/view", method = RequestMethod.GET)
 	public ModelAndView getUserStoryPublicView(@RequestParam(value="id",required=true) Integer id, Model model) {
 		logger.info("Inside getUserStoryPublicView");
+		
+		tryGetLoggedInUser(model);
 		
 		UserStory userStory = null;
 		try {			

@@ -171,8 +171,9 @@ ul.nav li.ic-home a span, .ic-home{background:url(../img/theme/icon-home.png) no
 ul.nav li.ic-workboard a span, .ic-workboard{background:url(../img/theme/icon-workboard.png) no-repeat center left;}
 ul.nav li.ic-story a span, .ic-story{background:url(../img/theme/icon-story.png) no-repeat center left;}
 ul.nav li.ic-data-element a span, .ic-data-element{background:url(../img/theme/icon-line-chart.png) no-repeat center left;}
-ul.nav li.ic-search a span, .ic-search{background:url(../img/theme/icon-search.png) no-repeat center left;}
 ul.nav li.ic-admin a span, .ic-admin{background:url(../img/theme/icon-admin.png) no-repeat center left;}
+ul.nav li.ic-browse a span, .ic-browse{background:url(../img/theme/icon-browse.png) no-repeat center left;}
+ul.nav li.ic-info a span, .ic-info{background:url(../img/theme/icon-info.png) no-repeat center left;}
 ul.nav li {
 background-image: none !important;
 }

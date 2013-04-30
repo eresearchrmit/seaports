@@ -11,33 +11,39 @@
 </head>
 <body>
 	<div id="main-container">
-    <div class="container_12">
-        <div>
-            <div id="branding">
-                <div class="floatleft">
-                	<a href="/CSS"><img src="<c:url value="/resources/img/theme/css-logo-darkblue-100x100.png" />" alt="Logo" /></a>
-               	</div>
-               	<div id="main-title" class="floatleft"><div style="margin-top:25px">Climate Smart Seaports</div></div>
-                <div class="floatright">
-					<tiles:insertAttribute name="user" ignore="true" />
-                </div>
-                <div class="clear"></div>
-            </div>
-        </div>
-        <div class="clear"></div>
-        <div>
-			<tiles:insertAttribute name="menu" ignore="true" />
-        </div>
-        <div class="clear"></div>
-        <div id="page-body" style="min-height:500px">        	
-			<tiles:insertAttribute name="body" ignore="true" />
-		</div>
-        <div class="clear"></div>
-        
-	    <div id="site_info">
-			<tiles:insertAttribute name="footer" ignore="true" />
+	    <div class="container_12" style="padding-bottom: 15px">
+	        <div>
+	            <div id="branding">
+	                <div class="floatleft">
+	                	<a href="/CSS"><img src="<c:url value="/resources/img/theme/css-logo-darkblue-100x100.png" />" alt="Logo" /></a>
+	               	</div>
+	               	<div id="main-title" class="floatleft"><div style="margin-top:25px">Climate Smart Seaports</div></div>
+	                <div class="floatright">
+						<tiles:insertAttribute name="user" ignore="true" />
+	                </div>
+	                <div class="clear"></div>
+	            </div>
+	        </div>
+	        <div class="clear"></div>
+	        <div>
+				<tiles:insertAttribute name="menu" ignore="true" />
+	        </div>
+	        <div class="clear"></div>
+	        <div id="page-body" style="min-height:500px">        	
+				<tiles:insertAttribute name="body" ignore="true" />
+			</div>
+	        <div class="clear"></div>
 	    </div>
+	    
+	    <div class="floatleft" style="margin:5px 0 15px 0">
+			<a href="http://www.rmit.edu.au/research/eres" title="RMIT University" target="_blank"><img src="<c:url value="/resources/img/theme/rmit-logo.png" />" alt="RMIT University" /></a>
+		</div>
+		<div class="floatright" style="margin-top:5px">
+			<a href="http://www.ands.org.au/" title="Australian National Data Service" target="_blank"><img src="<c:url value="/resources/img/theme/ands-logo.png" />" alt="ANDS" /></a>
+		</div>
     </div>
-    </div>
+    <div id="site_info">
+		<tiles:insertAttribute name="footer" ignore="true" />
+	</div>
 </body>
 </html>

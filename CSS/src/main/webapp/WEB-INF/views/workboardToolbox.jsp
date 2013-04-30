@@ -291,7 +291,7 @@
 					<tr>
 						<td>Variable <a href="#" id="lnkHelpCmarVariable" ><img src="<c:url value="/resources/img/icons/information.png" />" alt="Help" /></a>:</td>
 						<td class="col2">
-							<select id="cbbClimateVariable" name="climateVariable" disabled="disabled">
+							<select id="cbbClimateVariable" name="climateVariable">
 								<option value="Sea Level Rise">Sea Level Rise</option>
 							</select>
 						</td>

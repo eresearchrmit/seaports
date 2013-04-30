@@ -18,6 +18,6 @@
 	</div>
 </div>
 </sec:authorize>
-<sec:authorize access="!isAuthenticated()">
+<%--<sec:authorize access="!isAuthenticated()">
 	<a href="/CSS/auth/workboard/my-workboard">Access my Workboard</a>
-</sec:authorize>
+</sec:authorize>--%>

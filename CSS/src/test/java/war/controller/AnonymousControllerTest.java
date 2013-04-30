@@ -59,9 +59,17 @@ public class AnonymousControllerTest {
 	@Test
 	public void homeTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		String result = publicController.home(model);
+		ModelAndView result = publicController.home(model);
 		
-		Assert.assertEquals("home", result);
+		Assert.assertEquals("home", result.getViewName());
+	}
+	
+	@Test
+	public void copyrightTest() {
+		ExtendedModelMap model = new ExtendedModelMap();
+		ModelAndView result = publicController.copyright(model);
+		
+		Assert.assertEquals("copyright", result.getViewName());
 	}
 	
 	@Test
