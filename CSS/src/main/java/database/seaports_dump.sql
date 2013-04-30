@@ -805,7 +805,7 @@ CREATE TABLE `past_data` (
 
 LOCK TABLES `past_data` WRITE;
 /*!40000 ALTER TABLE `past_data` DISABLE KEYS */;
-INSERT INTO `past_data` VALUES (1,'2013-04-23 13:12:49','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-mean-temperature-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmean&area=aus&season=0112&period=1970','Trend in mean temperatures'),(2,'2013-04-23 13:12:49','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-maximum-temperature-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmax&area=aus&season=0112&period=1970','Trend in maximum temperatures'),(3,'2013-04-23 13:12:49','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-total-annual-rainfall-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=rain&area=aus&season=0112&period=1970','Trend in total annual rainfall'),(4,'2013-04-23 13:12:49','2012-01-01 00:00:00','1880-01-01 00:00:00','long-term-sea-level-changes-1880-2012.png','http://www.cmar.csiro.au/sealevel/sl_hist_few_hundred.html','Long-term sea level rise measurements'),(5,'2013-04-23 13:12:49','2011-01-01 00:00:00','1970-01-01 00:00:00','short-term-sea-level-changes-1970-2011.png','http://www.csiro.au/Outcomes/Climate/Understanding/State-of-the-Climate-2012.aspx','Shorter-term changes in sea level');
+INSERT INTO `past_data` VALUES (1,'2013-04-30 16:14:01','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-mean-temperature-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmean&area=aus&season=0112&period=1970','Trend in mean temperatures'),(2,'2013-04-30 16:14:01','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-maximum-temperature-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmax&area=aus&season=0112&period=1970','Trend in maximum temperatures'),(3,'2013-04-30 16:14:01','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-total-annual-rainfall-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=rain&area=aus&season=0112&period=1970','Trend in total annual rainfall'),(4,'2013-04-30 16:14:01','2012-01-01 00:00:00','1880-01-01 00:00:00','long-term-sea-level-changes-1880-2012.png','http://www.cmar.csiro.au/sealevel/sl_hist_few_hundred.html','Long-term sea level rise measurements'),(5,'2013-04-30 16:14:01','2011-01-01 00:00:00','1970-01-01 00:00:00','short-term-sea-level-changes-1970-2011.png','http://www.csiro.au/Outcomes/Climate/Understanding/State-of-the-Climate-2012.aspx','Shorter-term changes in sea level');
 /*!40000 ALTER TABLE `past_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -818,6 +818,7 @@ DROP TABLE IF EXISTS `region`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `region` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `coordinates` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
@@ -829,7 +830,7 @@ CREATE TABLE `region` (
 
 LOCK TABLES `region` WRITE;
 /*!40000 ALTER TABLE `region` DISABLE KEYS */;
-INSERT INTO `region` VALUES (1,'East Coast South'),(2,'Southern Slopes Vic East'),(3,'Southern and South-Western Flatlands'),(4,'Monsoonal North'),(5,'Wet Tropics'),(6,'Rangelands'),(7,'Central Slopes'),(8,'Murray Basin');
+INSERT INTO `region` VALUES (1,'149.0547914184899,-28.24548513942176 148.9609907444339,-35.25426489702431 155.2660617233398,-35.19627668034501 154.8867619045885,-27.90208550082615 149.0547914184899,-28.24548513942176','East Coast South'),(2,'145.3189141977523,-33.8991314327851 145.0790050622273,-39.34717405549549 153.0808752795217,-39.39167277749677 152.564341927145,-34.0115196362042 145.3189141977523,-33.8991314327851','Southern Slopes Vic East'),(3,'112.7632954156051,-26.52537830109324 112.2397686001995,-35.9640923319097 125.4390964302563,-36.01229549528745 124.759915381913,-26.54545205884348 112.7632954156051,-26.52537830109324','Southern and South-Western Flatlands'),(4,'','Monsoonal North'),(5,'','Wet Tropics'),(6,'','Rangelands'),(7,'','Central Slopes'),(8,'','Murray Basin');
 /*!40000 ALTER TABLE `region` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -857,7 +858,7 @@ CREATE TABLE `seaport` (
 
 LOCK TABLES `seaport` WRITE;
 /*!40000 ALTER TABLE `seaport` DISABLE KEYS */;
-INSERT INTO `seaport` VALUES ('AUALH','Albany Port','Albany',3),('AUBSJ','Lakes Entrance','Bairnsdale',2),('AUBTB','Port of Botany Bay',NULL,1),('AUBUY','Port of Bunbury','Bunbury',3),('AUCFS','Coffs Harbour',NULL,1),('AUEPR','Esperance Port',NULL,3),('AUFRE','Fremantle',NULL,3),('AUGET','Port of Geraldton','Geraldton',3),('AUNTL','Newcastle Port','Newcastle',1),('AUPKL','Port Kembla','Wollongong',2),('AUQDN','Port of Eden',NULL,2),('AUSYD','Sydney Harbour','Sydney',1),('AUWHL','Port of Corner Inlet & Port Albert',NULL,2),('AUXMC','Port of Mallacoota',NULL,2),('AUYBA','Port of Yamba',NULL,1);
+INSERT INTO `seaport` VALUES ('AUALH','Albany Port','Albany',3),('AUBSJ','Lakes Entrance','Bairnsdale',2),('AUBUY','Port of Bunbury','Bunbury',3),('AUEPR','Esperance Port',NULL,3),('AUFRE','Fremantle',NULL,3),('AUGET','Port of Geraldton','Geraldton',3),('AUNTL','Newcastle Port','Newcastle',1),('AUPKL','Port Kembla','Wollongong',2),('AUQDN','Port of Eden',NULL,2),('AUSYD','Sydney Harbour','Sydney',1),('AUWHL','Port Welshpool',NULL,2),('AUXMC','Port of Mallacoota',NULL,2),('AUYBA','Port of Yamba',NULL,1);
 /*!40000 ALTER TABLE `seaport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -965,4 +966,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-23 13:16:03
+-- Dump completed on 2013-04-30 16:14:57

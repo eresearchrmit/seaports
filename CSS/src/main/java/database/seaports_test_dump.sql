@@ -496,7 +496,7 @@ CREATE TABLE `data_element` (
 
 LOCK TABLES `data_element` WRITE;
 /*!40000 ALTER TABLE `data_element` DISABLE KEYS */;
-INSERT INTO `data_element` VALUES ('File',1,'2013-04-23 13:15:23','PLAIN','','Test 1',0,'This is a test for Data Element','csv',NULL,NULL,1,NULL),('File',2,'2013-04-23 13:15:23','PLAIN','','Test 2',0,'This is the second test','xml',NULL,NULL,1,NULL),('File',3,'2013-04-23 13:15:23','PLAIN','','Test 3',0,'This is the third test','txt',NULL,NULL,1,NULL),('File',4,'2013-04-23 13:15:23','PLAIN','','Test 4',1,'User Story\'s Data Element content test','txt',NULL,NULL,2,NULL),('Text',5,'2013-04-23 13:15:23','PLAIN','','Comment text 1',2,NULL,NULL,NULL,'This is a text comment',2,NULL),('File',6,'2013-04-23 13:15:23','PLAIN','','Test 5',3,'User Story\'s Data Element content test','txt',NULL,NULL,2,NULL),('Text',7,'2013-04-23 13:15:23','PLAIN','','Comment text 2',4,NULL,NULL,NULL,'This is a second text comment',2,NULL),('File',8,'2013-04-23 13:15:23','PLAIN','','Test 6',1,'User Story\'s Data Element content test','txt',NULL,NULL,3,NULL),('Csiro',9,'2013-04-23 13:15:23','TABLE','','CSIRO Data Element Test',0,NULL,NULL,NULL,NULL,1,NULL),('Cmar',10,'2013-04-23 13:15:23','TABLE','','CMAR Data Element Test',0,NULL,NULL,'',NULL,1,NULL),('Vulnerability',11,'2013-04-23 13:15:23','GRAPH','','Vulnerability Assessment',0,NULL,NULL,NULL,NULL,1,1);
+INSERT INTO `data_element` VALUES ('File',1,'2013-04-30 16:14:24','PLAIN','','Test 1',0,'This is a test for Data Element','csv',NULL,NULL,1,NULL),('File',2,'2013-04-30 16:14:24','PLAIN','','Test 2',0,'This is the second test','xml',NULL,NULL,1,NULL),('File',3,'2013-04-30 16:14:24','PLAIN','','Test 3',0,'This is the third test','txt',NULL,NULL,1,NULL),('File',4,'2013-04-30 16:14:24','PLAIN','','Test 4',1,'User Story\'s Data Element content test','txt',NULL,NULL,2,NULL),('Text',5,'2013-04-30 16:14:24','PLAIN','','Comment text 1',2,NULL,NULL,NULL,'This is a text comment',2,NULL),('File',6,'2013-04-30 16:14:24','PLAIN','','Test 5',3,'User Story\'s Data Element content test','txt',NULL,NULL,2,NULL),('Text',7,'2013-04-30 16:14:24','PLAIN','','Comment text 2',4,NULL,NULL,NULL,'This is a second text comment',2,NULL),('File',8,'2013-04-30 16:14:24','PLAIN','','Test 6',1,'User Story\'s Data Element content test','txt',NULL,NULL,3,NULL),('Csiro',9,'2013-04-30 16:14:24','TABLE','','CSIRO Data Element Test',0,NULL,NULL,NULL,NULL,1,NULL),('Cmar',10,'2013-04-30 16:14:24','TABLE','','CMAR Data Element Test',0,NULL,NULL,'',NULL,1,NULL),('Vulnerability',11,'2013-04-30 16:14:24','GRAPH','','Vulnerability Assessment',0,NULL,NULL,NULL,NULL,1,1);
 /*!40000 ALTER TABLE `data_element` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -806,7 +806,7 @@ CREATE TABLE `past_data` (
 
 LOCK TABLES `past_data` WRITE;
 /*!40000 ALTER TABLE `past_data` DISABLE KEYS */;
-INSERT INTO `past_data` VALUES (1,'2013-04-23 13:15:23','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-mean-temperature-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmean&area=aus&season=0112&period=1970','Trend in mean temperatures'),(2,'2013-04-23 13:15:23','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-maximum-temperature-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmax&area=aus&season=0112&period=1970','Trend in maximum temperatures'),(3,'2013-04-23 13:15:23','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-total-annual-rainfall-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=rain&area=aus&season=0112&period=1970','Trend in total annual rainfall'),(4,'2013-04-23 13:15:23','2012-01-01 00:00:00','1880-01-01 00:00:00','long-term-sea-level-changes-1880-2012.png','http://www.cmar.csiro.au/sealevel/sl_hist_few_hundred.html','Long-term sea level rise measurements'),(5,'2013-04-23 13:15:23','2011-01-01 00:00:00','1970-01-01 00:00:00','short-term-sea-level-changes-1970-2011.png','http://www.csiro.au/Outcomes/Climate/Understanding/State-of-the-Climate-2012.aspx','Shorter-term changes in sea level');
+INSERT INTO `past_data` VALUES (1,'2013-04-30 16:14:23','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-mean-temperature-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmean&area=aus&season=0112&period=1970','Trend in mean temperatures'),(2,'2013-04-30 16:14:23','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-maximum-temperature-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmax&area=aus&season=0112&period=1970','Trend in maximum temperatures'),(3,'2013-04-30 16:14:23','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-total-annual-rainfall-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=rain&area=aus&season=0112&period=1970','Trend in total annual rainfall'),(4,'2013-04-30 16:14:23','2012-01-01 00:00:00','1880-01-01 00:00:00','long-term-sea-level-changes-1880-2012.png','http://www.cmar.csiro.au/sealevel/sl_hist_few_hundred.html','Long-term sea level rise measurements'),(5,'2013-04-30 16:14:23','2011-01-01 00:00:00','1970-01-01 00:00:00','short-term-sea-level-changes-1970-2011.png','http://www.csiro.au/Outcomes/Climate/Understanding/State-of-the-Climate-2012.aspx','Shorter-term changes in sea level');
 /*!40000 ALTER TABLE `past_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -819,6 +819,7 @@ DROP TABLE IF EXISTS `region`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `region` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `coordinates` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
@@ -830,7 +831,7 @@ CREATE TABLE `region` (
 
 LOCK TABLES `region` WRITE;
 /*!40000 ALTER TABLE `region` DISABLE KEYS */;
-INSERT INTO `region` VALUES (1,'East Coast South'),(2,'Southern Slopes Vic East'),(3,'Southern and South-Western Flatlands'),(4,'Monsoonal North'),(5,'Wet Tropics'),(6,'Rangelands'),(7,'Central Slopes'),(8,'Murray Basin');
+INSERT INTO `region` VALUES (1,'149.0547914184899,-28.24548513942176 148.9609907444339,-35.25426489702431 155.2660617233398,-35.19627668034501 154.8867619045885,-27.90208550082615 149.0547914184899,-28.24548513942176','East Coast South'),(2,'145.3189141977523,-33.8991314327851 145.0790050622273,-39.34717405549549 153.0808752795217,-39.39167277749677 152.564341927145,-34.0115196362042 145.3189141977523,-33.8991314327851','Southern Slopes Vic East'),(3,'112.7632954156051,-26.52537830109324 112.2397686001995,-35.9640923319097 125.4390964302563,-36.01229549528745 124.759915381913,-26.54545205884348 112.7632954156051,-26.52537830109324','Southern and South-Western Flatlands'),(4,'','Monsoonal North'),(5,'','Wet Tropics'),(6,'','Rangelands'),(7,'','Central Slopes'),(8,'','Murray Basin');
 /*!40000 ALTER TABLE `region` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -858,7 +859,7 @@ CREATE TABLE `seaport` (
 
 LOCK TABLES `seaport` WRITE;
 /*!40000 ALTER TABLE `seaport` DISABLE KEYS */;
-INSERT INTO `seaport` VALUES ('AUALH','Albany Port',NULL,3),('AUBSJ','Lakes Entrance (Bairnsdale)',NULL,2),('AUBTB','Port of Botany Bay',NULL,1),('AUBUY','Port of Bunbury',NULL,3),('AUCFS','Coffs Harbour',NULL,1),('AUEPR','Esperance Port',NULL,3),('AUFRE','Fremantle',NULL,3),('AUGET','Port of Geraldton',NULL,3),('AUNTL','Newcastle Port',NULL,1),('AUPKL','Port Kembla',NULL,2),('AUQDN','Port of Eden',NULL,2),('AUSYD','Sydney Harbour',NULL,1),('AUWHL','Port of Corner Inlet & Port Albert',NULL,2),('AUXMC','Port of Mallacoota',NULL,2),('AUYBA','Port of Yamba',NULL,1);
+INSERT INTO `seaport` VALUES ('AUALH','Albany Port','Albany',3),('AUBSJ','Lakes Entrance','Bairnsdale',2),('AUBUY','Port of Bunbury','Bunbury',3),('AUEPR','Esperance Port',NULL,3),('AUFRE','Fremantle',NULL,3),('AUGET','Port of Geraldton','Geraldton',3),('AUNTL','Newcastle Port','Newcastle',1),('AUPKL','Port Kembla','Wollongong',2),('AUQDN','Port of Eden',NULL,2),('AUSYD','Sydney Harbour','Sydney',1),('AUWHL','Port Welshpool',NULL,2),('AUXMC','Port of Mallacoota',NULL,2),('AUYBA','Port of Yamba',NULL,1);
 /*!40000 ALTER TABLE `seaport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -968,4 +969,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-23 13:16:22
+-- Dump completed on 2013-04-30 16:15:21
