@@ -77,8 +77,6 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.5</version>
 		</dependency>
-            
-            
 		
 		<!-- Add artifacts for the tiles -->
 
@@ -202,6 +200,7 @@
 		</dependency>
 
 		<!-- Spring Security Dependencies -->
+		
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
@@ -227,7 +226,7 @@
 		</dependency>
 		
 		<!-- DB Dependencies -->
-
+		
 		<dependency>
 			<groupId>commons-dbcp</groupId>
 			<artifactId>commons-dbcp</artifactId>
@@ -261,7 +260,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- logging -->
+		<!-- Logging Dependencies -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -295,7 +294,6 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
-
 
 		<dependency>
 			<groupId>jstl</groupId>
@@ -346,9 +344,32 @@
 			<artifactId>commons-validator</artifactId>
 			<version>1.4.0</version>
 		</dependency>
+		
+		<!-- ANDS RIF-CS API library -->
+		<!-- References JAR file in project repository. Maven searches in: -->
+		<!-- [project repository]/[groupId]/[artifactId]/[version]/[artifactId]-[version].jar -->
+		<dependency>
+      		<groupId>ands</groupId>
+      		<artifactId>rifcs-api</artifactId>
+      		<version>1.3.0</version>
+ 		</dependency>
 	</dependencies>
 
 	<repositories>
+	
+		<!-- Defines a project repository in "libs" -->
+		<repository>
+			<id>libs</id>
+			<releases>
+				<enabled>true</enabled>
+				<checksumPolicy>ignore</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<url>file://${project.basedir}/libs</url>
+		</repository>
+	
 		<!-- JBoss Repository used for Java EE 6 pieces -->
 		<repository>
 			<id>repository.jboss.org</id>
@@ -367,7 +388,7 @@
 	</repositories>
 
 	<build>
-		<finalName>Sprint4</finalName>
+		<finalName>Climate Smart Seaports</finalName>
 		<plugins>
 
 			<!-- Facilitates downloading source and javadoc in Eclipse -->
