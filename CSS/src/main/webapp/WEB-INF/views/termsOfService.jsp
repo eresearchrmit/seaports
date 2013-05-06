@@ -19,4 +19,27 @@
 			</ul>
 		</p>
 		<p style="text-align:justify; font-size: 12pt">This software is provided by the regents and contributors "as is" and any express or implied warranties, including, but not limited to, the implied warranties of merchantability and fitness for a particular purpose are disclaimed. In no event shall the regents and contributors be liable for any direct, indirect, incidental, special, exemplary, or consequential damages (including, but not limited to, procurement of substitute goods or services; loss of use, data, or profits; or business interruption) however caused and on any theory of liability, whether in contract, strict liability, or tort  (including negligence or otherwise) arising in any way out of the use of this software, even if advised of the possibility of such damage.</p>
+		
+		
+		
+	<a name="license" ></a>
+	<center>
+		<h2>Reports license</h2>
+	</center>		
+		<p style="text-align:justify; font-size: 12pt">
+			The content of all reports on this website are licensed under a <a href="" title="View the full licence statement">Creative Commons Attribution license.</a>
+		</p>
+		<p style="text-align:justify; font-size: 12pt">
+		<img src="<c:url value="/resources/img/help/cc-by-nc-nd.png" />" title="View the full licence statement" />
+		</p>
+		<p style="text-align:justify; font-size: 12pt">
+			We request attribution as: &copy; [author name] [year of publication]
+		</p>
+		<p style="text-align:justify; font-size: 12pt">
+			example:<i> &copy; John Smith 2013</i>
+		</p>
+		<p style="text-align:justify; font-size: 12pt">
+			The author name and year of publication can be found in each report.
+		</p>
 </div>
+

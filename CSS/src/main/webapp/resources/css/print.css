@@ -5,7 +5,7 @@
 		text-align: justify;
 	}
 	
-	.nav, #branding, #site_info, .btn {
+	.nav, #branding, #site_info, .btn, .no-print {
 		display: none;
 	}
 	

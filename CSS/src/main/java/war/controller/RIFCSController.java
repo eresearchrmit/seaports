@@ -31,7 +31,7 @@ public class RIFCSController {
 			RIFCSWrapper mw = new RIFCSWrapper();
 	        rifcs = mw.getRIFCSObject();
 	        rifcs.addRegistryObject(createCSSServiceRIFCS());
-	        rifcs.addRegistryObject(createRMITPartyRIFCS());
+	        //rifcs.addRegistryObject(createRMITPartyRIFCS());
 	        
 	        List<User> users = new ArrayList<User>();
 	        List<UserStory> stories = userStoryDao.getAllPublishedStories();
@@ -45,7 +45,7 @@ public class RIFCSController {
 	        }
 	        
 	        //mw.write(System.out);
-	        mw.validate();
+	        //mw.validate();
 	        
 	        response.getWriter().write(mw.toString());
 		}
@@ -82,10 +82,14 @@ public class RIFCSController {
         location.addAddress(address);
         service.addLocation(location);
         
+        service.addRelatedObject(createRelatedObject("isAdministeredBy", "RMIT-AP35/1/2", service.newRelatedObject()));
+        service.addRelatedObject(createRelatedObject("isManagedBy", "RMIT-AP35/1/2", service.newRelatedObject()));
+        
         // Description
         service.addDescription("Climate Smart Seaports is an online decision support toolkit designed to help Australian seaports adapating to climate change and improving their resilience to it. The toolkit lets access data from various datasets such as CSIRO, BoM, ABS, BITRE as well as their own personal data. Climate Smart Seaports then allows writing and publishing reports based on this data and the user analysis.", "full", "en");
         
-        // TODO: set the Access policy URL
+        // Access policy
+        service.addAccessPolicy(CSS_URL + "public/terms-of-service");
         
         r.addService(service);
         return r;
@@ -101,10 +105,35 @@ public class RIFCSController {
         rmit.setType("group");
         rmit.setDateModified(DATE_LAST_MODIFIED);
         
-        // TODO: set electronic address with details about the group
+        // Name
+        Name name = rmit.newName();
+        name.setType("primary");
+        name.addNamePart("Climate Smart Seaport project team (RMIT University e-Research)", "subordinate");
+        rmit.addName(name);
+        
+        // Identifier
+        Identifier id = rmit.newIdentifier();
+        id.setType("url");
+        id.setValue(KEY_PARTY_PREFIX + CSS_TEAM_PARTY);
+        rmit.addIdentifier(id);
+        
+        // Location
+        Location loc = rmit.newLocation();
+        Address address = loc.newAddress();
+        Electronic electronic = address.newElectronic();
+        electronic.setType("url");
+        electronic.setValue("http://www.rmit.edu.au/research/eres");
+        address.addElectronic(electronic);
+        loc.addAddress(address);
+        rmit.addLocation(loc);
         
         // Manages "Climate Smart Seaports" Service
         rmit.addRelatedObject(createRelatedObject("manages", KEY_SERVICE_PREFIX + "climatesmartseaport", rmit.newRelatedObject()));
+        
+        // TODO: LVL3 link to an Activity records
+        // TODO: LVL3 set subject anzsrc-for
+        // TODO: LVL3 set description, type "brief"
+        // TODO: LVL3 set existence date
         
         // TODO: isAdministeredBy "RMIT-AP35/1/2" (= e-Research Office).
         
@@ -149,8 +178,13 @@ public class RIFCSController {
         loc.addAddress(address);
         p.addLocation(loc);
         
-        // TODO: set subject (anzsrc-for) ?
-        // TODO: set description, type "brief"
+        p.addRelatedObject(createRelatedObject("isManagedBy", "RMIT-AP35/1/2", p.newRelatedObject()));
+        p.addRelatedObject(createRelatedObject("uses", KEY_SERVICE_PREFIX + CSS_APP_SERVICE, p.newRelatedObject()));
+        
+        // TODO: LVL3 link to an Activity records
+        // TODO: LVL3 set subject anzsrc-for
+        // TODO: LVL3 set description, type "brief"
+        // TODO: LVL3 set existence date
         
         r.addParty(p);
         return r;
@@ -158,17 +192,18 @@ public class RIFCSController {
 	
 	public RegistryObject createCollectionRIFCS(UserStory story) throws RIFCSException {
 		
-		// Start by counting how many 
-		
 		RegistryObject r = rifcs.newRegistryObject();
         r.setKey(KEY_COLLECTION_PREFIX + "story" + story.getId());
         r.setGroup(RMIT_GROUP);
-        r.setOriginatingSource(CSS_URL + "/public/reports/view?id=" + story.getId());
+        r.setOriginatingSource(CSS_URL + "public/reports/view?id=" + story.getId());
         
 		Collection c = r.newCollection();
 		
 		c.setType("collection");
         c.addIdentifier(HANDLE_PREFIX + "story" + story.getId(), "handle");
+        c.setDateModified(story.getPublishDate());
+        
+        // TODO: LVL3 Add "Dates" element (not available in RIF-CS API 1.3.0)
         
         // Name
         Name name = c.newName();
@@ -176,8 +211,8 @@ public class RIFCSController {
         name.addNamePart(story.getName(), "");
         c.addName(name);
         
-        //TODO: set description (auto-generated)
-        c.addDescription("", "full", "en");
+        //TODO: set full description (auto-generated)
+        //c.addDescription("", "full", "en");
         c.addDescription("Report about climate change in the " + story.getSeaport().getRegion().getName() + " NRM region of Australia, focused on " + story.getSeaport().getName(), "brief", "en");
         
         // Location
@@ -185,7 +220,7 @@ public class RIFCSController {
         Address address = location.newAddress();
         Electronic electronic = address.newElectronic();
         electronic.setType("");
-        electronic.setValue(CSS_URL + "/public/reports/view?id=" + story.getId());
+        electronic.setValue(CSS_URL + "public/reports/view?id=" + story.getId());
         address.addElectronic(electronic);
         location.addAddress(address);
         c.addLocation(location);
@@ -193,15 +228,17 @@ public class RIFCSController {
         // Related objects
         c.addRelatedObject(createRelatedObject("isProducedBy", KEY_SERVICE_PREFIX + CSS_APP_SERVICE, c.newRelatedObject()));
         c.addRelatedObject(createRelatedObject("hasCollector", KEY_PARTY_PREFIX + story.getOwner().getUsername(), c.newRelatedObject()));
-        c.addRelatedObject(createRelatedObject("isManagedBy", KEY_PARTY_PREFIX + CSS_TEAM_PARTY, c.newRelatedObject()));
+        //c.addRelatedObject(createRelatedObject("isManagedBy", KEY_PARTY_PREFIX + CSS_TEAM_PARTY, c.newRelatedObject()));
+        c.addRelatedObject(createRelatedObject("isManagedBy", "RMIT-AP35/1/2", c.newRelatedObject()));
+        // TODO: LVL3 Link to an Activity record
         
         // Fields of Research
         c.addSubject("040104", "anzsrc-for", "en"); // Climate Change Processes
         c.addSubject("040105", "anzsrc-for", "en"); // Climatology (excl. Climate Change Processes)
         c.addSubject("040107", "anzsrc-for", "en"); // Meteorology
         c.addSubject("140205", "anzsrc-for", "en"); // Environment and Resource Economics
-        // TODO: ask Alexei about potential other "non-climate" codes
         c.addSubject("091599", "anzsrc-for", "en"); // Interdisciplinary Engineering not elsewhere classified
+        // TODO: ask Alexei about potential other "non-climate" codes
         
         // Temporal coverage (1880 to 2070) and spatial coverage (based on the NRM region)
         Coverage coverage = c.newCoverage();
@@ -211,10 +248,18 @@ public class RIFCSController {
         coverage.addTemporal(temporalCoverage);
         Spatial spatialCoverage = coverage.newSpatial();
         spatialCoverage.setType("kmlPolyCoord");
-        spatialCoverage.setType(story.getSeaport().getRegion().getCoordinates());
+        spatialCoverage.setValue(story.getSeaport().getRegion().getCoordinates());
         coverage.addSpatial(spatialCoverage);
         c.addCoverage(coverage);
-                
+        
+        // Rights
+        Right right = c.newRight();
+        right.setLicence("Non-Derivative licence", "http://creativecommons.org/licenses/by-nc-nd/3.0/", "CC-BY-NC-ND");
+        right.setRightsStatement("Creative Commons Attribution Non-Commercial No-Derivatives (CC-BY-NC-ND 3.0)", "http://creativecommons.org/licenses/by-nc-nd/3.0/");
+        c.addRight(right);
+        
+        // TODO: LVL3 Add citation info ?
+        
         r.addCollection(c);
         return r;
 	}
@@ -228,107 +273,6 @@ public class RIFCSController {
         return relatedObject;
 	}
 	
-	@RequestMapping(value="public/rifcs-example", method = RequestMethod.GET)
-	public void getRifcsXMLExample(HttpServletRequest request, HttpServletResponse response) {
-		
-		try {
-			RIFCSWrapper mw = new RIFCSWrapper();
-	        rifcs = mw.getRIFCSObject();
-	        RegistryObject r = rifcs.newRegistryObject();
-	        r.setKey("collection1");
-	        r.setGroup("ANDS");
-	        r.setOriginatingSource("http://myrepository.au.edu");
-	        Collection c = r.newCollection();
-	        c.setType("collection");
-	        c.addIdentifier("hdl:7651/myhandlesuffix", "handle");
-	        Right right= c.newRight();
-	        right.setAccessRights("Access Right Value", "Access Rights Uri", "Access Right Type");
-	        right.setLicence("Licence Value", "Licence Uri", "Licence Type");
-	        right.setRightsStatement("Right Statement Value", "Right Statement Uri");
-	        c.addRight(right);
-	        right= c.newRight();
-	        right.setAccessRights("Access Right Value2", "Access Rights Uri2", "Access Right Type2");
-	        right.setLicence("Licence Value2", "Licence Uri2", "Licence Type2");
-	        right.setRightsStatement("Right Statement Value2", "Right Statement Uri2");
-	        c.addRight(right);      
-	        Name n = c.newName();
-	        n.setType("primary");
-	        NamePart np = n.newNamePart();
-	        np.setValue("Sample Collection");
-	        n.addNamePart(np);
-	        c.addName(n);
-	        Location l = c.newLocation();
-	        Address a = l.newAddress();
-	        Electronic e = a.newElectronic();
-	        e.setValue("http://myrepository.au.edu/collections/collection1");
-	        e.setType("url");
-	        a.addElectronic(e);
-	        l.addAddress(a);
-	        c.addLocation(l);
-	        RelatedObject ro = c.newRelatedObject();
-	        ro.setKey("activity1");
-	        ro.addRelation("isOutputOf", null, null, null);
-	        c.addRelatedObject(ro);
-	        RelatedObject ro2 = c.newRelatedObject();
-	        ro2.setKey("party1");
-	        ro2.addRelation("isOwnerOf", null, null, null);
-	        c.addRelatedObject(ro2);
-	        RelatedObject ro3 = c.newRelatedObject();
-	        ro3.setKey("service1");
-	        ro3.addRelation("supports", null, null, null);
-	        c.addRelatedObject(ro3);
-	        c.addSubject("subject1", "local", null);
-	        c.addSubject("subject2", "local", null);
-	        Coverage cov = c.newCoverage();
-	        Spatial sp = cov.newSpatial();
-	        Temporal tmp = cov.newTemporal();
-	        tmp.addDate("1999-3-4", "dateFrom", "W3C");
-	        tmp.addDate("1999-3-4", "dateFrom", "W3C");
-	        sp.setValue("126.773437,-23.598894 127.652343,-27.405585 131.519531,-27.093039 131.167968,-24.081241 130.464843,-20.503868 127.828124,-19.843884 123.960937,-20.339134 123.433593,-22.141282 123.433593,-25.040485 123.785156,-28.183080 126.773437,-23.598894");
-	        sp.setType("kmlPolyCoords");
-	        cov.addSpatial(sp);
-	        cov.addTemporal(tmp);
-	        c.addCoverage(cov);
-	        c.addDescription("This is a sample description", "brief", null);
-	        RelatedInfo ri = c.newRelatedInfo();
-	        ri.setIdentifier("http://external-server.edu/related-page.htm", "uri");
-	        ri.setTitle("A related information resource");
-	        ri.setNotes("Notes about the related information resource");
-	        c.addRelatedInfo(ri);
-	        CitationInfo ci = c.newCitationInfo();
-	        ci.setCitation("sasdgasdgsdgasdgasdgasdgasdgasdgsadgasdgasdgsg", "howardsss");
-	        c.addCitationInfo(ci);
-	        CitationInfo ci2 = c.newCitationInfo();
-	        CitationMetadata cim = ci2.newCitationMetadata();
-	        cim.setIdentifier("sdjhksdghkashdgkjashgd", "pod");
-	        Contributor cCont = cim.newContributor();
-	        cCont.setSeq(0);
-	        cCont.addNamePart("Monus", "surname");
-	        cCont.addNamePart("Leo", "sgiven");
-	        cim.addContributor(cCont);
-	        cim.setTitle("ashgfjhsagfjashgf");
-	        cim.setEdition("editionksjadhkjsahf");
-	        cim.setPlacePublished("sjdhgkjahsdgkahgkahsdkghaksdghkajhg");
-	        cim.setURL("sdjhgksjhgdk");
-	        cim.setContext("shdgjsgjasgjahdsgjsd");
-	        c.addCitationInfo(ci2);
-	        ci2.addCitationMetadata(cim);
-	        c.addDescription("description", "full", "eng");
-	        r.addCollection(c);
-	        rifcs.addRegistryObject(r);
-	        //mw.write(System.out);
-	        mw.validate();
-	        
-	        System.out.println(mw.toString());
-	        response.getWriter().write(mw.toString());
-	        
-	        //model.addAttribute("content", mw.toString());
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public static final String ERR_RETRIEVE_USERSTORY_LIST = "Impossible to retrieve the list of published stories";
 	
 	public static final String RMIT_GROUP = "RMIT University";
@@ -339,7 +283,7 @@ public class RIFCSController {
 	public static final String KEY_COLLECTION_PREFIX = "http://www.rmit.edu.au/ap35/collection/";
 	public static final String KEY_PARTY_PREFIX = "http://www.rmit.edu.au/ap35/party/";
 	public static final String KEY_SERVICE_PREFIX = "http://www.rmit.edu.au/ap35/service/";
-	public static final String CSS_URL = "http://www.climatesmartseaports.rmit.edu.au";
+	public static final String CSS_URL = "http://seaports.eres.rmit.edu.au:8080/CSS/";
 	public static final String HANDLE_PREFIX = "rmit:ap35/";
 	
 	public static final String DATE_LAST_MODIFIED = "2013-04-29T00:15:00+10:00";

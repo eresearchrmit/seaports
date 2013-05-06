@@ -101,16 +101,7 @@ public class UserStoryController {
 		mav.setViewName("userstoryView");
 		return mav;
 	}
-	
-	@RequestMapping(value= "/view-pdf", method = RequestMethod.GET)
-	protected ModelAndView getUserStoryPdfView(@RequestParam(value="id",required=true) Integer id, Model model) throws Exception {
-		logger.info("Inside getUserStoryView");
-		
-		ModelAndView mav = getUserStory(id, model);
-		mav.setViewName("userStoryPdfView");
-		return mav;
-	}	
-	
+
 	@RequestMapping(value= "/lock", method = RequestMethod.GET)
 	public String changeUserStoryPrivacy(@RequestParam(value="id",required=true) Integer id, @RequestParam(value="lock",required=true) Boolean lock, Model model) {
 		logger.info("Inside getUserStoriesList !");
@@ -150,6 +141,14 @@ public class UserStoryController {
 			
 			if (!(userStory.getMode().equals("published"))) {
 				userStory.setMode("passive");
+				userStoryDao.save(userStory);
+				
+				// Initial ordering of the data elements in the user story
+				int i = 1;
+				for (DataElement de : userStory.getDataElements()) {
+					de.setPosition(i);
+					i++;
+				}
 				userStoryDao.save(userStory);
 			}
 			else
@@ -241,8 +240,9 @@ public class UserStoryController {
 		return "userstoryList";
 	}	
 
-	@RequestMapping(value="/addText", method=RequestMethod.GET) 
-	public ModelAndView addTextToUserStory(@RequestParam(value="story",required=true) Integer id, Model model) {
+	@RequestMapping(value="/addText", method=RequestMethod.POST) 
+	public ModelAndView addTextToUserStory(@RequestParam(value="userStoryId",required=true) Integer id, 
+			@RequestParam(value="textInsertPosition",required=true) String insertTextAfter, Model model) {
 		logger.info("Inside saveUserStory");
 		
 		UserStory userStory = null;
@@ -252,7 +252,19 @@ public class UserStoryController {
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
-			DataElementText newTextItem = new DataElementText(new Date(), "Story Text", true, 0, DisplayType.PLAIN, userStory, "Add some text here...");
+			Integer newTextPosition = Integer.parseInt(insertTextAfter) + 1;
+			
+			// Increment the positions of all data elements after the new one
+			int i = 0;
+			for (DataElement de : userStory.getDataElements()) {
+				if (de.getPosition() >= newTextPosition)
+					de.setPosition(de.getPosition() + 1);
+				i++;
+			}
+			// Save the user story after reordering
+			userStoryDao.save(userStory);
+			
+			DataElementText newTextItem = new DataElementText(new Date(), "Story Text", true, newTextPosition, DisplayType.PLAIN, userStory, "Add some text here...");
 			dataElementDao.save(newTextItem);
 			userStory = userStoryDao.find(id);
 		}
@@ -263,6 +275,37 @@ public class UserStoryController {
 			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
 		return ModelForUserStory(model, userStory);
+	}
+	
+	@RequestMapping(value="/editText", method=RequestMethod.POST) 
+	public String editText(@RequestParam(value="dataElementId") Integer dataElementId,
+			@RequestParam(value="textContent") String textContent, Model model) {
+		logger.info("Inside editText");
+		
+		DataElement dataElement = null;
+		try {
+			// Retrieve the data element
+			dataElement = dataElementDao.find(dataElementId);
+			
+			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(dataElement.getUserStory()))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
+			if (dataElement instanceof DataElementText) {
+				DataElementText deText = (DataElementText)(dataElement);
+				deText.setText(textContent);
+				dataElementDao.save(deText);
+			}
+			
+			return "redirect:/auth/userstory?id=" + dataElement.getUserStory().getId();
+		}
+		catch (IllegalArgumentException e) {
+			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+		}
+		catch (NoResultException e) {
+			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+		}
+		
+		return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}
 	
 	@RequestMapping(value="/deleteText", method=RequestMethod.GET) 

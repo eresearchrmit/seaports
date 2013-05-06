@@ -35,10 +35,10 @@
 	        <div class="clear"></div>
 	    </div>
 	    
-	    <div class="floatleft" style="margin:5px 0 15px 0">
+	    <div class="floatleft no-print" style="margin:5px 0 15px 0">
 			<a href="http://www.rmit.edu.au/research/eres" title="RMIT University" target="_blank"><img src="<c:url value="/resources/img/theme/rmit-logo.png" />" alt="RMIT University" /></a>
 		</div>
-		<div class="floatright" style="margin-top:5px">
+		<div class="floatright no-print" style="margin-top:5px">
 			<a href="http://www.ands.org.au/" title="Australian National Data Service" target="_blank"><img src="<c:url value="/resources/img/theme/ands-logo.png" />" alt="ANDS" /></a>
 		</div>
     </div>

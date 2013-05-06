@@ -258,7 +258,7 @@ public class AnonymousControllerTest {
 	@ExpectedException(AccessDeniedException.class)
 	public void addTextToUserStoryTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		userStoryController.addTextToUserStory(2, model);
+		userStoryController.addTextToUserStory(2, "0", model);
 	}
 	
 	@Test

@@ -534,7 +534,7 @@ public class UserStoryControllerTest {
 		
 		//UserStory refUserStory = userStoryDao.find(id);
 		
-		userStoryController.addTextToUserStory(id, model);
+		userStoryController.addTextToUserStory(id, "0", model);
 		Assert.assertNull(model.get("errorMessage"));
 		
 		//UserStory changedUserStory = userStoryDao.find(id);
@@ -552,7 +552,7 @@ public class UserStoryControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		Integer id = 9999; // NON-EXISTING ID
 		
-		userStoryController.addTextToUserStory(id, model);
+		userStoryController.addTextToUserStory(id, "0", model);
 		Assert.assertNotNull(model.get("errorMessage"));
 		Assert.assertEquals(UserStoryController.ERR_SAVE_USERSTORY, model.get("errorMessage"));
 	}

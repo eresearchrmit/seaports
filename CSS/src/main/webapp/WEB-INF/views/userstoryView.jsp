@@ -15,7 +15,7 @@
 
 <div class="grid_12">
 
-	<c:if test="${not empty userstory}">
+	<c:if test="${not empty userstory}">	
 		<a href="javascript: window.print()" id="btnPrint" style="margin-right: 10px; float:right">
 			<button class="btnAddDataElement btn btn-icon btn-blue btn-print">
 				<span></span>Print
@@ -130,5 +130,17 @@
 	</div>
 	</c:if>
 	</c:if>
+	<div class="report-license" style="margin: 0 25px">
+		<div style="float:left">
+			<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/" id="lnkCCLicence" target="_blank">
+				<img src="<c:url value="/resources/img/help/cc-by-nc-nd.png" />" title="View the full licence statement" />
+			</a> 
+		</div>	
+		<div style="float:left; padding-left: 5px">
+			&copy; ${userstory.owner.firstname} ${userstory.owner.lastname} <fmt:formatDate value="${userstory.publishDate}" pattern="yyyy" />
+			<br />
+			<a href="/CSS/public/terms-of-service#license" id="lnkLicence" target="_blank">This report is licensed under a Creative Commons Attribution license.</a><br />
+		</div>
+	</div>
 	<div class="clearfix"></div><br />
 </div>

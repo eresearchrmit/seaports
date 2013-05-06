@@ -6,7 +6,7 @@
 <div class="grid_12">
 
 	<div class="pitch">
-		<h3 class="lightblue">Pitch sentence.</h3>
+		<h3 class="lightblue">This application is still under development.<br />It may be put offline at any time without warning. The data provided so far is not guaranteed, all data is subject to change or be deleted at any time.</h3>
 		<div class="pitch-link"><a href="#">Read more...</a></div>
 	</div>
 	

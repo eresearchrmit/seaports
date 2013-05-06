@@ -180,7 +180,7 @@ a.btn.btn-large, a.btn-icon.btn-large { line-height: 42px; padding-bottom: 0; }
 .btn-rss span { background-position: -144px 0; }
 .btn-person span { background-position: 0 -16px; }
 .btn-check span { background-position: -16px -16px; }
-.btn-dollar span { background-position: -32px -16px; }
+.btn-edit span { background-position: -32px -16px; }
 .btn-refresh span { background-position: -48px -16px; }
 .btn-home span { background-position: -64px -16px; }
 .btn-plus span { background-position: -80px -16px; }

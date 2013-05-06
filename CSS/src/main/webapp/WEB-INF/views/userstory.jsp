@@ -39,7 +39,7 @@
 			</a>
 			<a href="#" style="margin-right: 10px; float:right">
 				<button type="button" class="btn btn-icon btn-grey btn-check floatright">
-					<span></span>Save changes
+					<span></span>Save order
 				</button>
 			</a>
 			<div id="dataElementAdder">
@@ -62,17 +62,52 @@
 				</button>
 			</a>
 			<a href="javascript: $('#userStoryForm').submit();" style="margin-right: 10px; float:right">
-				<button type="button" class="btn btn-icon btn-blue btn-check floatright">
-					<span></span>Save changes
+				<button type="button" class="btn btn-icon btn-blue btn-refresh floatright">
+					<span></span>Save order
 				</button>
 			</a>
-			<div id="dataElementAdder">
+			<div id="btnTextAddition">
+				<button id="btnOpenAddTextDataElementModalWindow" type="button" 
+				class="btnAddText btn btn-icon btn-blue btn-plus"
+				style="margin-right: 10px; float:right">
+					<span></span>Add Text to report
+				</button>
+			</div>
+			<div id="addTextDataElementModalWindow" class="box round" title="Add text" style="display:none; padding:0;">
+				<form:form id="textAdditionForm" method="post" action="/CSS/auth/userstory/addText" > 
+					<textarea name="comments" class="tinymce" rows="12">
+					</textarea>
+					<br />
+					<div style="height: 50px">
+						<a href="javascript: $('#textAdditionForm').submit();" style="margin-right: 10px; float:right">
+							<button type="button" class="btn btn-icon btn-blue btn-plus btn-small floatright">
+								<span></span>Add Text to report
+							</button>
+						</a>
+						<input type="hidden" name="userStoryId" value="${userstory.id}" >
+						<div style="margin-right: 10px; float:right">
+							<span class="hint">Insert text after:</span>
+							<select name="textInsertPosition">
+								<option value="0">[Insert in 1st position]</option>
+								<c:if test="${not empty userstory.dataElements}">
+									<c:forEach items="${userstory.dataElements}" var="dataelement" varStatus="status">
+										<option value="${dataelement.position}"${status.index == 0 ? ' selected' : ''}>
+										${dataelement.name}<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">.${dataelement.filetype}</c:if>
+										</option>
+									</c:forEach>
+								</c:if>
+							</select>
+						</div>
+					</div>
+				</form:form>
+			</div>
+			<!--<div id="dataElementAdder">
 				<a href="/CSS/auth/userstory/addText?story=${userstory.id}" style="margin-right: 10px; float:right">
 					<button class="btnAddDataElement btn btn-icon btn-blue btn-plus">
 						<span></span>Add Text to report
 					</button>
 				</a>
-			</div>
+			</div>-->
 		</c:otherwise>
 	</c:choose>
 	
@@ -85,7 +120,7 @@
 	
 	<form:form id="userStoryForm" method="post" action="/CSS/auth/userstory/save" modelAttribute="userstory">
 	  	<form:input value="${userstory.id}" type="hidden" path="id" />
-	  	<c:if test="${not empty userstory.dataElements}">		
+	  	<c:if test="${not empty userstory.dataElements}">
 		 	<ul id="sortable">
 		 	
 		 	<!-- Iteration on every element in the User Story -->
@@ -97,21 +132,31 @@
 		 			<div class="box round${dataelement.included == false ? ' box-disabled' : ''}">
 						
 						<div class="box-header" >
-							<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">.${dataelement.filetype}</c:if></h5>
+							<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">.${dataelement.filetype}</c:if> ${dataelement.included == false ? '[excluded]' : ''}</h5>
 							
 							<c:if test="${userstory.mode != 'published'}">
 								<!-- 'Include/Exclude' button -->
-								<button type="button" class="btn-mini ${dataelement.included == false ? 'btn-grey btn-plus' : 'btn-blue btn-minus'} floatright" onclick="location.href='/CSS/auth/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" title="Include/Exclude from the story">
+								<button type="button" class="btn-mini btn-blue ${dataelement.included == false ? ' btn-plus' : ' btn-minus'} floatright" onclick="location.href='/CSS/auth/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" title="Include/Exclude from the story">
 									<span></span>Include/Exclude
 								</button>
 							
 								<!-- 'Remove Text' button -->
 								<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
 									<a class="lnkRemoveTextFromStory" href="/CSS/auth/userstory/deleteText?text=${dataelement.id}" title="Delete the text from the story">
-										<button type="button" class="btn btn-icon ${dataelement.included == false ? 'btn-grey' : 'btn-blue'} btn-small btn-cross floatright" style="margin-right:5px">
+										<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" style="margin-right:5px">
 											<span></span>Delete
 										</button>
 									</a>
+									<button id="btnOpenEditTextDataElementModalWindow" type="button" 
+									class="btn btn-small btn-icon btn-blue btn-edit floatright"
+									style="margin-right: 10px; float:right" onClick="$('#hdnTextDataElementToEditId').val(${dataelement.id})">
+										<span></span>Edit text
+									</button>								
+									<!-- <a href="javascript: $('#userStoryForm').submit();" style="margin-right: 5px; float:right">
+										<button type="button" class="btn btn-small btn-icon btn-blue btn-check floatright">
+											<span></span>Save
+										</button>
+									</a> -->
 								</c:if>
 							</c:if>
 							<div class="clear"></div>
@@ -125,9 +170,9 @@
 						
 						<!-- Text comment data element -->
 					 	<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
-							<c:if test="${userstory.mode != 'published'}"><textarea name="comments" class="tinymce" rows="12"></c:if>
-								<c:out value="${dataelement.text}" />
-							<c:if test="${userstory.mode != 'published'}"></textarea></c:if>
+							<div style="padding: 10px">
+								${dataelement.text}		
+							</div>				
                  		</c:if>
                  		
 						<c:if test="${dataelement.class.simpleName != 'DataElementText'}">
@@ -190,23 +235,29 @@
 
 			<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/tiny_mce/tiny_mce.js" />"></script>
 			<script type="text/javascript">
-				tinyMCE.init({
-			        // General options
-			        mode : "textareas",
-			        theme : "advanced",
-			        plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
-			
-			        // Theme options
-			        theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,sub,sup,charmap,|,bullist,numlist,blockquote,outdent,indent,|,justifyleft,justifycenter,justifyright,justifyfull" 
-			        	 + "fontselect,fontsizeselect,forecolor,backcolor,formatselect,|,link,unlink,|,insertdate,inserttime,|,cleanup,code,|,help",
-			        theme_advanced_buttons2 : "",
-			        theme_advanced_buttons3 : "",
-			        theme_advanced_buttons4 : "",
-			        theme_advanced_toolbar_location : "top",
-			        theme_advanced_toolbar_align : "left",
-			        theme_advanced_statusbar_location : "bottom",
-			        theme_advanced_resizing : false,
-			        width: "100%"
+				$(document).ready(function () {
+					setupDialogBox("addTextDataElementModalWindow", "btnOpenAddTextDataElementModalWindow");
+					setupDialogBox("editTextDataElementModalWindow", "btnOpenEditTextDataElementModalWindow");
+					
+					tinyMCE.init({
+				        // General options
+				        mode : "textareas",
+				        theme : "advanced",
+				        plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+				
+				        // Theme options
+				        theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,sub,sup,charmap,|,bullist,numlist,blockquote,outdent,indent,|,justifyleft,justifycenter,justifyright,justifyfull" 
+				        	 + "fontselect,fontsizeselect,forecolor,backcolor,formatselect,|,link,unlink,|,insertdate,inserttime,|,cleanup,code,|,help",
+				        theme_advanced_buttons2 : "",
+				        theme_advanced_buttons3 : "",
+				        theme_advanced_buttons4 : "",
+				        theme_advanced_toolbar_location : "top",
+				        theme_advanced_toolbar_align : "left",
+				        theme_advanced_statusbar_location : "bottom",
+				        theme_advanced_resizing : false,
+				        width: "100%",
+				        height: "300px"
+					});
 				});
 			</script>
 			
@@ -216,11 +267,15 @@
 					
 					// Resize the sortable list items 2 by 2 to have a proper grid
 					//resizeListItems();
+					var draggedTextContent = null; 
 					
 					// Enables the sortable list
 					$( "#sortable" ).sortable({
 						placeholder: "sortable-placeholder",
 						cursor: 'crosshair',
+						start: function(event, ui) {
+							draggedTextContent = ui.item.find('.tinymce').html();
+						},
 			            update: function(event, ui) {
 			            	// Reorder the positions into the hidden field of each data element
 			            	var order = $("#sortable").sortable("toArray");
@@ -261,14 +316,25 @@
 			</c:if>
 		</c:if>
 		<div class="clearfix"></div><br />
-		<c:if test="${userstory.mode != 'published'}">
-			<button type="button" class="btn btn-icon btn-blue btn-check floatright" onclick="$('#userStoryForm').submit();">
-				<span></span>Save changes
-			</button>
-		</c:if>
-		<div class="clearfix"></div><br />
 	</form:form>
-		
+	
+	<c:if test="${userstory.mode != 'published'}">
+		<div id="editTextDataElementModalWindow" class="box round" title="Edit text" style="display:none; padding:0;">
+			<form:form id="editTextForm" method="post" action="/CSS/auth/userstory/editText"> 
+				<input id="hdnTextDataElementToEditId" type="hidden" name="dataElementId" />
+				<textarea name="textContent" class="tinymce" rows="25">
+				</textarea>
+				<div style="height: 50px">
+				<a href="javascript: $('#editTextForm').submit();" style="margin-right: 10px; margin-top:20px; float:right">
+					<button type="button" class="btn btn-icon btn-blue btn-check btn-small floatright">
+						<span></span>Save changes
+					</button>
+				</a>
+				</div>
+			</form:form>
+		</div>
+	</c:if>
+	
 	<div id="confirmTextDeletionModalWindow" title="Permanently delete this text ?" style="display:none">
 		<p>Are you sure you want to permanently delete this text ?</p> 
 	</div>
