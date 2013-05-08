@@ -142,7 +142,7 @@
 		
 		// Help bubble popups
 		setupBubblePopup("lnkHelpRegionSelection", "Hover over a Natural Resource Management region and click to select the region you want.",  "${pageContext.request.contextPath}/resources/img/bubblepopup");
-		setupBubblePopup("lnkHelpPurpose", "Please tell us about the activity that leads you to undertake this work: briefly describe your research, study, etc.",  "${pageContext.request.contextPath}/resources/img/bubblepopup");
+		setupBubblePopup("lnkHelpPurpose", "Tell us why you are using this Tool. For example, climate risk assessment for work; study (indicate what field) or research (indicate your area of interest/topic).",  "${pageContext.request.contextPath}/resources/img/bubblepopup");
 	});
 	
 	function checkTitle() {

@@ -46,6 +46,12 @@ public class UserStoryController {
 	@Autowired
 	private CsiroDataBaselineDao csiroDataBaselineDao;
 	
+	/*@RequestMapping(value= "/userstory-created", method = RequestMethod.GET)
+	public String workboardCreated(@RequestParam(value="id",required=true) Integer userstoryId, Model model) {
+		model.addAttribute("userstoryId", userstoryId);
+		return "userstoryCreated";
+	}*/
+	
 	@RequestMapping(value= "/list", method = RequestMethod.GET)
 	public ModelAndView getUserStoriesList(@RequestParam(value="user",required=true) String username, Model model) {
 		logger.info("Inside getUserStoriesList");
@@ -86,6 +92,9 @@ public class UserStoryController {
 			
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+		}
+		catch (IllegalArgumentException e) {
+			model.addAttribute("errorMessage", e.getMessage());
 		}
 		catch (NoResultException e) {
 			model.addAttribute("errorMessage", e.getMessage());
@@ -150,6 +159,8 @@ public class UserStoryController {
 					i++;
 				}
 				userStoryDao.save(userStory);
+				model.addAttribute("userstory", userStory);
+				return new ModelAndView("userstoryCreated");
 			}
 			else
 				model.addAttribute("errorMessage", ERR_STORY_ALREADY_PUBLISHED);
@@ -242,6 +253,7 @@ public class UserStoryController {
 
 	@RequestMapping(value="/addText", method=RequestMethod.POST) 
 	public ModelAndView addTextToUserStory(@RequestParam(value="userStoryId",required=true) Integer id, 
+			@RequestParam(value="textContent",required=true) String textContent, 
 			@RequestParam(value="textInsertPosition",required=true) String insertTextAfter, Model model) {
 		logger.info("Inside saveUserStory");
 		
@@ -264,7 +276,7 @@ public class UserStoryController {
 			// Save the user story after reordering
 			userStoryDao.save(userStory);
 			
-			DataElementText newTextItem = new DataElementText(new Date(), "Story Text", true, newTextPosition, DisplayType.PLAIN, userStory, "Add some text here...");
+			DataElementText newTextItem = new DataElementText(new Date(), "Story Text", true, newTextPosition, DisplayType.PLAIN, userStory, textContent);
 			dataElementDao.save(newTextItem);
 			userStory = userStoryDao.find(id);
 		}

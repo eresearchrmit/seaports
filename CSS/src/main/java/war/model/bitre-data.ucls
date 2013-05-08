@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.2" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="war.model.BitreData" project="CSS" 
+    file="/CSS/src/main/java/war/model/BitreData.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="713" y="206" width="-1" height="-1"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="war.model.DataElementBitre" project="CSS" 
+    file="/CSS/src/main/java/war/model/DataElementBitre.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="18" y="321" width="498" height="180"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="war.model.DataElement" project="CSS" 
+    file="/CSS/src/main/java/war/model/DataElement.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="83" y="19" width="377" height="265"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="war.model.BitreVariable" project="CSS" 
+    file="/CSS/src/main/java/war/model/BitreVariable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="595" y="518" width="293" height="160"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="war.model.BitreVariableCategory" project="CSS" 
+    file="/CSS/src/main/java/war/model/BitreVariableCategory.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="1045" y="505" width="-1" height="-1"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="war.model.Variable" project="CSS" 
+    file="/CSS/src/main/java/war/model/Variable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="886" y="150" width="189" height="212"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="war.model.Seaport" project="CSS" file="/CSS/src/main/java/war/model/Seaport.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position x="347" y="519" width="233" height="212"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <association id="8">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="9" name="seaport">        
+        <position x="602" y="399" width="51" height="20"/>      
+      </attribute>      
+      <multiplicity id="10" minimum="0" maximum="1">        
+        <position x="565" y="398" width="27" height="18"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="11">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="12" name="variable">        
+        <position x="733" y="399" width="51" height="20"/>      
+      </attribute>      
+      <multiplicity id="13" minimum="0" maximum="1">        
+        <position x="696" y="398" width="27" height="18"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="14">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </generalization>  
+  <association id="15">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="16" name="bitreDataList">        
+        <position x="503" y="294" width="81" height="20"/>      
+      </attribute>      
+      <multiplicity id="17" minimum="0" maximum="2147483647">        
+        <position x="451" y="295" width="25" height="18"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="18">    
+    <end type="SOURCE" refId="4" navigable="false">      
+      <attribute id="19" name="category">        
+        <position x="888" y="555" width="58" height="20"/>      
+      </attribute>      
+      <multiplicity id="20" minimum="0" maximum="1">        
+        <position x="893" y="524" width="27" height="18"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="21">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

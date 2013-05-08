@@ -249,7 +249,6 @@ public class User implements Serializable, UserDetails {
 	public String getFirstname() {
 		return firstname;
 	}
-	
 
 	/**
 	 * Setter for the first name of the user
@@ -268,7 +267,6 @@ public class User implements Serializable, UserDetails {
 		return lastname;
 	}
 	
-
 	/**
 	 * Setter for the last name of the user
 	 * @param name: the new last name of the user
@@ -292,7 +290,7 @@ public class User implements Serializable, UserDetails {
 	public void setUserStories(List<UserStory> userstories) {
 		this.userstories = userstories;
 	}
-
+	
 	@Override
 	public Collection<GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> auth = new ArrayList<GrantedAuthority>();
@@ -304,7 +302,6 @@ public class User implements Serializable, UserDetails {
 		return auth;
 	}
 	
-
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;

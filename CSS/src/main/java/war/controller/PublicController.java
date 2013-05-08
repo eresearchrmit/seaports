@@ -69,6 +69,15 @@ public class PublicController {
 	}
 	
 	/**
+	 * Displays the "About" page
+	 */
+	@RequestMapping(value = "/public/about", method = RequestMethod.GET)
+	public ModelAndView about(Model model) {		
+		tryGetLoggedInUser(model);
+		return new ModelAndView("about");
+	}
+	
+	/**
 	 * Displays the "Terms of Service" page
 	 */
 	@RequestMapping(value = {"/public/terms-of-service"}, method = RequestMethod.GET)

@@ -179,7 +179,7 @@ public class AnonymousControllerTest {
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTest");
 		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South", "")));
-		workboardController.addWorkboard(userStory, model);
+		workboardController.createWorkboard(userStory, model);
 	}
 	
 	@Test
@@ -258,7 +258,7 @@ public class AnonymousControllerTest {
 	@ExpectedException(AccessDeniedException.class)
 	public void addTextToUserStoryTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
-		userStoryController.addTextToUserStory(2, "0", model);
+		userStoryController.addTextToUserStory(2, "Content", "0", model);
 	}
 	
 	@Test

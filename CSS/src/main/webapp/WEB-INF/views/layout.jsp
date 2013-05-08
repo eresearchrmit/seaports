@@ -17,11 +17,14 @@
 	                <div class="floatleft">
 	                	<a href="/CSS"><img src="<c:url value="/resources/img/theme/css-logo-darkblue-100x100.png" />" alt="Logo" /></a>
 	               	</div>
-	               	<div id="main-title" class="floatleft"><div style="margin-top:25px">Climate Smart Seaports</div></div>
+	               	<div id="main-title" class="floatleft"><div style="margin-top:25px">Climate Smart Seaports [beta]</div></div>
 	                <div class="floatright">
 						<tiles:insertAttribute name="user" ignore="true" />
 	                </div>
 	                <div class="clear"></div>
+	                <div class="pitch">
+						<h3 class="lightblue">Facilitating the identification and collection of relevant data so that Australian ports can become Climate Smart Seaports. </h3>
+					</div>
 	            </div>
 	        </div>
 	        <div class="clear"></div>

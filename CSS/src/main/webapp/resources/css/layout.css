@@ -960,6 +960,15 @@ p.report-content {
 	margin-left:auto
 }
 
+p.info-paragraph {
+	text-align:justify;
+	font-size: 12pt;
+}
+
+.justified {
+	text-align:justify;
+}
+
 /* Fluid TinyMCE toolbar when resizing */
 .mceToolbar * {
     white-space: normal !important;

@@ -742,7 +742,7 @@ public class WorkboardControllerTest {
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTestWithoutRegion");
 		userStory.setPurpose("Activity description");
-		ModelAndView result = workboardController.addWorkboard(userStory, model);
+		ModelAndView result = workboardController.createWorkboard(userStory, model);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
@@ -763,7 +763,7 @@ public class WorkboardControllerTest {
 		UserStory userStory = new UserStory();
 		userStory.setName("addWorkBoardTestWithoutPurpose");
 		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South", "")));
-		ModelAndView result = workboardController.addWorkboard(userStory, model);
+		ModelAndView result = workboardController.createWorkboard(userStory, model);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("errorMessage"));
@@ -785,7 +785,7 @@ public class WorkboardControllerTest {
 		userStory.setName("addWorkBoardTest");
 		userStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South", "")));
 		userStory.setPurpose("Activity description");
-		ModelAndView result = workboardController.addWorkboard(userStory, model);
+		ModelAndView result = workboardController.createWorkboard(userStory, model);
 
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(model.get("warningMessage"));
@@ -810,7 +810,7 @@ public class WorkboardControllerTest {
 		refUserStory.setSeaport(new Seaport("AUSYD", "Sydney Harbour", new Region("East Coast South", "")));
 		refUserStory.setPurpose("Activity description");
 		refUserStory.setName("addWorkBoardTest");
-		ModelAndView result = workboardController.addWorkboard(refUserStory, model);
+		ModelAndView result = workboardController.createWorkboard(refUserStory, model);
 
 		// Check there was no error
 		Assert.assertNotNull(result);

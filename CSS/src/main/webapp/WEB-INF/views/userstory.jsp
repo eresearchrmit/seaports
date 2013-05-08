@@ -38,7 +38,7 @@
 				</button>
 			</a>
 			<a href="#" style="margin-right: 10px; float:right">
-				<button type="button" class="btn btn-icon btn-grey btn-check floatright">
+				<button type="button" class="btn btn-icon btn-grey btn-refresh floatright">
 					<span></span>Save order
 				</button>
 			</a>
@@ -75,7 +75,7 @@
 			</div>
 			<div id="addTextDataElementModalWindow" class="box round" title="Add text" style="display:none; padding:0;">
 				<form:form id="textAdditionForm" method="post" action="/CSS/auth/userstory/addText" > 
-					<textarea name="comments" class="tinymce" rows="12">
+					<textarea name="textContent" class="tinymce" rows="12">
 					</textarea>
 					<br />
 					<div style="height: 50px">
@@ -148,15 +148,10 @@
 										</button>
 									</a>
 									<button id="btnOpenEditTextDataElementModalWindow" type="button" 
-									class="btn btn-small btn-icon btn-blue btn-edit floatright"
-									style="margin-right: 10px; float:right" onClick="$('#hdnTextDataElementToEditId').val(${dataelement.id})">
+									class="btn btn-small btn-icon btn-blue btn-edit floatright btnEditText"
+									style="margin-right: 10px; float:right" onClick="$('#hdnTextDataElementToEditId').val(${dataelement.id}); tinyMCE.activeEditor.setContent('${dataelement.text}');">
 										<span></span>Edit text
-									</button>								
-									<!-- <a href="javascript: $('#userStoryForm').submit();" style="margin-right: 5px; float:right">
-										<button type="button" class="btn btn-small btn-icon btn-blue btn-check floatright">
-											<span></span>Save
-										</button>
-									</a> -->
+									</button>
 								</c:if>
 							</c:if>
 							<div class="clear"></div>
@@ -232,34 +227,6 @@
 				</c:if>
 			</c:forEach>
 			</ul>
-
-			<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/tiny_mce/tiny_mce.js" />"></script>
-			<script type="text/javascript">
-				$(document).ready(function () {
-					setupDialogBox("addTextDataElementModalWindow", "btnOpenAddTextDataElementModalWindow");
-					setupDialogBox("editTextDataElementModalWindow", "btnOpenEditTextDataElementModalWindow");
-					
-					tinyMCE.init({
-				        // General options
-				        mode : "textareas",
-				        theme : "advanced",
-				        plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
-				
-				        // Theme options
-				        theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,sub,sup,charmap,|,bullist,numlist,blockquote,outdent,indent,|,justifyleft,justifycenter,justifyright,justifyfull" 
-				        	 + "fontselect,fontsizeselect,forecolor,backcolor,formatselect,|,link,unlink,|,insertdate,inserttime,|,cleanup,code,|,help",
-				        theme_advanced_buttons2 : "",
-				        theme_advanced_buttons3 : "",
-				        theme_advanced_buttons4 : "",
-				        theme_advanced_toolbar_location : "top",
-				        theme_advanced_toolbar_align : "left",
-				        theme_advanced_statusbar_location : "bottom",
-				        theme_advanced_resizing : false,
-				        width: "100%",
-				        height: "300px"
-					});
-				});
-			</script>
 			
 			<c:if test="${userstory.mode != 'published'}">
 			<script type="text/javascript">
@@ -322,7 +289,7 @@
 		<div id="editTextDataElementModalWindow" class="box round" title="Edit text" style="display:none; padding:0;">
 			<form:form id="editTextForm" method="post" action="/CSS/auth/userstory/editText"> 
 				<input id="hdnTextDataElementToEditId" type="hidden" name="dataElementId" />
-				<textarea name="textContent" class="tinymce" rows="25">
+				<textarea id="txtDataElementToEditContent" name="textContent" class="tinymce" rows="25">
 				</textarea>
 				<div style="height: 50px">
 				<a href="javascript: $('#editTextForm').submit();" style="margin-right: 10px; margin-top:20px; float:right">
@@ -334,6 +301,34 @@
 			</form:form>
 		</div>
 	</c:if>
+	
+	<script language="javascript" type="text/javascript" src="<c:url value="/resources/js/tiny_mce/tiny_mce.js" />"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			setupDialogBox("addTextDataElementModalWindow", "btnOpenAddTextDataElementModalWindow");
+			setupDialogBoxByClass("editTextDataElementModalWindow", "btnEditText");
+			
+			tinyMCE.init({
+		        // General options
+		        mode : "textareas",
+		        theme : "advanced",
+		        plugins : "pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template",
+		
+		        // Theme options
+		        theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,sub,sup,charmap,|,bullist,numlist,blockquote,outdent,indent,|,justifyleft,justifycenter,justifyright,justifyfull" 
+		        	 + "fontselect,fontsizeselect,forecolor,backcolor,formatselect,|,link,unlink,|,insertdate,inserttime,|,cleanup,code,|,help",
+		        theme_advanced_buttons2 : "",
+		        theme_advanced_buttons3 : "",
+		        theme_advanced_buttons4 : "",
+		        theme_advanced_toolbar_location : "top",
+		        theme_advanced_toolbar_align : "left",
+		        theme_advanced_statusbar_location : "bottom",
+		        theme_advanced_resizing : false,
+		        width: "100%",
+		        height: "300px"
+			});
+		});
+	</script>
 	
 	<div id="confirmTextDeletionModalWindow" title="Permanently delete this text ?" style="display:none">
 		<p>Are you sure you want to permanently delete this text ?</p> 

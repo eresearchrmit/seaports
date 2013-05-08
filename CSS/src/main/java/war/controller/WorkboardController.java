@@ -713,7 +713,7 @@ public class WorkboardController {
 	}
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST) 
-	public ModelAndView addWorkboard(@ModelAttribute("userstory") UserStory userStory, Model model) {
+	public ModelAndView createWorkboard(@ModelAttribute("userstory") UserStory userStory, Model model) {
 		logger.info("Inside addWorkboard");
         
 		try {

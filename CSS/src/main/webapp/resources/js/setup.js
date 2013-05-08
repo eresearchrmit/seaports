@@ -79,6 +79,23 @@ function setupDialogBox(containerElement, associatedButton) {
     });
 }
 
+//setup dialog box by class name
+function setupDialogBoxByClass(containerElement, associatedButton) {
+	$.fx.speeds._default = 500;
+    $("#" + containerElement).dialog({
+        autoOpen: false,
+        modal: true,
+        show: "fade",
+        hide: "fade",
+        width:"auto"
+    });
+    
+    $("." + associatedButton).click(function () {
+        $("#" + containerElement).dialog("open");
+        return false;
+    });
+}
+
 //setup confirm box
 function setupConfirmBox(containerElement, associatedLink) {
 	$.fx.speeds._default = 500;
