@@ -180,7 +180,7 @@
 	$.fn.maphilight = function(opts) {
 		opts = $.extend({}, $.fn.maphilight.defaults, opts);
 		
-		if(!has_canvas && $.browser.msie && !ie_hax_done) {
+		if(!has_canvas && $.support.opacity && !ie_hax_done) {
 			document.namespaces.add("v", "urn:schemas-microsoft-com:vml");
 			var style = document.createStyleSheet();
 			var shapes = ['shape','rect', 'oval', 'circ', 'fill', 'stroke', 'imagedata', 'group','textbox'];
@@ -240,7 +240,7 @@
 				}
 			}
 			img.before(wrap).css('opacity', 0).css(canvas_style).remove();
-			if($.browser.msie) { img.css('filter', 'Alpha(opacity=0)'); }
+			if($.support.opacity) { img.css('filter', 'Alpha(opacity=0)'); }
 			wrap.append(img);
 			
 			canvas = create_canvas_for(this);

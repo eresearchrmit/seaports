@@ -132,18 +132,16 @@ function setupCollapsibles(containerClass, isExpanded) {
 	});
 }
 
-function setupBubblePopup(fieldId, htmlContent, themepath) {
-	$("#" + fieldId).CreateBubblePopup({
-		position: 'right',
-        align: 'center',
-        selectable: true,
-        innerHtml: htmlContent,
-        innerHtmlStyle: {
-            'color': '#FFFFFF',
-            'text-align': 'justify',
-            'max-width': '500px'
-        },
-        themeName: 'all-blue',
-        themePath: themepath
+function setupTooltips() {
+	/* Lightweight tooptips library Zebra Tooltips by Stephan Gabos
+	 * http://stefangabos.ro/jquery/zebra-tooltips/
+	 * http://sourceforge.net/projects/zebra-tooltips/files/
+	 */
+	new $.Zebra_Tooltips($('.helpTooltip'), {
+        'position': 'right',
+        'max_width': 500,
+        'background_color': '#0561B4',
+        'color': 'white',
+        'border': '2px solid white'
     });
 }

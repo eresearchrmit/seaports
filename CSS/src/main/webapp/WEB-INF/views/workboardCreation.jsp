@@ -32,7 +32,7 @@
 		</tr>
 		<tr>
 			<td valign="top">
-				<label style="font-size:13px">Region Selection: <a href="#" id="lnkHelpRegionSelection" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a></label>
+				<label style="font-size:13px">Region Selection: <a href="#" class="helpTooltip" title="Hover over a Natural Resource Management region and click to select the region you want."><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a></label>
 			</td>
 			<td class="col2" valign="top">
 				<div id="displayUserStoryRegion" style="display:inline; font-size:13px" ></div>
@@ -77,7 +77,7 @@
 		</tr>
 		<tr>
 			<td class="top">
-				<label style="font-size:13px">Workboard purpose: <a href="#" id="lnkHelpPurpose" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a></label>
+				<label style="font-size:13px">Workboard purpose: <a href="#" class="helpTooltip" title="Tell us why you are using this Tool. For example, climate risk assessment for work; study (indicate what field) or research (indicate your area of interest / topic)." ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a></label>
 			</td>
 			<td class="col2" valign="top">
 				<form:textarea id ="txtWorkboardPurpose" path="purpose" rows="5" cols="30" style="width:300px" onblur="checkPurpose()" value="Test" />
@@ -140,9 +140,8 @@
 				e.preventDefault();
 		});
 		
-		// Help bubble popups
-		setupBubblePopup("lnkHelpRegionSelection", "Hover over a Natural Resource Management region and click to select the region you want.",  "${pageContext.request.contextPath}/resources/img/bubblepopup");
-		setupBubblePopup("lnkHelpPurpose", "Tell us why you are using this Tool. For example, climate risk assessment for work; study (indicate what field) or research (indicate your area of interest/topic).",  "${pageContext.request.contextPath}/resources/img/bubblepopup");
+		// Help tooltips activation
+		setupTooltips();
 	});
 	
 	function checkTitle() {

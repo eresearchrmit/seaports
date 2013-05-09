@@ -51,17 +51,28 @@
 	<script type="text/javascript">
 		$(function() {
 			$("#tabs").tabs({
-				select: function(event, ui) {
-					window.location.replace(ui.tab.hash);
-				},
-				show: function(event, ui) {				
-					$(window).resize(); // triggered to resize the Highcharts graphs to a % of the width of the tab
+				activate: function(event, ui) {
+					
+					// Change the hash of the webpage to the activated Tab, without scrolling to that hash
+					// This is just to return to the right tab if a form is posted or page refreshed
+					var active = $("#tabs").tabs("option", "active");
+					var tabHash = $("#tabs ul>li a").eq(active).attr('href');
+					if(history.pushState)
+					    history.pushState(null, null, tabHash);
+					else
+					    location.hash = tabHash;
+
+					// Triggered to resize the Highcharts graphs to a % of the width of the tab
+					$(window).resize(); 
 				}
 			});
 
 			setupConfirmBox("confirmConvertToUserStoryModalWindow", "lnkConvertToUserStory");
 			setupConfirmBox("confirmWorkboardDeletionModalWindow", "lnkDeleteWorkboard");
 			setupConfirmBox("confirmDataElementDeletionModalWindow", "lnkDeleteDataElement");
+			
+			// Help tooltips activation
+			setupTooltips();
 		});
 	</script>
 	

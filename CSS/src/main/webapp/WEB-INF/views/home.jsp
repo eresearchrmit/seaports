@@ -4,7 +4,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div class="grid_12">
-	
 	<div class="message info">
 		<h5>Information: BETA version</h5>
 		<p>This is a BETA version of the tool that currently has data for three NRM regions. Please refer to the Limitations section of the Guidance document for further process and data limitations.</p>
