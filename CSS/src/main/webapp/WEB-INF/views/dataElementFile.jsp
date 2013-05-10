@@ -3,6 +3,7 @@
 <%@ page import= "org.springframework.web.servlet.tags.*" %>
 <%@ page import="war.model.DataElementCsiro" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <c:choose>
 	<c:when test="${dataelement.filetype == 'jpg' || dataelement.filetype == 'jpeg'}">
@@ -14,7 +15,7 @@
 	    	</li>
 		</ul>		
     </c:when>
-    
+
 	<c:otherwise>
 		<!-- <textarea name="dataelements[${status.index}].name" rows="12" disabled>${dataelement.stringContent}</textarea> -->
 		${dataelement.stringContent}

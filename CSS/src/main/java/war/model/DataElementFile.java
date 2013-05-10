@@ -123,8 +123,28 @@ public class DataElementFile extends DataElement {
 	 */
 	public void generateStringContent() {
 		if (this.content != null) {
-			if (this.filetype != null && (this.filetype.equals("jpg") || this.filetype.equals("jpeg")))
+			if (this.filetype != null && (this.filetype.equals("jpg") || this.filetype.equals("jpeg"))) {
 				this.stringContent = Base64.encodeBase64String(this.content);
+			}
+			else if (this.filetype != null && this.filetype.equals("csv")) {
+				String result = "<table class=\"data display datatable\">";
+				
+				String fileContent = new String(this.content);
+				String[] rows = fileContent.split("\n");
+				
+				int i = 0;
+				for (String row : rows) {
+					result += "<tr class=\"" + ((i % 2 == 0) ? "even" : "odd") + "\">";
+					String[] cells = row.split(",");
+					for (String cell : cells) {
+						result += "<td class=\"top\">" + cell + "</td>";
+					}
+					result += "</tr>";
+					i++;
+				}
+				result += "</table>";
+				this.stringContent = result;
+			}
 			else
 				this.stringContent = new String(this.content);
 		}

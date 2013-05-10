@@ -162,7 +162,7 @@
 						<td class="col2">
 							<input type="file" name="file" id="customFileUpload" />
 							<p class="hint">
-								<i>Accepted formats: Text (txt) or Image (jpeg, jpg)</i>
+								<i>Accepted formats: Text (txt), table (csv) or Image (jpeg)</i>
 							</p>
 						</td>
 					</tr>

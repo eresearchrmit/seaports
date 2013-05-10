@@ -244,12 +244,17 @@ public class WorkboardController {
         	String fileName = uploadfile.getOriginalFilename().substring(0, lastIndex);
             String fileExtension = uploadfile.getOriginalFilename().substring(lastIndex + 1);
             
-            String[] arrAllowedFiletypes = {"image/jpeg", "text/plain", "text/html", "text/csv", "text/xml"};
-            if(ArrayUtils.contains(arrAllowedFiletypes, uploadfile.getContentType())) {
+            String contentType = uploadfile.getContentType();
+            String[] arrPlainTextFiletypes = {"text/plain", "application/txt", "browser/internal", "text/anytext", "widetext/plain", "widetext/paragraph"};
+            String[] arrJpegFiletypes = {"image/jpeg", "image/jpg", "image/jp_", "application/jpg", "application/x-jpg", "image/pjpeg", "image/pipeg", "image/vnd.swiftview-jpeg","image/x-xbitmap"};
+            String[] arrCsvFiletypes = {"text/comma-separated-values", "text/csv", "application/csv", "application/excel", "application/vnd.ms-excel", "application/vnd.msexcel"};
+            if(ArrayUtils.contains(arrPlainTextFiletypes, contentType) || ArrayUtils.contains(arrJpegFiletypes, contentType) || ArrayUtils.contains(arrCsvFiletypes, contentType)) {
             	
             	DisplayType displayType = DisplayType.PLAIN;
-            	if (uploadfile.getContentType().equals("image/jpeg"))
+            	if (ArrayUtils.contains(arrJpegFiletypes, contentType)) // File is a JPEG
             		displayType = DisplayType.PICTURE;
+            	else if (ArrayUtils.contains(arrCsvFiletypes, contentType)) // File is a CSV
+            		displayType = DisplayType.TABLE;
             	DataElementFile dataElement = new DataElementFile(new Date(), fileName, true, 0, displayType, userStory, fileExtension, uploadfile.getBytes());
             	dataElementDao.save(dataElement);
             	userStory.getDataElements().add(dataElement);
@@ -923,7 +928,7 @@ public class WorkboardController {
 	public static final String ERR_RETRIEVE_WORKBOARD = "Impossible to retrieve your Workboard";
 	public static final String ERR_DELETE_DATA_ELEMENT = "The Data Element could not be deleted";
 	public static final String ERR_FILE_UPLOAD = "Unable to upload the file to your workboard";
-	public static final String ERR_INVALID_FILETYPE = "This file format is not handled by the application (only text, xml, html and jpeg files are allowed).";
+	public static final String ERR_INVALID_FILETYPE = "This file format is not handled by the application (only text, csv and jpeg files are allowed).";
 	
 	public static final String MSG_ABS_DATA_ADDED = "The ABS data has been added successfully to your workboard";
 	public static final String MSG_BITRE_DATA_ADDED = "The BITRE data has been added successfully to your workboard";
