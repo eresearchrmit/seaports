@@ -332,28 +332,13 @@ public class WorkboardControllerTest {
 		workboardController.uploadfileinWorkboard(mockMultipartFileText, 1, model);
 		Assert.assertNull(model.get("errorMessage"));
 		
-		MockMultipartFile mockMultipartFileXml = new MockMultipartFile("content", "test.xml", "text/xml", "Hello World".getBytes());
-		workboardController.uploadfileinWorkboard(mockMultipartFileXml, 1, model);
-		Assert.assertNull(model.get("errorMessage"));
-
-		MockMultipartFile mockMultipartFileHtml = new MockMultipartFile("content", "test.html", "text/html", "Hello World".getBytes());
-		workboardController.uploadfileinWorkboard(mockMultipartFileHtml, 1, model);
-		
 		MockMultipartFile mockMultipartFileCsv = new MockMultipartFile("content", "test.csv", "text/csv", "Hello World".getBytes());
 		workboardController.uploadfileinWorkboard(mockMultipartFileCsv, 1, model);
-		
+		Assert.assertNull(model.get("errorMessage"));
 
 		MockMultipartFile mockMultipartFileJpeg = new MockMultipartFile("content", "test.jpeg", "image/jpeg", "Hello World".getBytes());
 		workboardController.uploadfileinWorkboard(mockMultipartFileJpeg, 1, model);
 		Assert.assertNull(model.get("errorMessage"));
-		
-		/*MockMultipartFile mockMultipartFileGif = new MockMultipartFile("content", "test.gif", "image/gif", "Hello World".getBytes());
-		workboardController.uploadfileinWorkboard(mockMultipartFileGif, 1, model);
-		Assert.assertNull(model.get("errorMessage"));
-		
-		MockMultipartFile mockMultipartFilePng = new MockMultipartFile("content", "test.png", "image/png", "Hello World".getBytes());
-		workboardController.uploadfileinWorkboard(mockMultipartFilePng, 1, model);
-		Assert.assertNull(model.get("errorMessage"));*/
 	}
 	
 	@Test
