@@ -59,7 +59,7 @@ public class UserStory {
 	private String mode;
 	
 	/**
-	 * The level of privacy for this suer story. It can be private or public.
+	 * The level of privacy for this user story. It can be private or public.
 	 * Private: only the owner can view the user story
 	 * Public: everyone can view the user story
 	 */

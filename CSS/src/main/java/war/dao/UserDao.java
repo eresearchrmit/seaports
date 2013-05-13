@@ -105,6 +105,6 @@ public class UserDao {
 		}
 	}
 	
-	public static final String ERR_NO_SUCH_USER = "No user could be found with this login";
+	public static final String ERR_NO_SUCH_USER = "No user could be found with this username";
 	public static final String ERR_REQUIRED_INFORMATION = "Please provide the minimal required user information";
 }

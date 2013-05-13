@@ -76,7 +76,7 @@ public class User implements Serializable, UserDetails {
 	 * The stories of the user
 	 */
 	@OneToMany(targetEntity=UserStory.class, mappedBy="owner", cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH}, fetch=FetchType.EAGER)
-	private List<UserStory> userstories;
+	private List<UserStory> userStories;
 	
 	/**
 	 * Default constructor of user
@@ -280,15 +280,15 @@ public class User implements Serializable, UserDetails {
 	 * @return the list of UserStory of the user
 	 */
 	public List<UserStory> getUserStories() {
-		return userstories;
+		return userStories;
 	}
 
 	/**
 	 * Setter for the list of UserStory belonging to the user
-	 * @param name: the new list of UserStory of the user
+	 * @param userStories: the new list of UserStory of the user
 	 */
-	public void setUserStories(List<UserStory> userstories) {
-		this.userstories = userstories;
+	public void setUserStories(List<UserStory> userStories) {
+		this.userStories = userStories;
 	}
 	
 	@Override

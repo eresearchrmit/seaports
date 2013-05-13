@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import org.springframework.ui.Model;
 
@@ -88,6 +90,30 @@ public class UserController {
 			model.addAttribute("errorMessage", e.getMessage());
 			return "register";
 		}
+	}
+	
+	@RequestMapping(value = {"/public/user/{username}"}, method = RequestMethod.GET)
+	public ModelAndView userProfile(@PathVariable String username, Model model) {
+		
+		// Get the currently logged in user if possible
+		try {
+			model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
+		}
+		catch (Exception e) {
+		}
+		
+		try {
+			// Retrieve the required user's profile
+			User user = userDao.loadUserByName(username);
+			
+			model.addAttribute("userProfile", user);
+		}
+		catch (Exception e) {
+			model.addAttribute("errorMessage", e.getMessage());
+		}
+		
+		
+		return new ModelAndView("profile");
 	}
 	
 	public static final String ERR_SIGNUP = "The application wasn't able to create your account. Please try again later";

@@ -30,7 +30,7 @@
 				<c:forEach items="${userStoriesList}" var="story" varStatus="status"> 
 				<tr>
 					<td><c:out value="${story.name}" /></td>
-					<td>${story.owner.firstname} ${story.owner.lastname}</td>
+					<td><a href="/CSS/public/user/${story.owner.username}" title="View profile">${story.owner.firstname} ${story.owner.lastname}</a></td>
 					<td><fmt:formatDate value="${story.publishDate}" pattern="dd MMM yyyy" /></td>
 					<td>${story.seaport.region.name}</td>
 					<td><a href="/CSS/public/reports/view?id=${story.id}" title="View this Story" target="_blank"><img src="<c:url value="/resources/img/icons/page_white.png" />" alt="View" /></a></td>
