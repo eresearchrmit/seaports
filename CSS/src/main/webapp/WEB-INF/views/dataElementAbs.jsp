@@ -26,7 +26,7 @@
 				                spacingRight: 20
 				            },
 				            title: {
-				                text: '${dataelement.absDataList[0].seaport.urbanCenter} - Annual Population Change'
+				                text: '${dataelement.absDataList[0].seaport.urbanCenter} - Annual Population Change in Urban Areas'
 				            },
 				            xAxis: {
 				            	categories: ['2001', '2002', '2003', '2004', '2005', '2006',

@@ -9,8 +9,8 @@
 	<c:when test="${dataelement.filetype == 'jpg' || dataelement.filetype == 'jpeg'}">
 		<ul class="prettygallery clearfix">
 			<li>
-				<a href="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" rel="prettyPhoto" title="${dataelement.name}">
-					<img name="${dataelement.name}" src="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" class="dataElementThumb" />
+				<a href="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" target="_blank" rel="prettyPhoto" title="${dataelement.name}">
+					<img name="${dataelement.name}" src="data:image/jpeg;charset=utf-8;base64,${dataelement.stringContent}" style="max-width:100%; max-height: 500px;" />
 				</a>
 	    	</li>
 		</ul>		

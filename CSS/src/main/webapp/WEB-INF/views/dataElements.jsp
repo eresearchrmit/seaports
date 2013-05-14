@@ -26,50 +26,52 @@
 					<input name="dataElements[${status.index}].fileid" value="${dataelement.id}" type="hidden">
 					<input name="dataElements[${status.index}].filename" value="${dataelement.name}" type="hidden">
 					
-					<div class="box-content">
-						<%-- ABS Data Element --%>
-		 				<c:if test="${dataelement.class.simpleName == 'DataElementAbs'}">
-		 					<jsp:include page="dataElementAbs.jsp" />
-		 				</c:if>
-		 				
-		 				<%-- Port Australia Data Element --%>
-		 				<c:if test="${dataelement.class.simpleName == 'DataElementBitre'}">
-		 					<jsp:include page="dataElementBitre.jsp" />
-		 				</c:if>
-					
-						<%-- Past Data Element --%>
-		 				<c:if test="${dataelement.class.simpleName == 'DataElementPast'}">
-		 					<jsp:include page="dataElementPast.jsp" />
-		 				</c:if>
-		 				
-		 				<%-- Acorn-Sat Data Element --%>
-		 				<c:if test="${dataelement.class.simpleName == 'DataElementAcornSat'}">
-		 					<jsp:include page="dataElementAcornSat.jsp" />
-		 				</c:if>
+					<div class="box-content" <c:if test="${dataelementsfilter == 'All'}">style="display:none"</c:if>>
+						<c:if test="${dataelementsfilter != 'All'}">
+							<%-- ABS Data Element --%>
+			 				<c:if test="${dataelement.class.simpleName == 'DataElementAbs'}">
+			 					<jsp:include page="dataElementAbs.jsp" />
+			 				</c:if>
+			 				
+			 				<%-- Port Australia Data Element --%>
+			 				<c:if test="${dataelement.class.simpleName == 'DataElementBitre'}">
+			 					<jsp:include page="dataElementBitre.jsp" />
+			 				</c:if>
 						
-						<%-- CSIRO Data Element --%>
-		 				<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
-		 					<jsp:include page="dataElementCsiro.jsp" />
-		 				</c:if>
-		 				
-		 				<%-- CMAR Data Element --%>
-		 				<c:if test="${dataelement.class.simpleName == 'DataElementCmar'}">
-		 					<jsp:include page="dataElementCmar.jsp" />
-		 				</c:if>
-		 				
-		 				<%-- Engineering Model Data Element --%>
-		 				<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
-		 					<jsp:include page="dataElementEngineeringModel.jsp" />
-		 				</c:if>
-		 				
-		 				<%-- Vulnerability Data Element --%>
-		 				<c:if test="${dataelement.class.simpleName == 'DataElementVulnerability'}">
-		 					<jsp:include page="dataElementVulnerability.jsp" />
-		 				</c:if>
-		 				
-		 				<%-- File Data Element, display a picture if JPEG, textarea with content otherwise --%>
-						<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">
-		 					<jsp:include page="dataElementFile.jsp" />
+							<%-- Past Data Element --%>
+			 				<c:if test="${dataelement.class.simpleName == 'DataElementPast'}">
+			 					<jsp:include page="dataElementPast.jsp" />
+			 				</c:if>
+			 				
+			 				<%-- Acorn-Sat Data Element --%>
+			 				<c:if test="${dataelement.class.simpleName == 'DataElementAcornSat'}">
+			 					<jsp:include page="dataElementAcornSat.jsp" />
+			 				</c:if>
+							
+							<%-- CSIRO Data Element --%>
+			 				<c:if test="${dataelement.class.simpleName == 'DataElementCsiro'}">
+			 					<jsp:include page="dataElementCsiro.jsp" />
+			 				</c:if>
+			 				
+			 				<%-- CMAR Data Element --%>
+			 				<c:if test="${dataelement.class.simpleName == 'DataElementCmar'}">
+			 					<jsp:include page="dataElementCmar.jsp" />
+			 				</c:if>
+			 				
+			 				<%-- Engineering Model Data Element --%>
+			 				<c:if test="${dataelement.class.simpleName == 'DataElementEngineeringModel'}">
+			 					<jsp:include page="dataElementEngineeringModel.jsp" />
+			 				</c:if>
+			 				
+			 				<%-- Vulnerability Data Element --%>
+			 				<c:if test="${dataelement.class.simpleName == 'DataElementVulnerability'}">
+			 					<jsp:include page="dataElementVulnerability.jsp" />
+			 				</c:if>
+			 				
+			 				<%-- File Data Element, display a picture if JPEG, textarea with content otherwise --%>
+							<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">
+			 					<jsp:include page="dataElementFile.jsp" />
+							</c:if>
 						</c:if>
 					</div>
 				</div>

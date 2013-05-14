@@ -72,5 +72,5 @@ public class BitreVariableCategoryDao {
 		}
 	}
 	
-	public static final String ERR_NO_RESULT = "No BITRE variable category found corresponding to the specified name";
+	public static final String ERR_NO_RESULT = "No Ports Australia variable category found corresponding to the specified name";
 }

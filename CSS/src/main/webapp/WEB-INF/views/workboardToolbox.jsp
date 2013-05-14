@@ -50,7 +50,7 @@
 						</td>
 						<td class="col2">
 							<select id="cbbAbsDataVariable" name="variable">
-								<option value="1">Population change</option>
+								<option value="1">Population change data for urban areas</option>
 							</select>
 						</td>
 					</tr>
@@ -417,11 +417,11 @@
 							<select id="cbbEngineeringVariable" name="engVariable">
 								<option disabled class="dropDownTitle">${chlorideEngineeringModelVariables[0].category}</option>
 								<c:forEach items="${chlorideEngineeringModelVariables}" var="engineeringModelVariable" varStatus="loop">
-									<option value="${engineeringModelVariable.name}" title="${engineeringModelVariable.category}">${engineeringModelVariable.name}</option>
+									<option value="${engineeringModelVariable.name}" title="${engineeringModelVariable.category}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${engineeringModelVariable.name}</option>
 								</c:forEach>
 								<option disabled class="dropDownTitle">${carbonationEngineeringModelVariables[0].category}</option>
 								<c:forEach items="${carbonationEngineeringModelVariables}" var="engineeringModelVariable" varStatus="loop">
-									<option value="${engineeringModelVariable.name}" title="${engineeringModelVariable.category}">${engineeringModelVariable.name}</option>
+									<option value="${engineeringModelVariable.name}" title="${engineeringModelVariable.category}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${engineeringModelVariable.name}</option>
 								</c:forEach>
 							</select>
 						</td>

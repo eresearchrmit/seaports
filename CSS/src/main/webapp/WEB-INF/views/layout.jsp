@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="icon" type="image/png" href="<c:url value="/resources/img/theme/favicon.ico" />" />
 <title><tiles:insertAttribute name="title" ignore="true" /></title>
 <tiles:insertAttribute name="imports" />
 </head>

@@ -3,6 +3,7 @@
 <%@ page import= "org.springframework.web.servlet.tags.*" %>
 <%@ page import="war.model.DataElementCsiro" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <c:choose>
 	<c:when test="${not empty dataelement.csiroDataList}">
@@ -14,7 +15,7 @@
 						<tr>
 							<th>Variable</th>
 							<th>Baseline</th>
-							<th>Change for the ${dataelement.csiroDataList[0].year}s</th>
+							<th>Change centred around ${dataelement.csiroDataList[0].year}</th>
 							<%--<c:if test="${dataelement.picturesIncluded}"><th class="center">Map</th></c:if> --%>
 						</tr>
 					</thead>
@@ -34,11 +35,11 @@
 				<table>
 				<tr>
 				<c:forEach items="${dataelement.csiroDataList}" var="csiroData" varStatus="dataLoopStatus">
-					<td>
+					<td <c:if test="${fn:length(dataelement.csiroDataList) gt 1}">style="width:25%"</c:if>>
 						<center><strong>${csiroData.variable.name}</strong></center><br />
 						<c:choose>
 							<c:when test="${not empty csiroData.picture}">
-								<img style="width:100%" name="${csiroData.variable.name}" src="<c:url value="/resources/img/data/csiro/${csiroData.picture}" />" class="dataelementIllustrationPicture csiroIllustrationPicture" />
+								<img <c:if test="${fn:length(dataelement.csiroDataList) gt 1}">style="width:100%" </c:if>name="${csiroData.variable.name}" src="<c:url value="/resources/img/data/csiro/${csiroData.picture}" />" class="dataelementIllustrationPicture csiroIllustrationPicture" />
 							</c:when>
 							<c:otherwise>
 								<center>No map available</center>

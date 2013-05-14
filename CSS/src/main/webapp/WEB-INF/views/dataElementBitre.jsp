@@ -38,7 +38,7 @@
 			</c:when>
 			<c:when test="${dataelement.displayType == 'GRAPH'}">
 				<c:choose>
-					<c:when test="${categoryName == 'Freight throuput by cargo type'}">
+					<c:when test="${categoryName == 'Freight throughput by cargo type'}">
 						<script type="text/javascript">
 							$(function () {
 								setTimeout(function(){

@@ -12,9 +12,7 @@
 						
 			<ul class="prettygallery clearfix">
 				<li>
-					<a href="<c:url value="/resources/img/data/bom/${pastData.picture}" />" rel="prettyPhoto" title="${pastData.title}">
-						<img name="${pastData.title}" src="<c:url value="/resources/img/data/bom/${pastData.picture}" />" class="dataElementThumb" />
-					</a>
+					<img name="${pastData.title}" src="<c:url value="/resources/img/data/bom/${pastData.picture}" />" />
 		    	</li>
 			</ul>
 			

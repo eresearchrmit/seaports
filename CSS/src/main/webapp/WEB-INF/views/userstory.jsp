@@ -20,16 +20,16 @@
 		<h4><c:out value="${userstory.seaport.region.name}" /> region</h4>
 	</div>
 	
-	<a href="/CSS/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">
-		<button class="btnAddDataElement btn btn-icon btn-blue btn-doc" >
-			<span></span>Preview the report
-		</button>
-	</a>
 	<c:choose>
 		<c:when test="${userstory.mode == 'published'}">
 			<a href="#" style="margin-right: 10px; float:right">
 				<button class="btnAddDataElement btn btn-icon btn-green btn-globe" >
 					<span></span>Report Published
+				</button>
+			</a>
+			<a href="/CSS/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">
+				<button class="btnAddDataElement btn btn-icon btn-blue btn-doc" >
+					<span></span>Preview the report
 				</button>
 			</a>
 			<a href="#" style="margin-right: 10px; float:right">
@@ -54,6 +54,11 @@
 			<a class="lnkPublishUserStory" href="/CSS/auth/userstory/publish?id=${userstory.id}" style="margin-right: 10px; float:right">
 				<button class="btnAddDataElement btn btn-icon btn-blue btn-globe" >
 					<span></span>Publish the report
+				</button>
+			</a>
+			<a href="/CSS/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">
+				<button class="btnAddDataElement btn btn-icon btn-blue btn-doc" >
+					<span></span>Preview the report
 				</button>
 			</a>
 			<a class="lnkDeleteUserStory" href="/CSS/auth/userstory/delete?id=${userstory.id}" style="margin-right: 10px; float:right">
@@ -101,13 +106,6 @@
 					</div>
 				</form:form>
 			</div>
-			<!--<div id="dataElementAdder">
-				<a href="/CSS/auth/userstory/addText?story=${userstory.id}" style="margin-right: 10px; float:right">
-					<button class="btnAddDataElement btn btn-icon btn-blue btn-plus">
-						<span></span>Add Text to report
-					</button>
-				</a>
-			</div>-->
 		</c:otherwise>
 	</c:choose>
 	

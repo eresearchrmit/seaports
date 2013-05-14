@@ -248,7 +248,7 @@ CREATE TABLE `bitre_variable_category` (
 
 LOCK TABLES `bitre_variable_category` WRITE;
 /*!40000 ALTER TABLE `bitre_variable_category` DISABLE KEYS */;
-INSERT INTO `bitre_variable_category` VALUES (1,'Freight throuput by cargo type'),(2,'Commercial vessel calls by type'),(3,'Export Commodities by type');
+INSERT INTO `bitre_variable_category` VALUES (1,'Freight throughput by cargo type'),(2,'Commercial vessel calls by type'),(3,'Export Commodities by type');
 /*!40000 ALTER TABLE `bitre_variable_category` ENABLE KEYS */;
 UNLOCK TABLES;
 

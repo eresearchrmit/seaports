@@ -33,7 +33,7 @@ public class BitreDataLoader {
 	public static void LoadBitreData(Session session)
 	{
 		// BITRE Variables Categories
-		BitreVariableCategory cargoType = new BitreVariableCategory("Freight throuput by cargo type");
+		BitreVariableCategory cargoType = new BitreVariableCategory("Freight throughput by cargo type");
 		BitreVariableCategory vesselcallsType = new BitreVariableCategory("Commercial vessel calls by type");
 		BitreVariableCategory commoditiesType = new BitreVariableCategory("Export Commodities by type");
 		session.save(cargoType);

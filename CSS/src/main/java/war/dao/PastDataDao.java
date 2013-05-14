@@ -93,5 +93,5 @@ public class PastDataDao {
 		}		
 	} 
 	
-	public static final String ERR_NO_RESULT = "No past data found corresponding to the specified parameters";
+	public static final String ERR_NO_RESULT = "No CSIRO or BoM trend data found corresponding to the specified parameters";
 }

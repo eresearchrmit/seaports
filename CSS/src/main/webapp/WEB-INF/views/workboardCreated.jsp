@@ -21,11 +21,11 @@
 			});
 		</script>
 		
-		<h3>How to use your workboard:</h3>
+		<h3>How to use your Workboard</h3>
 		
 		<p class="info-paragraph">The Workboard is where data can be collected and reviewed.</p>  
 
-		<p class="info-paragraph">It has a number of tabs for users to progress through, each presenting different data sets: Non-climate context; Observed Climate; Future Climate; Applications (Engineering model and Vulnerability assessment).  Users add relevant data from each tab, and then review their collected data in the "Summary" tab.</p> 
+		<p class="info-paragraph">It has a number of tabs for users to progress through, each presenting different data sets: Non-climate context; Observed Climate; Future Climate; Applications (Concrete deterioration model and vulnerability assessment).  Users add relevant data from each tab, and then review their collected data in the "Summary" tab.</p> 
 		
 		<img src="<c:url value="/resources/img/help/workboard-instructions.jpg" />" style="margin: 50px auto" />
 		

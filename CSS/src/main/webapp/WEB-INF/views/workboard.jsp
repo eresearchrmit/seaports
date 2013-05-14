@@ -31,7 +31,7 @@
 		</button>
 	</a>
 	<div style="display:none" id="confirmWorkboardDeletionModalWindow" title="Delete your workboard ?">
-		<p class="message"><span class="error"><b>Warning : Deleting your workboard will also delete all the data elements it contains. This action cannot be undone !</b></span></p>
+		<p class="message"><span class="error"><b>Warning : Deleting your workboard will also delete all data it contains. This action cannot be undone !</b></span></p>
 		<p>Are you sure you want to permanently delete your current workboard ?</p> 
 	</div>
 	<div style="display:none" id="confirmConvertToUserStoryModalWindow" title="Create a report from this workboard ?">
@@ -178,6 +178,14 @@
 			<c:set var="dataelements" scope="request" value="${dataelements}"/>
 			<c:set var="dataelementsfilter" scope="request" value="All"/>
 			<jsp:include page="dataElements.jsp" />
+			
+			<center>
+			<a class="lnkConvertToUserStory" href="/CSS/auth/userstory/create?id=${userstory.id}">
+				<button id="btnConvertToUserStory" type="button" class="btn btn-icon btn-blue btn-arrow-right" >
+					<span></span>Create Report
+				</button>
+			</a>
+			</center>
 		</div>
 	</div></div>
 </c:if>

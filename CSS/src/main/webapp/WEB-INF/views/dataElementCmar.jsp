@@ -15,7 +15,7 @@
 				<th>Variable</th>
 				<th>Latitude</th>
 				<th>Longitude</th>
-				<th>Change for the ${dataelement.cmarDataList[0].year}s</th>
+				<th>Change centred around ${dataelement.cmarDataList[0].year}</th>
 				<c:if test="${dataelement.picturesIncluded}"><th class="center">Map</th></c:if>
 			</tr>
 		</thead>

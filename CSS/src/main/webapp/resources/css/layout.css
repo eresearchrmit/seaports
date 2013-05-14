@@ -4,7 +4,7 @@ Grey Box Method - Layout CSS
 ----------------------------------------------- */
 
 body {
-	background-color:#e6f0f3;
+	background-color:#d0d7dd;
 	color: #333;
 	font-size: 11px;
 	padding: 0 0 0px;
@@ -84,7 +84,7 @@ h1 a {
 
 .header-repeat{background:url(../img/theme/header-repeat.jpg) repeat;}
 
-#branding a{color:#A1EAFF; font-weight:normal;}
+#branding a{color:#305b7b; font-weight:normal;}
 #branding a:hover{color:#0055A8;}
 
 #branding li:before{content:" | "; color:#0055A8;}

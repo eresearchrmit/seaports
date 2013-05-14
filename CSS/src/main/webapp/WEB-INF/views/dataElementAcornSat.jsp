@@ -26,7 +26,7 @@
 		<thead>
 			<tr>
 				<th>ACORN-SAT stations</th>
-				<th>Station name</th>
+				<th>Station Name</th>
 				<th>Number</th>
 				<th>Latitude</th>
 				<th>Longitude</th>
@@ -38,8 +38,8 @@
 				<c:if test="${dataelement.acornSatDataList[0].extreme == false}">
 				<th>Annual mean surface <br />temperature</th>
 				<th>Annual mean <br />rainfall</th>
-				<th colspan="2">Annual mean <br />Relative humidity</th>
-				<th colspan="2">Annual Mean <br />wind speed</th>
+				<th colspan="2">Annual mean Relative humidity</th>
+				<th colspan="2">Annual Mean wind speed</th>
 				</c:if>
 			</tr>
 			</thead>
@@ -53,6 +53,13 @@
 					<td><b>3pm</b></td>
 				</tr>
 				</c:if>
+				<tr>
+					<td rowspan="6">
+								<c:set var="pictureName" value="/resources/img/data/acornsat/acornsat-${fn:replace(userstory.seaport.region.name, ' ', '-')}.png" />
+			<c:set var="formattedPictureName" value="${fn:toLowerCase(pictureName)}" />
+			<img src="<c:url value="${formattedPictureName}" />" alt="ACORN-SAT stations map" />
+					</td>
+				</tr>
 				<c:forEach items="${dataelement.acornSatDataList}" var="acornSatData" varStatus="dataLoopStatus">
 					<c:if test="${prevData.acornSatStation.name != acornSatData.acornSatStation.name}">
 					<td></td>
