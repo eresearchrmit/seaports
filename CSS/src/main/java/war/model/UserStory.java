@@ -17,6 +17,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import war.controller.RIFCSController;
 import war.model.User;
 
 /**
@@ -288,6 +289,65 @@ public class UserStory {
 	 */
 	public void setPublishDate(Date publishDate) {
 		this.publishDate = publishDate;
+	}
+	
+	public String getShortDescription() {
+		return "Report about climate change in the " + seaport.getRegion().getName() 
+		+ " NRM region of Australia, focused on " + seaport.getName() + ".";
+	}
+	
+	public String getFullDescription() {
+		String str = "";
+        int i = 1;
+        for (DataElement dataElement : dataElements) {        	
+ 			if (dataElement.getClass().equals(DataElementAbs.class) && !str.contains("ABS data")) {
+ 				str += "ABS data";
+ 				str += (i < dataElements.size() ? ", " : "");
+ 			}
+ 			else if (dataElement.getClass().equals(DataElementBitre.class) && !str.contains("ports Australia data")) {
+ 				str += "ports Australia data";
+ 				str += (i < dataElements.size() ? ", " : "");
+ 			}
+ 			else if (dataElement.getClass().equals(DataElementFile.class) && !str.contains("custom data")) {
+ 				str += owner.getFirstname() + " " + owner.getLastname() + "'s custom data";
+ 				str += (i < dataElements.size() ? ", " : "");
+ 			}
+ 			else if (dataElement.getClass().equals(DataElementPast.class) && !str.contains("CSIRO & BoM trend data")) {
+ 				str += "CSIRO & BoM trend data";
+ 				str += (i < dataElements.size() ? ", " : "");
+ 			}
+ 			else if (dataElement.getClass().equals(DataElementAcornSat.class) && !str.contains("measurements from ACORN-SAT stations")) {
+ 				str += "measurements from ACORN-SAT stations";
+ 				str += (i < dataElements.size() ? ", " : "");
+ 			}
+ 			else if (dataElement.getClass().equals(DataElementCmar.class) && !str.contains("CMAR future data")) {
+ 				str += "CMAR future data";
+ 				str += (i < dataElements.size() ? ", " : "");
+ 			}
+ 			else if (dataElement.getClass().equals(DataElementCsiro.class) && !str.contains("CSIRO future data")) {
+ 				str += "CSIRO future data";
+ 				str += (i < dataElements.size() ? ", " : "");
+ 			}
+ 			else if (dataElement.getClass().equals(DataElementEngineeringModel.class) && !str.contains("concrete deterioration")) {
+ 				str += "concrete deterioration forecast model data";
+ 				str += (i < dataElements.size() ? ", " : "");
+ 			}
+ 			else if (dataElement.getClass().equals(DataElementVulnerability.class) && !str.contains("vulnerability assessment")) {
+ 				str += seaport.getName() + " vulnerability assessment";
+ 				str += (i < dataElements.size() ? ", " : "");
+ 			}
+ 			else if (dataElement.getClass().equals(DataElementText.class) && !str.contains("personal analysis")) {
+ 				str += owner.getFirstname() + " " + owner.getLastname() + "'s personal analysis.";
+ 				str += (i < dataElements.size() ? ", " : "");
+ 			}
+ 			i++;
+        }
+        
+        return "This report was created for " + seaport.getName() + " (" + seaport.getCode() 
+        + "), located in the ABC NRM region " + seaport.getRegion().getName() 
+		+ ". The report is composed of " + str + ". " + "It has been created by " + owner.getFirstname() 
+		+ " " + owner.getLastname() + " using the Climate Smart Seaports tool available at " 
+		+ RIFCSController.CSS_URL + ".";
 	}
 	
 	public static long getSerialversionuid() {

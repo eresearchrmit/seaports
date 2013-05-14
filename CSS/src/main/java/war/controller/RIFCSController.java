@@ -82,8 +82,8 @@ public class RIFCSController {
         location.addAddress(address);
         service.addLocation(location);
         
-        service.addRelatedObject(createRelatedObject("isAdministeredBy", "RMIT-AP35/1/2", service.newRelatedObject()));
-        service.addRelatedObject(createRelatedObject("isManagedBy", "RMIT-AP35/1/2", service.newRelatedObject()));
+        service.addRelatedObject(createRelatedObject("isAdministeredBy", ERESEARCH_PARTY_KEY, service.newRelatedObject()));
+        service.addRelatedObject(createRelatedObject("isManagedBy", ERESEARCH_PARTY_KEY, service.newRelatedObject()));
         
         // Description
         service.addDescription("Climate Smart Seaports is an online decision support toolkit designed to help Australian seaports adapating to climate change and improving their resilience to it. The toolkit lets access data from various datasets such as CSIRO, BoM, ABS, BITRE as well as their own personal data. Climate Smart Seaports then allows writing and publishing reports based on this data and the user analysis.", "full", "en");
@@ -95,7 +95,7 @@ public class RIFCSController {
         return r;
 	}
 	
-	public RegistryObject createRMITPartyRIFCS() throws RIFCSException {
+	/*public RegistryObject createRMITPartyRIFCS() throws RIFCSException {
 		RegistryObject r = rifcs.newRegistryObject();
         r.setKey(KEY_PARTY_PREFIX + CSS_TEAM_PARTY);
         r.setGroup(RMIT_GROUP);
@@ -139,7 +139,7 @@ public class RIFCSController {
         
         r.addParty(rmit);
         return r;
-	}
+	}*/
 	
 	public RegistryObject createPartyRIFCS(User user) throws RIFCSException {		
 		RegistryObject r = rifcs.newRegistryObject();
@@ -164,7 +164,7 @@ public class RIFCSController {
         }
         else {
         	id.setType("url");
-        	id.setValue(KEY_PARTY_PREFIX + user.getUsername());
+        	id.setValue(CSS_URL + "public/user/" + user.getUsername());
         }
         p.addIdentifier(id);
         
@@ -173,12 +173,12 @@ public class RIFCSController {
         Address address = loc.newAddress();
         Electronic electronic = address.newElectronic();
         electronic.setType("url");
-        electronic.setValue(KEY_PARTY_PREFIX + user.getUsername());
+        electronic.setValue(CSS_URL + "public/user/" + user.getUsername());
         address.addElectronic(electronic);
         loc.addAddress(address);
         p.addLocation(loc);
         
-        p.addRelatedObject(createRelatedObject("isManagedBy", "RMIT-AP35/1/2", p.newRelatedObject()));
+        p.addRelatedObject(createRelatedObject("isManagedBy", ERESEARCH_PARTY_KEY, p.newRelatedObject()));
         p.addRelatedObject(createRelatedObject("uses", KEY_SERVICE_PREFIX + CSS_APP_SERVICE, p.newRelatedObject()));
         
         // TODO: LVL3 link to an Activity records
@@ -193,14 +193,14 @@ public class RIFCSController {
 	public RegistryObject createCollectionRIFCS(UserStory story) throws RIFCSException {
 		
 		RegistryObject r = rifcs.newRegistryObject();
-        r.setKey(KEY_COLLECTION_PREFIX + "story" + story.getId());
+        r.setKey(KEY_COLLECTION_PREFIX + story.getId());
         r.setGroup(RMIT_GROUP);
         r.setOriginatingSource(CSS_URL + "public/reports/view?id=" + story.getId());
         
 		Collection c = r.newCollection();
 		
 		c.setType("collection");
-        c.addIdentifier(HANDLE_PREFIX + "story" + story.getId(), "handle");
+        c.addIdentifier(HANDLE_PREFIX + "report" + story.getId(), "handle");
         c.setDateModified(story.getPublishDate());
         
         // TODO: LVL3 Add "Dates" element (not available in RIF-CS API 1.3.0)
@@ -210,16 +210,15 @@ public class RIFCSController {
         name.setType("primary");
         name.addNamePart(story.getName(), "");
         c.addName(name);
-        
-        //TODO: set full description (auto-generated)
-        //c.addDescription("", "full", "en");
-        c.addDescription("Report about climate change in the " + story.getSeaport().getRegion().getName() + " NRM region of Australia, focused on " + story.getSeaport().getName(), "brief", "en");
+                
+        c.addDescription(story.getShortDescription(), "brief", "en");
+        c.addDescription(story.getFullDescription(), "full", "en");
         
         // Location
         Location location = c.newLocation();
         Address address = location.newAddress();
         Electronic electronic = address.newElectronic();
-        electronic.setType("");
+        electronic.setType("url");
         electronic.setValue(CSS_URL + "public/reports/view?id=" + story.getId());
         address.addElectronic(electronic);
         location.addAddress(address);
@@ -229,7 +228,7 @@ public class RIFCSController {
         c.addRelatedObject(createRelatedObject("isProducedBy", KEY_SERVICE_PREFIX + CSS_APP_SERVICE, c.newRelatedObject()));
         c.addRelatedObject(createRelatedObject("hasCollector", KEY_PARTY_PREFIX + story.getOwner().getUsername(), c.newRelatedObject()));
         //c.addRelatedObject(createRelatedObject("isManagedBy", KEY_PARTY_PREFIX + CSS_TEAM_PARTY, c.newRelatedObject()));
-        c.addRelatedObject(createRelatedObject("isManagedBy", "RMIT-AP35/1/2", c.newRelatedObject()));
+        c.addRelatedObject(createRelatedObject("isManagedBy", ERESEARCH_PARTY_KEY, c.newRelatedObject()));
         // TODO: LVL3 Link to an Activity record
         
         // Fields of Research
@@ -275,16 +274,20 @@ public class RIFCSController {
 	
 	public static final String ERR_RETRIEVE_USERSTORY_LIST = "Impossible to retrieve the list of published stories";
 	
+	public static final String ERESEARCH_PARTY_KEY = "RMIT-AP35/1/2";
 	public static final String RMIT_GROUP = "RMIT University";
+	
 	public static final String CSS_APP_SERVICE = "climatesmartseaports";
 	public static final String CSS_TEAM_PARTY = "cssteam";
 	
-	//public static final String KEY_PREFIX = "au.edu.rmit.ands.ap35";
-	public static final String KEY_COLLECTION_PREFIX = "http://www.rmit.edu.au/ap35/collection/";
-	public static final String KEY_PARTY_PREFIX = "http://www.rmit.edu.au/ap35/party/";
-	public static final String KEY_SERVICE_PREFIX = "http://www.rmit.edu.au/ap35/service/";
+	public static final String KEY_COLLECTION_PREFIX = "RMIT-AP35/collection/";
+	public static final String KEY_PARTY_PREFIX = "RMIT-AP35/party/";
+	public static final String KEY_SERVICE_PREFIX = "RMIT-AP35/service/";
+	
 	public static final String CSS_URL = "http://seaports.eres.rmit.edu.au:8080/CSS/";
 	public static final String HANDLE_PREFIX = "rmit:ap35/";
+	
+	
 	
 	public static final String DATE_LAST_MODIFIED = "2013-04-29T00:15:00+10:00";
 }

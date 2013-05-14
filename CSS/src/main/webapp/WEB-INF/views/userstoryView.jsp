@@ -61,8 +61,7 @@
 	</c:if>
 	
 	<c:if test="${not empty userstory}">
-	<p class="report-content">This report has been created by <a href="/CSS/public/user/${userstory.owner.username}">${userstory.owner.firstname} ${userstory.owner.lastname}</a> (${userstory.owner.email}) using the Climate Smart Seaports toolkit available at <a href="http://www.DOMAIN.com.au">http://www.DOMAIN.com.au</a></p>
-	<p class="report-content">This report was created for ${userstory.seaport.name} (${userstory.seaport.code}), located in the ${userstory.seaport.region.name} NRM region.</p> 
+	<p class="report-content">${userstory.fullDescription}</p> 
 	<br/><br/><br/>
 	
 	<c:if test="${not empty userstory.dataElements}">
