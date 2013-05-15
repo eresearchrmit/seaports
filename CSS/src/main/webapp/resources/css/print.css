@@ -17,4 +17,9 @@
 	.credits {
 		font-style:italic
 	}
+	
+	img {
+		max-width: 400px;
+		max-height: 400px;
+	}
 }

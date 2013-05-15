@@ -1,3 +1,5 @@
+<h6>Future Climate</h6>
+
 <p class=&quot;justified&quot;>The future climate context faced by ports is an important factor in future planning and risk assessment processes. Direct impacts on ports, and indirect impacts on supply chains, will impact capital investment, maintenance requirements, as well as knowledge, skill and training requirements for personnel. Understanding potential future climate impacts allows ports to adequately assess their future planning options, and accommodate the most appropriate adaptation choices. 
 				
 <p class=&quot;justified&quot;>This tab assists ports to identify some of the future climate projections data relevant for their region.   

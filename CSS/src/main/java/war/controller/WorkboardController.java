@@ -185,7 +185,7 @@ public class WorkboardController {
 			model.addAttribute("successMessage", WorkboardController.MSG_ABS_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			model.addAttribute("warningMessage", e.getMessage());
 		}
 		
 		return ModelForWorkboard(model, userStory);
@@ -220,7 +220,7 @@ public class WorkboardController {
 			model.addAttribute("successMessage", WorkboardController.MSG_BITRE_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			model.addAttribute("warningMessage", e.getMessage());
 		}
 		
 		return ModelForWorkboard(model, userStory);
@@ -296,7 +296,7 @@ public class WorkboardController {
 			model.addAttribute("successMessage", WorkboardController.MSG_PAST_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			model.addAttribute("warningMessage", e.getMessage());
 		}
 		
 		return ModelForWorkboard(model, userStory);
@@ -334,7 +334,7 @@ public class WorkboardController {
 			model.addAttribute("successMessage", WorkboardController.MSG_ACORNSAT_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			model.addAttribute("warningMessage", e.getMessage());
 		}
 		
 		return ModelForWorkboard(model, userStory);
@@ -376,7 +376,7 @@ public class WorkboardController {
 			model.addAttribute("successMessage", WorkboardController.MSG_CSIRO_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			model.addAttribute("warningMessage", e.getMessage());
 		}
 		
 		return ModelForWorkboard(model, userStory);
@@ -412,7 +412,7 @@ public class WorkboardController {
 			model.addAttribute("successMessage", WorkboardController.MSG_CMAR_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			model.addAttribute("warningMessage", e.getMessage());
 		}
 		
 		return ModelForWorkboard(model, userStory);
@@ -455,7 +455,10 @@ public class WorkboardController {
     	    	String fileType = uploadfile.getContentType();
     			
     			// Checks the file extension & MIME type
-    	        if (!(fileType.equals("application/vnd.ms-excel") || fileType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+    	    	if (uploadfile.getSize() == 0) {
+    	    		throw new IllegalArgumentException(WorkboardController.ERR_UPLOAD_NO_FILE);
+    	    	}
+    	    	else if (!(fileType.equals("application/vnd.ms-excel") || fileType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
     	        		|| !(fileExtension.equals("xls") || fileExtension.equals("xlsx"))) {
     	        	throw new InvalidFormatException(WorkboardController.ERR_INVALID_FILE_FORMAT);
     	        }
@@ -512,7 +515,10 @@ public class WorkboardController {
     		model.addAttribute("warningMessage", e.getMessage());
         }
         catch (InvalidFormatException e) {
-        	model.addAttribute("errorMessage", e.getMessage());
+        	model.addAttribute("warningMessage", e.getMessage());
+        }
+        catch (IllegalArgumentException e) {
+        	model.addAttribute("warningMessage", e.getMessage());
         }
         catch (IOException e) {
         	model.addAttribute("errorMessage", e.getMessage());
@@ -768,6 +774,8 @@ public class WorkboardController {
 		logger.debug("Inside deleteWorkboard");
 		
 		try {
+			model.addAttribute("user", userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
+			
 			UserStory userStory = userStoryDao.find(userStoryId);
 			
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
@@ -946,4 +954,5 @@ public class WorkboardController {
 	public static final String ERR_NO_DATA_ENG_MODEL = "No data could be extracted from the provided Excel file";
 	public static final String ERR_NO_DATA_ENG_MODEL_EXAMPLE = "No example data found for the required variable";
 	public static final String ERR_INVALID_FILE_FORMAT = "Invalid file format. The type of the file you tried to upload is not allowed";
+	public static final String ERR_UPLOAD_NO_FILE = "No file received. Please make sure that you have chosen an Excel file to upload, or selected a pre-defined example.";
 }

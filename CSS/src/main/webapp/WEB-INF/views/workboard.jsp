@@ -53,6 +53,9 @@
 			$("#tabs").tabs({
 				activate: function(event, ui) {
 					
+					// Hide all notifications when changing tab
+					$(".message").hide();
+					
 					// Change the hash of the webpage to the activated Tab, without scrolling to that hash
 					// This is just to return to the right tab if a form is posted or page refreshed
 					var active = $("#tabs").tabs("option", "active");
@@ -91,13 +94,17 @@
 		<div id="tabs-non-climate-context">
 			
 			<!-- Explanation text -->
-			<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextNonClimate.jsp" %>">
-				<h6><img src="<c:url value="/resources/img/icons/information.png" />"> Information</h6>
-			</a>
-			<c:if test="${dataelementsCounts[0] <= 0}">
-				<br />
-				<%@ include file="/WEB-INF/views/help/explanationTextNonClimate.jsp" %>
-			</c:if>
+			<c:choose>
+				<c:when test="${dataelementsCounts[0] <= 0}">
+					<br />
+					<%@ include file="/WEB-INF/views/help/explanationTextNonClimate.jsp" %>
+				</c:when>
+				<c:otherwise>
+					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextNonClimate.jsp" %>">
+						<img src="<c:url value="/resources/img/icons/help.png" />">
+					</a>
+				</c:otherwise>
+			</c:choose>
 						
 			<!-- Toolbox -->
 			<c:set var="dataelementsfilter" scope="request" value="NonClimate"/>
@@ -111,13 +118,17 @@
 		
 		<div id="tabs-observed-climate">
 			<!-- Explanation text -->
-			<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextObservedClimate.jsp" %>">
-				<h6><img src="<c:url value="/resources/img/icons/information.png" />"> Information</h6>
-			</a>
-			<c:if test="${dataelementsCounts[1] <= 0}">
-				<br />
-				<%@ include file="/WEB-INF/views/help/explanationTextObservedClimate.jsp" %>
-			</c:if>
+			<c:choose>
+				<c:when test="${dataelementsCounts[1] <= 0}">
+					<br />
+					<%@ include file="/WEB-INF/views/help/explanationTextObservedClimate.jsp" %>
+				</c:when>
+				<c:otherwise>
+					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextObservedClimate.jsp" %>">
+						<img src="<c:url value="/resources/img/icons/help.png" />">
+					</a>
+				</c:otherwise>
+			</c:choose>
 			
 			<!-- Toolbox -->
 			<c:set var="dataelementsfilter" scope="request" value="ObservedClimate"/>
@@ -130,14 +141,19 @@
 		</div>
 		
 		<div id="tabs-future-climate">
+			
 			<!-- Explanation text -->
-			<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextFutureClimate.jsp" %>">
-				<h6><img src="<c:url value="/resources/img/icons/information.png" />"> Information</h6>
-			</a>
-			<c:if test="${dataelementsCounts[2] <= 0}">
-				<br />
-				<%@ include file="/WEB-INF/views/help/explanationTextFutureClimate.jsp" %>
-			</c:if>
+			<c:choose>
+				<c:when test="${dataelementsCounts[2] <= 0}">
+					<br />
+					<%@ include file="/WEB-INF/views/help/explanationTextFutureClimate.jsp" %>
+				</c:when>
+				<c:otherwise>
+					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextFutureClimate.jsp" %>">
+						<img src="<c:url value="/resources/img/icons/help.png" />">
+					</a>
+				</c:otherwise>
+			</c:choose>
 			
 			<!-- Toolbox -->
 			<c:set var="dataelementsfilter" scope="request" value="Future"/>
@@ -151,13 +167,17 @@
 		
 		<div id="tabs-applications">
 			<!-- Explanation text -->
-			<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextApplications.jsp" %>">
-				<h6><img src="<c:url value="/resources/img/icons/information.png" />"> Information</h6>
-			</a>
-			<c:if test="${dataelementsCounts[3] <= 0}">
-				<br />
-				<%@ include file="/WEB-INF/views/help/explanationTextApplications.jsp" %>
-			</c:if>
+			<c:choose>
+				<c:when test="${dataelementsCounts[3] <= 0}">
+					<br />
+					<%@ include file="/WEB-INF/views/help/explanationTextApplications.jsp" %>
+				</c:when>
+				<c:otherwise>
+					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextApplications.jsp" %>">
+						<img src="<c:url value="/resources/img/icons/help.png" />">
+					</a>
+				</c:otherwise>
+			</c:choose>
 			
 			<!-- Toolbox -->
 			<c:set var="dataelementsfilter" scope="request" value="Applications"/>

@@ -7,20 +7,21 @@
 
 <c:choose>
 	<c:when test="${not empty dataelement.acornSatDataList}">
-		<h6>
+		<h6><center>
 		<c:if test="${dataelement.acornSatDataList[0].extreme == true}">
 			Extreme measurements by Acorn-Sat stations in the ${userstory.seaport.region.name} region within the period <fmt:formatDate value="${dataelement.acornSatDataList[0].periodStart}" pattern="yyyy" />-<fmt:formatDate value="${dataelement.acornSatDataList[0].periodEnd}" pattern="yyyy" />
 		</c:if>
 		<c:if test="${dataelement.acornSatDataList[0].extreme == false}">
 			Annual mean measurements by Acorn-Sat stations in ${userstory.seaport.region.name} within the period <fmt:formatDate value="${dataelement.acornSatDataList[0].periodStart}" pattern="yyyy" />-<fmt:formatDate value="${dataelement.acornSatDataList[0].periodEnd}" pattern="yyyy" />
 		</c:if>
-		</h6>
-		
+		</center></h6>
+		<br />
+		<%--
 		<p style="margin: 20px 0">
 			<c:set var="pictureName" value="/resources/img/data/acornsat/acornsat-${fn:replace(userstory.seaport.region.name, ' ', '-')}.png" />
 			<c:set var="formattedPictureName" value="${fn:toLowerCase(pictureName)}" />
 			<img src="<c:url value="${formattedPictureName}" />" alt="ACORN-SAT stations map" />
-		</p>
+		</p>--%>
 		
 		<table class="data display datatable">
 		<thead>
@@ -28,8 +29,8 @@
 				<th>ACORN-SAT stations</th>
 				<th>Station Name</th>
 				<th>Number</th>
-				<th>Latitude</th>
-				<th>Longitude</th>
+				<%--<th>Latitude</th>
+				<th>Longitude</th>--%>
 				<c:if test="${dataelement.acornSatDataList[0].extreme == true}">
 				<th>Highest temperature</th>
 				<th>Highest daily rainfall</th>
@@ -46,7 +47,7 @@
 			<tbody>
 				<c:if test="${dataelement.acornSatDataList[0].extreme == false}">
 				<tr>
-					<td colspan="6"></td>
+					<td colspan="5"></td>
 					<td><b>9am</b></td>
 					<td><b>3pm</b></td>
 					<td><b>9am</b></td>
@@ -54,10 +55,10 @@
 				</tr>
 				</c:if>
 				<tr>
-					<td rowspan="6">
-								<c:set var="pictureName" value="/resources/img/data/acornsat/acornsat-${fn:replace(userstory.seaport.region.name, ' ', '-')}.png" />
-			<c:set var="formattedPictureName" value="${fn:toLowerCase(pictureName)}" />
-			<img src="<c:url value="${formattedPictureName}" />" alt="ACORN-SAT stations map" />
+					<td rowspan="10">
+						<c:set var="pictureName" value="/resources/img/data/acornsat/acornsat-${fn:replace(userstory.seaport.region.name, ' ', '-')}.png" />
+						<c:set var="formattedPictureName" value="${fn:toLowerCase(pictureName)}" />
+						<img src="<c:url value="${formattedPictureName}" />" alt="ACORN-SAT stations map" />
 					</td>
 				</tr>
 				<c:forEach items="${dataelement.acornSatDataList}" var="acornSatData" varStatus="dataLoopStatus">
@@ -67,8 +68,8 @@
 					<tr class="${dataLoopStatus.index % 2 == 0 ? 'even' : 'odd'}">
 						<td>${acornSatData.acornSatStation.name}</td>
 						<td><fmt:formatNumber minIntegerDigits="6" groupingUsed="false" value="${acornSatData.acornSatStation.number}" /></td>
-						<td>${acornSatData.acornSatStation.latitude}</td>
-						<td>${acornSatData.acornSatStation.longitude}</td>
+						<%--<td>${acornSatData.acornSatStation.latitude}</td>
+						<td>${acornSatData.acornSatStation.longitude}</td>--%>
 					</c:if>
 
 					<td>

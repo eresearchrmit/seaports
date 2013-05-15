@@ -15,10 +15,11 @@
 	<c:set var="errorMessage" scope="request" value="${errorMessage}"/>
 	<jsp:include page="notifications.jsp" />
 	
-	<p><i>You have no active workboard. Create a new workboard using the page below:</i></p>
+	<p class="hint"><i>You have no active workboard. Create a new workboard using the page below:</i></p>
 	
 	<form:form method="POST" action="/CSS/auth/workboard/create?username=${user.username}"  modelAttribute="userstory" >
-	<table class="form">
+	
+	<table class="form" width="100%">
 		<tr>
 			<td>
 				<label style="font-size:13px">Title:</label>
@@ -32,18 +33,19 @@
 		</tr>
 		<tr>
 			<td valign="top">
-				<label style="font-size:13px">Region Selection: <a href="#" class="helpTooltip" title="Hover over a Natural Resource Management region and click to select the region you want."><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a></label>
+				<label style="font-size:13px">Region Selection <a href="#" class="helpTooltip" title="Hover over a Natural Resource Management region and click to select the region you want."><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</label>
 			</td>
 			<td class="col2" valign="top">
-				<div id="displayUserStoryRegion" style="display:inline; font-size:13px" ></div>
+				<div id="displayUserStoryRegion" style="display:inline; font-size:13px" ><span class="hint"><i>Select a region using the map then select a seaport within it.</i></span></div>
 				<span id="regionErrorMessage" style="color:red;"></span>
-				<form:hidden id="hdnUserStoryRegion" path="seaport.region.name" />				
+				<form:hidden id="hdnUserStoryRegion" path="seaport.region.name" />
+				<br />
 			</td>
 			<td></td>
 		</tr>
 		<tr>
 			<td colspan="3" style="vertical-align:center">
-				<div id="map-container" style="float:left">
+				<center><div id="map-container">
 				    <img class="map" src="<c:url value="/resources/img/data/nrm-regions-clusters-map.png" />" usemap="#nrm-clusters" 
 						data-maphilight='{"strokeColor":"000000","fillColor":"0055A8","groupBy":"alt"}' />
 					<!-- Map has been generated using the software MapEdit v3.16 -->
@@ -59,13 +61,12 @@
 						<area class="mapArea" title="Southern and South-Western Flatlands" shape="poly" coords="166,355,164,358,165,359,167,359,167,358" />
 						<area class="mapArea" title="Southern and South-Western Flatlands" shape="poly" coords="136,366,135,368,137,368" />
 					</map>
-
-				</div>
+				</div></center>
 			</td>
 		</tr>
 		<tr>
 			<td class="top">
-				<label style="font-size:13px">Seaport:</label>
+				<label style="font-size:13px">Seaport <a href="#" class="helpTooltip" title="Select your port"><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</label>
 			</td>
 			<td class="col2">
 				<select id="cbbSeaport" disabled style="width:300px">
@@ -77,7 +78,7 @@
 		</tr>
 		<tr>
 			<td class="top">
-				<label style="font-size:13px">Workboard purpose: <a href="#" class="helpTooltip" title="Tell us why you are using this Tool. For example, climate risk assessment for work; study (indicate what field) or research (indicate your area of interest / topic)." ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a></label>
+				<label style="font-size:13px">Workboard purpose <a href="#" class="helpTooltip" title="Tell us why you are using this Tool. For example, climate risk assessment for work; study (indicate what field) or research (indicate your area of interest / topic)." ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</label>
 			</td>
 			<td class="col2" valign="top">
 				<form:textarea id ="txtWorkboardPurpose" path="purpose" rows="5" cols="30" style="width:300px" onblur="checkPurpose()" value="Test" />
@@ -165,7 +166,7 @@
 			return true;
 		}
 		else {
-			$("#regionErrorMessage").html("Please select a region using the map.");
+			$("#regionErrorMessage").html("Please select a region.");
 		}
 		$("#hdnUserStoryRegion").addClass("error");
 		$("#regionErrorMessage").show();

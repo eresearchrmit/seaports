@@ -20,13 +20,13 @@
 	</script>
 </c:if>
 <c:if test="${not empty warningMessage}">
-	<div class="message warning">
+	<div id="warningMessage" class="message warning">
 		<h5>Warning</h5>
 		<p><c:out value="${warningMessage}." /></p>
 	</div>
 </c:if>
 <c:if test="${not empty errorMessage}">
-	<div class="message error">
+	<div id="errorMessage" class="message error">
 		<h5>Error</h5>
 		<p><c:out value="${errorMessage}." /></p>
 	</div>

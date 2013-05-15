@@ -10,8 +10,8 @@
 	</div>
 	<br />
 	<center>
-		<input type="button" class="btn btn-blue" value="Log In" onclick="location.href='/CSS/auth/workboard/my-workboard'" />&nbsp;
-		<input type="button" class="btn btn-blue" value="Sign Up" onclick="location.href='/CSS/register'" />
+		<input type="button" class="btn btn-blue btn-large" value="Log in" onclick="location.href='/CSS/auth/workboard/my-workboard'" />&nbsp;
+		<input type="button" class="btn btn-blue btn-large" value="Sign up" onclick="location.href='/CSS/register'" />
 	</center>
 	<br /><br /><br />
 	<p class="info-paragraph">The Climate Smart Seaports Tool enables interested users to begin the process of a climate risk assessment. It assists them to identify current and historical climate trends and variability, as well as future climate projections under a variety of scenarios.</p> 

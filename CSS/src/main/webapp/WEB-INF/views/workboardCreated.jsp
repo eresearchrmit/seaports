@@ -27,7 +27,7 @@
 
 		<p class="info-paragraph">It has a number of tabs for users to progress through, each presenting different data sets: Non-climate context; Observed Climate; Future Climate; Applications (Concrete deterioration model and vulnerability assessment).  Users add relevant data from each tab, and then review their collected data in the "Summary" tab.</p> 
 		
-		<img src="<c:url value="/resources/img/help/workboard-instructions.jpg" />" style="margin: 50px auto" />
+		<img src="<c:url value="/resources/img/help/workboard-instructions.jpg" />" style="margin: 50px auto; opacity: 0.7" />
 		
 		<h4>Click on "Continue" when you are ready to start.</h4>
 	</center>
