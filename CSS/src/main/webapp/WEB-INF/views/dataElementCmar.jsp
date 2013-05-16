@@ -39,7 +39,7 @@
 							<td rowspan="${fn:length(cmarData.values)}" class="top center">
 								<c:choose>
 								<c:when test="${not empty cmarData.picture}">
-									<img name="${cmarData.variable.name}" src="<c:url value="/resources/img/data/cmar/${cmarData.picture}" />" class="dataelementIllustrationPicture cmarIllustrationPicture" />
+									<img name="${cmarData.variable.name}" src="<c:url value="/resources/img/data/cmar/${cmarData.picture}" />" class="dataelementIllustrationPicture illustrationPicture" />
 								</c:when>
 								<c:otherwise>
 									No picture available

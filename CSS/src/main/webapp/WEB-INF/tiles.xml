@@ -9,7 +9,7 @@
 		<put-attribute name="imports" value="/WEB-INF/views/imports.jsp" />
 		<put-attribute name="header" value="/WEB-INF/views/header.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/views/menu.jsp" />
-		<put-attribute name="user" value="/WEB-INF/views/user.jsp" />
+		<put-attribute name="userInfo" value="/WEB-INF/views/userInfo.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
 	</definition>
 	
@@ -18,7 +18,7 @@
 		<put-attribute name="imports" value="/WEB-INF/views/imports.jsp" />
 		<put-attribute name="header" value="/WEB-INF/views/header.jsp" />
 		<put-attribute name="menu" value="/WEB-INF/views/menu.jsp" />
-		<put-attribute name="user" value="/WEB-INF/views/user.jsp" />
+		<put-attribute name="userInfo" value="/WEB-INF/views/userInfo.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/footer.jsp" />
 	</definition>
 	<!-- /BASE DEFINITIONS -->

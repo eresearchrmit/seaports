@@ -46,7 +46,7 @@
 		<li><a href="#glossary">Glossary</a></li>
 	</ul>
 	
-	<div id="acknowledgments" style="font-size: 10pt; text-align: justify; margin-top: 50px">
+	<div id="acknowledgements" style="font-size: 10pt; text-align: justify; margin-top: 50px">
 		<h3>Acknowledgements</h3>
 		
 		<p>The Climate Smart Seaports Tool was created by RMIT University eResearch in partnership with the Climate Change Adaptation Program, with funding provided by the Australian National Data Service (ANDS).  ANDS aims to lead the creation of a cohesive national collection of research resources that makes better use of Australian research outputs, enables Australian researchers to easily publish, discover, access and use data, and enable new and more efficient research.</p>
@@ -78,8 +78,8 @@
 		<h3>2. Tool Overview</h3>
 		
 		<div id="fig-user-workflow" class="hint" style="margin: 25px auto;">
-			[PICTURE]<br />
-			Figure 1: Climate Smart Seaports Tool - User Workflow
+			<center><img src="<c:url value="/resources/img/help/user_workflow.png" />" width="100%" /><br />
+			Figure 1: Climate Smart Seaports Tool - User Workflow</center>
 		</div>
 		<br />
 		
@@ -104,9 +104,9 @@
 
 		<p>When users first login to the tool, they will be directed to a "Create New Workboard" page, where there is a map of Australia. This is where the user defines the geographic scope and purpose of the assessment. The geographic scope of the climate risk assessment is determined by the natural resource management (NRM) regions, which are graphically represented on this map. (see <a href="fig-nrm-regions">Figure 2: NRM Regions of Australia</a>). Users select which region they wish to focus their assessment on by clicking on that region. This proof-of-concept version of the tool incorporates data for three regions, the East Coast South, the Southern Slopes Victoria East and Southern and South-Western Flatlands (WA).  Users then select which particular port in that region is their focus of enquiry from the drop-down list.  The tool also asks users to nominate the purpose for using the tool; for example, for research, or work related climate risk assessment.</p>
 		
-		<div id="fig-nrm-regions" class="hint" style="margin: 20px 0">
-			[PICTURE]<br />
-			Figure 2: NRM Regions of Australia
+		<div id="fig-nrm-regions" class="hint" style="margin: 25px auto">
+			<center><img src="<c:url value="/resources/img/data/nrm-regions-clusters-map.png" />"/><br /><br />
+			Figure 2: NRM Regions of Australia</center>
 		</div>
 		
 		<p>The Workboard has a number of tabs for users to progress through, each presenting different data sets: Non-climate context; Observed Climate; Future Climate; Applications; Data Summary.</p>
@@ -123,7 +123,7 @@
 		
 		<p><strong>Producing a Report</strong> is the final step in the process, and is where a formatted report is prepared for the user. Climate Smart Seaports Tool users can arrange their data according to their needs.  They can choose to "hide" data elements, as well as add further text and analysis. From here, users can choose to print a report for their own purposes, and/or progress to publishing their report which would make the information publicly available.</p>
 		
-		<p>When users select [PICTURE PUBLISH BUTTON] they can no longer edit their report, and their report becomes available to the public.</p>
+		<p>When users select <img src="<c:url value="/resources/img/help/publish_report_button.png" />" style="opacity: 0.7" /> they can no longer edit their report, and their report becomes available to the public.</p>
 	</div>
 	
 		
@@ -142,14 +142,14 @@
 				Then, select the appropriate NRM region for your port. This can be done by clicking on the selected NRM region on the map, (<a href="#fig-nrm-regions-create-wb">Figure 3</a>). In this proof-of-concept version of the tool, only three regions are available to choose from: the East Coast South and the Southern Slopes Victoria East and Southern and South-Western Flatlands (WA).
 				
 				<div id="fig-nrm-regions-create-wb" class="hint" style="margin: 25px auto;">
-					[PICTURE]<br />
+					<center><img src="<c:url value="/resources/img/data/nrm-regions-clusters-map.png" />"/><br /><br />
 					Figure 3: NRM Regions of Australia - Creating a Workboard
 				</div>
 			</li>
 			
 			<li>Users then select which particular port in that NRM region is their focus of enquiry from the drop-down list.</li>
 			<li>The tool also asks users to nominate the purpose for using the tool, for example, for research into climate impacts on ports, or work related climate risk assessment etc.</li>
-			<li>Click the [PICTURE CREATE BUTTON] button to create your Workboard.</li>
+			<li>Click the <img src="<c:url value="/resources/img/help/create_button.png" />" style="opacity: 0.7" /> button to create your Workboard.</li>
 		</ol>
 		
 		
@@ -158,8 +158,8 @@
 			<li>
 				To add data elements to the Workboard, select the appropriate tab. Choose from Non-climate context, Observed Climate, Future Climate or Applications. Although it is logical to move from left to right, you do not need to add data elements in any particular order.
 			
-				<div style="margin: 20px 0">
-					[PICTURE TABS]
+				<div style="margin: 20px auto">
+					<img src="<c:url value="/resources/img/help/workboard_tabs.png" />" style="opacity: 0.7; width:100%" />
 				</div>
 			</li>
 			
@@ -214,23 +214,23 @@
 			<h6>Steps to add this data element</h6>
 			
 			<ol>
-				<li>Click the [PICTURE ADD DATA ELEMENT BUTTON] button</li>
+				<li>Click the <img src="<c:url value="/resources/img/help/add_data_button.png" />" style="opacity: 0.7;" /> button</li>
 				<li>
 					Select the data source from the pop-up screen. Users can choose from "ABS data" (population data), "Ports Australia data" (trade data) or to add their own "Custom file".<br />
-					[PICTURE POPUP SOURCE SELECTION]
+					<img src="<c:url value="/resources/img/help/non-climate_data_source_abs.png" />" style="opacity: 0.7; border:1px solid black"" />
 				</li>
 				<li>
 					Once you have selected the data source, a new pop-up screen appears.  It requires users to select the particular data variable. For example, for Ports Australia trade data, users can select "Freight throughput by cargo type", "Commercial vessel calls by type", or "Export commodities by type".<br />
-					[PICTURE POPUP PORTS AUSTRALIA DATA]<br />
+					<img src="<c:url value="/resources/img/help/add_ports_aust_data.png" />" style="opacity: 0.7; border:1px solid black" /><br />
 					If selecting to add a custom file,<br />
-					[PICTURE POPUP CUSTOM FILE]<br />
+					<img src="<c:url value="/resources/img/help/custom_data_popup.png" />" style="opacity: 0.7" /><br />
 					Choose a file to upload from your own system.  Acceptable formats are Text (.txt) or Image (.jpeg or .jpg) formats.
 				</li>
 				<li>
 					Users should then re-select the port of interest, and select how they want the data displayed. 
 				</li>
 				<li>
-					Finally, click the [PICTURE ADD ABS DATA BUTTON]or [PICTURE ADD BITRE DATA] or the [ADD CUSTOM DATA] button, whichever is appropriate. 
+					Finally, click the <img src="<c:url value="/resources/img/help/add_ports_aust_data_button.png" />" style="opacity: 0.7;" /> or <img src="<c:url value="/resources/img/help/add_abs_data_button.png" />" style="opacity: 0.7;" /> or the <img src="<c:url value="/resources/img/help/add_custom_data_button.png" />" style="opacity: 0.7;" /> button, whichever is appropriate. 
 				</li>
 				<li>
 					Users can progress through this process multiple times, adding as many data sets and files as are relevant.
@@ -303,17 +303,17 @@
 			
 			<h6>Steps to add this data element</h6>				
 			<ol>
-				<li>Click the [PICTURE ADD DATA ELEMENT BUTTON] button</li>
+				<li>Click the <img src="<c:url value="/resources/img/help/add_data_button.png" />" style="opacity: 0.7;" /> button</li>
 				
 				<li>Select the data source from the pop-up screen. Users can choose from "CSIRO and BoM trend data" (national trends) or "ACORN-SAT" data (local weather station trends and extreme events).</li>
 				
 				<li>
 					Once you have selected your data source, a new pop-up screen appears. It requires you to select the particular data variable. For example, for "CSIRO and BoM trend data", users can select "Trend in mean temperatures", "Trend in maximum temperatures", "Trend in total annual rainfall", "Long-term sea level rise measurements" and "Shorter term changes in sea level".<br />
-					[PICTURE POPUP PAST DATA]<br />
+					<img src="<c:url value="/resources/img/help/csiro_bom_trend_popup.png" />" style="opacity: 0.7;" /><br />
 					For "ACORN-SAT data", users can select from "Mean measurements" or "Extreme measurements".
 				</li>
 				
-				<li>Click the [ADD CSIRO AND BOM TREND DATA BUTTON] or [ADD ACORN-SAT DATA BUTTON] button, whichever is appropriate for your chosen data set.</li>
+				<li>Click the <img src="<c:url value="/resources/img/help/add_csiro_bom_trend_data_button.png" />" style="opacity: 0.7;" /> or <img src="<c:url value="/resources/img/help/add_acornsat_data_button.png" />" style="opacity: 0.7;" /> button, whichever is appropriate for your chosen data set.</li>
 			</ol>
 			
 			<h6>Outputs</h6>
@@ -348,19 +348,19 @@
 			
 			<h6>Steps to add this data element</h6>
 			<ol>
-				<li>Click the [PICTURE ADD DATA ELEMENT BUTTON] button</li>
+				<li>Click the <img src="<c:url value="/resources/img/help/add_data_button.png" />" style="opacity: 0.7;" /> button</li>
 				<li>Select the data source from the pop-up screen. Users can choose from "CSIRO" (which covers temperature, wind speed, rainfall or relative humidity) or "CMAR" data (sea-level rise).</li>
 				<li>
 					<p>Once you have selected your data source, a new pop-up screen appears.  It requires you to select the particular data variable. For example, for "CSIRO", users can select "Temperature", "Wind Speed", "Rainfall" or "Relative Humidity", OR, they can select "All Variables". For "CMAR" data source - no variable choice is given, as this data source only provides information on one variable, "Sea level rise".</p>
 					<p>Users are able to go through this process multiple times, so that they can select as many combinations of variables that suit their assessment needs.</p>
-					[PICTURE POPUP DATA ELEMENT CSIRO]
+					<img src="<c:url value="/resources/img/help/add_csiro_data_popup.png" />" style="opacity: 0.7;" />
 				</li>
 				
 				<li>Users are then required to select an appropriate "Emission scenario". There is a choice of two, "Medium" or "High" (Refer to the explanation of emission scenarios in "Background - IPCC Scenarios and Global Climate Models").</li>
 				<li>Next, users need to select the climate model they wish to apply to their assessment: "Most likely", "Hotter &amp; drier" or "Cooler &amp; wetter". If uncertain which climate model to select, the best one to choose is the "Most likely" model.  You may then wish to compare the different variables for different models, and select one of the other options.  For example, if your port is already in an area of heavy rainfall, and subject to flooding, you may wish to view what a "cooler &amp; wetter" model predicts for your region. Alternatively, if your area is dry and prone to drought, you may want to see what a "hotter &amp; drier" model predicts.</li> 
 				<li>Users are requested to select the time period which best suits their needs.  The shorter time period of 2030 may be suitable for short-term planning horizons. The time-frames of 2055 and 2070 show a greater change in climate from today, and will be particularly relevant for longer planning horizons.</li> 
 				<li>Finally, users are able to select whether the data is displayed as a map, or a table.</li> 
-				<li>Click the [ADD CSIRO DE BUTTON] or [ADD CMAR DE BUTTON] button, whichever is appropriate for the data element being added.</li> 
+				<li>Click the <img src="<c:url value="/resources/img/help/add_csiro_data_button.png" />" style="opacity: 0.7;" /> or <img src="<c:url value="/resources/img/help/add_cmar_data_button.png" />" style="opacity: 0.7;" /> button, whichever is appropriate for the data element being added.</li> 
 			</ol>
 			
 			<h6>Outputs</h6>
@@ -430,8 +430,8 @@
 			<p>When considering impacts of climate change, the term vulnerability represents exposure to a particular climate variable combined with the level of sensitivity to that variable, or the degree of impact. The "Observed Climate" tab provides the context for ports to consider their current exposure to extreme events, while the "Future Climate" tab looks at potential future exposure.  Ports are a combination of 1) hard infrastructure, 2) management systems and procedures and 3) the workforce. It could be any one, or all three, of these elements that are impacted by climate change. The following <a href="#fig-vulnerable-ports-components">Figure 6</a> represents the common components of a port system, and relevant climate variables likely to impact the port.</p>
 			
 			<div id="fig-vulnerable-ports-components" class="hint" style="margin: 25px auto;">
-				[PICTURE]<br />
-				Figure 6: Components of a port system vulnerable to different climate impacts
+				<center><img src="<c:url value="/resources/img/help/climate_impacts_on_ports.png" />" style="width: 100%" /><br />
+				Figure 6: Components of a port system vulnerable to different climate impacts</center>
 			</div>
 			
 			<p>This portal looks at vulnerability to CURRENT extreme weather events. How a port copes with, and responds to current extreme weather events, can be an indication of how well it will cope with future climate change. If its infrastructure does not cope with extreme events now (for example, the drainage system cannot manage heavy rainfall and flooding events), then it will not be able to cope in the future, when these events may become more intense. If management systems and processes are lacking now, then changes need to be made to the system to integrate future climate impacts, and the workforce (management and frontline staff) need to be cognisant of climate change and its consequences, in order to affect change.</p>
@@ -443,7 +443,7 @@
 			<ol>
 				<li>
 					<p>Firstly, select one climate-related event from the drop down menu.</p> 
-					[PICTURE WEATHER EVENT CHOICE]
+					<img src="<c:url value="/resources/img/help/va_weather_event_selection.png" />" />
 					<p>You can select from "heatwave", "strong wind", "heavy rain", "electrical storm", "storm (wind and rain combined)", "cyclone", "hail", "storm surge", "sea level rise", "fog", "drought" or "flood".</p> 
 				</li>
 				<li>Then select the year that this disruptive event occurred.</li> 
@@ -453,13 +453,49 @@
 					These impacts will then have business-related consequences for your port. Listed are a broad selection of common consequences.  For each listed consequence, rate its impact from "no impact" through to "extreme". The table below provides guidance to interpret these ratings. If you are aware of your port's risk consequence scale, you may prefer to use its consequence levels as guidance.
 					
 					<div id="table-consequence-rating" class="hint" style="margin: 25px auto;">
-						[TABLE]<br />
-						Table 1: suggested consequence rating
+						<table class="data display datatable">
+							<tr>
+								<th>Category</th>
+								<th>1 - Insignificant</th>
+								<th>2 - Moderate</th>
+								<th>3 - Major</th>
+								<th>4 - Extreme</th>
+							</tr>
+							<tr class="even">
+								<td><strong>Financial</strong></td>
+								<td>&lsaquo; $50,000</td>
+								<td>$50,000 - $250,000</td>
+								<td>$250,000 - $1M</td>
+								<td>&rsaquo; $1M</td>
+							</tr>
+							<tr class="odd">
+								<td><strong>Reputation</strong></td>
+								<td>Isolated complaints</td>
+								<td>User complaints / Some media attention</td>
+								<td>Negative national media attention</td>
+								<td>International media / government intervention</td>
+							</tr>
+							<tr class="even">
+								<td><strong>Service</strong></td>
+								<td>Minor disruption - 1 -2 hours only</td>
+								<td>Disruption - several hours to full day</td>
+								<td>Significant disruption - 1 - 5 days</td>
+								<td>Total disruption - weeks to months</td>
+							</tr>
+							<tr class="odd">
+								<td><strong>Safety</strong></td>
+								<td>No lost time injury</td>
+								<td>Lost time injury</td>
+								<td>Disabling injury</td>
+								<td>Fatality</td>
+							</tr>
+						</table><br />
+						<center>Table 1: suggested consequence rating</center>
 					</div>
 				</li> 
 				<li>In the text box, please provide a brief sentence summarising your response to these impacts.</li>
 				<li>Finally, consider whether your response was adequate, or whether you have implemented changed procedures, or machinery, even infrastructure as a result of the disruptive event.</li>
-				<li>Click [ADD VULNERABILITY DATA BUTTON] to add this data element to your Workboard.</li>
+				<li>Click [<img src="<c:url value="/resources/img/help/add_va_data_button.png" />" style="opacity: 0.7;" /> to add this data element to your Workboard.</li>
 			</ol>
 			
 			<h6>Outputs</h6>
@@ -485,12 +521,12 @@
 		
 		<p>If the report is being used to provide the context to a climate risk assessment, it is suggested the following format be used.</p>
 		
-		[PICTURE REPORT FORMAT SUGGESTION]
+		<center><img src="<c:url value="/resources/img/help/css_report_image.png" />" style="opacity: 0.7; width:50%" /></center>
 		
 		<h6>Steps to create a report</h6>
 		
 		<ol>
-			<li>Click on the [CREATE REPORT BUTTON] button on the top right corner of the screen.</li>  
+			<li>Click on the <img src="<c:url value="/resources/img/help/create_report_button.png" />" style="opacity: 0.7;" /> button on the top right corner of the screen.</li>  
 			<li>All your selected data elements are collated in this one space.  Here, you can:
 				<ul>
 					<li>Reorder your data elements</li>
@@ -506,21 +542,21 @@
 				</ul>
 			</li>
 			<li><span style="font-size: 1.1em"><i>Hide a data element</i></span>
-			A user may wish to not display a particular data element in the final report, but does not want to delete it from the Workboard. To hide a data element, click the [MINUS EXCLUDE BUTTON] button in the top right corner of the data element box.
+			A user may wish to not display a particular data element in the final report, but does not want to delete it from the Workboard. To hide a data element, click the <img src="<c:url value="/resources/img/help/minimize_button.png" />" style="opacity: 0.7;" /> button in the top right corner of the data element box.
 			</li>
 			<li><span style="font-size: 1.1em"><i>Adding text boxes</i></span>
-			The data present part of the picture for a climate risk assessment. However, users may wish to add some explanatory text and analysis to make their Report more complete. To add a text box, click the [ADD TEXT TO REPORT] button. The text box will appear at the bottom of the screen, the last element of your report. 
+			The data present part of the picture for a climate risk assessment. However, users may wish to add some explanatory text and analysis to make their Report more complete. To add a text box, click the <img src="<c:url value="/resources/img/help/add_text_report_button.png" />" style="opacity: 0.7;" /> button. The text box will appear at the bottom of the screen, the last element of your report. 
 			Type your desired text.  To relocate your text box, click and drag it to the position you wish to display the text. You can also delete and hide text boxes from the Report. 
 			You can add as many text boxes as you like. 
 			</li>
-			<li>When you are satisfied with the format of the Report, click the [SAVE CHANGES BUTTON] button to save.</li> 
-			<li>To preview the Report before printing, go to the top right hand corner of the screen, and click the   button.  From here, you can either close the preview session and return to editing your Report, by clicking the   button. Or you can print your Report by clicking the   button on the top right corner of the screen.</li> 
+			<li>When you are satisfied with the format of the Report, click the <img src="<c:url value="/resources/img/help/save_order_button.png" />" style="opacity: 0.7;" /> button to save.</li> 
+			<li>To preview the Report before printing, go to the top right hand corner of the screen, and click the <img src="<c:url value="/resources/img/help/print_button.png" />" style="opacity: 0.7;" /> button.  From here, you can either close the preview session and return to editing your Report, by clicking the   button. Or you can print your Report by clicking the   button on the top right corner of the screen.</li> 
 		</ol>
 		
 		<h6>Publishing a report</h6>
 		<p>ANDS' vision is to have "more researchers reusing research data more often".  To this end, publishing your report enables it to be viewed publicly by researchers and others. Users are able to print a version of their report that contains sensitive information, then "hide" (or remove) these elements from the publishable report. RMIT encourages users to publish their work, so that knowledge can be shared and built upon.</p>
-		<p>To publish a report, simply click the [PUBLISH REPORT BUTTON] button.  A warning message will appear, asking if you are certain you wish to Publish. After agreeing to publish, your Report is published and publicly available. You can still preview and print this version of the Report for your own purposes.</p>
-		<p>The Climate Smart Seaports tool enables users to search for Reports by clicking [MY REPORTS MENU] in the top left corner of the screen. A new tab will open with a list of your reports. From here, you can view reports, then print them. If the report has not yet been published, the user can also delete reports.</p> 
+		<p>To publish a report, simply click the <img src="<c:url value="/resources/img/help/publish_report_button.png" />" style="opacity: 0.7;" /> button.  A warning message will appear, asking if you are certain you wish to Publish. After agreeing to publish, your Report is published and publicly available. You can still preview and print this version of the Report for your own purposes.</p>
+		<p>The Climate Smart Seaports tool enables users to search for Reports by clicking <img src="<c:url value="/resources/img/help/my_reports_tab.png" />" style="opacity: 0.7;" /> in the top left corner of the screen. A new tab will open with a list of your reports. From here, you can view reports, then print them. If the report has not yet been published, the user can also delete reports.</p> 
 			
 	</div> <!-- End of 4 Producing a report -->
 	

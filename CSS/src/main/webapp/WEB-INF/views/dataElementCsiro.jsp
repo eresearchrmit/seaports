@@ -39,7 +39,7 @@
 						<center><strong>${csiroData.variable.name}</strong></center><br />
 						<c:choose>
 							<c:when test="${not empty csiroData.picture}">
-								<img <c:if test="${fn:length(dataelement.csiroDataList) gt 1}">style="width:100%" </c:if>name="${csiroData.variable.name}" src="<c:url value="/resources/img/data/csiro/${csiroData.picture}" />" class="dataelementIllustrationPicture csiroIllustrationPicture" />
+								<img <c:if test="${fn:length(dataelement.csiroDataList) gt 1}">style="width:100%" </c:if>name="${csiroData.variable.name}" src="<c:url value="/resources/img/data/csiro/${csiroData.picture}" />" class="dataelementIllustrationPicture illustrationPicture" />
 							</c:when>
 							<c:otherwise>
 								<center>No map available</center>

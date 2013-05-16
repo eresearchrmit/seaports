@@ -78,7 +78,7 @@
 		</tr>
 		<tr>
 			<td class="top">
-				<label style="font-size:13px">Workboard purpose <a href="#" class="helpTooltip" title="Tell us why you are using this Tool. For example, climate risk assessment for work; study (indicate what field) or research (indicate your area of interest / topic)." ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</label>
+				<label style="font-size:13px">Purpose of inquiry <a href="#" class="helpTooltip" title="Tell us why you are using this tool. For example, climate risk assessment for work; study (indicate what field) or research (indicate your area of interest / topic)." ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</label>
 			</td>
 			<td class="col2" valign="top">
 				<form:textarea id ="txtWorkboardPurpose" path="purpose" rows="5" cols="30" style="width:300px" onblur="checkPurpose()" value="Test" />

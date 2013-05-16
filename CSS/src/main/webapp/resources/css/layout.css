@@ -4,7 +4,7 @@ Grey Box Method - Layout CSS
 ----------------------------------------------- */
 
 body {
-	background-color:#d0d7dd;
+	background-color:#587DAA;
 	color: #333;
 	font-size: 11px;
 	padding: 0 0 0px;
@@ -21,7 +21,8 @@ body {
 .inline-ul li{display:inline;}
 .marginleft10{margin-left:10px;}
 .grey{color:#C2C2C2;}
-.darkblue{color:#0055A8; !important}
+/*.darkblue{color:#0055A8; !important}*/
+.darkblue{color: #10253F; !important}
 .blue{color:#006eda; !important}
 .brightblue{color:#A1EAFF; !important}
 .lightblue{color:#b3cbd6; !important}
@@ -80,6 +81,8 @@ h1 a {
 	text-align:left;
 	padding:2em 1em 1.6em 1em;
 	margin-bottom:0;
+	background:url(../img/theme/header.png) no-repeat;
+	background-size: 100% 100%;
 }
 
 .header-repeat{background:url(../img/theme/header-repeat.jpg) repeat;}
@@ -94,12 +97,16 @@ h1 a {
 .top-10{margin-top:-10px;}
 
 #branding #main-title { 
-	color:#305b7b;
+	color:#10253F;
 	font-size:35pt; 
 	line-height:1.2em; 
 	margin-bottom:.3em;
 	margin-left: 25px;
 	vertical-align: middle;
+}
+
+#main-title, .pitch {
+	text-shadow: 2px 2px 2px #8d8f92;
 }
 
 /* page heading
@@ -442,17 +449,17 @@ textarea.small {
 /* site information
 ----------------------------------------------- */
 #site_info {
-	color:#000;
+	color:#ffffff;
 	padding-left:20px;
 	text-align:center;
 }
 
 #site_info p{line-height:35px; margin-bottom:0px;}
 #site_info a {
-	color:#9ab6cc;
+	color:#ffffff;
 }
-#site_info a:hover {
-	color:#000;
+#site_info a:hover, #site_info a:visited {
+	color:#ffffff;
 }
 
 
@@ -943,7 +950,7 @@ img.dataelementIllustrationPicture {
 	border:1px solid #B3CBD6;
 }
 
-img.csiroIllustrationPicture, img.cmarIllustrationPicture {
+img.illustrationPicture {
 	max-width: 400px;
 	max-height: 400px;
 }

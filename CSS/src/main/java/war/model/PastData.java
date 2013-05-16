@@ -46,7 +46,7 @@ public class PastData
 	 * The end date of the period this data relates to
 	 */
 	private Date periodEnd;
-	
+		
 	/**
 	 * The URL of the source of the picture
 	 */
@@ -56,7 +56,7 @@ public class PastData
 	/**
 	 * The picture representing the data
 	 */
-	@Column//(columnDefinition = "LONGBLOB")
+	@Column
 	private String picture;
 	
 	/**

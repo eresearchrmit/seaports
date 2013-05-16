@@ -16,12 +16,6 @@
 		</c:if>
 		</center></h6>
 		<br />
-		<%--
-		<p style="margin: 20px 0">
-			<c:set var="pictureName" value="/resources/img/data/acornsat/acornsat-${fn:replace(userstory.seaport.region.name, ' ', '-')}.png" />
-			<c:set var="formattedPictureName" value="${fn:toLowerCase(pictureName)}" />
-			<img src="<c:url value="${formattedPictureName}" />" alt="ACORN-SAT stations map" />
-		</p>--%>
 		
 		<table class="data display datatable">
 		<thead>

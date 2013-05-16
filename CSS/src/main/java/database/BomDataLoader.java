@@ -61,18 +61,23 @@ public class BomDataLoader {
 		catch (ParseException e) { dateLongTermPastEnd = new Date(); }
 		
 		session.save(new PastData("Trend in mean temperatures", datePastData, dateShortTermPastStart, dateShortTermPastEnd, 
-				"http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmean&area=aus&season=0112&period=1970", "trend-mean-temperature-1970-2012.png"));
+				"http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmean&area=aus&season=0112&period=1970", 
+				"trend-mean-temp"));
 		
 		session.save(new PastData("Trend in maximum temperatures", datePastData, dateShortTermPastStart, dateShortTermPastEnd, 
-				"http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmax&area=aus&season=0112&period=1970", "trend-maximum-temperature-1970-2012.png"));
+				"http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmax&area=aus&season=0112&period=1970", 
+				"trend-max-temp"));
 		
 		session.save(new PastData("Trend in total annual rainfall", datePastData, dateShortTermPastStart, dateShortTermPastEnd, 
-				"http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=rain&area=aus&season=0112&period=1970", "trend-total-annual-rainfall-1970-2012.png"));
+				"http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=rain&area=aus&season=0112&period=1970", 
+				"trend-rainfall"));
 		
 		session.save(new PastData("Long-term sea level rise measurements", datePastData, dateLongTermPastStart, dateLongTermPastEnd, 
-				"http://www.cmar.csiro.au/sealevel/sl_hist_few_hundred.html", "long-term-sea-level-changes-1880-2012.png"));
+				"http://www.cmar.csiro.au/sealevel/sl_hist_few_hundred.html", 
+				"long-term-slr"));
 		
 		session.save(new PastData("Shorter-term changes in sea level", datePastData, dateShortTermPastStart, dateSLRShortTermPastEnd, 
-				"http://www.csiro.au/Outcomes/Climate/Understanding/State-of-the-Climate-2012.aspx", "short-term-sea-level-changes-1970-2011.png"));
+				"http://www.csiro.au/Outcomes/Climate/Understanding/State-of-the-Climate-2012.aspx", 
+				"short-term-slr"));
 	}
 }

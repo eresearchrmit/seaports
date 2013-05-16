@@ -332,7 +332,8 @@
 		<p>Are you sure you want to permanently delete this text ?</p> 
 	</div>
 	<div id="confirmUserStoryPublishModalWindow" title="Really publish this report ?" style="display:none">
-		<p class="message"><span class="error"><b>Publishing this report will automatically submit it to ANDS, and appear on Research Data Australia.</b></span></p>
+		<p class="message"><span class="error"><b>Publishing this report will make it available to anyone visiting this portal.</b></span></p>
+		<p class="message"><span class="error"><b>It will also automatically be submitted to <a href="http://ands.org.au/">ANDS</a> and appear on the <a href="http://researchdata.ands.org.au/">Research Data Australia</a> portal.</b></span></p>
 		<p class="message"><span class="error"><b>Once published, a report cannot be edited, deleted or made private again.</b></span></p>
 		<p>Are you sure you want to publish this report ?</p> 
 	</div>
