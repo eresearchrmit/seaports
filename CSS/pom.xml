@@ -10,7 +10,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jetty.version>6.1.4</jetty.version>
-		<spring.version>3.0.5.RELEASE</spring.version>
+		<spring.version>3.2.2.RELEASE</spring.version>
+		<springsecurity.version>3.1.4.RELEASE</springsecurity.version>
 		<slf4j.version>1.5.10</slf4j.version>
 		<java.version>1.7</java.version>
 		<junit.version>4.8.2</junit.version>
@@ -204,25 +205,25 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>${spring.version}</version>
+			<version>${springsecurity.version}</version>
 		</dependency>
  
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>${spring.version}</version>
+			<version>${springsecurity.version}</version>
 		</dependency>
  
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
-			<version>${spring.version}</version>
+			<version>${springsecurity.version}</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-taglibs</artifactId>
-			<version>${spring.version}</version>
+			<version>${springsecurity.version}</version>
 		</dependency>
 		
 		<!-- DB Dependencies -->

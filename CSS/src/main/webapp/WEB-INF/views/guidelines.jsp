@@ -184,15 +184,19 @@
 			<p>Port authorities generally have extensive data regarding their organisation's characteristics, throughput and local context. Therefore, this section includes the ability to upload custom data files. These files may include graphic depictions of the port system and its assets (see <a href="#fig-generic-diagram-bulk-export">Figure 4</a> and <a href="#fig-generic-diagram-container-import">Figure 5</a>), information regarding core organisational objectives and/or current risks, or data on throughput volume or the types of activity that characterise the port.</p>
 			
 			<div id="fig-generic-diagram-bulk-export" class="hint" style="margin: 25px auto;">
-				[PICTURE]<br />
+				<center>
+				<img src="<c:url value="/resources/img/help/diagram-bulk-export-port.png" />" style="width:100%" /><br />
 				Figure 4: Generic diagram of a bulk export<br />
 				<i>Source: Infrastructure Australia and the National Transport Commission (2010)</i>
+				</center>
 			</div>
 			
 			<div id="fig-generic-diagram-container-import" class="hint" style="margin: 25px auto;">
-				[PICTURE]<br />
+				<center>
+				<img src="<c:url value="/resources/img/help/diagram-container-import-port.png" />" style="width:100%" /><br />
 				Figure 5: Generic diagram of a Metropolitan container import port<br />
-				<i>Source: Infrastructure Australia and the National Transport Commission (2010)</i> 
+				<i>Source: Infrastructure Australia and the National Transport Commission (2010)</i>
+				</center> 
 			</div>
 			
 			<p>Two basic, publicly available non-climate data sets are available within this section. These are derived from the Australian Bureau of Statistics (ABS), Ports Australia and ports' published annual reports. Refer to <a href="#limitations">Section 6: Limitations</a> for a discussion of data limitations.</p> 
@@ -495,7 +499,7 @@
 				</li> 
 				<li>In the text box, please provide a brief sentence summarising your response to these impacts.</li>
 				<li>Finally, consider whether your response was adequate, or whether you have implemented changed procedures, or machinery, even infrastructure as a result of the disruptive event.</li>
-				<li>Click [<img src="<c:url value="/resources/img/help/add_va_data_button.png" />" style="opacity: 0.7;" /> to add this data element to your Workboard.</li>
+				<li>Click <img src="<c:url value="/resources/img/help/add_va_data_button.png" />" style="opacity: 0.7;" /> to add this data element to your Workboard.</li>
 			</ol>
 			
 			<h6>Outputs</h6>

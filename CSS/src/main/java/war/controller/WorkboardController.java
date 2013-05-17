@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import org.springframework.ui.Model;
 
@@ -792,8 +793,9 @@ public class WorkboardController {
 	}	
 	
 	@RequestMapping(value = "/deletedataelement",method=RequestMethod.GET) 
-	public ModelAndView deleteDataElementFromUserStory(@RequestParam(value="dataelementid",required=true) Integer dataElementId, Model model) {
-		logger.info("Inside deleteDataElementFromUserStory");
+	public String deleteDataElement(@RequestParam(value="dataelementid",required=true) Integer dataElementId, 
+			RedirectAttributes attributes, Model model) {
+		logger.info("Inside deleteDataElement");
 		
 		try {
 			DataElement dataElement = dataElementDao.find(dataElementId);
@@ -806,20 +808,18 @@ public class WorkboardController {
 			if (userStory.getMode().equals("active")) {
 				dataElementDao.delete(dataElement);
 				userStory.getDataElements().remove(dataElement);
-				model.addAttribute("successMessage", MSG_DATA_ELEMENT_DELETED);
-				return ModelForWorkboard(model, userStory);
+				attributes.addFlashAttribute("successMessage", MSG_DATA_ELEMENT_DELETED);
 			}
-			else { // If the Data Element belongs to a User Story, don't delete and retrieve the actual workboard
-				UserStory workboard = userStoryDao.getWorkboard(userDao.find(SecurityHelper.getCurrentlyLoggedInUsername()));
-				model.addAttribute("errorMessage", ERR_DELETE_DATA_ELEMENT);
-				return ModelForWorkboard(model, workboard);
+			else { // If the Data Element belongs to a User Story and not the Workboard, don't delete
+				attributes.addFlashAttribute("errorMessage", ERR_DELETE_DATA_ELEMENT);
 			}
+			// Redirects to the right tab of the workboard after deletion based on the data element type
+			return "redirect:" + redirectToCategory(dataElement);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			attributes.addFlashAttribute("errorMessage", e.getMessage());
 		}
-		
-		return ModelForWorkboard(model, null);
+		return ("redirect:/auth/my-workboard");
 	}
 	
 	private ModelAndView ModelForWorkboard(Model model, UserStory userStory) {
@@ -925,6 +925,25 @@ public class WorkboardController {
 			model.addAttribute("errorMessage", e.getMessage());
 		}
 		return mav;
+	}
+	
+	/**
+	 * Redirects to the right tab of the workboard after deletion based on the data element type
+	 * @param dataElement: the data element
+	 * @return the address to which the page should be redirected
+	 */
+	private String redirectToCategory(DataElement dataElement) {
+		
+		if (dataElement.getClass().equals(DataElementAbs.class) || dataElement.getClass().equals(DataElementBitre.class) || dataElement.getClass().equals(DataElementFile.class))
+			return "/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-non-climate-context";
+		else if (dataElement.getClass().equals(DataElementPast.class) || dataElement.getClass().equals(DataElementAcornSat.class))
+			return "/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-observed-climate";
+		else if (dataElement.getClass().equals(DataElementCsiro.class) || dataElement.getClass().equals(DataElementCmar.class))
+			return "/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-observed-climate";
+		else if (dataElement.getClass().equals(DataElementEngineeringModel.class) || dataElement.getClass().equals(DataElementVulnerability.class))
+			return "/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-observed-climate";
+		
+		return "/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}
 	
 	public static final String ERR_ACCESS_DENIED = "You are not allowed to access this Workboard";

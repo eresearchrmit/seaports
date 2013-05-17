@@ -27,7 +27,7 @@
 
 		<p class="info-paragraph">Users need to consider for what purpose they are producing the report, to determine the best structure, and how much further analysis may need to be added.</p>
 		
-		<img src="<c:url value="/resources/img/help/report-instructions.jpg" />" style="margin: 50px auto" />
+		<img src="<c:url value="/resources/img/help/report-instructions.png" />" style="margin: 50px auto; opacity: 0.7" />
 		
 		<h4>Click on "Continue" when you are ready.</h4>
 	</center>

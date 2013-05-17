@@ -67,7 +67,7 @@ public class DataElementAbs extends DataElement {
 	public void setAbsDataList(List<AbsData> absDataList) {
 		this.absDataList = absDataList;
 	}
-	
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

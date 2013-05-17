@@ -22,9 +22,6 @@
 			<tr>
 				<th>ACORN-SAT stations</th>
 				<th>Station Name</th>
-				<th>Number</th>
-				<%--<th>Latitude</th>
-				<th>Longitude</th>--%>
 				<c:if test="${dataelement.acornSatDataList[0].extreme == true}">
 				<th>Highest temperature</th>
 				<th>Highest daily rainfall</th>
@@ -41,7 +38,7 @@
 			<tbody>
 				<c:if test="${dataelement.acornSatDataList[0].extreme == false}">
 				<tr>
-					<td colspan="5"></td>
+					<td colspan="4"></td>
 					<td><b>9am</b></td>
 					<td><b>3pm</b></td>
 					<td><b>9am</b></td>
@@ -49,7 +46,7 @@
 				</tr>
 				</c:if>
 				<tr>
-					<td rowspan="10">
+					<td rowspan="10" width="420">
 						<c:set var="pictureName" value="/resources/img/data/acornsat/acornsat-${fn:replace(userstory.seaport.region.name, ' ', '-')}.png" />
 						<c:set var="formattedPictureName" value="${fn:toLowerCase(pictureName)}" />
 						<img src="<c:url value="${formattedPictureName}" />" alt="ACORN-SAT stations map" />
@@ -61,9 +58,6 @@
 					</tr>
 					<tr class="${dataLoopStatus.index % 2 == 0 ? 'even' : 'odd'}">
 						<td>${acornSatData.acornSatStation.name}</td>
-						<td><fmt:formatNumber minIntegerDigits="6" groupingUsed="false" value="${acornSatData.acornSatStation.number}" /></td>
-						<%--<td>${acornSatData.acornSatStation.latitude}</td>
-						<td>${acornSatData.acornSatStation.longitude}</td>--%>
 					</c:if>
 
 					<td>
@@ -71,11 +65,6 @@
 						<c:if test="${acornSatData.extreme == true}">
 							<fmt:formatDate value="${acornSatData.dateMeasured}" pattern="dd MMM yyyy" />
 						</c:if>
-						<%--
-						<c:if test="${acornSatData.extreme == false && not empty acornSatData.dateMeasured}">
-							at <fmt:formatDate value="${acornSatData.dateMeasured}" pattern="hha" />
-						</c:if>
-						--%>
 					</td>	
 					<c:set var="prevData" value="${acornSatData}" />
 				</c:forEach>

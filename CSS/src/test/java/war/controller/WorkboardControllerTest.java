@@ -40,12 +40,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 @ContextConfiguration("/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -92,8 +92,7 @@ public class WorkboardControllerTest {
 	/**
 	 * getWorkboard should fail because user request the workboard of another user
 	 */
-	@Test
-	@ExpectedException(AccessDeniedException.class)
+	@Test(expected = AccessDeniedException.class)
 	public void getWorkboardOfOtherUserTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
@@ -104,8 +103,7 @@ public class WorkboardControllerTest {
 	/**
 	 * getWorkboard should fail because user request the workboard of a non-existing user
 	 */
-	@Test
-	@ExpectedException(AccessDeniedException.class)
+	@Test(expected = AccessDeniedException.class)
 	public void getWorkboardOfUnknownUserTest() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		
@@ -216,28 +214,28 @@ public class WorkboardControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addAbsDataToWorkboard(9999, 1, "AUSYD", "graph", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("warningMessage"));
 		
 		// UNKNOWN VARIABLE
 		model = new ExtendedModelMap();
 		result = workboardController.addAbsDataToWorkboard(1, 9999, "AUSYD", "graph", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(AbsVariableDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(AbsVariableDao.ERR_NO_RESULT, model.get("warningMessage"));
 		
 		// UNKNOWN SEAPORT
 		model = new ExtendedModelMap();
 		result = workboardController.addAbsDataToWorkboard(1, 1, "UNKNOW SEAPORT CODE", "graph", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(SeaportDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(SeaportDao.ERR_NO_RESULT, model.get("warningMessage"));
 		
 		// UNKNOWN DISPLAY TYPE
 		model = new ExtendedModelMap();
 		result = workboardController.addAbsDataToWorkboard(1, 1, "AUSYD", "UNKNOW DISPLAY TYPE", model);
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(model.get("warningMessage"));
 		UserStory refUserStory = userStoryDao.find(1);
 		DataElement refDataElement = refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1);
 		Assert.assertEquals(DisplayType.UNDEFINED, refDataElement.getDisplayType());
@@ -291,28 +289,28 @@ public class WorkboardControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addBitreDataToWorkboard(9999, 1, "AUSYD", "graph", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("warningMessage"));
 		
 		// UNKNOWN VARIABLE
 		model = new ExtendedModelMap();
 		result = workboardController.addBitreDataToWorkboard(1, 9999, "AUSYD", "graph", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(BitreVariableCategoryDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(BitreVariableCategoryDao.ERR_NO_RESULT, model.get("warningMessage"));
 		
 		// UNKNOWN SEAPORT
 		model = new ExtendedModelMap();
 		result = workboardController.addBitreDataToWorkboard(1, 1, "UNKNOW SEAPORT CODE", "graph", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(SeaportDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(SeaportDao.ERR_NO_RESULT, model.get("warningMessage"));
 		
 		// UNKNOWN DISPLAY TYPE
 		model = new ExtendedModelMap();
 		result = workboardController.addBitreDataToWorkboard(1, 1, "AUSYD", "UNKNOW DISPLAY TYPE", model);
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(model.get("warningMessage"));
 		UserStory refUserStory = userStoryDao.find(1);
 		DataElement refDataElement = refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1);
 		Assert.assertEquals(DisplayType.UNDEFINED, refDataElement.getDisplayType());
@@ -398,15 +396,15 @@ public class WorkboardControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addPastDataToWorkboard(9999, 1, model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("warningMessage"));
 		
 		// UNKNOWN VARIABLE
 		model = new ExtendedModelMap();
 		result = workboardController.addPastDataToWorkboard(1, 9999, model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(PastDataDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(PastDataDao.ERR_NO_RESULT, model.get("warningMessage"));
 	}
 	
 	/* --------------------------------------------------------------------- */
@@ -454,8 +452,8 @@ public class WorkboardControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addAcornSatDataToWorkboard(9999, "extreme", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("warningMessage"));
 		
 		// UNKNOWN EXTREME VALUE
 		model = new ExtendedModelMap();
@@ -516,24 +514,24 @@ public class WorkboardControllerTest {
 		ModelAndView result = workboardController.addCsiroDataToWorkboard(1, "UNKNOWN VARIABLE", 
 				"A1B", "Hotter & Drier", "2030", "", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(CsiroVariableDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(CsiroVariableDao.ERR_NO_RESULT, model.get("warningMessage"));
 		
 		// UNKNOWN SCENARIO
 		model = new ExtendedModelMap();
 		result = workboardController.addCsiroDataToWorkboard(1, "Temperature", 
 				"UNKNOWN SCENARIO", "Hotter and Drier", "2030", "", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(ClimateEmissionScenarioDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(ClimateEmissionScenarioDao.ERR_NO_RESULT, model.get("warningMessage"));
 		
 		// UNKNOWN MODEL
 		model = new ExtendedModelMap();
 		result = workboardController.addCsiroDataToWorkboard(1, "Temperature", 
 				"A1B", "UNKNOWN MODEL", "2030", "", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(ClimateParamsDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(ClimateParamsDao.ERR_NO_RESULT, model.get("warningMessage"));
 	}
 
 	
@@ -589,15 +587,15 @@ public class WorkboardControllerTest {
 		ExtendedModelMap model = new ExtendedModelMap();
 		ModelAndView result = workboardController.addCmarDataToWorkboard(99999, "2030", "on", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("warningMessage"));
 		
 		// UNKNOWN YEAR
 		model = new ExtendedModelMap();
 		result = workboardController.addCmarDataToWorkboard(1, "9999", "on", model);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(CmarDataDao.ERR_NO_RESULT, model.get("errorMessage"));
+		Assert.assertNotNull(model.get("warningMessage"));
+		Assert.assertEquals(CmarDataDao.ERR_NO_RESULT, model.get("warningMessage"));
 	}
 
 	/* --------------------------------------------------------------------- */
@@ -861,14 +859,14 @@ public class WorkboardControllerTest {
 	/**
 	 * deleteDataElementUnknownIdTest : Delete should fail because the ID provided doesn't belong to the user
 	 */
-	@Test
-	@ExpectedException(AccessDeniedException.class)
+	@Test(expected = AccessDeniedException.class)
 	public void deleteDataElementNotAuthTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedInNoWB);
 		
 		// Try to delete a data element which the user does not own
 		ExtendedModelMap model = new ExtendedModelMap();
-		workboardController.deleteDataElementFromUserStory(1, model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		workboardController.deleteDataElement(1, redirectAttributes, model);
 	}
 	
 	/**
@@ -879,12 +877,13 @@ public class WorkboardControllerTest {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.deleteDataElementFromUserStory(99999, model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.deleteDataElement(99999, redirectAttributes, model);
 		
 		// Check the error message
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(DataElementDao.ERR_NO_SUCH_DATA_ELEMENT, model.get("errorMessage"));
+		Assert.assertTrue(redirectAttributes.getFlashAttributes().containsKey("errorMessage"));
+		Assert.assertEquals(DataElementDao.ERR_NO_SUCH_DATA_ELEMENT, redirectAttributes.getFlashAttributes().get("errorMessage"));
 	}
 	
 	
@@ -896,17 +895,16 @@ public class WorkboardControllerTest {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
 		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		
 		int id = 4; // ID of the data element to delete
-		ModelAndView result = workboardController.deleteDataElementFromUserStory(id, model);
+		String result = workboardController.deleteDataElement(id, redirectAttributes, model);
 		
 		// Check the success message
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("successMessage"));
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(WorkboardController.ERR_DELETE_DATA_ELEMENT, model.get("errorMessage"));
-		
- 		// Check the view name
- 		Assert.assertEquals("workboard", result.getViewName());
+		Assert.assertFalse(redirectAttributes.getFlashAttributes().containsKey("successMessage"));
+		Assert.assertTrue(redirectAttributes.getFlashAttributes().containsKey("errorMessage"));
+		Assert.assertEquals(WorkboardController.ERR_DELETE_DATA_ELEMENT, redirectAttributes.getFlashAttributes().get("errorMessage"));
 	}
 	
 	/**
@@ -915,18 +913,16 @@ public class WorkboardControllerTest {
 	@Test
 	public void deleteDataElementTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
-		
 		ExtendedModelMap model = new ExtendedModelMap();
-		int id = 3; // ID of the data element to delete
-		ModelAndView result = workboardController.deleteDataElementFromUserStory(id, model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		
+		int id = 3; // ID of the data element to delete
+		String result = workboardController.deleteDataElement(id, redirectAttributes, model);
+				
 		// Check the success message
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
-		Assert.assertNotNull(model.get("successMessage"));
-		Assert.assertEquals(WorkboardController.MSG_DATA_ELEMENT_DELETED, model.get("successMessage"));
-		
- 		// Check the view name
- 		Assert.assertEquals("workboard", result.getViewName());
+		Assert.assertFalse(redirectAttributes.getFlashAttributes().containsKey("errorMessage"));
+		Assert.assertTrue(redirectAttributes.getFlashAttributes().containsKey("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_DATA_ELEMENT_DELETED, redirectAttributes.getFlashAttributes().get("successMessage"));
 	}
 }

@@ -18,7 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,8 +82,7 @@ public class AdminControllerTest {
 	/**
 	 * The user doesn't have administrator rights: an access denied exception should be thrown
 	 */
-	@Test
-	@ExpectedException(AccessDeniedException.class)
+	@Test(expected = AccessDeniedException.class)
 	public void userListNoAdminRightsTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		adminController.userList(new ExtendedModelMap());
@@ -136,8 +134,7 @@ public class AdminControllerTest {
 	/**
 	 * The user doesn't have administrator rights: an access denied exception should be thrown
 	 */
-	@Test
-	@ExpectedException(AccessDeniedException.class)
+	@Test(expected = AccessDeniedException.class)
 	public void userEnableDisableNoAdminRightsTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		adminController.userEnableDisable("enable", "testuser1", new ExtendedModelMap());

@@ -210,7 +210,6 @@ public class DataElement {
 		this.displayType = displayType;
 	}
 	
-	
 	/**
 	 * Getter for the user story containing this data element
 	 * @return The user story currently containing this data element

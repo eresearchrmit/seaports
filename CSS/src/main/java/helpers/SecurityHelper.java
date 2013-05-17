@@ -53,9 +53,10 @@ public class SecurityHelper {
 	 * Check whether the currently logged user has an Administrator role
 	 */
 	public static Boolean IsCurrentUserAdmin() {
-		Collection<GrantedAuthority> loggedUserAuthorities = getCurrentlyLoggedInAuthorities();
+		Collection<? extends GrantedAuthority> loggedUserAuthorities = getCurrentlyLoggedInAuthorities();
 		
-		for (GrantedAuthority auth : loggedUserAuthorities) {
+		for (Object obj : loggedUserAuthorities) {
+			GrantedAuthority auth = (GrantedAuthority)(obj);
 			if (auth.getAuthority().equals(UserLoginService.ROLE_ADMINISTRATOR))
 				return true;
 		}
@@ -85,13 +86,14 @@ public class SecurityHelper {
 	 * Retrieve the authorities of the currently logged user
 	 * @return the authorities of the currently logged user
 	 */
-	public static Collection<GrantedAuthority> getCurrentlyLoggedInAuthorities() {
+	public static Collection<? extends GrantedAuthority> getCurrentlyLoggedInAuthorities() {
 		try {
 			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		
 			UserDetails userDetails = null;
 			if (principal instanceof UserDetails) {
 			  userDetails = (UserDetails) principal;
+			  
 			  return userDetails.getAuthorities();
 			}
 			return new ArrayList<GrantedAuthority>();
