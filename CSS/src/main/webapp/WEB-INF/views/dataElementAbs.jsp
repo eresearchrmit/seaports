@@ -10,7 +10,7 @@
 	<c:when test="${dataelement.displayType == 'PICTURE'}">
 		<c:set var="pictureName" value="${fn:replace(dataelement.absDataList[0].variable.name, ' ', '-')}-${fn:replace(userstory.seaport.region.name, ' ', '-')}"/>
 		<c:set var="formatedPictureName" value="${fn:toLowerCase(pictureName)}" />
-		<img name="${dataelement.absDataList[0].seaport.urbanCenter}" src="<c:url value="/resources/img/data/abs/${formatedPictureName}.png" />" />
+		<img name="${dataelement.absDataList[0].seaport.urbanCenter}" src="<c:url value="/resources/img/data/abs/${formatedPictureName}.png" />" class="illustrationPicture" />
 	</c:when>
 	
 	<c:when test="${not empty dataelement.absDataList}">

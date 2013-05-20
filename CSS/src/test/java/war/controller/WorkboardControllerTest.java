@@ -182,13 +182,13 @@ public class WorkboardControllerTest {
 		int refVariableId = 1;
 		String refSeaportCode = "AUSYD";
 		
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addAbsDataToWorkboard(refUserStoryId, refVariableId, refSeaportCode, "graph", model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addAbsDataToWorkboard(refUserStoryId, refVariableId, refSeaportCode, "graph", redirectAttributes);
 		
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 
-		Assert.assertEquals(WorkboardController.MSG_ABS_DATA_ADDED, model.get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_ABS_DATA_ADDED, redirectAttributes.getFlashAttributes().get("successMessage"));
 		
 		// Check that the last Data Element in the user story matches the parameters passed
 		UserStory refUserStory = userStoryDao.find(refUserStoryId);
@@ -211,31 +211,31 @@ public class WorkboardControllerTest {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 
 		// UNKNOWN USER STORY
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addAbsDataToWorkboard(9999, 1, "AUSYD", "graph", model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addAbsDataToWorkboard(9999, 1, "AUSYD", "graph", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, redirectAttributes.getFlashAttributes().get("warningMessage"));
 		
 		// UNKNOWN VARIABLE
-		model = new ExtendedModelMap();
-		result = workboardController.addAbsDataToWorkboard(1, 9999, "AUSYD", "graph", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addAbsDataToWorkboard(1, 9999, "AUSYD", "graph", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(AbsVariableDao.ERR_NO_RESULT, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(AbsVariableDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
 		
 		// UNKNOWN SEAPORT
-		model = new ExtendedModelMap();
-		result = workboardController.addAbsDataToWorkboard(1, 1, "UNKNOW SEAPORT CODE", "graph", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addAbsDataToWorkboard(1, 1, "UNKNOW SEAPORT CODE", "graph", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(SeaportDao.ERR_NO_RESULT, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(SeaportDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
 		
 		// UNKNOWN DISPLAY TYPE
-		model = new ExtendedModelMap();
-		result = workboardController.addAbsDataToWorkboard(1, 1, "AUSYD", "UNKNOW DISPLAY TYPE", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addAbsDataToWorkboard(1, 1, "AUSYD", "UNKNOW DISPLAY TYPE", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("warningMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
 		UserStory refUserStory = userStoryDao.find(1);
 		DataElement refDataElement = refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1);
 		Assert.assertEquals(DisplayType.UNDEFINED, refDataElement.getDisplayType());
@@ -257,13 +257,13 @@ public class WorkboardControllerTest {
 		int refVariableCategoryId = 1;
 		String refSeaportCode = "AUSYD";
 		
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addBitreDataToWorkboard(refUserStoryId, refVariableCategoryId, refSeaportCode, "table", model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addBitreDataToWorkboard(refUserStoryId, refVariableCategoryId, refSeaportCode, "table", redirectAttributes);
 		
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 
-		Assert.assertEquals(WorkboardController.MSG_BITRE_DATA_ADDED, model.get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_BITRE_DATA_ADDED, redirectAttributes.getFlashAttributes().get("successMessage"));
 		
 		// Check that the last Data Element in the user story matches the parameters passed
 		UserStory refUserStory = userStoryDao.find(refUserStoryId);
@@ -286,31 +286,31 @@ public class WorkboardControllerTest {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 
 		// UNKNOWN USER STORY
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addBitreDataToWorkboard(9999, 1, "AUSYD", "graph", model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addBitreDataToWorkboard(9999, 1, "AUSYD", "graph", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, redirectAttributes.getFlashAttributes().get("warningMessage"));
 		
 		// UNKNOWN VARIABLE
-		model = new ExtendedModelMap();
-		result = workboardController.addBitreDataToWorkboard(1, 9999, "AUSYD", "graph", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addBitreDataToWorkboard(1, 9999, "AUSYD", "graph", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(BitreVariableCategoryDao.ERR_NO_RESULT, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(BitreVariableCategoryDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
 		
 		// UNKNOWN SEAPORT
-		model = new ExtendedModelMap();
-		result = workboardController.addBitreDataToWorkboard(1, 1, "UNKNOW SEAPORT CODE", "graph", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addBitreDataToWorkboard(1, 1, "UNKNOW SEAPORT CODE", "graph", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(SeaportDao.ERR_NO_RESULT, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(SeaportDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
 		
 		// UNKNOWN DISPLAY TYPE
-		model = new ExtendedModelMap();
-		result = workboardController.addBitreDataToWorkboard(1, 1, "AUSYD", "UNKNOW DISPLAY TYPE", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addBitreDataToWorkboard(1, 1, "AUSYD", "UNKNOW DISPLAY TYPE", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("warningMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
 		UserStory refUserStory = userStoryDao.find(1);
 		DataElement refDataElement = refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1);
 		Assert.assertEquals(DisplayType.UNDEFINED, refDataElement.getDisplayType());
@@ -325,29 +325,29 @@ public class WorkboardControllerTest {
 	public void uploadfileinWorkBoardSuccessTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		MockMultipartFile mockMultipartFileText = new MockMultipartFile("content", "test.txt", "text/plain", "Hello World".getBytes());
-		workboardController.uploadfileinWorkboard(mockMultipartFileText, 1, model);
-		Assert.assertNull(model.get("errorMessage"));
+		workboardController.uploadfileinWorkboard(mockMultipartFileText, 1, redirectAttributes);
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 		
 		MockMultipartFile mockMultipartFileCsv = new MockMultipartFile("content", "test.csv", "text/csv", "Hello World".getBytes());
-		workboardController.uploadfileinWorkboard(mockMultipartFileCsv, 1, model);
-		Assert.assertNull(model.get("errorMessage"));
+		workboardController.uploadfileinWorkboard(mockMultipartFileCsv, 1, redirectAttributes);
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 
 		MockMultipartFile mockMultipartFileJpeg = new MockMultipartFile("content", "test.jpeg", "image/jpeg", "Hello World".getBytes());
-		workboardController.uploadfileinWorkboard(mockMultipartFileJpeg, 1, model);
-		Assert.assertNull(model.get("errorMessage"));
+		workboardController.uploadfileinWorkboard(mockMultipartFileJpeg, 1, redirectAttributes);
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 	}
 	
 	@Test
 	public void uploadfileinWorkBoardInvalidTypeTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		MockMultipartFile mockMultipartFileText = new MockMultipartFile("content", "test.css", "text/css", "Hello World".getBytes());
-		workboardController.uploadfileinWorkboard(mockMultipartFileText, 1, model);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(WorkboardController.ERR_INVALID_FILETYPE, model.get("errorMessage"));
+		workboardController.uploadfileinWorkboard(mockMultipartFileText, 1, redirectAttributes);
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals(WorkboardController.ERR_INVALID_FILETYPE, redirectAttributes.getFlashAttributes().get("errorMessage"));
 	}
 	
 	/* --------------------------------------------------------------------- */
@@ -365,13 +365,13 @@ public class WorkboardControllerTest {
 		int refUserStoryId = 1;
 		int refPastDataId = 1;
 		
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addPastDataToWorkboard(refUserStoryId, refPastDataId, model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addPastDataToWorkboard(refUserStoryId, refPastDataId, redirectAttributes);
 		
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 
-		Assert.assertEquals(WorkboardController.MSG_PAST_DATA_ADDED, model.get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_PAST_DATA_ADDED, redirectAttributes.getFlashAttributes().get("successMessage"));
 		
 		// Check that the last Data Element in the user story matches the parameters passed
 		UserStory refUserStory = userStoryDao.find(refUserStoryId);
@@ -393,18 +393,18 @@ public class WorkboardControllerTest {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 
 		// UNKNOWN USER STORY
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addPastDataToWorkboard(9999, 1, model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addPastDataToWorkboard(9999, 1, redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, redirectAttributes.getFlashAttributes().get("warningMessage"));
 		
 		// UNKNOWN VARIABLE
-		model = new ExtendedModelMap();
-		result = workboardController.addPastDataToWorkboard(1, 9999, model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addPastDataToWorkboard(1, 9999, redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(PastDataDao.ERR_NO_RESULT, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(PastDataDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
 	}
 	
 	/* --------------------------------------------------------------------- */
@@ -421,13 +421,13 @@ public class WorkboardControllerTest {
 		int refUserStoryId = 1;
 		String refExtreme = "extreme";
 		
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addAcornSatDataToWorkboard(refUserStoryId, refExtreme, model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addAcornSatDataToWorkboard(refUserStoryId, refExtreme, redirectAttributes);
 		
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 
-		Assert.assertEquals(WorkboardController.MSG_ACORNSAT_DATA_ADDED, model.get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_ACORNSAT_DATA_ADDED, redirectAttributes.getFlashAttributes().get("successMessage"));
 		
 		// Check that the last Data Element in the user story matches the parameters passed
 		UserStory refUserStory = userStoryDao.find(refUserStoryId);
@@ -449,17 +449,17 @@ public class WorkboardControllerTest {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 
 		// UNKNOWN USER STORY
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addAcornSatDataToWorkboard(9999, "extreme", model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addAcornSatDataToWorkboard(9999, "extreme", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, redirectAttributes.getFlashAttributes().get("warningMessage"));
 		
 		// UNKNOWN EXTREME VALUE
-		model = new ExtendedModelMap();
-		result = workboardController.addAcornSatDataToWorkboard(1, "UNKNOWN EXTREME VALUE", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addAcornSatDataToWorkboard(1, "UNKNOWN EXTREME VALUE", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 		//Assert.assertEquals(PastDataDao.ERR_NO_RESULT, model.get("errorMessage"));
 	}
 		
@@ -475,14 +475,14 @@ public class WorkboardControllerTest {
 	public void addCsiroDataToWorkboardTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addCsiroDataToWorkboard(1, 
-				"Temperature", "A1B", "Hotter & Drier", "2030", "on", model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addCsiroDataToWorkboard(1, 
+				"Temperature", "A1B", "Hotter & Drier", "2030", "on", redirectAttributes);
 		
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 
-		Assert.assertEquals(WorkboardController.MSG_CSIRO_DATA_ADDED, model.get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_CSIRO_DATA_ADDED, redirectAttributes.getFlashAttributes().get("successMessage"));
 	}
 	
 	/**
@@ -492,14 +492,14 @@ public class WorkboardControllerTest {
 	public void addCsiroDataToWorkboardWithoutPictureTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addCsiroDataToWorkboard(1, 
-				"Temperature", "A1B", "Hotter & Drier", "2030", null, model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addCsiroDataToWorkboard(1, 
+				"Temperature", "A1B", "Hotter & Drier", "2030", null, redirectAttributes);
 		
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 
-		Assert.assertEquals(WorkboardController.MSG_CSIRO_DATA_ADDED, model.get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_CSIRO_DATA_ADDED, redirectAttributes.getFlashAttributes().get("successMessage"));
 	}
 	
 	/**
@@ -510,28 +510,28 @@ public class WorkboardControllerTest {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
 		// UNKNOWN VARIABLE
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addCsiroDataToWorkboard(1, "UNKNOWN VARIABLE", 
-				"A1B", "Hotter & Drier", "2030", "", model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addCsiroDataToWorkboard(1, "UNKNOWN VARIABLE", 
+				"A1B", "Hotter & Drier", "2030", "", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(CsiroVariableDao.ERR_NO_RESULT, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(CsiroVariableDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
 		
 		// UNKNOWN SCENARIO
-		model = new ExtendedModelMap();
+		redirectAttributes = new RedirectAttributesModelMap();
 		result = workboardController.addCsiroDataToWorkboard(1, "Temperature", 
-				"UNKNOWN SCENARIO", "Hotter and Drier", "2030", "", model);
+				"UNKNOWN SCENARIO", "Hotter and Drier", "2030", "", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(ClimateEmissionScenarioDao.ERR_NO_RESULT, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(ClimateEmissionScenarioDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
 		
 		// UNKNOWN MODEL
-		model = new ExtendedModelMap();
+		redirectAttributes = new RedirectAttributesModelMap();
 		result = workboardController.addCsiroDataToWorkboard(1, "Temperature", 
-				"A1B", "UNKNOWN MODEL", "2030", "", model);
+				"A1B", "UNKNOWN MODEL", "2030", "", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(ClimateParamsDao.ERR_NO_RESULT, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(ClimateParamsDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
 	}
 
 	
@@ -548,14 +548,14 @@ public class WorkboardControllerTest {
 	public void addCmarDataToWorkboardTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addCmarDataToWorkboard(1, "2030", "on", model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addCmarDataToWorkboard(1, "2030", "on", redirectAttributes);
 		
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 
-		Assert.assertNotNull(model.get("successMessage"));
-		Assert.assertEquals(WorkboardController.MSG_CMAR_DATA_ADDED, model.get("successMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_CMAR_DATA_ADDED, redirectAttributes.getFlashAttributes().get("successMessage"));
 	}
 	
 	/**
@@ -565,14 +565,14 @@ public class WorkboardControllerTest {
 	public void addCmarDataToWorkboardWithoutPicturesTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addCmarDataToWorkboard(1, "2030", null, model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addCmarDataToWorkboard(1, "2030", null, redirectAttributes);
 		
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 
-		Assert.assertNotNull(model.get("successMessage"));
-		Assert.assertEquals(WorkboardController.MSG_CMAR_DATA_ADDED, model.get("successMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_CMAR_DATA_ADDED, redirectAttributes.getFlashAttributes().get("successMessage"));
 	}
 	
 	
@@ -584,18 +584,18 @@ public class WorkboardControllerTest {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
 		// UNKNOWN USER STORY
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addCmarDataToWorkboard(99999, "2030", "on", model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addCmarDataToWorkboard(99999, "2030", "on", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, redirectAttributes.getFlashAttributes().get("warningMessage"));
 		
 		// UNKNOWN YEAR
-		model = new ExtendedModelMap();
-		result = workboardController.addCmarDataToWorkboard(1, "9999", "on", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addCmarDataToWorkboard(1, "9999", "on", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(CmarDataDao.ERR_NO_RESULT, model.get("warningMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(CmarDataDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
 	}
 
 	/* --------------------------------------------------------------------- */
@@ -623,14 +623,14 @@ public class WorkboardControllerTest {
 		String refConsequences = "Other consequences";
 		String refChanges = "Changes Implemented";
 		
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addVulnerabilityAssessmentToWorkboard(refUserStoryId, refType, "2008", "direct", refImpact, "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", refConsequences, "adequate", refChanges, model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addVulnerabilityAssessmentToWorkboard(refUserStoryId, refType, "2008", "direct", refImpact, "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", refConsequences, "adequate", refChanges, redirectAttributes);
 		
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 
-		Assert.assertNotNull(model.get("successMessage"));
-		Assert.assertEquals(WorkboardController.MSG_VULNERABILITY_DATA_ADDED, model.get("successMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_VULNERABILITY_DATA_ADDED, redirectAttributes.getFlashAttributes().get("successMessage"));
 		
 		UserStory refUserStory = userStoryDao.find(refUserStoryId);
 		DataElementVulnerability refDataElement = (DataElementVulnerability)(refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1));
@@ -652,61 +652,61 @@ public class WorkboardControllerTest {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
 		// UNKNOWN USER STORY
-		ExtendedModelMap model = new ExtendedModelMap();
-		ModelAndView result = workboardController.addVulnerabilityAssessmentToWorkboard(9999, "Heavy rain", "2006", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
+		String result = workboardController.addVulnerabilityAssessmentToWorkboard(9999, "Heavy rain", "2006", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, model.get("errorMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals(UserStoryDao.ERR_NO_SUCH_USERSTORY, redirectAttributes.getFlashAttributes().get("errorMessage"));
 		
 		// UNKNOWN WEATHER EVENT TYPE
-		model = new ExtendedModelMap();
-		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "UNKNOW WEATHER EVENT TYPE", "2008", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "UNKNOW WEATHER EVENT TYPE", "2008", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(WeatherEvent.ERR_INVALID_WEATHER_EVENT_TYPE, model.get("errorMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals(WeatherEvent.ERR_INVALID_WEATHER_EVENT_TYPE, redirectAttributes.getFlashAttributes().get("errorMessage"));
 		
 		// UNKNOWN YEAR
-		model = new ExtendedModelMap();
-		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "UNKNOWN YEAR", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "UNKNOWN YEAR", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals("For input string: \"UNKNOWN YEAR\"", model.get("errorMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals("For input string: \"UNKNOWN YEAR\"", redirectAttributes.getFlashAttributes().get("errorMessage"));
 		
 		// UNKNOWN DIRECT PARAM
-		model = new ExtendedModelMap();
-		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "UNKNOWN DIRECT PARAM", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "UNKNOWN DIRECT PARAM", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "adequate", "Changes implemented", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
-		Assert.assertNotNull(model.get("successMessage"));
-		Assert.assertEquals(WorkboardController.MSG_VULNERABILITY_DATA_ADDED, model.get("successMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_VULNERABILITY_DATA_ADDED, redirectAttributes.getFlashAttributes().get("successMessage"));
 		UserStory refUserStory = userStoryDao.find(1);
 		DataElementVulnerability refDataElement = (DataElementVulnerability)(refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1));
 		Assert.assertFalse(refDataElement.getWeatherEvent().getDirect());
 		
 		// UNKNOWN ADEQUATE PARAM
-		model = new ExtendedModelMap();
-		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "direct", "Impact of the event", "2", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNull(model.get("errorMessage"));
-		Assert.assertNotNull(model.get("successMessage"));
-		Assert.assertEquals(WorkboardController.MSG_VULNERABILITY_DATA_ADDED, model.get("successMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("successMessage"));
+		Assert.assertEquals(WorkboardController.MSG_VULNERABILITY_DATA_ADDED, redirectAttributes.getFlashAttributes().get("successMessage"));
 		refUserStory = userStoryDao.find(1);
 		refDataElement = (DataElementVulnerability)(refUserStory.getDataElements().get(refUserStory.getDataElements().size() - 1));
 		Assert.assertFalse(refDataElement.getWeatherEvent().getResponseAdequate());
 		
 		// UNKNOWN CONSEQUENCE RATING
-		model = new ExtendedModelMap();
-		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "direct", "Impact of the event", "UNKNOWN RATING", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "direct", "Impact of the event", "UNKNOWN RATING", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals("For input string: \"UNKNOWN RATING\"", model.get("errorMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals("For input string: \"UNKNOWN RATING\"", redirectAttributes.getFlashAttributes().get("errorMessage"));
 		
 		// CONSEQUENCE RATING OUT OF RANGE
-		model = new ExtendedModelMap();
-		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "direct", "Impact of the event", "9999", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", model);
+		redirectAttributes = new RedirectAttributesModelMap();
+		result = workboardController.addVulnerabilityAssessmentToWorkboard(1, "Heavy rain", "2005", "direct", "Impact of the event", "9999", "4", "1", "1", "0", "5", "2", "3", "4", "2", "1", "5", "Other consequences", "UNKNOWN ADEQUATE PARAM", "Changes implemented", redirectAttributes);
 		Assert.assertNotNull(result);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(WeatherEvent.ERR_CONSEQUENCE_RATING_OUT_OF_RANGE, model.get("errorMessage"));
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals(WeatherEvent.ERR_CONSEQUENCE_RATING_OUT_OF_RANGE, redirectAttributes.getFlashAttributes().get("errorMessage"));
 	}
 
 	

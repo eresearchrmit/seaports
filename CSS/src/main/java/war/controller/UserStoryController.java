@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import org.springframework.ui.Model;
 
@@ -112,7 +113,10 @@ public class UserStoryController {
 	}
 
 	@RequestMapping(value= "/lock", method = RequestMethod.GET)
-	public String changeUserStoryPrivacy(@RequestParam(value="id",required=true) Integer id, @RequestParam(value="lock",required=true) Boolean lock, Model model) {
+	public String changeUserStoryPrivacy(
+			@RequestParam(value="id",required=true) Integer id, 
+			@RequestParam(value="lock",required=true) Boolean lock, 
+			RedirectAttributes attributes) {
 		logger.info("Inside getUserStoriesList !");
 		
 		try {
@@ -128,10 +132,10 @@ public class UserStoryController {
 			userStoryDao.save(userStory);
 		}
 		catch (IllegalArgumentException e) {
-			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
 		return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}
@@ -175,10 +179,10 @@ public class UserStoryController {
 	}
 	
 	@RequestMapping(value="/save", method=RequestMethod.POST) 
-	public ModelAndView saveUserStory(
+	public String saveUserStory(
 			@RequestParam(value="comments",required=false) String[] updatedTexts, 
 			@Valid @ModelAttribute("userstory") UserStory updatedUserStory, 
-			Model model) {
+			RedirectAttributes attributes) {
 		logger.info("Inside saveUserStory");
 		
 		UserStory userStory = null;
@@ -217,19 +221,23 @@ public class UserStoryController {
 					}
 				}
 			}
-			model.addAttribute("successMessage", MSG_USERSTORY_SAVED);
+			attributes.addFlashAttribute("successMessage", MSG_USERSTORY_SAVED);
 		}
 		catch (IllegalArgumentException e) {
-			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_SAVE_USERSTORY);
 		}
-		return ModelForUserStory(model, userStory);
+		
+		if (userStory != null)
+			return "redirect:/auth/userstory?id=" + userStory.getId();
+		else
+			return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}
 	
 	@RequestMapping(value = "/delete",method=RequestMethod.GET) 
-	public String deleteUserStory(@RequestParam(value="id", required=true) Integer userStoryId, Model model) {
+	public String deleteUserStory(@RequestParam(value="id", required=true) Integer userStoryId, RedirectAttributes attributes) {
 		logger.debug("Inside deleteUserStory");
 		
 		try {
@@ -239,22 +247,22 @@ public class UserStoryController {
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
 			userStoryDao.delete(userStory);
-			
-			return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
+			attributes.addFlashAttribute("successMessage", MSG_USERSTORY_DELETED);
 		}
 		catch (IllegalArgumentException e) {
-			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_DELETE_USERSTORY);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_DELETE_USERSTORY);
 		}
-		return "userstoryList";
+		
+		return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}	
 
 	@RequestMapping(value="/addText", method=RequestMethod.POST) 
-	public ModelAndView addTextToUserStory(@RequestParam(value="userStoryId",required=true) Integer id, 
+	public String addTextToUserStory(@RequestParam(value="userStoryId",required=true) Integer id, 
 			@RequestParam(value="textContent",required=true) String textContent, 
-			@RequestParam(value="textInsertPosition",required=true) String insertTextAfter, Model model) {
+			@RequestParam(value="textInsertPosition",required=true) String insertTextAfter, RedirectAttributes attributes) {
 		logger.info("Inside saveUserStory");
 		
 		UserStory userStory = null;
@@ -278,20 +286,25 @@ public class UserStoryController {
 			
 			DataElementText newTextItem = new DataElementText(new Date(), "Story Text", true, newTextPosition, DisplayType.PLAIN, userStory, textContent);
 			dataElementDao.save(newTextItem);
-			userStory = userStoryDao.find(id);
+			
+			attributes.addFlashAttribute("successMessage", MSG_TEXT_ADDED);
 		}
 		catch (IllegalArgumentException e) {
-			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_ADD_TEXT);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_ADD_TEXT);
 		}
-		return ModelForUserStory(model, userStory);
+		
+		if (userStory != null)
+			return "redirect:/auth/userstory?id=" + userStory.getId();
+		else
+			return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}
 	
 	@RequestMapping(value="/editText", method=RequestMethod.POST) 
 	public String editText(@RequestParam(value="dataElementId") Integer dataElementId,
-			@RequestParam(value="textContent") String textContent, Model model) {
+			@RequestParam(value="textContent") String textContent, RedirectAttributes attributes) {
 		logger.info("Inside editText");
 		
 		DataElement dataElement = null;
@@ -307,77 +320,85 @@ public class UserStoryController {
 				deText.setText(textContent);
 				dataElementDao.save(deText);
 			}
-			
-			return "redirect:/auth/userstory?id=" + dataElement.getUserStory().getId();
+			attributes.addFlashAttribute("successMessage", MSG_TEXT_EDITED);
 		}
 		catch (IllegalArgumentException e) {
-			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_EDIT_TEXT);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", ERR_SAVE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_EDIT_TEXT);
 		}
 		
-		return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
+		if (dataElement != null)
+			return "redirect:/auth/userstory?id=" + dataElement.getUserStory().getId();
+		else
+			return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}
 	
 	@RequestMapping(value="/deleteText", method=RequestMethod.GET) 
-	public ModelAndView removeTextFromUserStory(@RequestParam(value="text",required=true) Integer id, Model model) {
+	public String removeTextFromUserStory(@RequestParam(value="text",required=true) Integer id, RedirectAttributes attributes) {
 		logger.info("Inside removeTextFromUserStory");
 		
-		UserStory userStory = null;
+		DataElement dataElement = null;
 		try {
-			DataElement dataElement = dataElementDao.find(id);
+			dataElement = dataElementDao.find(id);
+			
+			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(dataElement.getUserStory()))) // Security: ownership check
+    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
+			
 			if (!(dataElement instanceof DataElementText))
 				throw new IllegalArgumentException();
 			
-			userStory = userStoryDao.find(dataElement.getUserStory().getId());
-			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
-    			throw new AccessDeniedException(ERR_ACCESS_DENIED);
-			
 			dataElementDao.delete(dataElement);
-			userStory = userStoryDao.find(userStory.getId());
+			attributes.addFlashAttribute("successMessage", MSG_TEXT_REMOVED);
 		}
 		catch (IllegalArgumentException e) {
-			model.addAttribute("errorMessage", ERR_REMOVE_TEXT);
+			attributes.addFlashAttribute("errorMessage", ERR_REMOVE_TEXT);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", ERR_REMOVE_TEXT);
+			attributes.addFlashAttribute("errorMessage", ERR_REMOVE_TEXT);
 		}
 		
-		return ModelForUserStory(model, userStory);
+		if (dataElement != null)
+			return "redirect:/auth/userstory?id=" + dataElement.getUserStory().getId();
+		else
+			return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}
 	
 	@RequestMapping(value="/includeDataElement", method=RequestMethod.GET) 
-	public ModelAndView includeDataElementToUserStory(@RequestParam(value="dataelement",required=true) Integer dataElementId, Model model) {
+	public String includeDataElementToUserStory(@RequestParam(value="dataelement",required=true) Integer dataElementId, RedirectAttributes attributes) {
 		logger.info("Inside includeDataElementToUserStory");
 		
-		UserStory userStory = null;
+		DataElement dataElement = null;
 		try {
-			DataElement dataElement = dataElementDao.find(dataElementId);
+			dataElement = dataElementDao.find(dataElementId);
 			
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(dataElement.getUserStory()))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
 			dataElement.setIncluded(!dataElement.getIncluded());
 			dataElementDao.save(dataElement);
-			userStory = userStoryDao.find(dataElement.getUserStory().getId());
 		}
 		catch (IllegalArgumentException e) {
- 			model.addAttribute("errorMessage", e.getMessage());
+			attributes.addFlashAttribute("errorMessage", e.getMessage());
 		}
 		catch (NoResultException e) {
- 			model.addAttribute("errorMessage", e.getMessage());
+			attributes.addFlashAttribute("errorMessage", e.getMessage());
 		}
  		
- 		return ModelForUserStory(model, userStory);
+		if (dataElement != null)
+			return "redirect:/auth/userstory?id=" + dataElement.getUserStory().getId();
+		else
+			return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}
 	
 	@RequestMapping(value = "/publish", method=RequestMethod.GET) 
-	public String publishUserStory(@RequestParam(value="id", required=true) Integer userStoryId, Model model) {
+	public String publishUserStory(@RequestParam(value="id", required=true) Integer userStoryId, RedirectAttributes attributes) {
 		logger.debug("Inside publishUserStory");
 		
+		UserStory userStory = null;
 		try {
-			UserStory userStory = userStoryDao.find(userStoryId);
+			userStory = userStoryDao.find(userStoryId);
 			
 			if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
@@ -389,19 +410,22 @@ public class UserStoryController {
 								
 				userStoryDao.save(userStory);
 				
-				return "redirect:/auth/userstory?id=" + userStory.getId();
+				attributes.addFlashAttribute("successMessage", MSG_STORY_PUBLISHED);
 			}
-
-			model.addAttribute("warningMessage", ERR_STORY_ALREADY_PUBLISHED);
-			return "redirect:/auth/userstory/list";
+			else
+				attributes.addFlashAttribute("warningMessage", ERR_STORY_ALREADY_PUBLISHED);
 		}
 		catch (IllegalArgumentException e) {
-			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_DELETE_USERSTORY);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("errorMessage", ERR_DELETE_USERSTORY);
+			attributes.addFlashAttribute("errorMessage", ERR_DELETE_USERSTORY);
 		}
-		return "userstoryList";
+
+		if (userStory != null)
+			return "redirect:/auth/userstory?id=" + userStory.getId();
+		else
+			return "redirect:/auth/userstory/list?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}
 	
 	public ModelAndView ModelForUserStory(Model model, UserStory userStory) {
@@ -449,11 +473,20 @@ public class UserStoryController {
 	
 	public static final String ERR_ACCESS_DENIED = "You are not allowed to access this Story";
 	
-	public static final String ERR_RETRIEVE_USERSTORY_LIST = "Impossible to retrieve the list of your stories";
-	public static final String MSG_NO_USER_STORY = "There is no story to display";
-	public static final String MSG_USERSTORY_SAVED = "The story has been saved successfully";
-	public static final String ERR_SAVE_USERSTORY = "Error saving the story. Please Try Again";
-	public static final String ERR_DELETE_USERSTORY = "Error deleting the story. Please Try Again";
-	public static final String ERR_REMOVE_TEXT = "Error removing the text. Please Try Again";
-	public static final String ERR_STORY_ALREADY_PUBLISHED = "This story is already published";
+	public static final String ERR_RETRIEVE_USERSTORY_LIST = "Impossible to retrieve the list of your reports";
+	public static final String MSG_NO_USER_STORY = "There is no report to display";
+	public static final String MSG_USERSTORY_SAVED = "The report has been saved successfully";
+	public static final String ERR_SAVE_USERSTORY = "Error saving the report. Please Try Again";
+	public static final String MSG_USERSTORY_DELETED = "The report has been deleted successfully";
+	public static final String ERR_DELETE_USERSTORY = "Error deleting the report. Please Try Again";
+	
+	public static final String MSG_TEXT_ADDED = "Text added successfully";
+	public static final String ERR_ADD_TEXT = "Error adding text. Please Try Again";
+	public static final String MSG_TEXT_EDITED = "Text edited successfully";
+	public static final String ERR_EDIT_TEXT = "Error editing the text. Please Try Again";
+	public static final String MSG_TEXT_REMOVED = "Text deleted successfully";
+	public static final String ERR_REMOVE_TEXT = "Error deleting the text. Please Try Again";
+	
+	public static final String MSG_STORY_PUBLISHED = "The report is now published. It appears publicly on this portal and will be listed on Reasearch Data Australia search results.";
+	public static final String ERR_STORY_ALREADY_PUBLISHED = "This report is already published";
 }

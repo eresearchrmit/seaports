@@ -27,6 +27,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
 @ContextConfiguration("/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -287,7 +288,7 @@ public class UserStoryControllerTest {
 	public void changeUserStoryPrivacyPublicTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		String login = "testuser1";
 		Integer id = 1;
 		
@@ -295,9 +296,9 @@ public class UserStoryControllerTest {
 		Assert.assertEquals("private", refUserstory.getAccess());
 		
 		//TODO : Fake Authentication with testuser1
-		String result = userStoryController.changeUserStoryPrivacy(id, false, model);
+		String result = userStoryController.changeUserStoryPrivacy(id, false, redirectAttributes);
 		Assert.assertEquals("redirect:/auth/userstory/list?user=" + login, result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 		
 		UserStory changedUserstory = userStoryDao.find(id);
 		Assert.assertEquals("public", changedUserstory.getAccess());
@@ -311,15 +312,15 @@ public class UserStoryControllerTest {
 	public void changeUserStoryPrivacyPrivateTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 3;
 		
 		UserStory refUserstory = userStoryDao.find(id);
 		Assert.assertEquals("public", refUserstory.getAccess());
 		
-		String result = userStoryController.changeUserStoryPrivacy(id, true, model);
+		String result = userStoryController.changeUserStoryPrivacy(id, true, redirectAttributes);
 		Assert.assertEquals("redirect:/auth/userstory/list?user=" + loggedInUser.getUsername(), result);
-		Assert.assertNull(model.get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 		
 		UserStory changedUserstory = userStoryDao.find(id);
 		Assert.assertEquals("private", changedUserstory.getAccess());
@@ -390,15 +391,15 @@ public class UserStoryControllerTest {
 	public void saveUserStoryUpdateTextsTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 2;
 		UserStory refUserstory = userStoryDao.find(id);
 		Assert.assertEquals(4, refUserstory.getDataElements().size());
 		
 		String[] updatedTexts = new String[] {"Updated Text 1", "Updated Text 2"};
 		
-		userStoryController.saveUserStory(updatedTexts, refUserstory, model);
-		Assert.assertNull(model.get("errorMessage"));
+		userStoryController.saveUserStory(updatedTexts, refUserstory, redirectAttributes);
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 		
 		UserStory changedUserstory = userStoryDao.find(id);
 		Assert.assertEquals(4, changedUserstory.getDataElements().size());
@@ -410,7 +411,7 @@ public class UserStoryControllerTest {
 		
 		// Set the texts back to what they were before the test
 		String[] refTexts = new String[] {"This is a text comment", "This is a second text comment"};
-		userStoryController.saveUserStory(refTexts, changedUserstory, model);
+		userStoryController.saveUserStory(refTexts, changedUserstory, redirectAttributes);
 		
 	}
 	
@@ -421,7 +422,7 @@ public class UserStoryControllerTest {
 	public void saveUserStoryUpdateOrderTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 2;
 		UserStory refUserstory = userStoryDao.find(id);
 		Assert.assertEquals(4, refUserstory.getDataElements().size());
@@ -436,8 +437,8 @@ public class UserStoryControllerTest {
 		updatedUserStory.getDataElements().get(2).setPosition(1);
 		updatedUserStory.getDataElements().get(3).setPosition(2);
 		
-		userStoryController.saveUserStory(refTexts, updatedUserStory, model);
-		Assert.assertNull(model.get("errorMessage"));
+		userStoryController.saveUserStory(refTexts, updatedUserStory, redirectAttributes);
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 		// Check that the data element order has been correctly changed
 		UserStory changedUserstory = userStoryDao.find(id);
 		Assert.assertEquals(4, changedUserstory.getDataElements().size());
@@ -451,7 +452,7 @@ public class UserStoryControllerTest {
 		updatedUserStory.getDataElements().get(1).setPosition(2);
 		updatedUserStory.getDataElements().get(2).setPosition(3);
 		updatedUserStory.getDataElements().get(3).setPosition(4);
-		userStoryController.saveUserStory(refTexts, updatedUserStory, model);
+		userStoryController.saveUserStory(refTexts, updatedUserStory, redirectAttributes);
 	}
 	
 	/* --------------------------------------------------------------------- */
@@ -466,13 +467,13 @@ public class UserStoryControllerTest {
 	public void deleteUserStorySuccessTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 2;
 		
 		UserStory refUserStory = userStoryDao.find(id);
 		
-		String result = userStoryController.deleteUserStory(id, model);
-		Assert.assertNull(model.get("errorMessage"));
+		String result = userStoryController.deleteUserStory(id, redirectAttributes);
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 		Assert.assertEquals("redirect:/auth/userstory/list?user=" + refUserStory.getOwner().getUsername(), result);
 		
 		/*try {
@@ -492,12 +493,12 @@ public class UserStoryControllerTest {
 	public void deleteUserStoryNullIdTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		
-		String result = userStoryController.deleteUserStory(null, model);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals("userstoryList", result);
-		Assert.assertEquals(UserStoryController.ERR_DELETE_USERSTORY, model.get("errorMessage"));
+		String result = userStoryController.deleteUserStory(null, redirectAttributes);
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals("redirect:/auth/userstory/list?user=" + securityContextUserLoggedIn.getAuthentication().getName(), result);
+		Assert.assertEquals(UserStoryController.ERR_DELETE_USERSTORY, redirectAttributes.getFlashAttributes().get("errorMessage"));
 	}
 	
 	/**
@@ -508,13 +509,13 @@ public class UserStoryControllerTest {
 	public void deleteUserStoryUnknownIdTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 9999; // NON-EXISTING ID
 		
-		String result = userStoryController.deleteUserStory(id, model);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals("userstoryList", result);
-		Assert.assertEquals(UserStoryController.ERR_DELETE_USERSTORY, model.get("errorMessage"));
+		String result = userStoryController.deleteUserStory(id, redirectAttributes);
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals("redirect:/auth/userstory/list?user=" + securityContextUserLoggedIn.getAuthentication().getName(), result);
+		Assert.assertEquals(UserStoryController.ERR_DELETE_USERSTORY, redirectAttributes.getFlashAttributes().get("errorMessage"));
 	}
 	
 	/* --------------------------------------------------------------------- */
@@ -529,13 +530,13 @@ public class UserStoryControllerTest {
 	public void addTextToUserStorySuccessTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 3;
 		
 		//UserStory refUserStory = userStoryDao.find(id);
 		
-		userStoryController.addTextToUserStory(id, "Content", "0", model);
-		Assert.assertNull(model.get("errorMessage"));
+		userStoryController.addTextToUserStory(id, "Content", "0", redirectAttributes);
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 		
 		//UserStory changedUserStory = userStoryDao.find(id);
 		//Assert.assertEquals(refUserStory.getDataElements().size() + 1, changedUserStory.getDataElements().size());
@@ -549,12 +550,12 @@ public class UserStoryControllerTest {
 	public void addTextToUserStoryUnknownIDTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 9999; // NON-EXISTING ID
 		
-		userStoryController.addTextToUserStory(id, "Content", "0", model);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserStoryController.ERR_SAVE_USERSTORY, model.get("errorMessage"));
+		userStoryController.addTextToUserStory(id, "Content", "0", redirectAttributes);
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals(UserStoryController.ERR_ADD_TEXT, redirectAttributes.getFlashAttributes().get("errorMessage"));
 	}
 	
 	/* --------------------------------------------------------------------- */
@@ -569,13 +570,13 @@ public class UserStoryControllerTest {
 	public void removeTextFromUserStorySuccessTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 5;
 		
 		//UserStory refUserStory = userStoryDao.find(id);
 		
-		userStoryController.removeTextFromUserStory(id, model);
-		Assert.assertNull(model.get("errorMessage"));
+		userStoryController.removeTextFromUserStory(id, redirectAttributes);
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 		
 		//UserStory changedUserStory = userStoryDao.find(id);
 		//Assert.assertEquals(refUserStory.getDataElements().size() - 1, changedUserStory.getDataElements().size());
@@ -589,12 +590,12 @@ public class UserStoryControllerTest {
 	public void removeTextFromUserStoryUnknownIDTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 9999; // NON-EXISTING ID
 		
-		userStoryController.removeTextFromUserStory(id, model);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserStoryController.ERR_REMOVE_TEXT, model.get("errorMessage"));
+		userStoryController.removeTextFromUserStory(id, redirectAttributes);
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals(UserStoryController.ERR_REMOVE_TEXT, redirectAttributes.getFlashAttributes().get("errorMessage"));
 	}
 	
 	/* --------------------------------------------------------------------- */
@@ -608,7 +609,7 @@ public class UserStoryControllerTest {
 	public void includeDataElementToUserStorySuccessTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer dataElementId = 4;
 		
 		// Check that the data element is included at the beginning of the test
@@ -616,14 +617,14 @@ public class UserStoryControllerTest {
 		Assert.assertEquals(true, dataElementRef.getIncluded());
 		
 		// Exclude the data element from the user story
-		userStoryController.includeDataElementToUserStory(dataElementId, model);
-		Assert.assertNull(model.get("errorMessage"));
+		userStoryController.includeDataElementToUserStory(dataElementId, redirectAttributes);
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 		DataElement dataElementChanged = dataElementDao.find(dataElementId);
 		Assert.assertEquals(false, dataElementChanged.getIncluded());
 		
 		// Re-include the data element to the user story
-		userStoryController.includeDataElementToUserStory(dataElementId, model);
-		Assert.assertNull(model.get("errorMessage"));
+		userStoryController.includeDataElementToUserStory(dataElementId, redirectAttributes);
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 		DataElement dataElementChanged2 = dataElementDao.find(dataElementId);
 		Assert.assertEquals(true, dataElementChanged2.getIncluded());
 	}
@@ -635,12 +636,12 @@ public class UserStoryControllerTest {
 	public void includeDataElementToUserStoryUnknownIdTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer dataElementId = 9999; // NON-EXISTING ID
 				
-		userStoryController.includeDataElementToUserStory(dataElementId, model);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(DataElementDao.ERR_NO_SUCH_DATA_ELEMENT, model.get("errorMessage"));
+		userStoryController.includeDataElementToUserStory(dataElementId, redirectAttributes);
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals(DataElementDao.ERR_NO_SUCH_DATA_ELEMENT, redirectAttributes.getFlashAttributes().get("errorMessage"));
 		
 	}
 	
@@ -655,18 +656,18 @@ public class UserStoryControllerTest {
 	public void publishUserStorySuccessTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 2;
+		UserStory refUserStory = userStoryDao.find(id);
 		
 		// Check that the user story is private and in in 'passive' mode before the test
-		UserStory refUserStory = userStoryDao.find(id);
 		Assert.assertEquals("private", refUserStory.getAccess());
 		Assert.assertEquals("passive", refUserStory.getMode());
 		Assert.assertNull(refUserStory.getPublishDate());
 		
-		String result = userStoryController.publishUserStory(id, model);
-		Assert.assertNull(model.get("errorMessage"));
-		Assert.assertNull(model.get("warningMessage"));
+		String result = userStoryController.publishUserStory(id, redirectAttributes);
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
 		Assert.assertEquals("redirect:/auth/userstory?id=" + id, result);
 		
 		// Check the the User story is now public and published
@@ -690,13 +691,13 @@ public class UserStoryControllerTest {
 	public void publishUserStoryUnknownIDTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 9999; // NON-EXISTING ID
 		
-		String result = userStoryController.publishUserStory(id, model);
-		Assert.assertNotNull(model.get("errorMessage"));
-		Assert.assertEquals(UserStoryController.ERR_DELETE_USERSTORY, model.get("errorMessage"));
-		Assert.assertEquals("userstoryList", result);
+		String result = userStoryController.publishUserStory(id, redirectAttributes);
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals(UserStoryController.ERR_DELETE_USERSTORY, redirectAttributes.getFlashAttributes().get("errorMessage"));
+		Assert.assertEquals("redirect:/auth/userstory/list?user=" + securityContextUserLoggedIn.getAuthentication().getName(), result);
 	}
 	
 	/**
@@ -707,13 +708,13 @@ public class UserStoryControllerTest {
 	public void publishUserStoryAlreadyPublishedTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
 		
-		ExtendedModelMap model = new ExtendedModelMap();
+		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		Integer id = 4; // STORY ALREADY PUBLISHED
 		
-		String result = userStoryController.publishUserStory(id, model);
-		Assert.assertNotNull(model.get("warningMessage"));
-		Assert.assertEquals(UserStoryController.ERR_STORY_ALREADY_PUBLISHED, model.get("warningMessage"));
-		Assert.assertEquals("redirect:/auth/userstory/list", result);
+		String result = userStoryController.publishUserStory(id, redirectAttributes);
+		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals(UserStoryController.ERR_STORY_ALREADY_PUBLISHED, redirectAttributes.getFlashAttributes().get("warningMessage"));
+		Assert.assertEquals("redirect:/auth/userstory?id=" + id, result);
 		
 		// Check that the User Story's published date hasn't changed
 		UserStory refUserStory = userStoryDao.find(id);

@@ -158,11 +158,12 @@ public class WorkboardController {
 	}
 	
 	@RequestMapping(value= "/addAbsData", method = RequestMethod.POST)
-	public ModelAndView addAbsDataToWorkboard(
+	public String addAbsDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="variable",required=true) Integer variableId,
 		@RequestParam(value="seaport",required=true) String seaportCode, 
-		@RequestParam(value="displayType",required=true) String displayTypeString, Model model)
+		@RequestParam(value="displayType",required=true) String displayTypeString, 
+		RedirectAttributes attributes)
 	{
 		logger.info("Inside addAbsDataToWorkboard");
 		
@@ -183,21 +184,22 @@ public class WorkboardController {
 			
 			userStory.getDataElements().add(dataElement);
 			
-			model.addAttribute("successMessage", WorkboardController.MSG_ABS_DATA_ADDED);
+			attributes.addFlashAttribute("successMessage", WorkboardController.MSG_ABS_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("warningMessage", e.getMessage());
+			attributes.addFlashAttribute("warningMessage", e.getMessage());
 		}
 		
-		return ModelForWorkboard(model, userStory);
+		return "redirect:/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-non-climate-context";
 	}
 	
 	@RequestMapping(value= "/addBitreData", method = RequestMethod.POST)
-	public ModelAndView addBitreDataToWorkboard(
+	public String addBitreDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="variableCategory",required=true) Integer variableCategoryId,
 		@RequestParam(value="seaport",required=true) String seaportCode, 
-		@RequestParam(value="displayType",required=true) String displayTypeString, Model model)
+		@RequestParam(value="displayType",required=true) String displayTypeString, 
+		RedirectAttributes attributes)
 	{
 		logger.info("Inside addBitreDataToWorkboard");
 		
@@ -218,20 +220,20 @@ public class WorkboardController {
 			
 			userStory.getDataElements().add(dataElement);
 			
-			model.addAttribute("successMessage", WorkboardController.MSG_BITRE_DATA_ADDED);
+			attributes.addFlashAttribute("successMessage", WorkboardController.MSG_BITRE_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("warningMessage", e.getMessage());
+			attributes.addFlashAttribute("warningMessage", e.getMessage());
 		}
 		
-		return ModelForWorkboard(model, userStory);
+		return "redirect:/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-non-climate-context";
 	}
 	
 	@RequestMapping(value= "/upload", method = RequestMethod.POST)
-	public ModelAndView uploadfileinWorkboard(
+	public String uploadfileinWorkboard(
 			@RequestParam(value="file",required=true) MultipartFile uploadfile,
 			@RequestParam(value="id",required=true) Integer userStoryId, 
-			Model model) {
+			RedirectAttributes attributes) {
 		logger.info("Inside uploadfileinWorkBoard");
 		
 		UserStory userStory = null;
@@ -260,22 +262,23 @@ public class WorkboardController {
             	dataElementDao.save(dataElement);
             	userStory.getDataElements().add(dataElement);
             	
-            	model.addAttribute("successMessage", MSG_FILE_UPLOAD_SUCCESS);
+            	attributes.addFlashAttribute("successMessage", MSG_FILE_UPLOAD_SUCCESS);
             }
             else
-            	model.addAttribute("errorMessage", ERR_INVALID_FILETYPE);
+            	attributes.addFlashAttribute("errorMessage", ERR_INVALID_FILETYPE);
         }
         catch (IOException e) {
-        	model.addAttribute("errorMessage", ERR_FILE_UPLOAD);
+        	attributes.addFlashAttribute("errorMessage", ERR_FILE_UPLOAD);
         }
         
-		return ModelForWorkboard(model, userStory);	
+		return "redirect:/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-non-climate-context";
 	}
 
 	@RequestMapping(value= "/addPastData", method = RequestMethod.POST)
-	public ModelAndView addPastDataToWorkboard(
+	public String addPastDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
-		@RequestParam(value="pastDataId",required=true) Integer pastDataId, Model model)
+		@RequestParam(value="pastDataId",required=true) Integer pastDataId, 
+		RedirectAttributes attributes)
 	{
 		logger.info("Inside addPastDataToWorkboard");
 		
@@ -294,19 +297,20 @@ public class WorkboardController {
 			
 			userStory.getDataElements().add(dataElement);
 			
-			model.addAttribute("successMessage", WorkboardController.MSG_PAST_DATA_ADDED);
+			attributes.addFlashAttribute("successMessage", WorkboardController.MSG_PAST_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("warningMessage", e.getMessage());
+			attributes.addFlashAttribute("warningMessage", e.getMessage());
 		}
 		
-		return ModelForWorkboard(model, userStory);
+		return "redirect:/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-observed-climate";
 	}
 	
 	@RequestMapping(value= "/addAcornSatData", method = RequestMethod.POST)
-	public ModelAndView addAcornSatDataToWorkboard(
+	public String addAcornSatDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
-		@RequestParam(value="acornSatExtremeData",required=true) String acornSatExtremeData, Model model)
+		@RequestParam(value="acornSatExtremeData",required=true) String acornSatExtremeData,
+		RedirectAttributes attributes)
 	{
 		logger.info("Inside addAcornSatDataToWorkboard");
 		
@@ -332,23 +336,24 @@ public class WorkboardController {
 			
 			userStory.getDataElements().add(dataElement);
 			
-			model.addAttribute("successMessage", WorkboardController.MSG_ACORNSAT_DATA_ADDED);
+			attributes.addFlashAttribute("successMessage", WorkboardController.MSG_ACORNSAT_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("warningMessage", e.getMessage());
+			attributes.addFlashAttribute("warningMessage", e.getMessage());
 		}
 		
-		return ModelForWorkboard(model, userStory);
+		return "redirect:/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-observed-climate";
 	}
 	
 	@RequestMapping(value= "/addCsiroData", method = RequestMethod.POST)
-	public ModelAndView addCsiroDataToWorkboard(
+	public String addCsiroDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="climateVariable",required=true) String climateVariable,
 		@RequestParam(value="climateEmissionScenario",required=true) String climateEmissionScenario,
 		@RequestParam(value="climateModel",required=true) String climateModel,
 		@RequestParam(value="year",required=true) String year,
-		@RequestParam(value="displayType",required=false) String displayTypeString, Model model)
+		@RequestParam(value="displayType",required=false) String displayTypeString, 
+		RedirectAttributes attributes)
 	{
 		logger.info("Inside addCsiroDataToWorkboard");
 		
@@ -374,20 +379,21 @@ public class WorkboardController {
 			
 			userStory.getDataElements().add(dataElement);
 			
-			model.addAttribute("successMessage", WorkboardController.MSG_CSIRO_DATA_ADDED);
+			attributes.addFlashAttribute("successMessage", WorkboardController.MSG_CSIRO_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("warningMessage", e.getMessage());
+			attributes.addFlashAttribute("warningMessage", e.getMessage());
 		}
 		
-		return ModelForWorkboard(model, userStory);
+		return "redirect:/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-future-climate";
 	}
 	
 	@RequestMapping(value= "/addCmarData", method = RequestMethod.POST)
-	public ModelAndView addCmarDataToWorkboard(
+	public String addCmarDataToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="year",required=true) String year,
-		@RequestParam(value="includePictures",required=false) String includePictures, Model model)
+		@RequestParam(value="includePictures",required=false) String includePictures, 
+		RedirectAttributes attributes)
 	{
 		logger.info("Inside addCmarDataToWorkboard");
 		
@@ -410,23 +416,24 @@ public class WorkboardController {
 			
 			userStory.getDataElements().add(dataElement);
 			
-			model.addAttribute("successMessage", WorkboardController.MSG_CMAR_DATA_ADDED);
+			attributes.addFlashAttribute("successMessage", WorkboardController.MSG_CMAR_DATA_ADDED);
 		}
 		catch (NoResultException e) {
-			model.addAttribute("warningMessage", e.getMessage());
+			attributes.addFlashAttribute("warningMessage", e.getMessage());
 		}
 		
-		return ModelForWorkboard(model, userStory);
+		return "redirect:/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-future-climate";
 	}
 	
 	@RequestMapping(value= "/addEngineeringData", method = RequestMethod.POST)
-	public ModelAndView addEngineeringDataToWorkboard(
+	public String addEngineeringDataToWorkboard(
 			@RequestParam(value="file",required=true) MultipartFile uploadfile,
 			@RequestParam(value="sourceType",required=true) String sourceType,
 			@RequestParam(value="engVariable",required=true) String engVariableName,
 			@RequestParam(value="engVariableCategory",required=true) String engVariableCategory,
 			@RequestParam(value="id",required=true) Integer userStoryId, 
-			@RequestParam(value="displayType",required=true) String displayTypeString, Model model) {
+			@RequestParam(value="displayType",required=true) String displayTypeString, 
+			RedirectAttributes attributes) {
 		logger.info("Inside addEngineeringDataToWorkBoard");
 		
     	UserStory userStory = null;
@@ -486,7 +493,7 @@ public class WorkboardController {
     				dataElementDao.save(de);
     				
     				userStory = userStoryDao.find(userStoryId);
-    				model.addAttribute("successMessage", WorkboardController.MSG_ENG_DATA_ADDED);
+    				attributes.addFlashAttribute("successMessage", WorkboardController.MSG_ENG_DATA_ADDED);
     			}
     			else {
     				throw new NoResultException(WorkboardController.ERR_NO_DATA_ENG_MODEL);
@@ -505,7 +512,7 @@ public class WorkboardController {
 					dataElementDao.save(de);
 					
 					userStory = userStoryDao.find(userStoryId);
-					model.addAttribute("successMessage", WorkboardController.MSG_ENG_DATA_ADDED);
+					attributes.addFlashAttribute("successMessage", WorkboardController.MSG_ENG_DATA_ADDED);
     			}
     			else {
     				throw new NoResultException(WorkboardController.ERR_NO_DATA_ENG_MODEL_EXAMPLE);
@@ -513,19 +520,19 @@ public class WorkboardController {
     		}
         }
     	catch (NoResultException e) {
-    		model.addAttribute("warningMessage", e.getMessage());
+    		attributes.addFlashAttribute("warningMessage", e.getMessage());
         }
         catch (InvalidFormatException e) {
-        	model.addAttribute("warningMessage", e.getMessage());
+        	attributes.addFlashAttribute("warningMessage", e.getMessage());
         }
         catch (IllegalArgumentException e) {
-        	model.addAttribute("warningMessage", e.getMessage());
+        	attributes.addFlashAttribute("warningMessage", e.getMessage());
         }
         catch (IOException e) {
-        	model.addAttribute("errorMessage", e.getMessage());
+        	attributes.addFlashAttribute("errorMessage", e.getMessage());
         }
         
-		return ModelForWorkboard(model, userStory);	
+        return "redirect:/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-applications";
 	}
 	
 	/**
@@ -668,7 +675,7 @@ public class WorkboardController {
 	}
 	
 	@RequestMapping(value= "/addVulnerability", method = RequestMethod.POST)
-	public ModelAndView addVulnerabilityAssessmentToWorkboard(
+	public String addVulnerabilityAssessmentToWorkboard(
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="weatherEventType",required=true) String type,
 		@RequestParam(value="weatherEventYear",required=true) String yearString,
@@ -679,7 +686,7 @@ public class WorkboardController {
 		@RequestParam(value="weatherEventConsequencesOther",required=true) String consequencesOther,
 		@RequestParam(value="weatherEventResponseAdequate",required=true) String responseAdequateString,
 		@RequestParam(value="weatherEventChanges",required=true) String changes,
-		Model model)
+		RedirectAttributes attributes)
 	{
 		logger.info("Inside addVulnerabilityToWorkboard");
 		
@@ -715,13 +722,13 @@ public class WorkboardController {
 			
 			userStory.getDataElements().add(dataElement);
 			
-			model.addAttribute("successMessage", WorkboardController.MSG_VULNERABILITY_DATA_ADDED);
+			attributes.addFlashAttribute("successMessage", WorkboardController.MSG_VULNERABILITY_DATA_ADDED);
 		}
 		catch (Exception e) {
-			model.addAttribute("errorMessage", e.getMessage());
+			attributes.addFlashAttribute("errorMessage", e.getMessage());
 		}
 		
-		return ModelForWorkboard(model, userStory);
+		return "redirect:/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-applications";
 	}
 	
 	@RequestMapping(value="/create", method=RequestMethod.POST) 
