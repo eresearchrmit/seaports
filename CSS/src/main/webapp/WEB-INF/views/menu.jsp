@@ -13,11 +13,7 @@
 		</li>
 	</sec:authorize>
 	<li class="ic-browse"><a href="/CSS/public/reports/list"><span>Published Reports</span></a></li>
-	<sec:authorize access="isAuthenticated()">
-		<li class="ic-info">
-			<a href="/CSS/public/guidelines" target="_blank"><span>Guidelines</span></a>
-		</li>
-	</sec:authorize>
+	<li class="ic-info"><a href="/CSS/public/guidelines" target="_blank"><span>Guidelines</span></a></li>
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
 		<li class="ic-admin"><a href="/CSS/admin/users/list"><span>Administration</span></a></li>
 	</sec:authorize>

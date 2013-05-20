@@ -24,6 +24,8 @@
 	<!-- /BASE DEFINITIONS -->
 	
 	<!-- PAGE SPECIFIC -->
+	
+	<!-- Public pages -->
 	<definition name="home" extends="public.base.definition">
 		<put-attribute name="title" value="Home - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/home.jsp" />
@@ -49,6 +51,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/register.jsp" />
 	</definition>
 	
+	<definition name="introduction" extends="public.base.definition">
+		<put-attribute name="title" value="Introduction - Climate Smart Seaports" />
+		<put-attribute name="body" value="/WEB-INF/views/introduction.jsp" />
+	</definition>
+	
 	<definition name="login" extends="public.base.definition">
 		<put-attribute name="title" value="Login - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
@@ -59,11 +66,24 @@
 		<put-attribute name="body" value="/WEB-INF/views/profile.jsp" />
 	</definition>
 	
+	<definition name="userstoryPublicList" extends="public.base.definition">
+		<put-attribute name="title" value="Published Reports - Climate Smart Seaports" />
+        <put-attribute name="body" value="/WEB-INF/views/userstoryPublicList.jsp" />
+	</definition>
+	
+	<definition name="userstoryPublicView" extends="public.base.definition">
+		<put-attribute name="title" value="Report - Climate Smart Seaports" />
+		<put-attribute name="body" value="/WEB-INF/views/userstoryView.jsp" />
+	</definition>
+	
+	<!-- Access Denied -->
 	<definition name="accessDenied" extends="base.definition">
 		<put-attribute name="title" value="Access Denied - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/accessDenied.jsp" />
 	</definition>
 	
+	
+	<!-- Workflow pages -->
 	<definition name="workboardCreation" extends="base.definition">
 		<put-attribute name="title" value="New Workboard - Climate Smart Seaports" />
         <put-attribute name="body" value="/WEB-INF/views/workboardCreation.jsp" />
@@ -95,29 +115,15 @@
         <put-attribute name="body" value="/WEB-INF/views/userstoryList.jsp" />
 	</definition>
 	
-	<definition name="userstoryPublicList" extends="public.base.definition">
-		<put-attribute name="title" value="Published Reports - Climate Smart Seaports" />
-        <put-attribute name="body" value="/WEB-INF/views/userstoryPublicList.jsp" />
-	</definition>
-	
 	<definition name="userstoryView" extends="base.definition">
 		<put-attribute name="title" value="Report - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/userstoryView.jsp" />
 	</definition>
 	
-	<definition name="userstoryPublicView" extends="public.base.definition">
-		<put-attribute name="title" value="Report - Climate Smart Seaports" />
-		<put-attribute name="body" value="/WEB-INF/views/userstoryView.jsp" />
-	</definition>
-	
+	<!-- Admin page -->
 	<definition name="userList" extends="base.definition">
 		<put-attribute name="title" value="Users list - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/userList.jsp" />
-	</definition>
-	
-	<definition name="pdfView" extends="base.definition">
-		<put-attribute name="title" value="Users list - Climate Smart Seaports" />
-		<put-attribute name="body" value="/WEB-INF/views/RevenueSummary.jsp" />
 	</definition>
 	<!-- /PAGE SPECIFIC -->
 </tiles-definitions>

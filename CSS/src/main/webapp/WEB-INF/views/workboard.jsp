@@ -100,7 +100,7 @@
 					<%@ include file="/WEB-INF/views/help/explanationTextNonClimate.jsp" %>
 				</c:when>
 				<c:otherwise>
-					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextNonClimate.jsp" %>">
+					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTooltipNonClimate.jsp" %>">
 						<img src="<c:url value="/resources/img/icons/help.png" />">
 					</a>
 				</c:otherwise>
@@ -124,7 +124,7 @@
 					<%@ include file="/WEB-INF/views/help/explanationTextObservedClimate.jsp" %>
 				</c:when>
 				<c:otherwise>
-					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextObservedClimate.jsp" %>">
+					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTooltipObservedClimate.jsp" %>">
 						<img src="<c:url value="/resources/img/icons/help.png" />">
 					</a>
 				</c:otherwise>
@@ -149,7 +149,7 @@
 					<%@ include file="/WEB-INF/views/help/explanationTextFutureClimate.jsp" %>
 				</c:when>
 				<c:otherwise>
-					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextFutureClimate.jsp" %>">
+					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTooltipFutureClimate.jsp" %>">
 						<img src="<c:url value="/resources/img/icons/help.png" />">
 					</a>
 				</c:otherwise>
@@ -173,7 +173,7 @@
 					<%@ include file="/WEB-INF/views/help/explanationTextApplications.jsp" %>
 				</c:when>
 				<c:otherwise>
-					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTextApplications.jsp" %>">
+					<a href="#" class="helpTooltip" title="<%@ include file="/WEB-INF/views/help/explanationTooltipApplications.jsp" %>">
 						<img src="<c:url value="/resources/img/icons/help.png" />">
 					</a>
 				</c:otherwise>

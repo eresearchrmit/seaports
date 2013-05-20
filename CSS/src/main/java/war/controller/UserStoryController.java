@@ -284,7 +284,7 @@ public class UserStoryController {
 			// Save the user story after reordering
 			userStoryDao.save(userStory);
 			
-			DataElementText newTextItem = new DataElementText(new Date(), "Story Text", true, newTextPosition, DisplayType.PLAIN, userStory, textContent);
+			DataElementText newTextItem = new DataElementText(new Date(), "Report Text", true, newTextPosition, DisplayType.PLAIN, userStory, textContent);
 			dataElementDao.save(newTextItem);
 			
 			attributes.addFlashAttribute("successMessage", MSG_TEXT_ADDED);

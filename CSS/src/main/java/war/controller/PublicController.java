@@ -67,7 +67,7 @@ public class PublicController {
 		tryGetLoggedInUser(model);
 		return new ModelAndView("home");
 	}
-	
+		
 	/**
 	 * Displays the "About" page
 	 */

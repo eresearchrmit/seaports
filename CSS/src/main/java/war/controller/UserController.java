@@ -84,7 +84,7 @@ public class UserController {
 			user.setEnabled(true);
 			
 			userDao.save(user);
-			return "login";
+			return "introduction";
 		}
 		catch (Exception e) {
 			model.addAttribute("errorMessage", e.getMessage());

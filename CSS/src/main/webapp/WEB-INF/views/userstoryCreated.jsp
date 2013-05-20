@@ -7,6 +7,8 @@
 
 <div class="grid_12">
 	<center>
+		<h3>How to edit your report:</h3>
+	
 		<div id="successMessage" class="message success">
 			<h5>Your Report has been created from the Workboard !</h5>
 		</div>
@@ -20,8 +22,6 @@
 				}, 3000);
 			});
 		</script>
-		
-		<h3>How to edit your report:</h3>
 		
 		<p class="info-paragraph">This section of the Climate Smart Seaports tool enables users to create a report from the data elements they have generated. Within this section, users can re-order the elements to suit their needs, hide data elements and add further text and analysis as required.</p>
 

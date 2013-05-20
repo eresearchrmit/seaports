@@ -7,6 +7,8 @@
 
 <div class="grid_12">
 	<center>
+		<h3>How to use your Workboard</h3>
+	
 		<div id="successMessage" class="message success">
 			<h5>Your Workboard has been created !</h5>
 		</div>
@@ -20,8 +22,6 @@
 				}, 3000);
 			});
 		</script>
-		
-		<h3>How to use your Workboard</h3>
 		
 		<p class="info-paragraph">The Workboard is where data can be collected and reviewed.</p>  
 
