@@ -946,9 +946,9 @@ public class WorkboardController {
 		else if (dataElement.getClass().equals(DataElementPast.class) || dataElement.getClass().equals(DataElementAcornSat.class))
 			return "/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-observed-climate";
 		else if (dataElement.getClass().equals(DataElementCsiro.class) || dataElement.getClass().equals(DataElementCmar.class))
-			return "/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-observed-climate";
+			return "/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-future-climate";
 		else if (dataElement.getClass().equals(DataElementEngineeringModel.class) || dataElement.getClass().equals(DataElementVulnerability.class))
-			return "/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-observed-climate";
+			return "/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername() + "#tabs-applications";
 		
 		return "/auth/workboard?user=" + SecurityHelper.getCurrentlyLoggedInUsername();
 	}

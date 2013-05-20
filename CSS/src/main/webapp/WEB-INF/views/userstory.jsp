@@ -20,6 +20,7 @@
 		<h4><c:out value="${userstory.seaport.region.name}" /> region</h4>
 	</div>
 	
+	<div id="actionButtons">
 	<c:choose>
 		<c:when test="${userstory.mode == 'published'}">
 			<a href="#" style="margin-right: 10px; float:right">
@@ -108,7 +109,45 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
+	</div>
 	
+	<script type="text/javascript">
+		var originalTop = $('#actionButtons').position().top;
+		$(window).scroll(function() {
+			if($(this).scrollTop() > originalTop) {
+				$('#actionButtons').css({
+					'position':'fixed',
+			    	'top': '0', 
+			    	'left': '50%',
+			    	'z-index': '1000',
+			    	'width':'75%',
+			    	'height': '38px',
+			    	'margin-left': '-37.45%',
+			    	'padding': '5px 0px 0px 0px',
+			    	'background-color': 'white',
+			    	'border-bottom': '1px solid #1d3b53',
+			    	'box-shadow': '0px 3px 5px #1d3b53',
+			    	'-webkit-border-bottom-right-radius': '10px',
+					'-webkit-border-bottom-left-radius': '10px',
+					'-moz-border-radius-bottomright': '10px',
+					'-moz-border-radius-bottomleft': '10px',
+					'border-bottom-right-radius': '10px',
+					'border-bottom-left-radius': '10px'
+				});
+			}
+			else {
+				$('#actionButtons').css({
+					'position':'relative',
+					'left': '0',
+					'background-color': 'transparent',
+					'width':'100%',
+					'margin-left': '0',
+					'border-bottom': 'none',
+					'box-shadow': 'none'
+				});
+			}
+		});
+	</script>
 	<div class="clear"></div><br />
 	
 	<c:set var="successMessage" scope="request" value="${successMessage}"/>
