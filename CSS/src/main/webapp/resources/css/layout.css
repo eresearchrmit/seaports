@@ -165,51 +165,6 @@ h2#page-heading {
 .box .box-content {
 	padding: 10px;
 }
-/*.box h2 {
-	font-size:1.2em;
-	font-weight:bold;
-	color:#1B548D;
-	background:#E6F0F3;
-	/*margin:-10px -10px 0 -10px;*/
-	/*margin:0px;
-	padding:10px 12px;
-	border-bottom:1px solid #B3CBD6;
-	
-	 -moz-border-radius: 5px 5px 0px 0px;
-	 -webkit-border-radius: 5px 5px 0px 0px;
-	 border-radius: 5px 5px 0px 0px;
-}
-.box h2 a,
-.box h2 a.visible {
-	color:#1B548D;
-	background:url("../img/theme/switch_minus.gif") 97% 50% no-repeat;
-	display:block;
-	padding:6px 12px;
-	margin:-6px -12px;
-	border:none;
-	
-	 -moz-border-radius: 5px 5px 0px 0px;
-	 -webkit-border-radius: 5px 5px 0px 0px;
-	 border-radius: 5px 5px 0px 0px;
-}
-.grid_4 .box h2 a {
-	background-position: 97% 50%;
-}
-.grid_5 .box h2 a {
-	background-position: 98% 50%;
-}
-.grid_12 .box h2 a {
-	background-position: 99% 50%;
-}
-
-
-.box h2 a.hidden,
-.box h2 a.hidden:hover {
-	background-image: url("../img/theme/switch_plus.gif");
-}
-.box h2 a:hover {
-	background-color:transparent;
-}*/
 
 .box.first{margin-top:20px;}
 
