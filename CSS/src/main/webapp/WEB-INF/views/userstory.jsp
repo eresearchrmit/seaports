@@ -184,9 +184,11 @@
 											<span></span>Delete
 										</button>
 									</a>
+									
+									<!-- 'Edit text' button -->
 									<button id="btnOpenEditTextDataElementModalWindow" type="button" 
 									class="btn btn-small btn-icon btn-blue btn-edit floatright btnEditText"
-									style="margin-right: 10px; float:right" onClick="$('#hdnTextDataElementToEditId').val(${dataelement.id}); tinyMCE.activeEditor.setContent('<c:out value="${dataelement.text}" />');">
+									style="margin-right: 10px; float:right" onClick="$('#hdnTextDataElementToEditId').val(${dataelement.id}); tinyMCE.activeEditor.setContent('${fn:escapeXml(dataelement.text)}');">
 										<span></span>Edit text
 									</button>
 								</c:if>
