@@ -19,7 +19,7 @@
 				<li>
 					<c:set var="pictureName" value="/resources/img/data/bom/${pastData.picture}-${fn:replace(userstory.seaport.region.name, ' ', '-')}-${formattedPeriodStart}-${formattedPeriodEnd}.png" />
 					<c:set var="formattedPictureName" value="${fn:toLowerCase(pictureName)}" />
-					<img name="${pastData.title}" src="<c:url value="${formattedPictureName}" />" class="illustrationPicture" />
+					<img name="${pastData.title}" src="<c:url value="${formattedPictureName}" />" style="max-height:400px" />
 		    	</li>
 			</ul>
 			

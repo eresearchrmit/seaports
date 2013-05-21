@@ -119,7 +119,7 @@
 					'position':'fixed',
 			    	'top': '0', 
 			    	'left': '50%',
-			    	'z-index': '1000',
+			    	'z-index': '10',
 			    	'width':'75%',
 			    	'height': '38px',
 			    	'margin-left': '-37.45%',
@@ -173,20 +173,20 @@
 							
 							<c:if test="${userstory.mode != 'published'}">
 								<!-- 'Include/Exclude' button -->
-								<button type="button" class="btn-mini btn-blue ${dataelement.included == false ? ' btn-plus' : ' btn-minus'} floatright" onclick="location.href='/CSS/auth/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" title="Include/Exclude from the story">
+								<button type="button" class="btn-mini btn-blue ${dataelement.included == false ? ' btn-plus' : ' btn-minus'} floatright" onclick="location.href='/CSS/auth/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" title="Include/Exclude from the report">
 									<span></span>Include/Exclude
 								</button>
 							
 								<!-- 'Remove Text' button -->
 								<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
-									<a class="lnkRemoveTextFromStory" href="/CSS/auth/userstory/deleteText?text=${dataelement.id}" title="Delete the text from the story">
+									<a class="lnkRemoveTextFromStory" href="/CSS/auth/userstory/deleteText?text=${dataelement.id}" title="Delete the text from the report">
 										<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" style="margin-right:5px">
 											<span></span>Delete
 										</button>
 									</a>
 									<button id="btnOpenEditTextDataElementModalWindow" type="button" 
 									class="btn btn-small btn-icon btn-blue btn-edit floatright btnEditText"
-									style="margin-right: 10px; float:right" onClick="$('#hdnTextDataElementToEditId').val(${dataelement.id}); tinyMCE.activeEditor.setContent('${dataelement.text}');">
+									style="margin-right: 10px; float:right" onClick="$('#hdnTextDataElementToEditId').val(${dataelement.id}); tinyMCE.activeEditor.setContent('<c:out value="${dataelement.text}" />');">
 										<span></span>Edit text
 									</button>
 								</c:if>

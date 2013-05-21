@@ -650,7 +650,6 @@ img.right
 .prettygallery{ margin-top:10px; }
 .prettygallery li{display:inline; margin:0px;  float:left; }
 .prettygallery img {
-	max-width:450px;
 	box-shadow:0px 0px 5px #ccc;
 	-moz-box-shadow:0px 0px 5px #ccc;
 	-webkit-box-shadow:0px 0px 5px #ccc;
@@ -659,7 +658,6 @@ img.right
 	-webkit-border-radius:5px;
 	padding:5px;
 	background:#fff;
-	
 }
 
 
@@ -667,7 +665,6 @@ img.right
 
 
 /* Data Tables */
-
 
 .dataTables_info,
 .dataTables_paginate { margin-bottom: 3em; }

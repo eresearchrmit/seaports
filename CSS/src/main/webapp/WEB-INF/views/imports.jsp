@@ -26,7 +26,6 @@
 <!--<script type="text/javascript" src="<c:url value="/resources/js/jquery.bubble-popup-v3.min.js" />"></script>-->
 <script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts-more.js" />" ></script>
-<script type="text/javascript" src="<c:url value="/resources/js/pretty-photo/jquery.prettyPhoto.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.zebra_tooltips.min.js" />"></script>
 <!-- END: load jquery plugins -->
 
@@ -53,6 +52,5 @@
 				$(this).css("height", maxHeight);
           }
 		});
-		setupPrettyPhoto();
 	});
 </script>

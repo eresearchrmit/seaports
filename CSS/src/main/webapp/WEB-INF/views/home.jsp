@@ -22,5 +22,5 @@
 	
 	<p class="info-paragraph">Often risk management is confined to specific areas of a business operation, eg. risks related to trade, to supply chains to the workplace functions or infrastructure. However, climate change poses a risk to all areas of a business. This tool attempts to bring the thinking about climate risks in different areas of the business into one report, beginning the creation of an integrated climate risk assessment.</p>	
 	
-	<a href="/CSS/public/about">Read more...</a>
+	<a href="/CSS/public/guidelines#introduction">Read more...</a>
 </div>

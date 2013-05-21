@@ -10,11 +10,6 @@
 	},100);
 }
 
-// Setup pretty-photo
-function setupPrettyPhoto() {
-    $("a[rel^='prettyPhoto']").prettyPhoto();
-}
-
 // Setup tinyMCE
 function setupTinyMCE() {
     $('textarea.tinymce').tinymce({

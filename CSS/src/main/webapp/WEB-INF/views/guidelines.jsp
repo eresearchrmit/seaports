@@ -4,6 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <div class="grid_12">
+	<span id="top"></span>
 	<a href="javascript: history.back();" class="floatleft" title="Go back to previous page">
 		<button class="btnDeleteStory btn-icon btn-blue btn-arrow-left" >
 			<span></span>Back
@@ -47,7 +48,11 @@
 	</ul>
 	
 	<div id="acknowledgements" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-		<h3>Acknowledgements</h3>
+		<h3 class="floatleft">Acknowledgements</h3>
+		<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+			<span></span>Go to top
+		</button></a>
+		<div class="clear"></div>
 		
 		<p>The Climate Smart Seaports Tool was created by RMIT University eResearch in partnership with the Climate Change Adaptation Program, with funding provided by the Australian National Data Service (ANDS).  ANDS aims to lead the creation of a cohesive national collection of research resources that makes better use of Australian research outputs, enables Australian researchers to easily publish, discover, access and use data, and enable new and more efficient research.</p>
 
@@ -55,7 +60,11 @@
 	</div>
 	
 	<div id="introduction" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-		<h3>1. Introduction</h3>
+		<h3 class="floatleft">1. Introduction</h3>
+		<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+			<span></span>Go to top
+		</button></a>
+		<div class="clear"></div>
 		
 		<p>The potential impact of climate change on ports differs according to the location, function and business model of the ports.  Climate Smart ports in Australia want to understand the relevant climate impacts and risks for their particular operation; only then can they determine what adaptation measures may be appropriate.</p>
 
@@ -75,7 +84,11 @@
 	</div>
 	
 	<div id="tool-overview" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-		<h3>2. Tool Overview</h3>
+		<h3 class="floatleft">2. Tool Overview</h3>
+		<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+			<span></span>Go to top
+		</button></a>
+		<div class="clear"></div>
 		
 		<div id="fig-user-workflow" class="hint" style="margin: 25px auto;">
 			<center><img src="<c:url value="/resources/img/help/user_workflow.png" />" width="100%" /><br />
@@ -128,8 +141,12 @@
 	
 		
 	<div id="css-workboard" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-		<h3>3.	The Climate Smart Seaports Workboard</h3>
-	
+		<h3 class="floatleft">3.	The Climate Smart Seaports Workboard</h3>
+		<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+			<span></span>Go to top
+		</button></a>
+		<div class="clear"></div>
+		
 		<p>When users first login to the Climate Smart Seaports tool, they will be directed to the "Create New Workboard" page.  The Workboard can be thought of as the data gathering platform for the tool. It is where users collate information about the non-climate context, current climate, future climate and current and future vulnerability of the port. There can only be one active Workboard at a time.</p> 
 
 		<p>This page has a number of tabs, representing the different data types: non-climate, observed climate, future climate and applications. Users work through each of these tabs, selecting the appropriate data parameters. The outputs are displayed on the "Summary (all)" tab of the Workboard for users to review and analyse.</p> 
@@ -173,8 +190,12 @@
 		<p>Users are able to add text to round out descriptions at the "Report" stage.</p>
 	
 		<div id="non-climate" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-			<h4>3.1 Non-Climate Context</h4>
-			
+			<h4 class="floatleft">3.1 Non-Climate Context</h4>
+			<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+				<span></span>Go to top
+			</button></a>
+			<div class="clear"></div>
+		
 			<p>This section identifies some of the non-climate-related elements for the nominated port, and its region.  It considers trade data for particular ports and population data. Note that only limited data may be available for some ports. Recognising that non-climate information will be gathered by ports themselves, this section also allows for ports to upload port-specific files and information.</p>
 			
 			
@@ -251,8 +272,12 @@
 		
 		
 		<div id="observed-climate" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-			<h4>3.2 Observed Climate</h4>
-			
+			<h4 class="floatleft">3.2 Observed Climate</h4>
+			<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+				<span></span>Go to top
+			</button></a>
+			<div class="clear"></div>
+		
 			<p>Extreme events occur naturally and weather records are broken from time to time. However, climate change is influencing these events and record-breaking weather is becoming more common. This section sets the historical and current context of climate and marine observations for ports. It draws on data publicly available from the Bureau of Meteorology (BoM) and the CSIRO.</p>
 
 			<h6>Current and historical weather trends and extreme weather events</h6>
@@ -328,7 +353,11 @@
 		</div> <!-- End of 3.2 Observed Climate -->
 		
 		<div id="future-climate" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-			<h4>3.3 Future Climate Context</h4>
+			<h4 class="floatleft">3.3 Future Climate Context</h4>
+			<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+				<span></span>Go to top
+			</button></a>
+			<div class="clear"></div>
 		
 			<p>This section assists ports to identify some future climate projections relevant for their region.  It provides information on the Intergovernmental Panel on Climate Change (IPCC) Scenarios, which underpin scientific modelling of future climate. Additionally, it explains what global climate models are, and how they are used in this tool.</p>
 			
@@ -376,8 +405,12 @@
 		
 		
 		<div id="applications" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-			<h4>3.4 Applications</h4>
-			
+			<h4 class="floatleft">3.4 Applications</h4>
+			<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+				<span></span>Go to top
+			</button></a>
+			<div class="clear"></div>
+		
 			<p>Two applications are available which enable the user to explore specific port impacts in more detail.  The Concrete deterioration tool looks at the impacts of long term climate change on port concrete infrastructure. Specifically, it analyses the deterioration rates of concrete using different climate change scenarios (which the user selects in the <a href="#future-climate">Section 3.3 "Future climate"</a>).  The Vulnerability application focuses more on extreme climate events. It requires users to enter information about recent past climate events that have impacted the port. This understanding of current vulnerabilities to extreme climate-related events can help a port assess their risk of future climate impacts.</p>
 			
 			<h5>Concrete deterioration tool</h5>
@@ -508,7 +541,12 @@
 		</div> <!-- End of 3.4 Applications -->
 		
 		<div id="data-summary" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-			<h4>3.5 Data Summary</h4>
+			<h4 class="floatleft">3.5 Data Summary</h4>
+			<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+				<span></span>Go to top
+			</button></a>
+			<div class="clear"></div>
+		
 			<p>The "Summary (All)" tab to the right of the screen is where all the data elements are collected for the user to review before going to Report stage. Here the user can choose to delete particular data elements, or go back to the individual data tabs and add more information.</p>
 		</div> <!-- End of 3.5 Data Summary -->
 		
@@ -517,7 +555,11 @@
 	
 	
 	<div id="producing-reports" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-		<h3>4. Producing a report</h3>
+		<h3 class="floatleft">4. Producing a report</h3>
+		<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+			<span></span>Go to top
+		</button></a>
+		<div class="clear"></div>
 		
 		<p>This section of the Climate Smart Seaports tool enables users to create a Report from the data they have generated. Within this section, users can re-order the elements to suit their needs, hide data elements and add further text and analysis as required.</p>
 		
@@ -565,7 +607,11 @@
 	</div> <!-- End of 4 Producing a report -->
 	
 	<div id="next-steps" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-		<h3>5. Next Steps</h3>
+		<h3 class="floatleft">5. Next Steps</h3>
+		<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+			<span></span>Go to top
+		</button></a>
+		<div class="clear"></div>
 		
 		<p>The data collected through the Climate Smart Seaports Tool provides some of the information to inform a climate risk assessment for a port, however, it does not complete the risk assessment. A risk assessment process for ports in Australia is outlined in "<a href="http://www.nccarf.edu.au/publications/enhancing-resilience-seaports-climate-change-adaptation-guidelines">Climate change adaptation guidelines for ports</a>".</p>
 
@@ -601,7 +647,11 @@
 	
 	
 	<div id="limitations" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-		<h3>6. Limitations</h3>
+		<h3 class="floatleft">6. Limitations</h3>
+		<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+			<span></span>Go to top
+		</button></a>
+		<div class="clear"></div>
 		
 		<p>The proof-of-concept version of the Climate Smart Seaports tool only incorporates data for three NRM regions, the East Coast South, the Southern Slopes Vic East, and the Southern and South-Western Flatlands. Data availability differs across the regions.</p>
 
@@ -633,7 +683,11 @@
 	
 	
 	<div id="acronyms" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-		<h3>Acronyms</h3>
+		<h3 class="floatleft">Acronyms</h3>
+		<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+			<span></span>Go to top
+		</button></a>
+		<div class="clear"></div>
 		
 		<strong>ABS</strong>: Australian Bureau of Statistics<br />
 		<strong>ACORN-SAT</strong>: Australian Climate Observations Reference Network - Surface Air Temperature<br />
@@ -647,7 +701,11 @@
 	
 	
 	<div id="glossary" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-		<h3>Glossary</h3>
+		<h3 class="floatleft">Glossary</h3>
+		<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
+			<span></span>Go to top
+		</button></a>
+		<div class="clear"></div>
 		
 		<strong>ACORN-SAT data</strong>: Data taken from local weather stations in the Australian Climate Observations Reference Network - Surface Air Temperature (ACORN-SAT). ACORN-SAT has been developed for monitoring climate variability and change in Australia. The dataset employs the latest analysis techniques and has had the data checked and adjusted to remove inaccuracies.<br />
 		<strong>Administrator</strong>: A <i>User</i> with administration rights for the Climate Smart Seaports application. An <i>Administrator</i> can access a list of all the users, remove users and block their account. He/she can also access, any user's <i>Workboard</i>.<br />
