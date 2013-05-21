@@ -52,5 +52,8 @@ public class AbsDataLoader {
 
 		seaport = (Seaport)(session.get(Seaport.class, "AUBUY"));
 		session.save(new AbsData(seaport, popChange, "2001,50260;2002,51040;2003,51646;2004,53531;2005,55919;2006,58694;2007,60371;2008,62457;2009,64503;2010,66053;2011,67421"));
+		
+		seaport = (Seaport)(session.get(Seaport.class, "AUFRE"));
+		session.save(new AbsData(seaport, popChange, "2001,1419994;2002,1439792;2003,1462442;2004,1488351;2005,1513581;2006,1546145;2007,1587077;2008,1636507;2009,1689336;2010,1726993;2011,1771434"));
 	}
 }
