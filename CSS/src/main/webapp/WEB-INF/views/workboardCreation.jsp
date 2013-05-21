@@ -15,7 +15,7 @@
 	<c:set var="errorMessage" scope="request" value="${errorMessage}"/>
 	<jsp:include page="notifications.jsp" />
 	
-	<p class="hint"><i>You have no active workboard. Create a new workboard using the page below, or read the <a href="/CSS/public/guidelines#introduction" target="_blank">C User Guide</a> for more information on how to use this tool.</i></p>
+	<p class="hint"><i>You have no active workboard. Create a new workboard using the page below, or read the <a href="/CSS/public/guidelines#introduction" target="_blank">Climate Smart Seaports User Guide</a> for more information on how to use this tool.</i></p>
 	
 	<form:form method="POST" action="/CSS/auth/workboard/create?username=${user.username}"  modelAttribute="userstory" >
 	
