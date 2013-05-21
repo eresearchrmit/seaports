@@ -34,7 +34,7 @@ CREATE TABLE `abs_data` (
   KEY `FK661BA7578FB9E94F` (`seaport_id`),
   CONSTRAINT `FK661BA7578FB9E94F` FOREIGN KEY (`seaport_id`) REFERENCES `seaport` (`code`),
   CONSTRAINT `FK661BA7579A47FD94` FOREIGN KEY (`abs_variable_id`) REFERENCES `abs_variable` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `abs_data` (
 
 LOCK TABLES `abs_data` WRITE;
 /*!40000 ALTER TABLE `abs_data` DISABLE KEYS */;
-INSERT INTO `abs_data` VALUES (1,'2001,381248;2002,384826;2003,388460;2004,391638;2005,395806;2006,399712;2007,402318;2008,406202;2009,408966;2010,410825;2011,413962','AUNTL',1),(2,'2001,3784614;2002,3815623;2003,3841038;2004,3863306;2005,3892711;2006,3927676;2007,3983300;2008,4048560;2009,4120338;2010,4179466;2011,4231954','AUSYD',1),(3,'2001,262785;2002,265247;2003,266898;2004,267829;2005,269255;2006,270997;2007,272556;2008,275602;2009,277778;2010,279642;2011,280705','AUPKL',1),(4,'2001,12266;2002,12307;2003,12270;2004,12500;2005,12666;2006,12925;2007,13078;2008,13194;2009,13287;2010,13407;2011,13479','AUBSJ',1),(5,'2001,28442;2002,28755;2003,29107;2004,29451;2005,30019;2006,30492;2007,30749;2008,30965;2009,31237;2010,31479;2011,31538','AUALH',1),(6,'2001,31994;2002,32260;2003,32427;2004,32506;2005,33338;2006,34175;2007,34766;2008,35554;2009,36289;2010,36670;2011,37114','AUGET',1),(7,'2001,50260;2002,51040;2003,51646;2004,53531;2005,55919;2006,58694;2007,60371;2008,62457;2009,64503;2010,66053;2011,67421','AUBUY',1);
+INSERT INTO `abs_data` VALUES (1,'2001,381248;2002,384826;2003,388460;2004,391638;2005,395806;2006,399712;2007,402318;2008,406202;2009,408966;2010,410825;2011,413962','AUNTL',1),(2,'2001,3784614;2002,3815623;2003,3841038;2004,3863306;2005,3892711;2006,3927676;2007,3983300;2008,4048560;2009,4120338;2010,4179466;2011,4231954','AUSYD',1),(3,'2001,262785;2002,265247;2003,266898;2004,267829;2005,269255;2006,270997;2007,272556;2008,275602;2009,277778;2010,279642;2011,280705','AUPKL',1),(4,'2001,12266;2002,12307;2003,12270;2004,12500;2005,12666;2006,12925;2007,13078;2008,13194;2009,13287;2010,13407;2011,13479','AUBSJ',1),(5,'2001,28442;2002,28755;2003,29107;2004,29451;2005,30019;2006,30492;2007,30749;2008,30965;2009,31237;2010,31479;2011,31538','AUALH',1),(6,'2001,31994;2002,32260;2003,32427;2004,32506;2005,33338;2006,34175;2007,34766;2008,35554;2009,36289;2010,36670;2011,37114','AUGET',1),(7,'2001,50260;2002,51040;2003,51646;2004,53531;2005,55919;2006,58694;2007,60371;2008,62457;2009,64503;2010,66053;2011,67421','AUBUY',1),(8,'2001,1419994;2002,1439792;2003,1462442;2004,1488351;2005,1513581;2006,1546145;2007,1587077;2008,1636507;2009,1689336;2010,1726993;2011,1771434','AUFRE',1);
 /*!40000 ALTER TABLE `abs_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -94,8 +94,8 @@ CREATE TABLE `acorn_sat_data` (
   PRIMARY KEY (`id`),
   KEY `FKF34670595ADB8573` (`acorn_sat_variable_id`),
   KEY `FKF3467059E0274E1` (`acorn_sat_station_id`),
-  CONSTRAINT `FKF3467059E0274E1` FOREIGN KEY (`acorn_sat_station_id`) REFERENCES `acorn_sat_station` (`id`),
-  CONSTRAINT `FKF34670595ADB8573` FOREIGN KEY (`acorn_sat_variable_id`) REFERENCES `acorn_sat_variable` (`id`)
+  CONSTRAINT `FKF34670595ADB8573` FOREIGN KEY (`acorn_sat_variable_id`) REFERENCES `acorn_sat_variable` (`id`),
+  CONSTRAINT `FKF3467059E0274E1` FOREIGN KEY (`acorn_sat_station_id`) REFERENCES `acorn_sat_station` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -182,8 +182,8 @@ CREATE TABLE `bitre_data` (
   PRIMARY KEY (`id`),
   KEY `FKA680AC898FB9E94F` (`seaport_id`),
   KEY `FKA680AC89CDB84070` (`bitre_variable_id`),
-  CONSTRAINT `FKA680AC89CDB84070` FOREIGN KEY (`bitre_variable_id`) REFERENCES `bitre_variable` (`id`),
-  CONSTRAINT `FKA680AC898FB9E94F` FOREIGN KEY (`seaport_id`) REFERENCES `seaport` (`code`)
+  CONSTRAINT `FKA680AC898FB9E94F` FOREIGN KEY (`seaport_id`) REFERENCES `seaport` (`code`),
+  CONSTRAINT `FKA680AC89CDB84070` FOREIGN KEY (`bitre_variable_id`) REFERENCES `bitre_variable` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=244 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -320,8 +320,8 @@ CREATE TABLE `climate_params` (
   KEY `FKA6107AE0F00AAA5A` (`climate_model_id`),
   KEY `FKA6107AE01E25895D` (`climate_emission_scenario_id`),
   KEY `FKA6107AE03365D05` (`region_id`),
-  CONSTRAINT `FKA6107AE03365D05` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
   CONSTRAINT `FKA6107AE01E25895D` FOREIGN KEY (`climate_emission_scenario_id`) REFERENCES `climate_emission_scenario` (`id`),
+  CONSTRAINT `FKA6107AE03365D05` FOREIGN KEY (`region_id`) REFERENCES `region` (`id`),
   CONSTRAINT `FKA6107AE0F00AAA5A` FOREIGN KEY (`climate_model_id`) REFERENCES `climate_model` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -354,8 +354,8 @@ CREATE TABLE `cmar_data` (
   PRIMARY KEY (`id`),
   KEY `FK64859B4E201EEBA` (`climate_params_id`),
   KEY `FK64859B4EB7D2D10B` (`climate_variable_id`),
-  CONSTRAINT `FK64859B4EB7D2D10B` FOREIGN KEY (`climate_variable_id`) REFERENCES `csiro_variable` (`id`),
-  CONSTRAINT `FK64859B4E201EEBA` FOREIGN KEY (`climate_params_id`) REFERENCES `climate_params` (`id`)
+  CONSTRAINT `FK64859B4E201EEBA` FOREIGN KEY (`climate_params_id`) REFERENCES `climate_params` (`id`),
+  CONSTRAINT `FK64859B4EB7D2D10B` FOREIGN KEY (`climate_variable_id`) REFERENCES `csiro_variable` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -387,8 +387,8 @@ CREATE TABLE `csiro_data` (
   PRIMARY KEY (`id`),
   KEY `FKFFD9FC53201EEBA` (`climate_params_id`),
   KEY `FKFFD9FC533119D5C` (`csiro_variable_id`),
-  CONSTRAINT `FKFFD9FC533119D5C` FOREIGN KEY (`csiro_variable_id`) REFERENCES `csiro_variable` (`id`),
-  CONSTRAINT `FKFFD9FC53201EEBA` FOREIGN KEY (`climate_params_id`) REFERENCES `climate_params` (`id`)
+  CONSTRAINT `FKFFD9FC53201EEBA` FOREIGN KEY (`climate_params_id`) REFERENCES `climate_params` (`id`),
+  CONSTRAINT `FKFFD9FC533119D5C` FOREIGN KEY (`csiro_variable_id`) REFERENCES `csiro_variable` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -485,8 +485,8 @@ CREATE TABLE `data_element` (
   PRIMARY KEY (`id`),
   KEY `FK74B46B672F7FE520` (`weather_event`),
   KEY `FK74B46B67994A1ED8` (`user_story_id`),
-  CONSTRAINT `FK74B46B67994A1ED8` FOREIGN KEY (`user_story_id`) REFERENCES `user_story` (`id`),
-  CONSTRAINT `FK74B46B672F7FE520` FOREIGN KEY (`weather_event`) REFERENCES `weather_event` (`id`)
+  CONSTRAINT `FK74B46B672F7FE520` FOREIGN KEY (`weather_event`) REFERENCES `weather_event` (`id`),
+  CONSTRAINT `FK74B46B67994A1ED8` FOREIGN KEY (`user_story_id`) REFERENCES `user_story` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -496,7 +496,7 @@ CREATE TABLE `data_element` (
 
 LOCK TABLES `data_element` WRITE;
 /*!40000 ALTER TABLE `data_element` DISABLE KEYS */;
-INSERT INTO `data_element` VALUES ('File',1,'2013-04-30 16:14:24','PLAIN','','Test 1',0,'This is a test for Data Element','csv',NULL,NULL,1,NULL),('File',2,'2013-04-30 16:14:24','PLAIN','','Test 2',0,'This is the second test','xml',NULL,NULL,1,NULL),('File',3,'2013-04-30 16:14:24','PLAIN','','Test 3',0,'This is the third test','txt',NULL,NULL,1,NULL),('File',4,'2013-04-30 16:14:24','PLAIN','','Test 4',1,'User Story\'s Data Element content test','txt',NULL,NULL,2,NULL),('Text',5,'2013-04-30 16:14:24','PLAIN','','Comment text 1',2,NULL,NULL,NULL,'This is a text comment',2,NULL),('File',6,'2013-04-30 16:14:24','PLAIN','','Test 5',3,'User Story\'s Data Element content test','txt',NULL,NULL,2,NULL),('Text',7,'2013-04-30 16:14:24','PLAIN','','Comment text 2',4,NULL,NULL,NULL,'This is a second text comment',2,NULL),('File',8,'2013-04-30 16:14:24','PLAIN','','Test 6',1,'User Story\'s Data Element content test','txt',NULL,NULL,3,NULL),('Csiro',9,'2013-04-30 16:14:24','TABLE','','CSIRO Data Element Test',0,NULL,NULL,NULL,NULL,1,NULL),('Cmar',10,'2013-04-30 16:14:24','TABLE','','CMAR Data Element Test',0,NULL,NULL,'',NULL,1,NULL),('Vulnerability',11,'2013-04-30 16:14:24','GRAPH','','Vulnerability Assessment',0,NULL,NULL,NULL,NULL,1,1);
+INSERT INTO `data_element` VALUES ('File',1,'2013-05-21 10:02:09','PLAIN','','Test 1',0,'This is a test for Data Element','csv',NULL,NULL,1,NULL),('File',2,'2013-05-21 10:02:09','PLAIN','','Test 2',0,'This is the second test','xml',NULL,NULL,1,NULL),('File',3,'2013-05-21 10:02:09','PLAIN','','Test 3',0,'This is the third test','txt',NULL,NULL,1,NULL),('File',4,'2013-05-21 10:02:09','PLAIN','','Test 4',1,'User Story\'s Data Element content test','txt',NULL,NULL,2,NULL),('Text',5,'2013-05-21 10:02:09','PLAIN','','Comment text 1',2,NULL,NULL,NULL,'This is a text comment',2,NULL),('File',6,'2013-05-21 10:02:09','PLAIN','','Test 5',3,'User Story\'s Data Element content test','txt',NULL,NULL,2,NULL),('Text',7,'2013-05-21 10:02:09','PLAIN','','Comment text 2',4,NULL,NULL,NULL,'This is a second text comment',2,NULL),('File',8,'2013-05-21 10:02:09','PLAIN','','Test 6',1,'User Story\'s Data Element content test','txt',NULL,NULL,3,NULL),('Csiro',9,'2013-05-21 10:02:09','TABLE','','CSIRO Data Element Test',0,NULL,NULL,NULL,NULL,1,NULL),('Cmar',10,'2013-05-21 10:02:09','TABLE','','CMAR Data Element Test',0,NULL,NULL,'',NULL,1,NULL),('Vulnerability',11,'2013-05-21 10:02:09','GRAPH','','Vulnerability Assessment',0,NULL,NULL,NULL,NULL,1,1);
 /*!40000 ALTER TABLE `data_element` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -512,8 +512,8 @@ CREATE TABLE `data_element_abs_data` (
   `abs_data_id` int(11) NOT NULL,
   KEY `FKFD21512F12C92CDE` (`data_element_id`),
   KEY `FKFD21512FBE7C83D4` (`abs_data_id`),
-  CONSTRAINT `FKFD21512FBE7C83D4` FOREIGN KEY (`abs_data_id`) REFERENCES `abs_data` (`id`),
-  CONSTRAINT `FKFD21512F12C92CDE` FOREIGN KEY (`data_element_id`) REFERENCES `data_element` (`id`)
+  CONSTRAINT `FKFD21512F12C92CDE` FOREIGN KEY (`data_element_id`) REFERENCES `data_element` (`id`),
+  CONSTRAINT `FKFD21512FBE7C83D4` FOREIGN KEY (`abs_data_id`) REFERENCES `abs_data` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -538,8 +538,8 @@ CREATE TABLE `data_element_acorn_sat_data` (
   `acorn_sat_data_id` int(11) NOT NULL,
   KEY `FK11EB58316ACE14B7` (`data_element_id`),
   KEY `FK11EB5831EC94D333` (`acorn_sat_data_id`),
-  CONSTRAINT `FK11EB5831EC94D333` FOREIGN KEY (`acorn_sat_data_id`) REFERENCES `acorn_sat_data` (`id`),
-  CONSTRAINT `FK11EB58316ACE14B7` FOREIGN KEY (`data_element_id`) REFERENCES `data_element` (`id`)
+  CONSTRAINT `FK11EB58316ACE14B7` FOREIGN KEY (`data_element_id`) REFERENCES `data_element` (`id`),
+  CONSTRAINT `FK11EB5831EC94D333` FOREIGN KEY (`acorn_sat_data_id`) REFERENCES `acorn_sat_data` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -564,8 +564,8 @@ CREATE TABLE `data_element_bitre_data` (
   `bitre_data_id` int(11) NOT NULL,
   KEY `FK92C34061525894B0` (`bitre_data_id`),
   KEY `FK92C34061ED5D362C` (`data_element_id`),
-  CONSTRAINT `FK92C34061ED5D362C` FOREIGN KEY (`data_element_id`) REFERENCES `data_element` (`id`),
-  CONSTRAINT `FK92C34061525894B0` FOREIGN KEY (`bitre_data_id`) REFERENCES `bitre_data` (`id`)
+  CONSTRAINT `FK92C34061525894B0` FOREIGN KEY (`bitre_data_id`) REFERENCES `bitre_data` (`id`),
+  CONSTRAINT `FK92C34061ED5D362C` FOREIGN KEY (`data_element_id`) REFERENCES `data_element` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -590,8 +590,8 @@ CREATE TABLE `data_element_cmar_data` (
   `cmar_data_id` int(11) NOT NULL,
   KEY `FKAE352C76719E52B5` (`data_element_id`),
   KEY `FKAE352C76CB8CE91C` (`cmar_data_id`),
-  CONSTRAINT `FKAE352C76CB8CE91C` FOREIGN KEY (`cmar_data_id`) REFERENCES `cmar_data` (`id`),
-  CONSTRAINT `FKAE352C76719E52B5` FOREIGN KEY (`data_element_id`) REFERENCES `data_element` (`id`)
+  CONSTRAINT `FKAE352C76719E52B5` FOREIGN KEY (`data_element_id`) REFERENCES `data_element` (`id`),
+  CONSTRAINT `FKAE352C76CB8CE91C` FOREIGN KEY (`cmar_data_id`) REFERENCES `cmar_data` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -670,8 +670,8 @@ CREATE TABLE `data_element_past_data` (
   `past_data_id` int(11) NOT NULL,
   KEY `FK12BA90DF71A410AC` (`data_element_id`),
   KEY `FK12BA90DF7504AA8A` (`past_data_id`),
-  CONSTRAINT `FK12BA90DF7504AA8A` FOREIGN KEY (`past_data_id`) REFERENCES `past_data` (`id`),
-  CONSTRAINT `FK12BA90DF71A410AC` FOREIGN KEY (`data_element_id`) REFERENCES `data_element` (`id`)
+  CONSTRAINT `FK12BA90DF71A410AC` FOREIGN KEY (`data_element_id`) REFERENCES `data_element` (`id`),
+  CONSTRAINT `FK12BA90DF7504AA8A` FOREIGN KEY (`past_data_id`) REFERENCES `past_data` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -737,8 +737,8 @@ CREATE TABLE `engineering_model_data` (
   KEY `FK4C7EABAC201EEBA` (`climate_params_id`),
   KEY `FK4C7EABACD1BF0EF9` (`engineering_model_variable_id`),
   KEY `FK4C7EABAC2AA35D5B` (`engineering_model_asset_id`),
-  CONSTRAINT `FK4C7EABAC2AA35D5B` FOREIGN KEY (`engineering_model_asset_id`) REFERENCES `engineering_model_asset` (`id`),
   CONSTRAINT `FK4C7EABAC201EEBA` FOREIGN KEY (`climate_params_id`) REFERENCES `climate_params` (`id`),
+  CONSTRAINT `FK4C7EABAC2AA35D5B` FOREIGN KEY (`engineering_model_asset_id`) REFERENCES `engineering_model_asset` (`id`),
   CONSTRAINT `FK4C7EABACD1BF0EF9` FOREIGN KEY (`engineering_model_variable_id`) REFERENCES `engineering_model_variable` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -806,7 +806,7 @@ CREATE TABLE `past_data` (
 
 LOCK TABLES `past_data` WRITE;
 /*!40000 ALTER TABLE `past_data` DISABLE KEYS */;
-INSERT INTO `past_data` VALUES (1,'2013-04-30 16:14:23','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-mean-temperature-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmean&area=aus&season=0112&period=1970','Trend in mean temperatures'),(2,'2013-04-30 16:14:23','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-maximum-temperature-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmax&area=aus&season=0112&period=1970','Trend in maximum temperatures'),(3,'2013-04-30 16:14:23','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-total-annual-rainfall-1970-2012.png','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=rain&area=aus&season=0112&period=1970','Trend in total annual rainfall'),(4,'2013-04-30 16:14:23','2012-01-01 00:00:00','1880-01-01 00:00:00','long-term-sea-level-changes-1880-2012.png','http://www.cmar.csiro.au/sealevel/sl_hist_few_hundred.html','Long-term sea level rise measurements'),(5,'2013-04-30 16:14:23','2011-01-01 00:00:00','1970-01-01 00:00:00','short-term-sea-level-changes-1970-2011.png','http://www.csiro.au/Outcomes/Climate/Understanding/State-of-the-Climate-2012.aspx','Shorter-term changes in sea level');
+INSERT INTO `past_data` VALUES (1,'2013-05-21 10:02:08','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-mean-temp','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmean&area=aus&season=0112&period=1970','Trend in mean temperatures'),(2,'2013-05-21 10:02:08','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-max-temp','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=tmax&area=aus&season=0112&period=1970','Trend in maximum temperatures'),(3,'2013-05-21 10:02:08','2012-01-01 00:00:00','1970-01-01 00:00:00','trend-rainfall','http://www.bom.gov.au/cgi-bin/climate/change/trendmaps.cgi?map=rain&area=aus&season=0112&period=1970','Trend in total annual rainfall'),(4,'2013-05-21 10:02:08','2012-01-01 00:00:00','1880-01-01 00:00:00','long-term-slr','http://www.cmar.csiro.au/sealevel/sl_hist_few_hundred.html','Long-term sea level rise measurements'),(5,'2013-05-21 10:02:08','2011-01-01 00:00:00','1970-01-01 00:00:00','short-term-slr','http://www.csiro.au/Outcomes/Climate/Understanding/State-of-the-Climate-2012.aspx','Shorter-term changes in sea level');
 /*!40000 ALTER TABLE `past_data` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -831,7 +831,7 @@ CREATE TABLE `region` (
 
 LOCK TABLES `region` WRITE;
 /*!40000 ALTER TABLE `region` DISABLE KEYS */;
-INSERT INTO `region` VALUES (1,'149.0547914184899,-28.24548513942176 148.9609907444339,-35.25426489702431 155.2660617233398,-35.19627668034501 154.8867619045885,-27.90208550082615 149.0547914184899,-28.24548513942176','East Coast South'),(2,'145.3189141977523,-33.8991314327851 145.0790050622273,-39.34717405549549 153.0808752795217,-39.39167277749677 152.564341927145,-34.0115196362042 145.3189141977523,-33.8991314327851','Southern Slopes Vic East'),(3,'112.7632954156051,-26.52537830109324 112.2397686001995,-35.9640923319097 125.4390964302563,-36.01229549528745 124.759915381913,-26.54545205884348 112.7632954156051,-26.52537830109324','Southern and South-Western Flatlands'),(4,'','Monsoonal North'),(5,'','Wet Tropics'),(6,'','Rangelands'),(7,'','Central Slopes'),(8,'','Murray Basin');
+INSERT INTO `region` VALUES (1,'149.0547914184899,-28.24548513942176 148.9609907444339,-35.25426489702431 155.2660617233398,-35.19627668034501 154.8867619045885,-27.90208550082615 149.0547914184899,-28.24548513942176','East Coast South'),(2,'145.3189141977523,-33.8991314327851 145.0790050622273,-39.34717405549549 153.0808752795217,-39.39167277749677 152.564341927145,-34.0115196362042 145.3189141977523,-33.8991314327851','Southern Slopes Vic East'),(3,'112.7632954156051,-26.52537830109324 112.2397686001995,-35.9640923319097 125.4390964302563,-36.01229549528745 124.759915381913,-26.54545205884348 112.7632954156051,-26.52537830109324','Southern and Southwestern Flatlands West'),(4,'','Monsoonal North'),(5,'','Wet Tropics'),(6,'','Rangelands'),(7,'','Central Slopes'),(8,'','Murray Basin');
 /*!40000 ALTER TABLE `region` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -859,7 +859,7 @@ CREATE TABLE `seaport` (
 
 LOCK TABLES `seaport` WRITE;
 /*!40000 ALTER TABLE `seaport` DISABLE KEYS */;
-INSERT INTO `seaport` VALUES ('AUALH','Albany Port','Albany',3),('AUBSJ','Lakes Entrance','Bairnsdale',2),('AUBUY','Port of Bunbury','Bunbury',3),('AUEPR','Esperance Port',NULL,3),('AUFRE','Fremantle',NULL,3),('AUGET','Port of Geraldton','Geraldton',3),('AUNTL','Newcastle Port','Newcastle',1),('AUPKL','Port Kembla','Wollongong',2),('AUQDN','Port of Eden',NULL,2),('AUSYD','Sydney Harbour','Sydney',1),('AUWHL','Port Welshpool',NULL,2),('AUXMC','Port of Mallacoota',NULL,2),('AUYBA','Port of Yamba',NULL,1);
+INSERT INTO `seaport` VALUES ('AUALH','Albany Port','Albany',3),('AUBSJ','Lakes Entrance','Bairnsdale',2),('AUBUY','Port of Bunbury','Bunbury',3),('AUEPR','Esperance Port',NULL,3),('AUFRE','Fremantle','Perth',3),('AUGET','Port of Geraldton','Geraldton',3),('AUNTL','Newcastle Port','Newcastle',1),('AUPKL','Port Kembla','Wollongong',2),('AUQDN','Port of Eden',NULL,2),('AUSYD','Sydney Harbour','Sydney',1),('AUWHL','Port Welshpool',NULL,2),('AUXMC','Port of Mallacoota',NULL,2),('AUYBA','Port of Yamba',NULL,1);
 /*!40000 ALTER TABLE `seaport` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -914,8 +914,8 @@ CREATE TABLE `user_story` (
   PRIMARY KEY (`id`),
   KEY `FK735303818FB9E94F` (`seaport_id`),
   KEY `FK73530381BFE5533` (`owner_login`),
-  CONSTRAINT `FK73530381BFE5533` FOREIGN KEY (`owner_login`) REFERENCES `user` (`username`),
-  CONSTRAINT `FK735303818FB9E94F` FOREIGN KEY (`seaport_id`) REFERENCES `seaport` (`code`)
+  CONSTRAINT `FK735303818FB9E94F` FOREIGN KEY (`seaport_id`) REFERENCES `seaport` (`code`),
+  CONSTRAINT `FK73530381BFE5533` FOREIGN KEY (`owner_login`) REFERENCES `user` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -969,4 +969,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-04-30 16:15:21
+-- Dump completed on 2013-05-21 10:48:01
