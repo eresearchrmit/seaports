@@ -5,7 +5,7 @@
 
 <div class="grid_12">
 	<div class="box round first" style="text-align:center">
-		<h2>Registration</h2>
+		<div class="box-header"><h5>Registration</h5></div>
 		<div class="box-content block"> 
 			<c:if test="${not empty errorMessage}"> 
 			<div id="errorMessage" class="message error">

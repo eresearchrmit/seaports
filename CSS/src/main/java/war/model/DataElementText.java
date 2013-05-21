@@ -55,7 +55,7 @@ public class DataElementText extends DataElement {
 	 * @return the current text of the text item
 	 */
 	public String getText() {
-		return text;
+		return text.replaceAll("(\r\n|\r|\n|\n\r)", "");
 	}
 
 	/**

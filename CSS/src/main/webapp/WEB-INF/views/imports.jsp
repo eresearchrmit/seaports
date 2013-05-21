@@ -11,7 +11,6 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/buttons.css" />"  media="screen" />
 <!--[if IE 6]><link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/ie6.css" />" media="screen" /><![endif]-->
 <!--[if IE 7]><link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/ie.css" />" media="screen" /><![endif]-->
-<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/prettyPhoto.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/zebra_tooltips.css" />" />
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/print.css" />" />
