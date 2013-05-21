@@ -38,7 +38,7 @@ public class UserControllerTest {
 		String result = userController.registerNewUser(userForTest, model);
 		
 		Assert.assertNotNull(result);		
-		Assert.assertEquals("login", result);
+		Assert.assertEquals("introduction", result);
 	}
 	
 	/**

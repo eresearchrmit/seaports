@@ -31,7 +31,7 @@
 		
 		<p class="info-paragraph">Current and historical climate trends, future climate data and non-climate data for three Australian NRM regions are available in the Tool.</p> 
 		
-		 
+		<img src="<c:url value="/resources/img/help/user_workflow.png" />" alt="Application Workflow" width="750" />
 		
 		<p class="info-paragraph">Additionally, it features applications to investigate port vulnerability to extreme weather events, and concrete deterioration modelling.</p> 
 		

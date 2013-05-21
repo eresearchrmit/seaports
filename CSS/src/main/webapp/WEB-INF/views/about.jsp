@@ -22,6 +22,7 @@
 	<p class="info-paragraph">RMIT would particularly like to thank Gippsland Ports and Sydney Ports Corporation for their support in the development of the Climate Smart Seaports Tool.</p>  
 
 	<p class="info-paragraph">All data in this tool has been sourced from third parties (which is indicated throughout the tool).</p> 
-	
+	<br />
+	<p class="info-paragraph">For any queries or feedback about the tool, please contact: <a href="mailto:jane.mullett@rmit.edu.au">Jane Mullett</a> (RMIT Climate Change Adaptation Program)</p>
 </div>
 
