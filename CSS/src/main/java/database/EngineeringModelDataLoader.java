@@ -9,9 +9,18 @@ import org.hibernate.cfg.ImprovedNamingStrategy;
 
 import war.model.*;
 
+/**
+ * Class used to load the engineering model variables in the database
+ * @author Guillaume Prevost
+ */
 @SuppressWarnings("deprecation")
 public class EngineeringModelDataLoader {
 	
+	/**
+	 * Main method used to load engineering model variables only.
+	 * On an existing database, this may duplicate data.
+	 * @param args: no parameters
+	 */
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
@@ -28,6 +37,10 @@ public class EngineeringModelDataLoader {
 		session.getTransaction().commit();
 	}
 	
+	/**
+	 * Loads the engineering model variable in the database
+	 * @param session: the Hibernate Session object which takes care of persisting objects in the database
+	 */
 	public static void LoadEngineeringModelData(Session session)
 	{
 		// Engineering variables

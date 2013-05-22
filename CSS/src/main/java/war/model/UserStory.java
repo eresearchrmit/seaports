@@ -337,13 +337,13 @@ public class UserStory {
  				str += (i < dataElements.size() ? ", " : "");
  			}
  			else if (dataElement.getClass().equals(DataElementText.class) && !str.contains("personal analysis")) {
- 				str += owner.getFirstname() + " " + owner.getLastname() + "'s personal analysis.";
+ 				str += owner.getFirstname() + " " + owner.getLastname() + "'s personal analysis";
  				str += (i < dataElements.size() ? ", " : "");
  			}
  			i++;
         }
         
-        return "This report was created for " + seaport.getName() + " (" + seaport.getCode() 
+        return "This report was created in reference to " + seaport.getName() + " (" + seaport.getCode() 
         + "), located in the ABC NRM region " + seaport.getRegion().getName() 
 		+ ". The report is composed of " + str + ". " + "It has been created by " + owner.getFirstname() 
 		+ " " + owner.getLastname() + " using the Climate Smart Seaports tool available at " 

@@ -17,12 +17,24 @@ import security.UserLoginService;
 import war.model.*;
 import war.model.DataElement.DisplayType;
 
+/**
+ * Class used to load all the test data of the Climate Smart Seaports application in the test database.
+ * @author Guillaume Prevost
+ */
 @SuppressWarnings("deprecation")
 public class TestDatabaseLoader {
 
-	// The password correspond to the SHA-256 hash of 'password'
+	/**
+	 * The password correspond to the SHA-256 hash of 'password'
+	 */
 	private static final String DEFAULT_PASSWORD = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
 	
+	/**
+	 * Main method loading all the test data in the test database using Hibernate.
+	 * Running this is equivalent to importing the 'seaports_test_dump.sql' SQL 
+	 * script in an empty 'seaports' database, minus the engineering model examples.
+	 * @param args: no parameters
+	 */
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();

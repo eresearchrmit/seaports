@@ -10,12 +10,24 @@ import security.UserLoginService;
 
 import war.model.*;
 
+/**
+ * Class used to load all the initial data of the Climate Smart Seaports application in the database.
+ * @author Guillaume Prevost
+ */
 @SuppressWarnings("deprecation")
 public class DatabaseLoader {
 
-	// The password correspond to the SHA-256 hash of 'password'
+	/**
+	 * This password correspond to the SHA-256 hash of 'password'
+	 */
 	private static final String DEFAULT_PASSWORD = "5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8";
 	
+	/**
+	 * Main method loading all the initial data in the database using Hibernate
+	 * Running this is equivalent to importing the 'seaports_dump.sql' SQL script 
+	 * in an empty 'seaports' database, minus the engineering model examples.
+	 * @param args: no parameters
+	 */
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
@@ -96,6 +108,7 @@ public class DatabaseLoader {
 		session.save(port14);
 		session.save(port15);
 		
+		// Loads the various datasets
 		CsiroDataLoader.LoadCsiroData(session);
 		EngineeringModelDataLoader.LoadEngineeringModelData(session);
 		BomDataLoader.LoadBomData(session);

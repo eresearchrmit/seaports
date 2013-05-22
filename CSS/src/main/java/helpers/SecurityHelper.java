@@ -13,10 +13,16 @@ import security.UserLoginService;
 import war.model.User;
 import war.model.UserStory;
 
+/**
+ * Helper class facilitating the interaction with Spring Security's 
+ * 'SecurityContextHolder', and authentication in general.
+ * @author Guillaume Prevost
+ *
+ */
 public class SecurityHelper {
 	
 	/**
-	 * Check whether the currently logged user is matching a given user
+	 * Checks whether the currently logged user is matching a given user
 	 */
 	public static Boolean IsCurrentUserMatching(User user) {
 		
@@ -27,7 +33,7 @@ public class SecurityHelper {
 	}
 	
 	/**
-	 * Check whether the currently logged user is matching a given username
+	 * Checks whether the currently logged user is matching a given username
 	 */
 	public static Boolean IsCurrentUserMatching(String username) {
 		if (username == null)
@@ -40,7 +46,7 @@ public class SecurityHelper {
 	}
 	
 	/**
-	 * Check whether the currently logged user is allowed to access a given user story
+	 * Checks whether the currently logged user is allowed to access a given user story
 	 */
 	public static Boolean IsCurrentUserAllowedToAccess(UserStory story) {
 		if (story.getOwner() == null)
@@ -50,7 +56,7 @@ public class SecurityHelper {
 	}
 	
 	/**
-	 * Check whether the currently logged user has an Administrator role
+	 * Checks whether the currently logged user has an Administrator role
 	 */
 	public static Boolean IsCurrentUserAdmin() {
 		Collection<? extends GrantedAuthority> loggedUserAuthorities = getCurrentlyLoggedInAuthorities();
@@ -64,7 +70,7 @@ public class SecurityHelper {
 	}
 	
 	/**
-	 * Retrieve the username of the currently logged user
+	 * Retrieves the username of the currently logged user
 	 * @return the username of the currently logged user, null otherwise
 	 */
 	public static String getCurrentlyLoggedInUsername() {
@@ -83,7 +89,7 @@ public class SecurityHelper {
 	}
 	
 	/**
-	 * Retrieve the authorities of the currently logged user
+	 * Retrieves the authorities of the currently logged user
 	 * @return the authorities of the currently logged user
 	 */
 	public static Collection<? extends GrantedAuthority> getCurrentlyLoggedInAuthorities() {

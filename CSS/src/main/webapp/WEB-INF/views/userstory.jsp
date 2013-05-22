@@ -188,7 +188,7 @@
 									<!-- 'Edit text' button -->
 									<button id="btnOpenEditTextDataElementModalWindow" type="button" 
 									class="btn btn-small btn-icon btn-blue btn-edit floatright btnEditText"
-									style="margin-right: 10px; float:right" onClick="$('#hdnTextDataElementToEditId').val(${dataelement.id}); tinyMCE.get('txtDataElementToEditContent').setContent('${fn:escapeXml(dataelement.text)}');">
+									style="margin-right: 10px; float:right" onClick="$('#hdnTextDataElementToEditId').val(${dataelement.id}); tinyMCE.get('txtDataElementToEditContent').setContent('${fn:escapeXml(dataelement.escapedText)}');">
 										<span></span>Edit text
 									</button>
 								</c:if>

@@ -26,6 +26,8 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property> 
         
+        
+         <!-- List of the model classes to be used for database mapping -->
         <mapping class="war.model.User" />
 		<mapping class="war.model.UserStory" />
 		<mapping class="war.model.DataElement" />
@@ -39,35 +41,26 @@
 		<mapping class="war.model.DataElementAcornSat" />
 		<mapping class="war.model.DataElementAbs" />
 		<mapping class="war.model.DataElementBitre" />
-		
 		<mapping class="war.model.Region" />
 		<mapping class="war.model.Seaport" />
 		<mapping class="war.model.EngineeringModelAsset" />
-		
 		<mapping class="war.model.ClimateModel" />
 		<mapping class="war.model.ClimateEmissionScenario" />
 		<mapping class="war.model.ClimateParams" />
 		<mapping class="war.model.Variable" />
-		
 		<mapping class="war.model.WeatherEvent" />
-		
 		<mapping class="war.model.CsiroVariable" />
 		<mapping class="war.model.CsiroData" />
 		<mapping class="war.model.CsiroDataBaseline" />
 		<mapping class="war.model.CmarData" />
-		
 		<mapping class="war.model.EngineeringModelVariable" />
 		<mapping class="war.model.EngineeringModelData" />
-				
 		<mapping class="war.model.PastData" />
-		
 		<mapping class="war.model.AcornSatVariable" />
 		<mapping class="war.model.AcornSatStation" />
 		<mapping class="war.model.AcornSatData" />
-		
 		<mapping class="war.model.AbsVariable" />
 		<mapping class="war.model.AbsData" />
-		
 		<mapping class="war.model.BitreVariableCategory" />
 		<mapping class="war.model.BitreVariable" />
 		<mapping class="war.model.BitreData" />

@@ -85,7 +85,8 @@ public class CsiroVariableDao {
 		
 		List<Variable> allVars = getAll();
 		for (Variable var : allVars) {
-			if (EngineeringModelHelper.ENGINEERING_MODEL_VARIABLES.containsKey(var.getName()))
+			if (EngineeringModelHelper.ENGINEERING_MODEL_VARIABLES.containsKey("Chloride|" + var.getName())
+				|| EngineeringModelHelper.ENGINEERING_MODEL_VARIABLES.containsKey("Carbonation|" + var.getName()))
 				results.add(var);
 		}
 		

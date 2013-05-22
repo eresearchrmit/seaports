@@ -55,7 +55,15 @@ public class DataElementText extends DataElement {
 	 * @return the current text of the text item
 	 */
 	public String getText() {
-		return text.replaceAll("(\r\n|\r|\n|\n\r)", "");
+		return text;
+	}
+	
+	/**
+	 * Getter for the text of the text item
+	 * @return the current text of the text item
+	 */
+	public String getEscapedText() {
+		return text.replaceAll("(\r\n|\r|\n|\n\r)", "").replace("'", "\\\'");
 	}
 
 	/**

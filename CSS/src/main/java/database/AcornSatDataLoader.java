@@ -13,16 +13,18 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import war.model.*;
 
+/**
+ * Class used to load ACORN-SAT dataset in the database
+ * @author Guillaume Prevost
+ */
 @SuppressWarnings("deprecation")
 public class AcornSatDataLoader {
-
-	public static final String HOTTER_DRIER = "Hotter & Drier";
-	public static final String MOST_LIKELY = "Most Likely";
-	public static final String COOLER_WETTER = "Cooler & Wetter";
 	
-	public static final String csiroPictureFolderPath = "src/main/java/database/csiro-pictures/";
-	public static final String cmarPictureFolderPath = "src/main/java/database/cmar-pictures/";
-	
+	/**
+	 * Main method used to load ACORN-SAT data only.
+	 * On an existing database, this may duplicate data.
+	 * @param args: no parameters
+	 */
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
@@ -39,6 +41,10 @@ public class AcornSatDataLoader {
 		session.getTransaction().commit();
 	}
 	
+	/**
+	 * Loads the ACORN-SAT dataset in the database
+	 * @param session: the Hibernate Session object which takes care of persisting objects in the database
+	 */
 	public static void LoadAcornSatData(Session session)
 	{
 		DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");

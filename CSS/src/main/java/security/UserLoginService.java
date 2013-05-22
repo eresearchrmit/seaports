@@ -11,23 +11,49 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import war.dao.UserDao;
 import war.model.User;
 
+/**
+ * Implementation of the spring Security's UserDetailsService allowing 
+ * Spring Security to proceed to authentication and roles validation
+ * using the database.
+ * @author Guillaume Prevost
+ */
 public class UserLoginService implements UserDetailsService
 {
+	/**
+	 * User role string
+	 */
     public static final String ROLE_USER = "ROLE_USER";
+    
+    /**
+     * Administrator role string
+     */
     public static final String ROLE_ADMINISTRATOR = "ROLE_ADMIN";
 
     private Logger logger = LoggerFactory.getLogger(UserLoginService.class);
 
     @Autowired
     public UserDao userDao;
-    
+
+    /**
+     * Setter for the user data access object
+     * @param userDao: the new data access object
+     */
     public void setUserDao(UserDao userDao) {
     	this.userDao= userDao;
     }
     
+    /**
+     * Default constructor of UserLoginService 
+     */
     public UserLoginService() {
     }
  
+    /**
+     * Loads a user from its username (looking for it in the database using the data access object)
+     * @param username: the username that has to be loaded
+     * @return the UserDetails implementation (war.model.User) corresponding to the specified username
+     * @throws UsernameNotFoundException if the username doesn't exist in the database
+     */
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
     	logger.info("Inside loadUserByUsername");
     	logger.info("Trying to authenticate '" + username + "'");

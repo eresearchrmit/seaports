@@ -12,14 +12,38 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import war.model.*;
 
+/**
+ * Class used to load CSIRO and CMAR dataset in the database
+ * @author Guillaume Prevost
+ */
 @SuppressWarnings("deprecation")
 public class CsiroDataLoader {
 
+	/**
+	 * 'Hotter & Drier' climate model string
+	 */
 	public static final String HOTTER_DRIER = "Hotter & Drier";
+	
+	/**
+	 * 'Most Likely' climate model string
+	 */
 	public static final String MOST_LIKELY = "Most Likely";
+	
+	/**
+	 * 'Cooler & Wetter' climate model string
+	 */
 	public static final String COOLER_WETTER = "Cooler & Wetter";
+	
+	/**
+	 * 'Baseline' climate model string
+	 */
 	public static final String BASELINE = "Baseline";
-		
+	
+	/**
+	 * Main method used to load CSIRO and CMAR data only.
+	 * On an existing database, this may duplicate data.
+	 * @param args: no parameters
+	 */
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
@@ -36,6 +60,10 @@ public class CsiroDataLoader {
 		session.getTransaction().commit();
 	}
 	
+	/**
+	 * Loads the CSIRO and CMAR dataset in the database
+	 * @param session: the Hibernate Session object which takes care of persisting objects in the database
+	 */
 	public static void LoadCsiroData(Session session)
 	{
 		Region r1 = (Region)(session.get(Region.class, 1));

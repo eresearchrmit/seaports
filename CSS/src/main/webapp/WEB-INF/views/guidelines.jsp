@@ -18,16 +18,13 @@
 	</a>
 
 	<center>
-		<h2>Guidance document</h2>
+		<h2>User Guidance Document</h2>
 	</center>
-	<p style="text-align:center; margin: 25px 0; font-size: 12pt">
-		<strong>These are the guidelines for the seaports application</strong>
-	</p>
 	
-	<!-- BEGINNNING OF GUIDELINES CONTENT -->
+	<!-- BEGINNING OF GUIDELINES CONTENT -->
 	
 	<h3>Table of Contents</h3>
-	<ul style="list-style-type: none; font-size: 12pt">
+	<ul style="list-style-type: none; font-size: 11pt">
 		<li><a href="#acknowledgements">Acknowledgements</a></li>
 		<li><a href="#introduction">1.	Introduction</a></li>
 		<li><a href="#tool-overview">2.	Tool Overview</a></li>
@@ -54,9 +51,11 @@
 		</button></a>
 		<div class="clear"></div>
 		
-		<p>The Climate Smart Seaports Tool was created by RMIT University eResearch in partnership with the Climate Change Adaptation Program, with funding provided by the Australian National Data Service (ANDS).  ANDS aims to lead the creation of a cohesive national collection of research resources that makes better use of Australian research outputs, enables Australian researchers to easily publish, discover, access and use data, and enable new and more efficient research.</p>
+		<p>The Climate Smart Seaports Tool was developed by the Climate Change Adaptation Program in partnership with the RMIT University eResearch unit, with funding provided by the Australian National Data Service (ANDS). ANDS aims to lead the creation of a cohesive national collection of research resources that makes better use of Australian research outputs, enables Australian researchers to easily publish, discover, access and use data, and enable new and more efficient research.</p>
 
-		<p>RMIT would particularly like to thank Gippsland Ports and Sydney Ports Corporation for their support in the development of the Climate Smart Seaports Tool.</p>
+		<p> RMIT would particularly like to thank Sydney Ports Corporation and Gippsland Ports for their support in the development of the Climate Smart Seaports Tool. Additional thanks to Port Kembla Corporation and Gladstone Ports Corporation for their preliminary input to the tool. </p>
+
+		<p> Further thanks to representatives from the following stakeholders who provided survey feedback in the early stages of the tool development: Darwin Port Corporation; Port of Townsville; Port of Brisbane Pty Ltd; Geelong Port Authority; Port of Hastings; Flinders Ports Pty Ltd; Albany Port Authority; and Geraldton Port Authority.</p>
 	</div>
 	
 	<div id="introduction" style="font-size: 10pt; text-align: justify; margin-top: 50px">
@@ -66,21 +65,21 @@
 		</button></a>
 		<div class="clear"></div>
 		
-		<p>The potential impact of climate change on ports differs according to the location, function and business model of the ports.  Climate Smart ports in Australia want to understand the relevant climate impacts and risks for their particular operation; only then can they determine what adaptation measures may be appropriate.</p>
+		<p>The potential impact of climate change on ports differs according to their location, function and business model of the ports.  To be 'Climate Smart', ports in Australia need to understand the relevant climate impacts and risks for their particular operation; only then can they determine what adaptation measures may be appropriate.</p>
 
-		<p>The Climate Smart Seaports web-tool is designed primarily for port personnel who make (or influence) decisions around long-term port planning for infrastructure, assets and management systems. However, it will also be of value to port owners and related businesses, government departments and local authorities concerned with ports and infrastructure, and researchers.</p>
+		<p>The Climate Smart Seaports web-tool is designed primarily for port personnel who make (or influence) decisions around long-term port planning for infrastructure, assets and management systems. However, it will also be of value to port owners and related businesses, government departments and local authorities concerned with ports and infrastructure; and for application by academic researchers.</p>
 		
-		<p>The main purpose of the tool is to facilitate the collection of information so that ports are able to identify their climate risks and adaptation options.   Although it is designed to generate information for the scope and context setting stages of the ISO 31000 risk management standard, (which is widely used by ports around Australia), it is also compatible with the initial stages of other processes such as Engineers Australia's "<a href="http://www.engineersaustralia.org.au/sites/default/files/shado/Learned%20Groups/National%20Committees%20and%20Panels/Coastal%20and%20Ocean%20Engineering/vol_1_web.pdf" target="_blank">Guidelines for Responding to the Effects of Climate Change in Coastal and Ocean Engineering</a>" and the Australian Government's "<a href="http://www.climatechange.gov.au/community/~/media/publications/local-govt/risk-management.ashx" target="_blank">Climate Change Impacts and Risk Management: Guide for Business and Government</a>".</p>
+		<p>The main purpose of the tool is to facilitate access to multiple sources of information so that ports are able to identify future risks and adaptation options.   Although it is designed to generate information for the scope and context setting stages of the ISO 31000 risk management standard, (which is widely used by ports around Australia), it is also compatible with other processes such as Engineers Australia's "<a href="http://www.engineersaustralia.org.au/sites/default/files/shado/Learned%20Groups/National%20Committees%20and%20Panels/Coastal%20and%20Ocean%20Engineering/vol_1_web.pdf" target="_blank">Guidelines for Responding to the Effects of Climate Change in Coastal and Ocean Engineering</a>" and the Australian Government's "<a href="http://www.climatechange.gov.au/community/~/media/publications/local-govt/risk-management.ashx" target="_blank">Climate Change Impacts and Risk Management: Guide for Business and Government</a>".</p>
 		
-		<p>The climate change that Australian ports will experience varies around the country. The Future Climate Context section provides more detail.  For ports, impacts can be directly climate related, such as infrastructure damage caused by storms or workflow interruptions due to extreme temperatures on site. Alternatively, impacts can be indirect such as interruptions to the supply chain caused by damaged rail or road infrastructure or disruptions to production at suppliers' sites.  These impacts can initially be felt in Australia or overseas.  For example, the flooding in Bangkok in 2011 affected the port traffic in Australia for cars in particular; while the heavy rains experienced in Queensland in 2010-11 interrupted the supply lines of coal to the ports, taking them several months to return to full operating strength.</p> 
+		<p>The climate change impacts that Australian ports will experience vary significantly depending upon their location along Australia's coastline (see the Future Climate Context section for more detail). For ports, impacts can be directly climate related, such as infrastructure damage caused by storms or workflow interruptions due to extreme temperatures on site. Alternatively, impacts can be indirect such as interruptions to the supply chain caused by damaged rail or road infrastructure or disruptions to production at suppliers' sites. These impacts can potentially extend beyond Australian boundaries. For example, flooding in Bangkok in 2011 affected the port traffic in Australia for cars in particular; while the heavy rains experienced in Queensland in 2010-11 interrupted the supply lines of coal to the ports, taking them several months to return to full operating strength.</p> 
 		
-		<p>For some ports, existing procedures and management systems may adequately address climate impacts, and the impacts may prove insignificant. For other ports, these impacts may cost hundreds of thousands of dollars in damages, may lead to insurance cost increases, lost business, or changed port trade. Understanding the impacts and risks allows port decision-makers to put in place appropriate measures, rather than being caught by surprise, or being left behind by competitors. The Climate Smart Seaports web-based tool enables ports to undertake some of the relevant data gathering and context-setting steps to help assess their climate change exposure and risk.</p>  
+		<p>For some ports, existing procedures and management systems may adequately address climate impacts, or impacts may be relatively insignificant. For other ports, these impacts may cost hundreds of thousands of dollars in damages, as evidenced by insurance cost increases, lost business, or changes to trade. Being aware of potential impacts and future risks allows port decision-makers to put in place appropriate measures, rather than being caught by surprise, or being left behind by competitors. The Climate Smart Seaports web-based tool enables ports to undertake some of the relevant data gathering and context-setting, which can help to assess climate change and risk.</p>  
 		
-		<p>This guidance document supports the web-based tool, providing more in-depth discussion of issues, as well as technical assistance for some elements of the tool. After providing a broad overview of the tool, it looks at the function of the "Workboard" space, then takes users through each of the relevant data tabs, from non-climate data, current climate and future climate data, as well as applications that are designed to elicit information on specific aspects of port functions. Finally, it explains how the user can create and manipulate their own data summary report, and publish the report for public viewing (if desired).</p> 
+		<p>This guidance document supports users of the web-based tool, providing more in-depth discussion of issues, as well as technical assistance for some elements of the tool. After providing a broad overview, the guidance looks at the function of the "Workboard" space, taking users through each of the relevant data tabs, from non-climate data, current climate and future climate data, as well as applications that are designed to elicit information on specific aspects of port functions. Finally, it explains how the user can create and manipulate their data summary report, and publish the report for public viewing (if desired).</p> 
 		
-		<p>It should be stressed, this is the first step in undertaking a climate risk assessment. Direction is provided for subsequent steps that ports can take to complete a risk assessment, however, the web-based tool does not perform this complete function.</p>
+		<p>It should be stressed, this is the first step in undertaking a climate risk assessment. Direction is provided for subsequent steps that ports can take to complete a formal risk assessment, however, while the web-based tool provides useful support information it does not perform this function.</p>
 		
-		<p>Adapting to climate change is still in its infancy and all organisations are learning how to manage the risks posed by the changing climate. The tool supports users to publish their learnings via reports to the Climate Smart Seaports site, promoting peer-to-peer learning and the spread of knowledge. Climate change poses a risk to all areas of a business. This tool attempts to bring the thinking about climate risks in different areas of the business into one report, beginning the creation of an integrated climate risk assessment.
+		<p>Adapting to climate change is still in its infancy and all organisations are learning how to manage the risks posed by a changing climate. The tool supports users to publish their learnings via reports to the Climate Smart Seaports site and promoting peer-to-peer learning and the spread of knowledge. Climate change poses a risk to all areas of a business. This tool attempts to bring thinking about climate risks in different areas of the business into one report, acting as a stimulus for more holistic and integrated climate risk assessments.</p>
 	</div>
 	
 	<div id="tool-overview" style="font-size: 10pt; text-align: justify; margin-top: 50px">
@@ -90,19 +89,13 @@
 		</button></a>
 		<div class="clear"></div>
 		
-		<div id="fig-user-workflow" class="hint" style="margin: 25px auto;">
-			<center><img src="<c:url value="/resources/img/help/user_workflow.png" />" width="100%" /><br />
-			Figure 1: Climate Smart Seaports Tool - User Workflow</center>
-		</div>
-		<br />
-		
 		<p>The Climate Smart Seaports web-based tool may be used by ports as part of their ongoing risk assessment process. It can assist to frame the scope and context for a port's future climate risk assessment. The tool is divided into seven core elements. These are:</p>
 		<ul>
 			<li>The Workboard</li>
 			<li>Non-climate context</li>
 			<li>Observed climate</li>
 			<li>Future climate context</li>
-			<li>Applications (Concrete deterioration modelling application, and Current vulnerability assessment application)</li>
+			<li>Applications (concrete deterioration modelling application, and current vulnerability assessment application)</li>
 			<li>Data Summary and</li>
 			<li>Report</li>
 		</ul>
@@ -112,10 +105,16 @@
 		
 		<p>The logical workflow for a user to progress through the tool is illustrated in <a href="#fig-user-workflow">Figure 1</a>.<p>
 		
-		<h6>The main elements of the tool are:</h6>
-		<p>The Workboard, where data elements can be collected and reviewed.  Refer to Section 3: The Climate Smart Seaports Workboard, for a more detailed description of how this element functions). The Workboard is essentially where most of the work for the tool is undertaken.</p> 
+		<div id="fig-user-workflow" class="hint" style="margin: 25px auto;">
+			<center><img src="<c:url value="/resources/img/help/user_workflow.png" />" width="100%" /><br />
+			Figure 1: Climate Smart Seaports Tool - User Workflow</center>
+		</div>
+		<br />
 
-		<p>When users first login to the tool, they will be directed to a "Create New Workboard" page, where there is a map of Australia. This is where the user defines the geographic scope and purpose of the assessment. The geographic scope of the climate risk assessment is determined by the natural resource management (NRM) regions, which are graphically represented on this map. (see <a href="fig-nrm-regions">Figure 2: NRM Regions of Australia</a>). Users select which region they wish to focus their assessment on by clicking on that region. This proof-of-concept version of the tool incorporates data for three regions, the East Coast South, the Southern Slopes Victoria East and Southern and South-Western Flatlands (WA).  Users then select which particular port in that region is their focus of enquiry from the drop-down list.  The tool also asks users to nominate the purpose for using the tool; for example, for research, or work related climate risk assessment.</p>
+		<h6>The main elements of the tool are:</h6>
+		<p>The <strong>Workboard</strong>, where data elements are collated and reviewed. The Workboard is essentially where most of the work for the tool is undertaken. Refer to Section 3: The Climate Smart Seaports Workboard, for a more detailed description of how this element functions).</p> 
+
+		<p>When users first login to the tool, they are directed to a "Create New Workboard' page, which features a map of Australia. This is where the user defines the geographic scope and purpose of the assessment. The geographic scope of the climate risk assessment is determined by the natural resource management (NRM) regions, which are graphically represented on this map (see Figure 2: NRM Regions of Australia). Users select the region they wish to focus their assessment on by clicking on that region. This proof-of-concept version of the tool incorporates data for three regions, the East Coast South, the Southern Slopes Victoria East, and Southern and South-Western Flatlands (WA). Users then select a particular port in that region from a drop-down list. At this stage, the tool also asks users to nominate the purpose of using the tool; for example, for research, or for supporting a work-related climate risk assessment.</p>
 		
 		<div id="fig-nrm-regions" class="hint" style="margin: 25px auto">
 			<center><img src="<c:url value="/resources/img/data/nrm-regions-clusters-map.png" />"/><br /><br />
@@ -124,32 +123,32 @@
 		
 		<p>The Workboard has a number of tabs for users to progress through, each presenting different data sets: Non-climate context; Observed Climate; Future Climate; Applications; Data Summary.</p>
 		
-		<p><strong>Non-climate context</strong> refers to social and trade data in the region of the port. Specifically, this section displays Australian Bureau of Statistics (ABS) urban population pressure (if ports are situated near an urban centre) and Ports Australia port trade data. Once ports have selected their NRM region, data relevant to their location is made available in this section.  Ports are also able to add their own data here, if appropriate. Refer Section 3.1 for more detail.</p>
+		<p><strong>Non-climate context</strong> refers to social and trade data in the region of the port. Specifically, this section displays Australian Bureau of Statistics (ABS) urban population pressure (if ports are situated near an urban centre) and Ports Australia port trade data. Once ports have selected their NRM region, data relevant to their location is made available in this section.  Ports are also able to add their own data here, if appropriate. Refer to Section 3.1 for more detail.</p>
 
-		<p>The section of the tool labelled <strong>Observed Climate</strong> includes data publicly available from the Bureau of Meteorology (BoM) and the CSIRO. It sets the historical and current context for the chosen NRM regions for both climate (temperature, rainfall, wind speed and relative humidity) and ocean (average sea level changes over time). Refer Section 3.2 for more detail.</p>
+		<p>The section of the tool labelled <strong>Observed Climate</strong> includes data publicly available from the Bureau of Meteorology (BoM) and the CSIRO. It sets the historical and current context for the chosen NRM regions for both climate (temperature, rainfall, wind speed and relative humidity) and ocean (average sea level changes over time). Refer to Section 3.2 for more detail.</p>
 		
-		<p>The <strong>Future Climate Context</strong> section provides climate projections, selected using the CSIRO Climate Futures tool, for the different NRM regions. Users are able to select one of three different time frames (2030, 2055, 2070), they can investigate four climate variables (temperature, rainfall, wind speed and relative humidity), drawing on several global climate models representing a medium emissions scenario, and a high emissions scenario. Data related to sea level rise can also be selected.  Refer Section 3.3 for more detail.</p>
+		<p>The <strong>Future Climate Context</strong> section provides climate projections, selected using the CSIRO Climate Futures tool, for the different NRM regions. Users are able to select one of three different time frames (2030, 2055, 2070) and can investigate four climate variables (temperature, rainfall, wind speed and relative humidity), drawing on several global climate models representing medium and high emissions scenarios. Data related to sea level rise can also be selected. Refer to Section 3.3 for more detail.</p>
 		
-		<p>The <strong>Applications</strong> section has two sub-elements that require input of port-specific information: one is a <strong>Concrete deterioration</strong> element that investigates the deterioration rate of concrete used in port infrastructure, under the chosen climate conditions. The second sub-element looks at the current <strong>Vulnerability</strong> of ports to recent extreme weather events. This can then be used to analyse a port's preparedness for extreme weather events under future climate change conditions.</p> 
+		<p>The <strong>Applications</strong> section has two sub-elements that require input of port-specific information: one is a <strong>Concrete deterioration</strong> element that investigates the deterioration rate of concrete used in port infrastructure, under the chosen climate conditions. The second sub-element looks at the current <strong>Vulnerability</strong> of ports to extreme weather events. This information can then be used to support the analysis of a port's preparedness for extreme weather events under future climate change conditions.</p> 
 		
-		<p>The <strong>Data Summary</strong> section is the place where users can review all their chosen data. They may decide to go back to any of the sections and add more data, or choose to delete chosen data at this stage.</p>
+		<p>The <strong>Data Summary</strong> section provides users with the opportunity to review all their chosen data. At this stage, it is possible to return to any of the sections and add more data or alternatively choose to delete chosen data.</p>
 		
-		<p><strong>Producing a Report</strong> is the final step in the process, and is where a formatted report is prepared for the user. Climate Smart Seaports Tool users can arrange their data according to their needs.  They can choose to "hide" data elements, as well as add further text and analysis. From here, users can choose to print a report for their own purposes, and/or progress to publishing their report which would make the information publicly available.</p>
+		<p><strong>Producing a Report</strong> is the final step in the process, and is where a formatted report is prepared for the user. Climate Smart Seaports Tool users can arrange their data according to their needs.  They can choose to "hide" data elements, as well as add further text and analysis. From here, users can choose to print a report for their own purposes, and/or progress to publishing their report and making the information publicly available.</p>
 		
 		<p>When users select <img src="<c:url value="/resources/img/help/publish_report_button.png" />" style="opacity: 0.7" /> they can no longer edit their report, and their report becomes available to the public.</p>
 	</div>
 	
 		
 	<div id="css-workboard" style="font-size: 10pt; text-align: justify; margin-top: 50px">
-		<h3 class="floatleft">3.	The Climate Smart Seaports Workboard</h3>
+		<h3 class="floatleft">3. The Climate Smart Seaports Workboard</h3>
 		<a href="#top"><button type="button" class="btn-mini btn-blue btn-arrow-up floatright" title="Go to top" style="margin-left:10px">
 			<span></span>Go to top
 		</button></a>
 		<div class="clear"></div>
 		
-		<p>When users first login to the Climate Smart Seaports tool, they will be directed to the "Create New Workboard" page.  The Workboard can be thought of as the data gathering platform for the tool. It is where users collate information about the non-climate context, current climate, future climate and current and future vulnerability of the port. There can only be one active Workboard at a time.</p> 
+		<p>When users first login to the Climate Smart Seaports tool, they will be directed to the "Create New Workboard" page.  The Workboard can be thought of as the tool's data gathering mechanism. It is where users collate information about the non-climate context, current climate, future climate and current and future vulnerability of the port. There can only be one active Workboard at a time.</p> 
 
-		<p>This page has a number of tabs, representing the different data types: non-climate, observed climate, future climate and applications. Users work through each of these tabs, selecting the appropriate data parameters. The outputs are displayed on the "Summary (all)" tab of the Workboard for users to review and analyse.</p> 
+		<p>The Workboard page has a number of tabs, representing the different data types: non-climate, observed climate, future climate and applications. Users work through each of these tabs, selecting the appropriate data parameters. The outputs are displayed on the "Summary (all)" tab of the Workboard for users to review and analyse.</p> 
 		
 		<h6>Getting Started</h6>
 		<ol>
@@ -165,7 +164,7 @@
 			</li>
 			
 			<li>Users then select which particular port in that NRM region is their focus of enquiry from the drop-down list.</li>
-			<li>The tool also asks users to nominate the purpose for using the tool, for example, for research into climate impacts on ports, or work related climate risk assessment etc.</li>
+			<li>The tool also asks users to nominate the purpose for using the tool, for example, for research into climate impacts on ports, or work-related climate risk assessment etc.</li>
 			<li>Click the <img src="<c:url value="/resources/img/help/create_button.png" />" style="opacity: 0.7" /> button to create your Workboard.</li>
 		</ol>
 		
@@ -181,11 +180,11 @@
 			</li>
 			
 			<li>Instructions relevant to each tab are outlined in the following sections.</li>
-			<li>There can only be one active Workboard at a time. To create another Workboard, users must first create a Report from their first Workboard. Although data can be hidden in the Report, new data elements cannot be added once data is in the Report stage.</li>
+			<li>There can only be one active Workboard at a time. To create another Workboard, users must first create a Report from their first Workboard. Although data can be hidden in the Report, new data elements cannot be added once data is at the Report stage.</li>
 		</ol>
 		
 		<h6>Outputs</h6>
-		<p>Outputs from each of the data tabs are displayed on both the individual tab, as well as collated in the Summary (All) tab, to the right of the screen.  How the data is displayed generally depends on the data element itself. It may be in a graph, table, map or text form.</p> 
+		<p>Outputs from each of the data tabs are displayed on the individual tab, as well as collated in the Summary (All) tab, to the right of the screen. How the data is displayed depends on the data element itself. It may be in a graph, table, map or text form.</p> 
 
 		<p>Users are able to add text to round out descriptions at the "Report" stage.</p>
 	
@@ -196,9 +195,8 @@
 			</button></a>
 			<div class="clear"></div>
 		
-			<p>This section identifies some of the non-climate-related elements for the nominated port, and its region.  It considers trade data for particular ports and population data. Note that only limited data may be available for some ports. Recognising that non-climate information will be gathered by ports themselves, this section also allows for ports to upload port-specific files and information.</p>
-			
-			
+			<p>This section identifies some of the non-climate-related elements for the nominated port, and its region. It considers trade data for particular ports and population data. Note that only limited data may be available for some ports.</p>
+						
 			<h6>Ports and Non-Climate Data</h6>
 			<p>Non-climate data helps to set the operational context of ports. It also provides a starting point for consideration of possible impacts of non-climate factors into the future.</p> 
 
@@ -224,7 +222,7 @@
 
 			<p>Data on Urban Pressure was extracted from the ABS Regional Population Growth Catalogue (3218.0), which provides decadal population estimates by Significant Urban Area from 2001 to 2011. These allow identification of population change over this period, which can impact on the ability of urban ports to retreat from slow-onset sea-level rise impacts.</p> 
 			 
-			<p>Freight data for most Australian ports is collated by Ports Australia - the peak national body representing ports and marine authorities across Australia. A range of freight statistics are available across all regions for the last decade; financial year 2000/01 through to 2011/12. Data that is available within the Climate Smart Seaports tool includes:</p>
+			<p>Freight data for most Australian ports is collated by Ports Australia - the peak national body representing ports and marine authorities across Australia. A range of freight statistics is available across all regions for the last decade; financial year 2000/01 through to 2011/12. Data that is available within the Climate Smart Seaports tool includes:</p>
 			
 			<ul>
 				<li>Decadal trends in freight throughput by cargo type;</li>
@@ -258,7 +256,7 @@
 					Finally, click the <img src="<c:url value="/resources/img/help/add_ports_aust_data_button.png" />" style="opacity: 0.7;" /> or <img src="<c:url value="/resources/img/help/add_abs_data_button.png" />" style="opacity: 0.7;" /> or the <img src="<c:url value="/resources/img/help/add_custom_data_button.png" />" style="opacity: 0.7;" /> button, whichever is appropriate. 
 				</li>
 				<li>
-					Users can progress through this process multiple times, adding as many data sets and files as are relevant.
+					Users can progress through this process multiple times, adding as many data sets and files as required.
 				</li>
 			</ol>
 			
@@ -278,7 +276,7 @@
 			</button></a>
 			<div class="clear"></div>
 		
-			<p>Extreme events occur naturally and weather records are broken from time to time. However, climate change is influencing these events and record-breaking weather is becoming more common. This section sets the historical and current context of climate and marine observations for ports. It draws on data publicly available from the Bureau of Meteorology (BoM) and the CSIRO.</p>
+			<p>Climate variability results in extreme events from time to time. However, climate change will influence the frequency and intensity of such events. This section sets the historical and current context of climate and marine observations for ports. It draws on data publicly available from the Bureau of Meteorology (BoM) and the CSIRO.</p>
 
 			<h6>Current and historical weather trends and extreme weather events</h6>
 			<p>As the basis for undertaking a climate risk assessment, ports should understand their current and historical exposure to changing weather patterns, and extreme weather events.  Three types of data have been selected to assist with this understanding:</p> 
@@ -302,9 +300,9 @@
 				</li>
 				
 				<li><span style="font-size: 1.1em"><i>Global and National marine trends</i></span>
-					<p>As with the trend maps for temperature and rainfall, the graphs and maps depicting sea-level change show how sea levels have changed over time. Past trend observations cannot be used as a predictor of the rate of future change.</p>
+					<p>As with the trend maps for temperature and rainfall, the graphs and maps depicting sea-level change show how sea levels have changed over time. However, past trend observations cannot be used as a predictor of the rate of future change.</p>
 	
-					<p>The sea-level data includes a graph of sea-level rise measurements from 1880 - 2012 and a map of more recent trends around Australia covering the period 1993 to 2011. Globally, sea levels have risen by about 20cm since 1870. Tide gauge measurements available since the late 19th century indicate that global sea levels have risen by 1.7 ± 0.3mm/year since 1950. This figure increases from 1993 to 2011 to 3.1 ± 0.4 mm/year suggesting that the rate of global sea level rise is accelerating. The observed global mean sea-level rise since 1990 is near the high end of projections from the 2007 Intergovernmental Panel on Climate Change (IPCC) Fourth Assessment Report (see Future Climate Section 3.3 for a discussion of the IPCC).</p> 
+					<p>The sea-level data includes a graph of global sea-level rise measurements from 1880 to 2012. There is also a map of more recent trends for Australia from 1993 to 2011. Globally, sea levels have risen approximately 20cm since 1870. Tide gauge measurements available since the late 19th century indicate that global sea levels have risen by 1.7 (Â± 0.3mm/yr) from 1950 to 2000. This figure has increased during the period 1993 to 2011 to 3.1 (Â± 0.4 mm/yr), indicating an acceleration in the rate of global sea level rise. The observed global mean sea-level rise since 1990 is tracking near the high end of projections from the 2007 Intergovernmental Panel on Climate Change (IPCC) <a href="http://www.ipcc.ch/publications_and_data/ar4/wg1/en/ch11s11-9-4.html">Fourth Assessment Report</a> (see Future Climate Section 3.3 for a discussion of the IPCC).</p> 
 					
 					<p>Across Australia, sea levels have risen 7 to 11mm per year in the north and northwest, two to three times the global average, whereas rates of sea-level rise on the central east and southern coasts of the continent are mostly similar to the global average. These regional variations are largely due to differences in the warming of the ocean waters around the coastline. Each port may have its own records of sea levels over time. This information would be useful to add to this report at the analysis stage.</p>
 					
@@ -324,9 +322,9 @@
 						<li>2010-11: Australia's wettest two-year period on record; 2010-2011 (see <a href="http://www.bom.gov.au/climate/current/statements/scs38.pdf">BoM Special Climate Statement 38</a>).</li>
 					</ol>
 					
-					<p>Further reading about extreme weather in Australia can be found at: <a href="http://climatecommission.gov.au/report/extreme-weather/">http://climatecommission.gov.au/report/extreme-weather/</a></p>
+					<p>Further reading about extreme weather in Australia can be found at: the Bureau of Meteorology's "<a href="http://www.bom.gov.au/climate/change/index.shtml#tabs=Climate-change-tracker&tracker=trend-maps">Climate Change Tracker</a>" website. </p>
 
-					<p>Each port will have knowledge of weather events that have affected operations or infrastructure. This information would be useful to add to this report at the analysis stage. Identifying a threshold beyond which a climate event will cause disruption is a useful way to think about climate risk. For example, at many workplaces personnel are required to stop working outside once the temperature reaches a certain number of degrees, and cranes cannot operate beyond a certain wind force. If the number of hot days increases or the number of windy days decrease, this will affect the port operations.</p>
+					<p>Each port will have knowledge of weather events that have affected operations or infrastructure. This information would be a useful addition at the analysis stage. Identifying a threshold beyond which a climate event will cause disruption is a useful way to think about climate risks. For example, in many workplaces personnel are required to stop working outside once the temperature reaches a certain number of degrees, and cranes cannot operate beyond a certain wind force. If the number of hot days increases or the number of windy days decrease, this will affect port operations.</p>
 				</li>
 			</ol>
 			
@@ -359,14 +357,14 @@
 			</button></a>
 			<div class="clear"></div>
 		
-			<p>This section assists ports to identify some future climate projections relevant for their region.  It provides information on the Intergovernmental Panel on Climate Change (IPCC) Scenarios, which underpin scientific modelling of future climate. Additionally, it explains what global climate models are, and how they are used in this tool.</p>
+			<p>This section assists ports in identifying relevant future climate projections. It also provides information on the Intergovernmental Panel on Climate Change (IPCC) Scenarios, which informs scientific modelling of future climate. Additionally, it explains what global climate models are, and how they are used in this tool.</p>
 			
 			<h6>IPCC Scenarios and Global Climate Models</h6>
 			<p>Modelling future climate change requires an estimation of the concentrations of greenhouse gases and other substances in the atmosphere, in the years to come. The IPCC Emissions scenarios describe these possible future releases of gases that are the product of complex, dynamic systems, determined by factors such as population change, socio-economic development, and technological advances. The two emissions scenarios selected for the Climate Smart Seaports tool are both from the "A1 storyline". These scenarios are labelled based on their relative greenhouse gas emissions levels, High (SRES A1FI) and Medium (SRES A1B). For in-depth reading, see the <a href="http://www.ipcc.ch/pdf/special-reports/spm/sres-en.pdf">IPCC Special reports</a>.</p> 
 			<p>Global climate models (GCMs) are mathematical representations of the behaviour of the planet's climate system through time. Modelling of the climate system has become possible due to increased computer power and advances are continually being made that increase the models' accuracy.</p>
 			
 			<h6>Climate variables</h6>
-			<p>Within the Future Climate section of this tool, global GCMs were selected using CSIRO's Climate Futures tool. The tool allows the selection of GCMs using a matrix of two climate variables, in this case rainfall and temperature. Likelihoods are then assigned according to the number of climate models that fall within each category.</p> 
+			<p>Within the Future Climate section of this tool, global GCMs were selected using CSIRO's <a href="http://seaports-dev.eres.rmit.edu.au:8080/CSS/public/guidelines#glossary">Climate Futures</a> tool. The tool allows the selection of GCMs using a matrix of two climate variables, in this case rainfall and temperature. Likelihoods are then assigned according to the number of climate models that fall within each category.</p> 
 			<p>The Climate Smart Seaports application offers three categories, 'hotter and drier', 'cooler and wetter' and 'most likely', where the 'most likely' category represents a likelihood of 33% and above.</p>
 			For each of the NRM regions, future climate projections are available for: 
 			<ul>
@@ -385,12 +383,12 @@
 				<li>Select the data source from the pop-up screen. Users can choose from "CSIRO" (which covers temperature, wind speed, rainfall or relative humidity) or "CMAR" data (sea-level rise).</li>
 				<li>
 					<p>Once you have selected your data source, a new pop-up screen appears.  It requires you to select the particular data variable. For example, for "CSIRO", users can select "Temperature", "Wind Speed", "Rainfall" or "Relative Humidity", OR, they can select "All Variables". For "CMAR" data source - no variable choice is given, as this data source only provides information on one variable, "Sea level rise".</p>
-					<p>Users are able to go through this process multiple times, so that they can select as many combinations of variables that suit their assessment needs.</p>
+					<p>Users are able to go through this process multiple times, so that they can select as many combinations of variables that meet their assessment needs.</p>
 					<img src="<c:url value="/resources/img/help/add_csiro_data_popup.png" />" style="opacity: 0.7;" />
 				</li>
 				
 				<li>Users are then required to select an appropriate "Emission scenario". There is a choice of two, "Medium" or "High" (Refer to the explanation of emission scenarios in "Background - IPCC Scenarios and Global Climate Models").</li>
-				<li>Next, users need to select the climate model they wish to apply to their assessment: "Most likely", "Hotter &amp; drier" or "Cooler &amp; wetter". If uncertain which climate model to select, the best one to choose is the "Most likely" model.  You may then wish to compare the different variables for different models, and select one of the other options.  For example, if your port is already in an area of heavy rainfall, and subject to flooding, you may wish to view what a "cooler &amp; wetter" model predicts for your region. Alternatively, if your area is dry and prone to drought, you may want to see what a "hotter &amp; drier" model predicts.</li> 
+				<li>Next, users need to select the climate model they wish to apply to their assessment: "Most likely", "Hotter &amp; drier" or "Cooler &amp; wetter". If uncertain which climate model to select, the "Most likely" model is recommended. You may then wish to compare the different variables for different models, and select one of the other options.  For example, if your port is already in an area of heavy rainfall, and subject to flooding, you may wish to view what a "cooler &amp; wetter" model projects for your region. Alternatively, if your area is dry and prone to drought, you may want to see what a "hotter &amp; drier" model projects.</li> 
 				<li>Users are requested to select the time period which best suits their needs.  The shorter time period of 2030 may be suitable for short-term planning horizons. The time-frames of 2055 and 2070 show a greater change in climate from today, and will be particularly relevant for longer planning horizons.</li> 
 				<li>Finally, users are able to select whether the data is displayed as a map, or a table.</li> 
 				<li>Click the <img src="<c:url value="/resources/img/help/add_csiro_data_button.png" />" style="opacity: 0.7;" /> or <img src="<c:url value="/resources/img/help/add_cmar_data_button.png" />" style="opacity: 0.7;" /> button, whichever is appropriate for the data element being added.</li> 
@@ -411,7 +409,7 @@
 			</button></a>
 			<div class="clear"></div>
 		
-			<p>Two applications are available which enable the user to explore specific port impacts in more detail.  The Concrete deterioration tool looks at the impacts of long term climate change on port concrete infrastructure. Specifically, it analyses the deterioration rates of concrete using different climate change scenarios (which the user selects in the <a href="#future-climate">Section 3.3 "Future climate"</a>).  The Vulnerability application focuses more on extreme climate events. It requires users to enter information about recent past climate events that have impacted the port. This understanding of current vulnerabilities to extreme climate-related events can help a port assess their risk of future climate impacts.</p>
+			<p>Two applications are available in the proto-type which enable the user to explore specific port impacts in more detail. The Concrete deterioration tool looks at the impacts of long term climate change on port infrastructure. Specifically, it analyses the deterioration rates of concrete using different climate change scenarios (derived from the choices made in the "Future climate" section, 3.3). The Vulnerability application focuses on extreme climate events. It requires users to enter information about recent past climate events that have impacted the port. This understanding of current vulnerabilities to extreme climate-related events can help a port to assess their risk of future climate impacts.</p>
 			
 			<h5>Concrete deterioration tool</h5>
 			
@@ -422,7 +420,7 @@
 			The section provides: 
 			<ol style="list-style-type: lower-roman">
 				<li>a set of example outputs for those who are not engineers, and</li> 
-				<li>the tool for the engineers that have the knowledge to use it</li>
+				<li>the tool for engineering users that have the required knowledge</li>
 			</ol>
 			
 			
@@ -431,32 +429,49 @@
 
 			The tool enables the user to define:
 			<ul>
-				<li>The concrete	eg: distance from coast, zone of activity (atmosphere, tidal, splash, submerged), size of structure,  depth of cover, diameter of rebar, water-to-cement ratio, cement content, depth of carbonation from maintenance records etc.;</li>
+				<li>Concrete characteristics, e.g.: distance from coast, zone of activity (atmosphere, tidal, splash, submerged), size of structure,  depth of cover, diameter of rebar, water-to-cement ratio, cement content, depth of carbonation from maintenance records etc.;</li>
 				<li>The potential climate influences (following the range provided in the Future climate tab), and;</li>
 				<li>A date range for all years 2013 - 2070</li>
 			</ul>
 			
 			<p>Data is not currently available for port areas in the South South West Flatlands West (SSWFW) Region.</p> 
 			
-			<h6>Information about the set of examples:</h6>
-			<p>The examples provide a set of outputs for concrete structures that could conceivably have been built in the NRM region that you are investigating.</p>
+			<h6>Information about the predefined examples:</h6>
+			<p>The predefined examples provide a set of hypothetical outputs for concrete structures that could conceivably have been built in the NRM region that you are investigating.</p>
 			
 			
 			<h6>Steps to add this data element</h6>
 			<ol>
+				<li>Click the <img src="<c:url value="/resources/img/help/add_data_button.png" />" style="opacity: 0.7;" /> button</li>
 				<li>Choose the "Concrete deterioration model" from the dropdown data source box.</li>
-				<li>
-					<p>Select the variable that you want to display from the list of 16 variables (8 for chloride ingress and 8 for carbonation)</p>
+				<li>A new pop-up screen appears. Users can choose from adding a predefined example for their region, or progressing through to use the concrete deterioration tool.</li>
+				<li>If choosing a predefined example, select "Use a predefined example for this region".</li>
 
-					<p>These variables chart the progress of concrete deterioration for two main chemical processes; chloride ingress and carbonation. Chlorine is present in sea water and carbon is present in the atmosphere. Chloride and carbon dioxide are both able to penetrate concrete, ultimately reaching the steel reinforcing bar in the concrete, which then begins corroding.</p> 
+				<li> Then, select the variable that you want to display from the list of 16 variables (8 for chloride ingress and 8 for carbonation).
 
-					<p>Thus the choices for each chemical vary from the initial probability of a change in the concentration of chloride or carbon in the concrete to the final reduction or loss of the reinforcing steel bar.</p> 
+				 <p>These variables chart the progress of concrete deterioration for two main chemical processes; chloride ingress and carbonation. Chlorine is present in sea water and carbon is present in the atmosphere. Chloride and carbon dioxide are both able to penetrate concrete, ultimately reaching the steel reinforcing bar in the concrete, which then begins corroding.</p> 
+
+				<p>Thus the choices for each chemical vary from the initial probability of a change in the concentration of chloride or carbon in the concrete to the final reduction or loss of the reinforcing steel bar.</p> 
 				</li>
+				<li>If choosing to input your own information to the Concrete deterioration model, select <br />
+					<img src="<c:url value="/resources/img/help/select_file.png" />" style="opacity: 0.7;" />
+				</li>
+				<li>Then click on "concrete deterioration tool". This will take you to a different website. This website is designed specifically for engineers. The data input requirements are detailed and technical in nature.
+				<p>It is important to note that information previously input into the Climate Smart Seaports tool is NOT carried forward to the Concrete deterioration model. Users need to re-input information such as location, carbon emission scenario and climate model.  For consistency in output results, ensure the information entered in the Concrete deterioration model is the same as that input into the Climate Smart Seaports tool.</p> </li>
+				<li>The Concrete deterioration model allows skilled users to enter asset information, including carbonation and chloride corrosion rates, year the asset was built, the "zone" it is built in, the design strength, diameter of rebar, cement content and so forth. </li>
+				<li>Users then "Run the Model" for the Concrete deterioration model, and a set of graphs are produced.</li>
+				<li>Go to the top right hand corner to Download the output data for your asset. </li>
+				<li>Users then go back to the Climate Smart Seaports tool and upload the Concrete deterioration model file for your chosen asset.<br />
+					<img src="<c:url value="/resources/img/help/select_file.png" />" style="opacity: 0.7;" />
+				</li>
+				<li>Users select which variable they want displayed, such as "Corrosion initiation of reinforcing bar probability", "Corrosion initiation time" etc.</li>
+				<li>Select whether you wish to display the information as a graph or a table, and click the <img src="<c:url value="/resources/img/help/add_concrete_deterioration_data_button.png" />" style="opacity: 0.7;" /> button.</li>
 			</ol>
 			
 			<h6>Outputs</h6>
 			<p>The outputs are produced as either a graph or a table and cover a range of eight impacts for both chloride ingress and carbonation; ranging from (no.1) probability of corrosion initiation, through  to (no.5) crack propagation time, to finally (no.8) reduction or loss of rebar.</p>
 			
+			<p> Included in the outputs for the predefined examples are the parameters of the structure, including when it was built, diameter of rebar, cement content, the zone it sits in etc. </p>
 			
 			
 			<h5>Vulnerability Assessment</h5>
@@ -536,7 +551,7 @@
 			</ol>
 			
 			<h6>Outputs</h6>
-			<p>The output is some text and a spider graph that depicts the port's areas of vulnerability, to each of the identified extreme weather events.</p>
+			<p>The output contains text and a spider graph that depicts the port's areas of vulnerability, to each of the identified extreme weather events.</p>
 			<p>If ports have experienced multiple extreme climate-related events, a series of spider graphs may show different areas of vulnerability, or, the same area may be highlighted as particularly vulnerable across different climate-related impacts.</p>
 		</div> <!-- End of 3.4 Applications -->
 		
@@ -561,48 +576,57 @@
 		</button></a>
 		<div class="clear"></div>
 		
-		<p>This section of the Climate Smart Seaports tool enables users to create a Report from the data they have generated. Within this section, users can re-order the elements to suit their needs, hide data elements and add further text and analysis as required.</p>
+		<p>This section of the Climate Smart Seaports tool enables users to create a Report from the data they have generated. Within this section, users can re-order the elements to suit their needs, hide data elements, and add further text and analysis as required.</p>
 		
 		<p>Users need to consider for what purpose they are producing the report, to assist determine the best structure, and how much further analysis may need to be added.</p> 
 		
-		<p>If the report is being used to provide the context to a climate risk assessment, it is suggested the following format be used.</p>
+		
+		<h6>Providing context for a climate risk assessment</h6>
+		
+		<p>A climate risk assessment forms part of a port's broader risk management process. It identifies the risks to a port of existing and future climate hazards with the aim of informing decisions to be made about how - and when - to deal with hazards. Identifying risk is not a purely quantitative operation; it also involves qualitative decisions about the importance of the identified risks, and which risks should be taken into account.</p>
+
+		<p> The data gathered through this tool enables ports to generate a report that can underpin a formal climate risk assessment. If the report is being used for this purpose, it is suggested the following format be used.</p>
 		
 		<center><img src="<c:url value="/resources/img/help/css_report_image.png" />" style="opacity: 0.7; width:50%" /></center>
 		
 		<h6>Steps to create a report</h6>
 		
 		<ol>
-			<li>Click on the <img src="<c:url value="/resources/img/help/create_report_button.png" />" style="opacity: 0.7;" /> button on the top right corner of the screen.</li>  
-			<li>All your selected data elements are collated in this one space.  Here, you can:
+			<li>Click on the <img src="<c:url value="/resources/img/help/create_report_button.png" />" style="opacity: 0.7;" /> button on the top right corner of the screen. Once you have completed a report, you cannot return to the Workboard and add more data. 
+				<br />
+				<p>All your selected data are collated in this one space. Here, you can:
 				<ul>
-					<li>Reorder your data elements</li>
-					<li>Hide data elements so they do not appear in the final report</li>
-					<li>Add text boxes that provide further analysis or interpretation of the data elements.</li>
+					<li>Reorder your data</li>
+					<li>Hide data so they do not appear in the final report</li>
+					<li>Add text boxes that provide further analysis or interpretation of the data.</li>
 				</ul>
+				</p>
 			</li>
-			<li><span style="font-size: 1.1em"><i>Re-ordering data elements</i></span>
+			<li><span style="font-size: 1.1em">Re-ordering data</span>
+				<p>By default, the data are organised in the order the user created them. To move a data element</p>
 				<ul style="margin-bottom: 0">
-					<li>By default, the data elements are organised in the order the user created them. To move a data element</li>
 					<li>Hover the mouse over the selected data element</li>
 					<li>Click and drag the element to the desired position</li>
 				</ul>
 			</li>
-			<li><span style="font-size: 1.1em"><i>Hide a data element</i></span>
-			A user may wish to not display a particular data element in the final report, but does not want to delete it from the Workboard. To hide a data element, click the <img src="<c:url value="/resources/img/help/minimize_button.png" />" style="opacity: 0.7;" /> button in the top right corner of the data element box.
+			<li><span style="font-size: 1.1em">Hiding data</span>
+				<p>A user may wish to not display a particular data in the final report, but does not want to delete it from the Workboard. To hide data, click the <img src="<c:url value="/resources/img/help/minimise_button.png" />" style="opacity: 0.7;" /> button in the top right corner of the data box.</p>
 			</li>
-			<li><span style="font-size: 1.1em"><i>Adding text boxes</i></span>
-			The data present part of the picture for a climate risk assessment. However, users may wish to add some explanatory text and analysis to make their Report more complete. To add a text box, click the <img src="<c:url value="/resources/img/help/add_text_report_button.png" />" style="opacity: 0.7;" /> button. The text box will appear at the bottom of the screen, the last element of your report. 
-			Type your desired text.  To relocate your text box, click and drag it to the position you wish to display the text. You can also delete and hide text boxes from the Report. 
-			You can add as many text boxes as you like. 
+			<li><span style="font-size: 1.1em">Adding text boxes</span>
+				<p>The data provide part of the picture for a climate risk assessment. However, users may wish to add some explanatory text and analysis to make their Report more complete. To add a text box, click the <img src="<c:url value="/resources/img/help/add_text_report_button.png" />" style="opacity: 0.7;" /> button. Type your desired text, and select where you wish to insert the text box. You can either insert it at the top of the report ("insert in 1st position"), or you can select it to appear after particular data. Click the <img src="<c:url value="/resources/img/help/add_text_report_button.png" />" style="opacity: 0.7;" /> button that appears in the pop-up text box, which saves the text you have written.</p>
+	
+				<p>You can choose to relocate text boxes by clicking, dragging and dropping. You can also hide text boxes by clicking the <img src="<c:url value="/resources/img/help/minimise_button.png" />" style="opacity: 0.7;" /> button, as well as editing text. </p>
+	
+				<p> You can add as many text boxes as you like.</p> 
 			</li>
-			<li>When you are satisfied with the format of the Report, click the <img src="<c:url value="/resources/img/help/save_order_button.png" />" style="opacity: 0.7;" /> button to save.</li> 
-			<li>To preview the Report before printing, go to the top right hand corner of the screen, and click the <img src="<c:url value="/resources/img/help/print_button.png" />" style="opacity: 0.7;" /> button.  From here, you can either close the preview session and return to editing your Report, by clicking the   button. Or you can print your Report by clicking the   button on the top right corner of the screen.</li> 
+			<li>When you are satisfied with the format of the Report, click the <img src="<c:url value="/resources/img/help/save_order_button.png" />" style="opacity: 0.7;" /> button to save the order of the data in your report.</li> 
+			<li>To preview the Report before printing, go to the top right hand corner of the screen, and click the <img src="<c:url value="/resources/img/help/preview_report_button.png" />" style="opacity: 0.7;" /> button.  From here, you can either close the preview session and return to editing your Report, by clicking the <img src="<c:url value="/resources/img/help/close_preview_button.png" />" style="opacity: 0.7;" /> button, or you can print your Report by clicking the <img src="<c:url value="/resources/img/help/print_button.png" />" style="opacity: 0.7;" /> button on the top right corner of the screen.</li> 
 		</ol>
 		
 		<h6>Publishing a report</h6>
-		<p>ANDS' vision is to have "more researchers reusing research data more often".  To this end, publishing your report enables it to be viewed publicly by researchers and others. Users are able to print a version of their report that contains sensitive information, then "hide" (or remove) these elements from the publishable report. RMIT encourages users to publish their work, so that knowledge can be shared and built upon.</p>
-		<p>To publish a report, simply click the <img src="<c:url value="/resources/img/help/publish_report_button.png" />" style="opacity: 0.7;" /> button.  A warning message will appear, asking if you are certain you wish to Publish. After agreeing to publish, your Report is published and publicly available. You can still preview and print this version of the Report for your own purposes.</p>
-		<p>The Climate Smart Seaports tool enables users to search for Reports by clicking <img src="<c:url value="/resources/img/help/my_reports_tab.png" />" style="opacity: 0.7;" /> in the top left corner of the screen. A new tab will open with a list of your reports. From here, you can view reports, then print them. If the report has not yet been published, the user can also delete reports.</p> 
+		<p>ANDS' vision is to have "more researchers re-using research data more often".  To this end, publishing your report enables it to be viewed publicly by researchers and others. Users are able to print a version of their report that contains sensitive information, then "hide" (or remove) these elements from the publishable report. RMIT encourages users to publish their work, so that knowledge can be shared and built upon.</p>
+		<p>To publish a report, simply click the <img src="<c:url value="/resources/img/help/publish_report_button.png" />" style="opacity: 0.7;" /> button.  A warning message will appear, asking if you are certain you wish to Publish. After agreeing to publish, your Report is published and becomes publicly available. You can still preview and print this version of the Report for your own purposes.</p>
+		<p>The Climate Smart Seaports tool enables users to search for Reports by clicking <img src="<c:url value="/resources/img/help/my_reports_tab.png" />" style="opacity: 0.7;" /> in the top left corner of the screen. A new tab will open with a list of your reports. From here, you can view reports, then print them if required. If the report has not yet been published, the user can also delete reports.</p> 
 			
 	</div> <!-- End of 4 Producing a report -->
 	
@@ -613,7 +637,7 @@
 		</button></a>
 		<div class="clear"></div>
 		
-		<p>The data collected through the Climate Smart Seaports Tool provides some of the information to inform a climate risk assessment for a port, however, it does not complete the risk assessment. A risk assessment process for ports in Australia is outlined in "<a href="http://www.nccarf.edu.au/publications/enhancing-resilience-seaports-climate-change-adaptation-guidelines">Climate change adaptation guidelines for ports</a>".</p>
+		<p>The data collected through the Climate Smart Seaports Tool provides some of the information to inform a climate risk assessment for a port, however, it does not complete the risk assessment. A suggested risk assessment process for ports in Australia is outlined in "<a href="http://www.nccarf.edu.au/publications/enhancing-resilience-seaports-climate-change-adaptation-guidelines">Climate change adaptation guidelines for ports</a>".</p>
 
 		<p>
 		The guidelines suggest there are six main stages involved in undertaking a climate risk assessment.<br />
@@ -627,20 +651,20 @@
 		<p>The Climate Smart Seaports Tool can assist ports with Stages 0, 1 and part of 2.</p> 
 		
 		<p>Stage 0: Getting started - executive support<br />
-		Producing an initial report using the Climate Smart Seaports Tool may assist risk managers at ports highlight potential climate risks, and open the discussions with executive management about completing a full risk assessment.
+		Producing an initial report using the Climate Smart Seaports Tool may assist risk managers at ports in highlighting potential climate risks, and open the discussions with executive management about undertaking a full risk assessment.
 		</p>
 		
 		<p>Stage 1: Establish the port context<br />
-		The Climate Smart Seaports Tool enables ports to establish geographic boundaries for the scope of their risk assessment, and to collect data on their current operating context, and their future operating context.  This includes both climate and non-climate elements.  Ports will need to analyse this data for what it means to their particular situation, and add data elements that are particular to the port, however the Climate Smart Seaports Tool provides the backbone for establishing the context.
+		The Climate Smart Seaports Tool enables ports to establish geographic boundaries for the scope of their risk assessment, and to collect data on their current and future operating context.  This includes both climate and non-climate elements.  Ports will need to analyse this data for what it means to their particular situation, and add data elements that are particular to the port. However the Climate Smart Seaports Tool provides the backbone for establishing the context.
 		</p>
 		
 		<p>Stage 2: Identify current vulnerabilities and future risks<br />
-		Identifying current vulnerabilities and future risks is a process best done in a collaborative manner with staff and management at a port. However, the tool enables ports to document their current vulnerability to extreme weather events, and provides space for consideration of what this may mean under changed climate conditions. 
+		Identifying current vulnerabilities and future risks is a process best done in a collaborative manner with staff and management at a port. However, the tool enables ports to document their current vulnerability to extreme weather events, and provides a platform for consideration of what this may mean under changed climate conditions. 
 		</p>
-		<p>Additionally, the Climate Smart Seaports Tool provides access to a very specific Concrete deterioration application, that can inform ports of their risk in relation to concrete deterioration on site, and what this may mean for ongoing maintenance and capital works under climate change conditions.</p> 
+		<p>Additionally, the Climate Smart Seaports Tool provides access to a very specific Concrete deterioration application, that can inform ports of their risk in relation to concrete deterioration on site, and what this may mean for ongoing maintenance and capital works under changing climatic conditions.</p> 
 		
 		<p>Stage 3 to Stage 5<br />
-		The Climate Smart Seaports Tool does not address these areas of a climate risk assessment. Users need to take the information from the tool and use it to progress through these stages.
+		The Climate Smart Seaports Tool does not address these areas of a climate risk assessment. Users need to utilise the information provided by the tool in support of these context specific stages.
 		</p> 
 	</div> <!-- End of 5 Next Steps -->
 	
@@ -663,7 +687,7 @@
 		<p>Trade data is not currently available for port areas in the Gippsland Ports Region.</p>
 		
 		<h6>Observed climate</h6>
-		<p>The national climate trend data is taken from the BoM website. This data is updated every year. The current data is correct for 2013 and will change in 2014...</p>
+		<p>The national climate trend data is taken from the BoM website. This data is updated every year. The current data is correct for 2013 but will change in 2014...</p>
 		
 		<p>All data has been chosen to support the data sourced for the Future Climate section, however please note that the Future Climate is based on modelled data and is not directly comparable to the <strong>actual</strong> data sourced in this section.</p>
 		
@@ -671,12 +695,12 @@
 		<p>The future climate modelling is based on global climate models that are being refined by climate scientists all the time. The information provided by the models is the best possible at the time this application was created.  In late 2013, the use of scenarios as a way of describing possible futures is likely to be replaced by a description purely related to the amount of CO2 (or CO2 equivalent gasses in the atmosphere). This may lead to some differences in the way projections are described in 2014.</p>  
 		
 		<h6>Concrete deterioration application.</h6>
-		<p>The Concrete deterioration application relies on users working through a separate application, and uploading this to the Climate Smart Seaports Tool.  This process is prone to human error, so users should check data carefully in this element.</p>
+		<p>The Concrete deterioration application relies on users working through a separate application, and uploading this to the Climate Smart Seaports Tool.  This process is susceptible to human error, so users should check data carefully in this element.</p>
 		
-		<p>The Concrete deterioration application is not available for the Southern and South-Western Flatlands NRM.</p>
+		<p>The Concrete deterioration application is not currently available for the Southern and South-Western Flatlands NRM.</p>
 		
 		<h6>Vulnerability application</h6>
-		<p>Users need to be aware that this is not a robust vulnerability assessment. It serves only to indicate areas that may need further investigation.</p> 
+		<p>Users need to be aware that this is not a robust vulnerability assessment. It provides a framework to help indicate areas that may need further investigation.</p> 
 				
 	</div> <!-- End of 6 Limitations -->
 	<!-- END OF GUIDELINES CONTENT -->

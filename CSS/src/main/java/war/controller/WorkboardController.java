@@ -646,7 +646,7 @@ public class WorkboardController {
    			
    			
             // Read the value of the variable
-            Integer engVariableIndex = EngineeringModelHelper.ENGINEERING_MODEL_VARIABLES.get(engVariable.getName());
+            Integer engVariableIndex = EngineeringModelHelper.ENGINEERING_MODEL_VARIABLES.get(engVariable.getCategory() + "|" + engVariable.getName());
             Cell valueCell = row.getCell(engVariableIndex);
    			if (valueCell != null && ((valueCell.getCellType() == Cell.CELL_TYPE_NUMERIC) || (valueCell.getCellType() == Cell.CELL_TYPE_FORMULA))) {
    				

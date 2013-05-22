@@ -127,8 +127,6 @@
 		</c:if>
 		</c:forEach>
 	</div>
-	</c:if>
-	</c:if>
 	<div class="report-license" style="margin: 0 25px">
 		<div style="float:left">
 			<a href="http://creativecommons.org/licenses/by-nc-nd/3.0/" id="lnkCCLicence" target="_blank">
@@ -141,5 +139,7 @@
 			<a href="/CSS/public/terms-of-service#license" id="lnkLicence" target="_blank">This report is licensed under a Creative Commons Attribution license.</a><br />
 		</div>
 	</div>
+	</c:if>
+	</c:if>
 	<div class="clearfix"></div><br />
 </div>

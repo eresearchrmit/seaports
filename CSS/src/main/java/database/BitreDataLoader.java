@@ -11,9 +11,18 @@ import war.model.BitreVariableCategory;
 import war.model.BitreVariable;
 import war.model.Seaport;
 
+/**
+ * Class used to load BITRE (Ports Australia) dataset in the database
+ * @author Guillaume Prevost
+ */
 @SuppressWarnings("deprecation")
 public class BitreDataLoader {
 		
+	/**
+	 * Main method used to load BITRE data only.
+	 * On an existing database, this may duplicate data.
+	 * @param args: no parameters
+	 */
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
@@ -30,6 +39,10 @@ public class BitreDataLoader {
 		session.getTransaction().commit();
 	}
 	
+	/**
+	 * Loads the BITRE dataset in the database
+	 * @param session: the Hibernate Session object which takes care of persisting objects in the database
+	 */
 	public static void LoadBitreData(Session session)
 	{
 		// BITRE Variables Categories

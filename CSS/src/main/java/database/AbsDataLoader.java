@@ -8,9 +8,18 @@ import org.hibernate.tool.hbm2ddl.SchemaExport;
 
 import war.model.*;
 
+/**
+ * Class used to load ABS dataset in the database
+ * @author Guillaume Prevost
+ */
 @SuppressWarnings("deprecation")
 public class AbsDataLoader {
-		
+	
+	/**
+	 * Main method used to load ABS data only.
+	 * On an existing database, this may duplicate data.
+	 * @param args: no parameters
+	 */
 	public static void main(String[] args)
 	{
 		AnnotationConfiguration config = new AnnotationConfiguration();
@@ -27,6 +36,10 @@ public class AbsDataLoader {
 		session.getTransaction().commit();
 	}
 	
+	/**
+	 * Loads the ABS dataset in the database
+	 * @param session: the Hibernate Session object which takes care of persisting objects in the database
+	 */
 	public static void LoadAbsData(Session session)
 	{
 		AbsVariable popChange = new AbsVariable("Urban Population", "Pop.", "Population in urban centre", "people", "%");
