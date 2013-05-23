@@ -15,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the CSIRO data
+ * @author Guillaume Prevost
+ */
 @Repository
 public class CsiroDataDao {
 	
@@ -133,5 +137,6 @@ public class CsiroDataDao {
 		}		
 	} 
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No CSIRO data found corresponding to the specified parameters";
 }

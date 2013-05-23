@@ -13,6 +13,10 @@ import war.model.* ;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Data Access Object for the Climate Emission Scenario
+ * @author Guillaume Prevost
+ */
 @Repository
 public class ClimateEmissionScenarioDao {
 	
@@ -20,7 +24,7 @@ public class ClimateEmissionScenarioDao {
 	private EntityManager entityManager;
 
 	/**
-	 * The name of the table in the database where the Emission Scenarios are stored
+	 * The name of the table in the database where the emission scenarios are stored
 	 */
 	public final static String TABLE_NAME = "ClimateEmissionScenario";
 	
@@ -86,5 +90,6 @@ public class ClimateEmissionScenarioDao {
 		}
 	} 
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No emission scenario found corresponding to the specified name";
 }

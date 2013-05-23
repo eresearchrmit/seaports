@@ -13,6 +13,9 @@ import javax.persistence.Table;
 @Table(name = "EngineeringModelVariable")
 public class EngineeringModelVariable extends Variable {
 	
+	/**
+	 * The category of the engineering model variable (Chloride oor Carbonation)
+	 */
 	@Column
 	private String category;
 	

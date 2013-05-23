@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the ABS data
+ * @author Guillaume Prevost
+ */
 @Repository
 public class AbsDataDao {
 	
@@ -110,5 +114,6 @@ public class AbsDataDao {
 		}
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No ABS data found corresponding to the specified parameters";
 }

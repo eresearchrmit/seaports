@@ -15,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the CMAR data
+ * @author Guillaume Prevost
+ */
 @Repository
 public class CmarDataDao {
 	
@@ -133,5 +137,6 @@ public class CmarDataDao {
 		}		
 	} 
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No CMAR data found corresponding to the specified parameters";
 }

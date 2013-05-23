@@ -16,6 +16,10 @@ import security.UserLoginService;
 
 import war.model.User;
 
+/**
+ * Test class for the Climate Smart Seaports users DAO
+ * @author Guillaume Prevost
+ */
 @ContextConfiguration("/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -28,6 +32,9 @@ public class UserDaoTest {
 	@Autowired
 	private UserDao userDao;
 
+	/**
+	 * Method executed before starting the unit tests to prepared the data
+	 */
 	@Before
 	public void prepareData() {
 		usersForTest.add(new User("testuser1", PASSWORD, true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1"));

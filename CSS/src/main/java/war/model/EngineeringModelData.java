@@ -257,7 +257,10 @@ public class EngineeringModelData
 	    return this.data;
 	}
 	
-	
+	/**
+	 * String representation of the Engineering Model data
+	 * @return the variable, unit of measure and data as a single string
+	 */
 	@Override
 	public String toString() {
 		return (this.variable.getName() + "(" + this.variable.getUom() + ") " + this.data);

@@ -20,6 +20,10 @@ import war.model.Seaport;
 import war.model.User;
 import war.model.UserStory;
 
+/**
+ * Test class for the user stories DAO
+ * @author Guillaume Prevost
+ */
 @ContextConfiguration("/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -34,6 +38,9 @@ public class UserStoryDaoTest {
 	@Autowired
 	private UserStoryDao userStoryDao;
 
+	/**
+	 * Method executed before starting the unit tests to prepared the data
+	 */
 	@Before
 	public void prepareData() {		
 		userForTest = new User("testuser1", "password", true, true, UserLoginService.ROLE_USER, "email@company.com", "testuser1", "testuser1");

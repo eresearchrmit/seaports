@@ -13,6 +13,10 @@ import war.model.* ;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Data Access Object for the Climate Model
+ * @author Guillaume Prevost
+ */
 @Repository
 public class ClimateModelDao {
 	
@@ -104,5 +108,6 @@ public class ClimateModelDao {
 		}
 	} 
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No climate model found corresponding to the specified name";
 }

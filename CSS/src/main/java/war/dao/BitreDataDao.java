@@ -16,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the BITRE (Ports Australia) data
+ * @author Guillaume Prevost
+ */
 @Repository
 public class BitreDataDao {
 	
@@ -129,5 +133,6 @@ public class BitreDataDao {
 		}		
 	} 
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No Ports Australia data found corresponding to the specified parameters";
 }

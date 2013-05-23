@@ -14,6 +14,10 @@ import war.model.UserStory;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Data Access Object for the user stories (Workboard and Reports)
+ * @author Guillaume Prevost
+ */
 @Repository
 public class UserStoryDao {
 
@@ -194,5 +198,6 @@ public class UserStoryDao {
 		}
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_SUCH_USERSTORY = "No user story or workboard could be found with the specified parameters.";
 }

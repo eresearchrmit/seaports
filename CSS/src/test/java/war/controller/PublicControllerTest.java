@@ -16,6 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 import war.dao.UserStoryDao;
 import war.model.UserStory;
 
+/**
+ * 
+ * @author Guillaume Prevost
+ */
 @ContextConfiguration("/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -26,7 +30,10 @@ public class PublicControllerTest {
 	
 	@Autowired
 	private UserStoryDao userStoryDao;
-		
+	
+	/**
+	 * Method executed before starting the unit tests to prepared the data
+	 */
 	@Before
 	public void prepareData() {
 	}

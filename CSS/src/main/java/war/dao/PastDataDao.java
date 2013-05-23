@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the past data (BoM and CSIRO observed trends data)
+ * @author Guillaume Prevost
+ */
 @Repository
 public class PastDataDao {
 	
@@ -93,5 +97,6 @@ public class PastDataDao {
 		}		
 	} 
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No CSIRO or BoM trend data found corresponding to the specified parameters";
 }

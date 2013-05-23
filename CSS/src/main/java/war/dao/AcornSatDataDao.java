@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the ACORN-SAT data
+ * @author Guillaume Prevost
+ */
 @Repository
 public class AcornSatDataDao {
 	
@@ -144,5 +148,6 @@ public class AcornSatDataDao {
 		}		
 	} 
 	
-	public static final String ERR_NO_RESULT = "No CSIRO data found corresponding to the specified parameters";
+	// Information, success, warning and error messages
+	public static final String ERR_NO_RESULT = "No ACORN-SAT data found corresponding to the specified parameters";
 }

@@ -15,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the engineering model data (concrete deterioration model)
+ * @author Guillaume Prevost
+ */
 @Repository
 public class EngineeringModelDataDao {
 	
@@ -146,5 +150,6 @@ public class EngineeringModelDataDao {
 		query.setParameter("asset", asset).executeUpdate();
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No Engineering Model data found corresponding to the specified parameters";
 }

@@ -13,6 +13,10 @@ import war.model.* ;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Data Access Object for the seaports
+ * @author Guillaume Prevost
+ */
 @Repository
 public class SeaportDao {
 	
@@ -77,5 +81,6 @@ public class SeaportDao {
 		}
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No seaport found corresponding to the specified parameters";
 }

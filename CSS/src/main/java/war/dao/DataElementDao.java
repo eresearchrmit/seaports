@@ -15,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the data elements
+ * @author Guillaume Prevost
+ */
 @Repository
 public class DataElementDao {
 	
@@ -119,6 +123,7 @@ public class DataElementDao {
 			return null;
 		}
 	}
-
+	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_SUCH_DATA_ELEMENT = "No such data element could be found";
 }

@@ -23,7 +23,7 @@ import war.model.UserStory;
 
 /**
  * This test class holds tests against all the protected controllers methods performed by an anonymous user
- * The tests are expecting to get an "Access Denied" response.
+ * Most of the tests are expecting to get an "Access Denied" response.
  * @author Guillaume Prevost
  * @since 19th Mar. 2013
  */
@@ -47,6 +47,9 @@ public class AnonymousControllerTest {
 	@Autowired
 	private  UserStoryDao userStoryDao;
 	
+	/**
+	 * Method executed before starting the unit tests to prepared the data
+	 */
 	@Before
 	public void prepareData() {
 		SecurityContextHolder.getContext().setAuthentication(null);
@@ -55,7 +58,7 @@ public class AnonymousControllerTest {
 	/* --------------------------------------------------------------------- */
 	/* ------------------------------ Public ------------------------------- */
 	/* --------------------------------------------------------------------- */
-
+	
 	@Test
 	public void homeTest() {
 		ExtendedModelMap model = new ExtendedModelMap();

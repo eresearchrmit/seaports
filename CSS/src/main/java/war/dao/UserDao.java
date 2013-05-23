@@ -13,6 +13,10 @@ import war.model.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Data Access Object for the users
+ * @author Guillaume Prevost
+ */
 @Repository
 public class UserDao {
 	
@@ -26,7 +30,8 @@ public class UserDao {
 
 	/**
 	 * Retrieve the user in the database associated to a username
-	 * @param id: the login of the required user
+	 * Note: this method is the same as: User loadUserByName(String username)
+	 * @param username: the username of the required user
 	 * @return the user associated to the given login
 	 * @throws NoResultException if the search didn't return any result
 	 */
@@ -37,7 +42,13 @@ public class UserDao {
 		return user;
 	}
 	
-	// TODO: Duplicate method with find(String username)
+	/**
+	 * Retrieve the user in the database associated to a username
+	 * Note: this method is the same as: User find(String username)
+	 * @param username: the username of the required user
+	 * @return the user associated to the given login
+	 * @throws NoResultException if the search didn't return any result
+	 */
 	public User loadUserByName(String username) throws NoResultException {
 		User user = entityManager.find(User.class, username);
 		if (user == null)
@@ -54,16 +65,6 @@ public class UserDao {
 		Query query = entityManager.createQuery("SELECT u FROM " + TABLE_NAME + " u");
 		return performQueryAndCheckResultList(query);
 	}
-	
-	// TODO: Check if still useful
-    /*public List<String> getAuthoritiesByUserName(String username) {
-    	User user = entityManager.find(User.class, username);
-        
-        List<String> authorities = new ArrayList<String>();
-        authorities.add(user.getAuthority().getAuthority());
-        
-        return authorities;
-    }*/
 	
 	/**
 	 * Save a user in the Database. It adds a new user or update an existing user
@@ -105,6 +106,7 @@ public class UserDao {
 		}
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_SUCH_USER = "No user could be found with this username";
 	public static final String ERR_REQUIRED_INFORMATION = "Please provide the minimal required user information";
 }

@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the ABS variables
+ * @author Guillaume Prevost
+ */
 @Repository
 public class AbsVariableDao {
 	
@@ -72,5 +76,6 @@ public class AbsVariableDao {
 		}
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No ABS variable found corresponding to the specified parameters";
 }

@@ -15,6 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the Climate Parameters
+ * @author Guillaume Prevost
+ */
 @Repository
 public class ClimateParamsDao {
 	
@@ -160,5 +164,6 @@ public class ClimateParamsDao {
 		}		
 	} 
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No climate parameters found corresponding to the specified parameters";
 }

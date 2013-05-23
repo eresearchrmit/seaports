@@ -24,6 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * This test class holds the unit tests regarding the administration pages and actions
+ * @author Guillaume Prevost
+ */
 @ContextConfiguration("/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -35,11 +39,14 @@ public class AdminControllerTest {
 	@Autowired
 	private UserDao userDao;
 
-	User loggedInUser;
-	User loggedInAdmin;
-	SecurityContext securityContextUserLoggedIn;
-	SecurityContext securityContextAdminLoggedIn;
+	private User loggedInUser;
+	private User loggedInAdmin;
+	private SecurityContext securityContextUserLoggedIn;
+	private SecurityContext securityContextAdminLoggedIn;
 	
+	/**
+	 * Method executed before starting the unit tests to prepared the data
+	 */
 	@Before
 	public void prepareData() {
 		SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL); // Optional

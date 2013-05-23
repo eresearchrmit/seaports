@@ -307,19 +307,16 @@ public class User implements Serializable, UserDetails {
 		return true;
 	}
 	
-
 	@Override
 	public boolean isAccountNonLocked() {
 		return this.nonLocked;
 	}
-	
 
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return true;
 	}
 	
-
 	@Override
 	public boolean isEnabled() {
 		return this.enabled;

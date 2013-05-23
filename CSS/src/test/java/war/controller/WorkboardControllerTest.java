@@ -47,6 +47,10 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
+/**
+ * This test class holds the unit tests regarding the workboards (user stories) retrieval, privacy, and actions
+ * @author Guillaume Prevost
+ */
 @ContextConfiguration("/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
@@ -65,6 +69,9 @@ public class WorkboardControllerTest {
 	SecurityContext securityContextUserLoggedInNoWB;
 	SecurityContext securityContextAdminLoggedIn;
 	
+	/**
+	 * Method executed before starting the unit tests to prepared the data
+	 */
 	@Before
 	public void prepareData() {
 		SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL); // Optional
@@ -321,6 +328,9 @@ public class WorkboardControllerTest {
 	/* ----------------------- uploadfileinWorkboard ----------------------- */
 	/* --------------------------------------------------------------------- */
 	
+	/**
+	 * uploadfileinWorkboard should succeed
+	 */
 	@Test
 	public void uploadfileinWorkBoardSuccessTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
@@ -339,6 +349,9 @@ public class WorkboardControllerTest {
 		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
 	}
 	
+	/**
+	 * uploadfileinWorkboard should fail since the sent file types are incorrect
+	 */
 	@Test
 	public void uploadfileinWorkBoardInvalidTypeTest() {
 		SecurityContextHolder.setContext(securityContextUserLoggedIn);
@@ -777,9 +790,7 @@ public class WorkboardControllerTest {
  		// Check the view name
  		Assert.assertEquals("workboard", result.getViewName());
 	}
-	
-
-	
+		
 	/**
 	 * addWorkBoardUnknownUserTest : Creation should succeed and fill the :odelAndView with the new Workboard
 	 */

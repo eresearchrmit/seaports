@@ -11,6 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the engineering model assets (concrete deterioration model)
+ * @author Guillaume Prevost
+ */
 @Repository
 public class EngineeringModelAssetDao {
 	
@@ -62,5 +66,6 @@ public class EngineeringModelAssetDao {
 		query.setParameter("id", id).executeUpdate();
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No Engineering Model Asset found corresponding to the specified parameters";
 }

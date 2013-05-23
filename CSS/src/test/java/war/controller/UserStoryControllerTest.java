@@ -29,6 +29,10 @@ import org.springframework.ui.ExtendedModelMap;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributesModelMap;
 
+/**
+ * This test class holds the unit tests regarding the reports (user stories) retrieval, privacy, and actions
+ * @author Guillaume Prevost
+ */
 @ContextConfiguration("/test-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
 public class UserStoryControllerTest {
@@ -49,6 +53,9 @@ public class UserStoryControllerTest {
 	SecurityContext securityContextUserLoggedInNoWB;
 	SecurityContext securityContextAdminLoggedIn;
 	
+	/**
+	 * Method executed before starting the unit tests to prepared the data
+	 */
 	@Before
 	public void prepareData() {
 		SecurityContextHolder.setStrategyName(SecurityContextHolder.MODE_GLOBAL); // Optional

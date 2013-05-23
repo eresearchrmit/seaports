@@ -11,6 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the weather events (vulnerabilty assessment) 
+ * @author Guillaume Prevost
+ */
 @Repository
 public class WeatherEventDao {
 	
@@ -62,5 +66,6 @@ public class WeatherEventDao {
 		query.setParameter("id", id).executeUpdate();
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No weather event found corresponding to the specified parameters";
 }

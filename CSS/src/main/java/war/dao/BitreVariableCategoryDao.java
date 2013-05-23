@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the BITRE variable category
+ * @author Guillaume Prevost
+ */
 @Repository
 public class BitreVariableCategoryDao {
 	
@@ -72,5 +76,6 @@ public class BitreVariableCategoryDao {
 		}
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No Ports Australia variable category found corresponding to the specified name";
 }

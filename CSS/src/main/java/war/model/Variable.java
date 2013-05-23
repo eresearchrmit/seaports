@@ -141,6 +141,10 @@ public abstract class Variable {
 		this.uomVariation = uomVariation;
 	}
 	
+	/**
+	 * String representation of a Variable object
+	 * @return the short name and the unit of measure of the Variable, as a string
+	 */
 	@Override
 	public String toString() {
 		return (this.shortName + " (" + this.uom + ")");

@@ -291,14 +291,24 @@ public class UserStory {
 		this.publishDate = publishDate;
 	}
 	
+	/**
+	 * Returns a short summary of the User Story, based on several of the User Story's properties
+	 * @return a short summary of the User Story
+	 */
 	public String getShortDescription() {
 		return "Report about climate change in the " + seaport.getRegion().getName() 
 		+ " NRM region of Australia, focused on " + seaport.getName() + ".";
 	}
 	
+	/**
+	 * Returns a full summary of the User Story, based on several of the User Story's properties.
+	 * @return a full summary of the User Story
+	 */
 	public String getFullDescription() {
 		String str = "";
-        int i = 1;
+        
+		// Generates a (string) list of the different types of data elements that have been added to the user story
+		int i = 1;
         for (DataElement dataElement : dataElements) {        	
  			if (dataElement.getClass().equals(DataElementAbs.class) && !str.contains("ABS data")) {
  				str += "ABS data";

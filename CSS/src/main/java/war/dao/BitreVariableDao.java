@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the BITRE variable
+ * @author Guillaume Prevost
+ */
 @Repository
 public class BitreVariableDao {
 	
@@ -88,5 +92,6 @@ public class BitreVariableDao {
 		}
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No BITRE variable found corresponding to the specified name";
 }

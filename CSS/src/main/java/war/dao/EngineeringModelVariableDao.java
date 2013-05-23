@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the engineering model variables (concrete deterioration model)
+ * @author Guillaume Prevost
+ */
 @Repository
 public class EngineeringModelVariableDao {
 	
@@ -121,5 +125,6 @@ public class EngineeringModelVariableDao {
 		}
 	} 
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No climate variable found corresponding to the specified name";
 }

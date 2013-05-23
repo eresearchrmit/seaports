@@ -5,19 +5,17 @@ import java.io.Serializable;
 import org.springframework.security.core.GrantedAuthority;
  
 /**
- * Represent the authority/role of a user.
- *
+ * Represent the authority/role of a user of the Climate Smart Seaports application.
  */
 public class UserAuthority implements GrantedAuthority, Serializable {
-    private static final long serialVersionUID = 1L;
+    
+	private static final long serialVersionUID = 1L;
  
-    private String authority = null;  //Spring Security requires them to start with "ROLE_"
- 
-    /**
-     * Bi-directional one-to-one association to User
-     */
-    /*@OneToOne(mappedBy="authority")
-    private User user;*/
+	/**
+	 * The string representing the user's role
+	 * IMPORTANT: Spring Security requires the authority names to start with "ROLE_"
+	 */
+    private String authority = null;
  
     /**
      * Default constructor of UserAuthority
@@ -32,10 +30,18 @@ public class UserAuthority implements GrantedAuthority, Serializable {
     	this.authority = authority;
     }
  
+    /**
+     * Getter for the authority's string (role) 
+     * @return the current authority's string
+     */
     public String getAuthority() {
         return this.authority;
     }
  
+    /**
+     * Getter for the authority's string (role)
+     * @param authority: the new authority's string 
+     */
     public void setAuthority(String authority) {
         this.authority = authority;
     }

@@ -14,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the ACORN-SAT stations
+ * @author Guillaume Prevost
+ */
 @Repository
 public class AcornSatStationDao {
 	
@@ -91,5 +95,6 @@ public class AcornSatStationDao {
 		}		
 	} 
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No Acorn-Sat station found corresponding to the specified parameters";
 }

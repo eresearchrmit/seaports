@@ -13,6 +13,10 @@ import war.model.* ;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Data Access Object for the regions
+ * @author Guillaume Prevost
+ */
 @Repository
 public class RegionDao {
 	
@@ -86,5 +90,6 @@ public class RegionDao {
 		}
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No region found corresponding to the specified name";
 }

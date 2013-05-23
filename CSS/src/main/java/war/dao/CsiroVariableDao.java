@@ -16,6 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import war.model.* ;
 
+/**
+ * Data Access Object for the CSIRO variable
+ * @author Guillaume Prevost
+ */
 @Repository
 public class CsiroVariableDao {
 	
@@ -93,5 +97,6 @@ public class CsiroVariableDao {
 		return results;
 	}
 	
+	// Information, success, warning and error messages
 	public static final String ERR_NO_RESULT = "No climate variable found corresponding to the specified name";
 }
