@@ -101,7 +101,7 @@
 	</definition>
 	
 	<definition name="userstory" extends="base.definition">
-		<put-attribute name="title" value="User Story - Climate Smart Seaports" />
+		<put-attribute name="title" value="Report - Climate Smart Seaports" />
 		<put-attribute name="body" value="/WEB-INF/views/userstory.jsp" />
 	</definition>
 	
@@ -111,7 +111,7 @@
 	</definition>
 	
 	<definition name="userstoryList" extends="base.definition">
-		<put-attribute name="title" value="User Stories - Climate Smart Seaports" />
+		<put-attribute name="title" value="Reports - Climate Smart Seaports" />
         <put-attribute name="body" value="/WEB-INF/views/userstoryList.jsp" />
 	</definition>
 	
