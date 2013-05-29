@@ -8,16 +8,6 @@
 		<h5>Success !</h5>
 		<p><c:out value="${successMessage}."/></p>
 	</div>
-	<!-- Makes the success messages fade out after 3 seconds -->
-	<script type="text/javascript">
-		$(document).ready(function(){
-			setTimeout(function(){
-				$("#successMessage").fadeOut("slow", function () {
-					$("#successMessage").remove();
-				});
-			}, 3000);
-		});
-	</script>
 </c:if>
 <c:if test="${not empty warningMessage}">
 	<div id="warningMessage" class="message warning">

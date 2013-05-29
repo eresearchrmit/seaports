@@ -1,11 +1,13 @@
 package war.controller;
 
+import helpers.DataElementCreationDateComparator;
 import helpers.EngineeringModelHelper;
 import helpers.SecurityHelper;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -148,6 +150,7 @@ public class WorkboardController {
 			if (userStory == null) {
 				return ModelForWorkboardCreation(model, user);
 			}
+			Collections.sort(userStory.getDataElements(), new DataElementCreationDateComparator());
 			return ModelForWorkboard(model, userStory);
 		}
 		catch (NoResultException e) {
@@ -331,7 +334,7 @@ public class WorkboardController {
     			acornSatDataList.addAll(acornSatDataDao.find(station, extreme));
     		}
     		
-    		DataElementAcornSat dataElement = new DataElementAcornSat(new Date(), "ACORN-SAT measurements", true, 0, DisplayType.TABLE, userStory, acornSatDataList);
+    		DataElementAcornSat dataElement = new DataElementAcornSat(new Date(), "BoM - ACORN-SAT measurements", true, 0, DisplayType.TABLE, userStory, acornSatDataList);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
@@ -411,7 +414,7 @@ public class WorkboardController {
 			
 			Boolean picturesIncluded = (includePictures != null && includePictures.equals("on")) ? true : false;
 			
-			DataElementCmar dataElement = new DataElementCmar(new Date(), "CMAR Data", true, 0, DisplayType.TABLE, userStory, cmarDataList, picturesIncluded);
+			DataElementCmar dataElement = new DataElementCmar(new Date(), "CSIRO - CMAR Data", true, 0, DisplayType.TABLE, userStory, cmarDataList, picturesIncluded);
 			dataElementDao.save(dataElement);
 			
 			userStory.getDataElements().add(dataElement);
@@ -965,11 +968,11 @@ public class WorkboardController {
 	public static final String ERR_INVALID_FILETYPE = "This file format is not handled by the application (only text, csv and jpeg files are allowed).";
 	
 	public static final String MSG_ABS_DATA_ADDED = "The ABS data has been added successfully to your workboard";
-	public static final String MSG_BITRE_DATA_ADDED = "The BITRE data has been added successfully to your workboard";
+	public static final String MSG_BITRE_DATA_ADDED = "The Ports Australia data has been added successfully to your workboard";
 	public static final String MSG_PAST_DATA_ADDED = "The Past data has been added successfully to your workboard";
-	public static final String MSG_ACORNSAT_DATA_ADDED = "The Acorn-Sat data has been added successfully to your workboard";
+	public static final String MSG_ACORNSAT_DATA_ADDED = "The BoM - ACORN-SAT data has been added successfully to your workboard";
 	public static final String MSG_CSIRO_DATA_ADDED = "The CSIRO data has been added successfully to your workboard";
-	public static final String MSG_CMAR_DATA_ADDED = "The CMAR data has been added successfully to your workboard";
+	public static final String MSG_CMAR_DATA_ADDED = "The CSIRO - CMAR data has been added successfully to your workboard";
 	public static final String MSG_VULNERABILITY_DATA_ADDED = "The Vulnerability has been added successfully to your workboard";
 	public static final String MSG_DATA_ELEMENT_DELETED = "The Data Element was deleted successfully from your Workboard";
 	public static final String MSG_WORKBOARD_SAVED = "Workboard saved";

@@ -2,6 +2,7 @@
 <%@ page session="false" %>
 <%@ page import= "org.springframework.web.servlet.tags.*" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <div class="grid_12">
 	<div class="message info">
@@ -9,11 +10,14 @@
 		<p>This is a BETA version of the tool that currently has data for three NRM regions. Please refer to the Limitations section of the Guidance document for further process and data limitations.</p>
 	</div>
 	<br />
+	<sec:authorize access="!isAuthenticated()">
 	<center>
 		<input type="button" class="btn btn-blue btn-large" value="Log in" onclick="location.href='/CSS/auth/workboard/my-workboard'" />&nbsp;
 		<input type="button" class="btn btn-blue btn-large" value="Sign up" onclick="location.href='/CSS/register'" />
 	</center>
-	<br /><br /><br />
+	<br />
+	</sec:authorize>
+	
 	<p class="info-paragraph">The Climate Smart Seaports Tool enables interested users to begin the process of a climate risk assessment. It assists them to identify current and historical climate trends and variability, as well as future climate projections under a variety of scenarios.</p> 
 	
 	<p class="info-paragraph">Population and trade data is included, and users can add port-specific information to round out their analysis.</p>

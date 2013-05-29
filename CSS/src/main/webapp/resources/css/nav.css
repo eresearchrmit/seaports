@@ -70,15 +70,15 @@ ul.nav li:hover ul li a {color:#444;}
 ul.nav li:hover ul li a:hover {color:#000; background:#fff;}
 ul.nav li:hover ul li a:active {color:#666; background:#fff;}
 
-ul.nav li.current a {color:#666; background:#fff; cursor:default; font-weight:bold;}
+ul.nav li.current a {color:#000; background:#fff; cursor:default; font-weight:bold;}
 ul.nav li.current ul {left:0;z-index:5}
-ul.nav li.current ul,
-ul.nav li.current {background:#103D5F !important}
+ul.nav li.current ul, ul.nav li.current {background:#103D5F !important}
 ul.nav li.current ul li a {color:#444; background:#103D5F; font-weight:normal;}
 ul.nav li.current ul li a:hover {color:#000; background:#fff;}
-ul.nav li ul li.current a,
-ul.nav li ul li.current a:hover,
-ul.nav li.current:hover ul li a:active {color:#666; background:#fff;}
+ul.nav li ul li.current a, 
+ul.nav li.current:hover a,
+ul.nav li ul li.current a:hover, 
+ul.nav li.current:hover ul li a:active {color:#000; background:#fff;}
 
 
 /* navigation (vertical subnavigation)

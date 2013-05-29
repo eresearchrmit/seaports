@@ -12,16 +12,6 @@
 		<div id="successMessage" class="message success">
 			<h5>Your Report has been created from the Workboard !</h5>
 		</div>
-		<!-- Makes the success messages fade out after 3 seconds -->
-		<script type="text/javascript">
-			$(document).ready(function(){
-				setTimeout(function(){
-					$("#successMessage").fadeOut("slow", function () {
-						$("#successMessage").remove();
-					});
-				}, 3000);
-			});
-		</script>
 		
 		<p class="info-paragraph">This section of the Climate Smart Seaports tool enables users to create a report from the data elements they have generated. Within this section, users can re-order the elements to suit their needs, hide data elements and add further text and analysis as required.</p>
 

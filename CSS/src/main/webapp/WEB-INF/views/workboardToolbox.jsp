@@ -26,9 +26,9 @@
 						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="bitre">Ports Australia data</option></c:if>
 						<c:if test="${dataelementsfilter == 'NonClimate'}"><option value="customFile">Custom file</option></c:if>
 						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="past">CSIRO and BoM trend data</option></c:if>
-						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="acornSat">ACORN-SAT data</option></c:if>
+						<c:if test="${dataelementsfilter == 'ObservedClimate'}"><option value="acornSat">BoM - ACORN-SAT data</option></c:if>
 						<c:if test="${dataelementsfilter == 'Future'}"><option value="csiro">CSIRO</option></c:if>
-						<c:if test="${dataelementsfilter == 'Future'}"><option value="cmar">CMAR</option></c:if>
+						<c:if test="${dataelementsfilter == 'Future'}"><option value="cmar">CSIRO - CMAR</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="engineering">Concrete Deterioration Model</option></c:if>
 						<c:if test="${dataelementsfilter == 'Applications'}"><option value="vulnerability">Vulnerability Assessment</option></c:if>
 					</select>
@@ -207,7 +207,7 @@
 		<div id="acornSatDataForm" class="dataElementForm">
 			<form:form method="post" action="/CSS/auth/workboard/addAcornSatData#tabs-observed-climate">
 			<input type="hidden" name="userstoryid" value="${userstory.id}" />
-			<p><strong>2. ACORN-SAT Data Options:</strong></p>
+			<p><strong>2. BoM - ACORN-SAT Data Options:</strong></p>
 			<table width="auto" height="auto" class="form">
 				<tr>
 					<td>
@@ -223,7 +223,7 @@
 				</tr>
 			</table>
 			<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-				<span></span>Add ACORN-SAT Data
+				<span></span>Add BoM - ACORN-SAT Data
 			</button>
 			</form:form>
 		</div>
@@ -312,7 +312,7 @@
 		<div id="cmarDataForm" class="dataElementForm">
 			<form:form method="post" action="/CSS/auth/workboard/addCmarData#tabs-future-climate" modelAttribute="climateData">
 				<input type="hidden" name="userstoryid" value="${userstory.id}" />
-				<p><strong>2. CMAR Data Options:</strong></p>
+				<p><strong>2. CSIRO - CMAR Data Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
 						<td>
@@ -375,7 +375,7 @@
 					</tr>
 				</table>
 				<button type="button" class="btn btn-icon btn-blue btn-plus" onclick="submit();" >
-					<span></span>Add CMAR Data
+					<span></span>Add CSIRO - CMAR Data
 				</button>
 			</form:form>
 		</div>
@@ -389,7 +389,7 @@
 				<input type="hidden" name="sourceType" id="hdnEngineeringSourceType" value="upload" />
 				
 				<table width="auto" height="auto" class="form">
-				<tr>
+					<tr>
 						<td>
 							<input type="radio" name="rdEngineeringSourceType" value="upload" checked="checked" /> 
 							select a file to upload&nbsp;

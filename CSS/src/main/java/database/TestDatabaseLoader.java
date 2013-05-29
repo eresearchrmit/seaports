@@ -65,8 +65,8 @@ public class TestDatabaseLoader {
 		session.save(r8);
 		
 		Seaport port1 = new Seaport("AUYBA", "Port of Yamba", r1);
-		Seaport port2 = new Seaport("AUNTL", "Newcastle Port", r1, "Newcastle");
-		Seaport port3 = new Seaport("AUSYD", "Sydney Harbour", r1, "Sydney");
+		Seaport port2 = new Seaport("AUNTL", "Port of Newcastle", r1, "Newcastle");
+		Seaport port3 = new Seaport("AUSYD", "Sydney Ports", r1, "Sydney");
 		//Seaport port4 = new Seaport("AUBTB", "Port of Botany Bay", r1);
 		//Seaport port5 = new Seaport("AUCFS", "Coffs Harbour", r1);
 		
@@ -76,11 +76,11 @@ public class TestDatabaseLoader {
 		Seaport port9 = new Seaport("AUXMC", "Port of Mallacoota", r2);
 		Seaport port10 = new Seaport("AUWHL", "Port Welshpool", r2);
 		
-		Seaport port11 = new Seaport("AUEPR", "Esperance Port", r3);
+		Seaport port11 = new Seaport("AUEPR", "Esperance Ports", r3);
 		Seaport port12 = new Seaport("AUALH", "Albany Port", r3, "Albany");
-		Seaport port13 = new Seaport("AUBUY", "Port of Bunbury", r3, "Bunbury");
-		Seaport port14 = new Seaport("AUGET", "Port of Geraldton", r3, "Geraldton");
-		Seaport port15 = new Seaport("AUFRE", "Fremantle", r3, "Perth");
+		Seaport port13 = new Seaport("AUBUY", "Bunbury Port", r3, "Bunbury");
+		Seaport port14 = new Seaport("AUGET", "Geraldton Port", r3, "Geraldton");
+		Seaport port15 = new Seaport("AUFRE", "Fremantle Ports", r3, "Perth");
 		
 		session.save(port1);
 		session.save(port2);

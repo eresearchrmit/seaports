@@ -12,16 +12,6 @@
 		<div id="successMessage" class="message success">
 			<h5>Your Workboard has been created !</h5>
 		</div>
-		<!-- Makes the success messages fade out after 3 seconds -->
-		<script type="text/javascript">
-			$(document).ready(function(){
-				setTimeout(function(){
-					$("#successMessage").fadeOut("slow", function () {
-						$("#successMessage").remove();
-					});
-				}, 3000);
-			});
-		</script>
 		
 		<p class="info-paragraph">The Workboard is where data can be collected and reviewed.</p>  
 

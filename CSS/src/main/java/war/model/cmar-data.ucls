@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.2" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
+  realizations="true" associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="war.model.CmarData" project="CSS" 
+    file="/CSS/src/main/java/war/model/CmarData.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="413" y="50" width="386" height="231"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="war.model.DataElementCmar" project="CSS" 
+    file="/CSS/src/main/java/war/model/DataElementCmar.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="41" y="30" width="287" height="141"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="war.model.ClimateParams" project="CSS" 
+    file="/CSS/src/main/java/war/model/ClimateParams.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="887" y="48" width="315" height="215"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="war.model.ClimateEmissionScenario" project="CSS" 
+    file="/CSS/src/main/java/war/model/ClimateEmissionScenario.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="658" y="430" width="255" height="178"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="war.model.ClimateModel" project="CSS" 
+    file="/CSS/src/main/java/war/model/ClimateModel.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="933" y="407" width="223" height="195"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="war.model.Region" project="CSS" file="/CSS/src/main/java/war/model/Region.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position x="414" y="404" width="191" height="195"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="war.model.CsiroVariable" project="CSS" 
+    file="/CSS/src/main/java/war/model/CsiroVariable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="64" y="468" width="228" height="124"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="war.model.Variable" project="CSS" 
+    file="/CSS/src/main/java/war/model/Variable.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position x="81" y="183" width="189" height="230"/>    
+    <display autosize="false" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="true" package="true" protected="true" private="true"/>    
+    </display>  
+  </class>  
+  <association id="9">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="10" name="region">        
+        <position x="609" y="389" width="43" height="20"/>      
+      </attribute>      
+      <multiplicity id="11" minimum="0" maximum="1">        
+        <position x="621" y="433" width="27" height="18"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="12">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="13" name="model"/>      
+      <multiplicity id="14" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="15">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="16" name="parameters"/>      
+      <multiplicity id="17" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="18">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <association id="19">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="20" name="variable">        
+        <position x="200" y="446" width="51" height="20"/>      
+      </attribute>      
+      <multiplicity id="21" minimum="0" maximum="1">        
+        <position x="276" y="450" width="27" height="18"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="7" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="22">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="23" name="emissionScenario">        
+        <position x="734" y="403" width="111" height="20"/>      
+      </attribute>      
+      <multiplicity id="24" minimum="0" maximum="1">        
+        <position x="864" y="406" width="27" height="18"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="25">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="26" name="cmarDataList">        
+        <position x="328" y="103" width="85" height="20"/>      
+      </attribute>      
+      <multiplicity id="27" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true"/>    
+    <operations public="true" package="true" protected="true" private="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

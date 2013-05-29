@@ -12,16 +12,6 @@
 		<div id="successMessage" class="message success">
 			<h5>Congratulations, your account has been created !</h5>
 		</div>
-		<!-- Makes the success messages fade out after 3 seconds -->
-		<script type="text/javascript">
-			$(document).ready(function(){
-				setTimeout(function(){
-					$("#successMessage").fadeOut("slow", function () {
-						$("#successMessage").remove();
-					});
-				}, 3000);
-			});
-		</script>
 		
 		<p class="info-paragraph">The potential impact of climate change on ports differs according to the location, function and business model of the ports.  Climate Smart ports in Australia want to understand the relevant climate impacts and risks for their particular operation; only then can they determine what adaptation measures may be appropriate.</p> 
 

@@ -14,12 +14,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <div class="grid_12">
-	<!-- Titles -->
-	<div style="margin-left: 20px; float:left">
-		<h2><c:out value="${userstory.name}" /></h2>
-		<h4><c:out value="${userstory.seaport.region.name}" /> region</h4>
-	</div>
-	
+
 	<div id="actionButtons">
 	<c:choose>
 		<c:when test="${userstory.mode == 'published'}">
@@ -150,6 +145,12 @@
 	</script>
 	<div class="clear"></div><br />
 	
+	<!-- Titles -->
+	<div style="margin-left: 20px;" >
+		<h2><c:out value="${userstory.name}" /></h2>
+		<h4><c:out value="${userstory.seaport.region.name}" /> region</h4>
+	</div>
+	
 	<c:set var="successMessage" scope="request" value="${successMessage}"/>
 	<c:set var="warningMessage" scope="request" value="${warningMessage}"/>
 	<c:set var="errorMessage" scope="request" value="${errorMessage}"/> 			
@@ -164,6 +165,7 @@
 		 	<c:forEach items="${userstory.dataElements}" var="dataelement" varStatus="status">
 		 			
 	 			<c:set var="dataelement" scope="request" value="${dataelement}"/>
+	 			<c:set var="dataElementLoopIndex" scope="request" value="${status.index}"/>
 	 			
 	 			<li class="sortableItem" id="dataElement${dataelement.id}">
 		 			<div class="box round${dataelement.included == false ? ' box-disabled' : ''}">
