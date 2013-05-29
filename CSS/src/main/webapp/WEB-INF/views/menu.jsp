@@ -4,8 +4,6 @@
 <ul class="nav main">
 	<li class="ic-home${requestScope['javax.servlet.forward.servlet_path'] == '/' ? ' current' : ''}"><a href="/CSS"><span>Home</span></a> </li>
 	
-	
-	
 	<sec:authorize access="isAuthenticated()">
 	<li class="ic-workboard
 		${requestScope['javax.servlet.forward.servlet_path'] == '/auth/workboard' ? ' current' : ''}">
@@ -20,20 +18,15 @@
 	</li>
 	</sec:authorize>
 	
-	
 	<li class="ic-browse${requestScope['javax.servlet.forward.servlet_path'] == '/public/reports/list' 
 		|| requestScope['javax.servlet.forward.servlet_path'] == '/public/reports/view' ? ' current' : ''}">
 		<a href="/CSS/public/reports/list"><span>Published Reports</span></a>
 	</li>
 	
-	
-	
 	<li class="ic-info
 		${requestScope['javax.servlet.forward.servlet_path'] == '/public/guidelines' ? ' current' : ''}">
 		<a href="/CSS/public/guidelines" target="_blank"><span>Guidelines</span></a>
 	</li>
-	
-	
 	
 	<sec:authorize access="hasRole('ROLE_ADMIN')">
 	<li class="ic-admin
@@ -42,5 +35,4 @@
 	</li>
 	</sec:authorize>
 	
-	<li>${requestScope['javax.servlet.forward.servlet_path']}</li>
 </ul>
