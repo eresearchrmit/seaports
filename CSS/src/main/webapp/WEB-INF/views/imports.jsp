@@ -15,18 +15,14 @@
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/print.css" />" />
 
-<!-- jQuery & jQuery UI -->
+
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-1.9.1.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui-1.10.3.min.js" />" ></script>
-
-<!-- jQuery plugins -->
-<script type="text/javascript" src="<c:url value="/resources/js/table/jquery.dataTables.min.js" />" ></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.dataTables.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.maphilight.js" />"></script>
-<!--<script type="text/javascript" src="<c:url value="/resources/js/jquery.bubble-popup-v3.min.js" />"></script>-->
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.zebra_tooltips.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/highcharts/highcharts-more.js" />" ></script>
-<script type="text/javascript" src="<c:url value="/resources/js/jquery.zebra_tooltips.min.js" />"></script>
-<!-- END: load jquery plugins -->
 
 <script language="javascript" type="text/javascript" src="<c:url value="/resources/js/setup.js" />"></script>
 
