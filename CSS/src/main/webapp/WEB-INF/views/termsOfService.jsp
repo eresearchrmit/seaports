@@ -12,7 +12,7 @@
 	</a>
 
 	<center>
-		<h2>Terms of Service</h2>
+		<h2>License</h2>
 	</center>
 	
 	<p style="text-align:center; margin: 25px 0; font-size: 12pt">
@@ -21,7 +21,7 @@
 	
 	<p style="text-align:justify; font-size: 12pt">Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 		<ul style="text-align:justify; font-size: 12pt">
-		<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</li>
+		<li>Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer: "This product includes software developed by RMIT University".</li>
 		<li>Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the  distribution.</li>
 		<li>Neither the name of RMIT University nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.</li>
 		</ul>

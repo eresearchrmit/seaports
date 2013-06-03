@@ -1,0 +1,77 @@
+Copyright (c) 2013, RMIT University, Australia.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without 
+modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this 
+list of conditions and the following disclaimer:  "This product includes 
+software developed by RMIT University".
+
+2. Redistributions in binary form must reproduce the above copyright notice, 
+this list of conditions and the following disclaimer in the documentation 
+and/or other materials provided with the distribution.
+
+3. Neither the name of RMIT University nor the names of its contributors may 
+be used to endorse or promote products derived from this software without 
+specific prior written permission.
+
+This software is provided by the regents and contributors "as is" and any 
+express or implied warranties, including, but not limited to, the implied 
+warranties of merchantability and fitness for a particular purpose are 
+disclaimed. In no event shall the regents and contributors be liable for any 
+direct, indirect, incidental, special, exemplary, or consequential damages 
+(including, but not limited to, procurement of substitute goods or services; 
+loss of use, data, or profits; or business interruption) however caused and on 
+any theory of liability, whether in contract, strict liability, or tort 
+(including negligence or otherwise) arising in any way out of the use of this 
+software, even if advised of the possibility of such damage.
+
+
+--------------------------------------------------------------------------------
+
+Each library linked, referenced or copied in this product, in source or binary 
+form, is covered by its own license. This software uses the following libraries
+
+JAVA LIBRARIES:	
+
+Spring: http://www.springsource.org/
+under Apache 2.0 license: http://www.apache.org/licenses/LICENSE-2.0.html
+	
+Spring Security: http://www.springsource.org/spring-security
+under Apache 2.0 license: http://www.apache.org/licenses/LICENSE-2.0.html
+	
+Hibernate: http://www.hibernate.org/license
+under LGPL v2.1: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html
+
+Apache Tiles: http://tiles.apache.org/
+under Apache 2.0 license: http://www.apache.org/licenses/LICENSE-2.0.html
+
+Apache POI: http://poi.apache.org/
+under Apache 2.0 license: http://www.apache.org/licenses/LICENSE-2.0.html
+
+RIF-CS Java API: http://ands.org.au/resource/downloads.html
+under Creative Commons Australia Attribution 3.0 Licence: http://creativecommons.org/licenses/by/3.0/au/deed.en
+	
+
+JAVASCRIPT LIBRARIES:
+
+jQuery: http://jquery.com
+under MIT License: http://opensource.org/licenses/MIT
+
+jQuery plugin - Zebra_Tooltip: http://stefangabos.ro/jquery/zebra-tooltips
+under LGPL v3.0: http://www.gnu.org/licenses/lgpl-3.0.txt
+
+jQuery plugin - maphighlight: https://github.com/kemayo/maphilight	
+MIT License: http://davidlynch.org/projects/maphilight/MIT-LICENSE.txt
+
+jQuery plugin - dataTables: http://www.datatables.net/ 
+under LGPL v2: http://www.datatables.net/license_gpl2
+	
+Highcharts: http://www.highcharts.com/
+under Creative Commons Attribution-NonComercial 3.0 Unported: http://creativecommons.org/licenses/by-nc/3.0/
+
+Tiny MCE: http://www.tinymce.com/
+under LGPL: http://www.gnu.org/licenses/lgpl.html
+
+
