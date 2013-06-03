@@ -1,3 +1,10 @@
+<%--
+ Copyright (c) 2013, RMIT University, Australia.
+ All rights reserved.
+  
+ This code is under the BSD license. See 'license.txt' for details.
+ Project hosted at: https://code.google.com/p/climate-smart-seaports/
+--%>
 <h6>Non-Climate Context</h6>
 
 <p class=&quot;justified&quot;>This tab identifies particular non-climate-related information.  It includes trade and population data. Note that only limited data may be available for some ports. 

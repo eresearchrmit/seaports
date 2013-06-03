@@ -1,3 +1,10 @@
+<%--
+ Copyright (c) 2013, RMIT University, Australia.
+ All rights reserved.
+  
+ This code is under the BSD license. See 'license.txt' for details.
+ Project hosted at: https://code.google.com/p/climate-smart-seaports/
+--%>
 <h6>Observed Climate</h6>
 
 <p class=&quot;justified&quot;>This tab sets the historical and current context of climate and marine observations for ports, to assist ports understand their current climate context. It includes data publicly available from the Bureau of Meteorology and the CSIRO.</p>

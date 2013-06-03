@@ -1,3 +1,10 @@
+<%--
+ Copyright (c) 2013, RMIT University, Australia.
+ All rights reserved.
+  
+ This code is under the BSD license. See 'license.txt' for details.
+ Project hosted at: https://code.google.com/p/climate-smart-seaports/
+--%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 

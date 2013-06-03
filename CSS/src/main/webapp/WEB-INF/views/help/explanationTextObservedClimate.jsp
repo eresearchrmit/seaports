@@ -1,3 +1,10 @@
+<%--
+ Copyright (c) 2013, RMIT University, Australia.
+ All rights reserved.
+  
+ This code is under the BSD license. See 'license.txt' for details.
+ Project hosted at: https://code.google.com/p/climate-smart-seaports/
+--%>
 <h6>Observed Climate</h6>
 
 <p class="justified">Climate change is already increasing the intensity and frequency of many extreme weather events. Extreme events occur naturally, however, climate change is influencing these events and record-breaking weather is becoming more common.</p> 

@@ -1,4 +1,12 @@
+/**
+ * Copyright (c) 2013, RMIT University, Australia.
+ * All rights reserved.
+ * 
+ * This code is under the BSD license. See 'license.txt' for details.
+ * Project hosted at: https://code.google.com/p/climate-smart-seaports/
+ */
 package database;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

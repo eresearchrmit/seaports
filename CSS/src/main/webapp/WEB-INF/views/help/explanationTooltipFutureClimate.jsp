@@ -1,3 +1,10 @@
+<%--
+ Copyright (c) 2013, RMIT University, Australia.
+ All rights reserved.
+  
+ This code is under the BSD license. See 'license.txt' for details.
+ Project hosted at: https://code.google.com/p/climate-smart-seaports/
+--%>
 <h6>Future Climate</h6>
 
 <p class=&quot;justified&quot;>This tab assists ports to identify some of the future climate projections data relevant for their region.   
