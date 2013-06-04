@@ -399,9 +399,9 @@
 
 			<!-- Plugin to run and test through maven -->
 			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
+				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.1.25</version>
+				<version>7.3</version>
 				<configuration>
 					<scanIntervalSeconds>3</scanIntervalSeconds>
 				</configuration>
