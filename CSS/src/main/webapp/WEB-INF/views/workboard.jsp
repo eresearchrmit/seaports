@@ -27,12 +27,12 @@
 		<h4><c:out value="${userstory.seaport.region.name}" /> region - <c:out value="${userstory.seaport.name}" /></h4>
 	</div>
 	
-	<a class="lnkConvertToUserStory" href="/CSS/auth/userstory/create?id=${userstory.id}" style="margin-right: 10px; float:right">
+	<a class="lnkConvertToUserStory" href="/auth/userstory/create?id=${userstory.id}" style="margin-right: 10px; float:right">
 		<button id="btnConvertToUserStory" type="button" class="btn btn-icon btn-blue btn-arrow-right" >
 			<span></span>Create Report
 		</button>
 	</a>
-	<a class="lnkDeleteWorkboard" href="/CSS/auth/workboard/delete?id=${userstory.id}" style="margin-right: 10px; float:right">
+	<a class="lnkDeleteWorkboard" href="/auth/workboard/delete?id=${userstory.id}" style="margin-right: 10px; float:right">
 		<button id="btnDeleteWorkboard" type="button" class="btn btn-icon btn-blue btn-cross" >
 			<span></span>Delete WorkBoard
 		</button>
@@ -207,7 +207,7 @@
 			<jsp:include page="dataElements.jsp" />
 			
 			<center>
-			<a class="lnkConvertToUserStory" href="/CSS/auth/userstory/create?id=${userstory.id}">
+			<a class="lnkConvertToUserStory" href="/auth/userstory/create?id=${userstory.id}">
 				<button id="btnConvertToUserStory" type="button" class="btn btn-icon btn-blue btn-arrow-right" >
 					<span></span>Create Report
 				</button>

@@ -291,7 +291,7 @@ public class RIFCSController {
 	public static final String KEY_PARTY_PREFIX = "RMIT-AP35/party/";
 	public static final String KEY_SERVICE_PREFIX = "RMIT-AP35/service/";
 	
-	public static final String CSS_URL = "http://seaports.eres.rmit.edu.au:8080/CSS/";
+	public static final String CSS_URL = "http://seaports.eres.rmit.edu.au:8080/";
 	public static final String HANDLE_PREFIX = "rmit:ap35/";
 	
 	

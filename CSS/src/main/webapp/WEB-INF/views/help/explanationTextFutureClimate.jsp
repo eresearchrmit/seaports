@@ -24,6 +24,6 @@
 
 <p class="justified"><strong>"CMAR"</strong> which only displays sea-level rise data for the "medium emissions scenario (A1B)", using a "most likely" climate model, for two time periods, "2030" and "2070".</p>
 <br />
-<a href="/CSS/public/guidelines#future-climate" target="_blank">Read more...</a>
+<a href="/public/guidelines#future-climate" target="_blank">Read more...</a>
 
 

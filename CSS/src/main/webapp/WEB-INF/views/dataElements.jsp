@@ -23,7 +23,7 @@
 	 			<div class="box round">
 					<div class="box-header">
 					<h5 class="floatleft">${dataelement.name}<c:if test="${dataelement.class.simpleName == 'DataElementFile'}">.${dataelement.filetype}</c:if></h5>
-						<a class="lnkDeleteDataElement" href="/CSS/auth/workboard/deletedataelement?dataelementid=${dataelement.id}">
+						<a class="lnkDeleteDataElement" href="/auth/workboard/deletedataelement?dataelementid=${dataelement.id}">
 						<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" >
 							<span></span>Delete
 						</button>

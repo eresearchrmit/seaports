@@ -30,7 +30,7 @@
 					<span></span>Report Published
 				</button>
 			</a>
-			<a href="/CSS/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">
+			<a href="/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">
 				<button class="btnAddDataElement btn btn-icon btn-blue btn-doc" >
 					<span></span>Preview the report
 				</button>
@@ -54,17 +54,17 @@
 			</div>
 		</c:when>
 		<c:otherwise>
-			<a class="lnkPublishUserStory" href="/CSS/auth/userstory/publish?id=${userstory.id}" style="margin-right: 10px; float:right">
+			<a class="lnkPublishUserStory" href="/auth/userstory/publish?id=${userstory.id}" style="margin-right: 10px; float:right">
 				<button class="btnAddDataElement btn btn-icon btn-blue btn-globe" >
 					<span></span>Publish the report
 				</button>
 			</a>
-			<a href="/CSS/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">
+			<a href="/auth/userstory/view?id=${userstory.id}" target="_blank" style="margin-right: 10px; float:right">
 				<button class="btnAddDataElement btn btn-icon btn-blue btn-doc" >
 					<span></span>Preview the report
 				</button>
 			</a>
-			<a class="lnkDeleteUserStory" href="/CSS/auth/userstory/delete?id=${userstory.id}" style="margin-right: 10px; float:right">
+			<a class="lnkDeleteUserStory" href="/auth/userstory/delete?id=${userstory.id}" style="margin-right: 10px; float:right">
 				<button class="btnDeleteStory btn-icon btn-blue btn-cross" >
 					<span></span>Delete the report
 				</button>
@@ -82,7 +82,7 @@
 				</button>
 			</div>
 			<div id="addTextDataElementModalWindow" class="box round" title="Add text" style="display:none; padding:0;">
-				<form:form id="textAdditionForm" method="post" action="/CSS/auth/userstory/addText" > 
+				<form:form id="textAdditionForm" method="post" action="/auth/userstory/addText" > 
 					<textarea name="textContent" class="tinymce" rows="12">
 					</textarea>
 					<br />
@@ -163,7 +163,7 @@
 	<c:set var="errorMessage" scope="request" value="${errorMessage}"/> 			
 	<jsp:include page="notifications.jsp" />
 	
-	<form:form id="userStoryForm" method="post" action="/CSS/auth/userstory/save" modelAttribute="userstory">
+	<form:form id="userStoryForm" method="post" action="/auth/userstory/save" modelAttribute="userstory">
 	  	<form:input value="${userstory.id}" type="hidden" path="id" />
 	  	<c:if test="${not empty userstory.dataElements}">
 		 	<ul id="sortable">
@@ -182,13 +182,13 @@
 							
 							<c:if test="${userstory.mode != 'published'}">
 								<!-- 'Include/Exclude' button -->
-								<button type="button" class="btn-mini btn-blue ${dataelement.included == false ? ' btn-plus' : ' btn-minus'} floatright" onclick="location.href='/CSS/auth/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" title="Include/Exclude from the report">
+								<button type="button" class="btn-mini btn-blue ${dataelement.included == false ? ' btn-plus' : ' btn-minus'} floatright" onclick="location.href='/auth/userstory/includeDataElement?story=${userstory.id}&dataelement=${dataelement.id}'" title="Include/Exclude from the report">
 									<span></span>Include/Exclude
 								</button>
 							
 								<!-- 'Remove Text' button -->
 								<c:if test="${dataelement.class.simpleName == 'DataElementText'}">
-									<a class="lnkRemoveTextFromStory" href="/CSS/auth/userstory/deleteText?text=${dataelement.id}" title="Delete the text from the report">
+									<a class="lnkRemoveTextFromStory" href="/auth/userstory/deleteText?text=${dataelement.id}" title="Delete the text from the report">
 										<button type="button" class="btn btn-icon btn-blue btn-small btn-cross floatright" style="margin-right:5px">
 											<span></span>Delete
 										</button>
@@ -335,7 +335,7 @@
 	
 	<c:if test="${userstory.mode != 'published'}">
 		<div id="editTextDataElementModalWindow" class="box round" title="Edit text" style="display:none; padding:0;">
-			<form:form id="editTextForm" method="post" action="/CSS/auth/userstory/editText"> 
+			<form:form id="editTextForm" method="post" action="/auth/userstory/editText"> 
 				<input id="hdnTextDataElementToEditId" type="hidden" name="dataElementId" />
 				<textarea id="txtDataElementToEditContent" name="textContent" class="tinymce" rows="25">
 				</textarea>

@@ -32,4 +32,4 @@ Three types of data have been selected:
 <br />
 <p class=&quot;justified&quot;>For further information about extreme weather in Australia, head to the Bureau of Meteorology's &quot;<a href=&quot;http://www.bom.gov.au/climate/change/index.shtml#tabs=Climate-change-tracker&tracker=trend-maps&quot; target=&quot;_blank&quot;>Climate Change Tracker</a>&quot; website.</p>
 <br />
-<a href=&quot;/CSS/public/guidelines#observed-climate&quot; target=&quot;_blank&quot;>Read more...</a>
+<a href=&quot;/public/guidelines#observed-climate&quot; target=&quot;_blank&quot;>Read more...</a>

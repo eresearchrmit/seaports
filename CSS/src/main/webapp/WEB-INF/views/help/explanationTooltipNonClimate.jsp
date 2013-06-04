@@ -25,4 +25,4 @@
 	</ul>
 <p class=&quot;justified&quot;><strong>&quot;Custom file&quot;</strong> data which can be text and/or images provided by the port, relating to their current, non-climate context.</p>
 
-<a href=&quot;/CSS/public/guidelines#non-climate&quot; target=&quot;_blank&quot;>Read more...</a>
+<a href=&quot;/public/guidelines#non-climate&quot; target=&quot;_blank&quot;>Read more...</a>

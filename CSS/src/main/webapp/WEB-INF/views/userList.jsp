@@ -40,16 +40,16 @@
 			<tbody>
 				<c:forEach items="${usersList}" var="user" varStatus="status"> 
 				<tr>
-					<td><a href="/CSS/public/user/${user.username}">${user.firstname} ${user.lastname} (${user.username})</a></td>
+					<td><a href="/public/user/${user.username}">${user.firstname} ${user.lastname} (${user.username})</a></td>
 					<td><a href="mailto:${user.email}?Subject=Climate Smart Seaports" title="Send an e-mail to this user" target="_blank">${user.email}</a></td>
-					<td class="center"><a href="/CSS/auth/workboard?user=${user.username}" title="View the Workboard of this user"><img src="<c:url value="/resources/img/icons/application_side_boxes.png" />" alt="View" /></a></td>
-					<td class="center"><a href="/CSS/auth/userstory/list?user=${user.username}" title="View the Stories of this user"><img src="<c:url value="/resources/img/icons/application_view_list.png" />" alt="View" /></a></td>
+					<td class="center"><a href="/auth/workboard?user=${user.username}" title="View the Workboard of this user"><img src="<c:url value="/resources/img/icons/application_side_boxes.png" />" alt="View" /></a></td>
+					<td class="center"><a href="/auth/userstory/list?user=${user.username}" title="View the Stories of this user"><img src="<c:url value="/resources/img/icons/application_view_list.png" />" alt="View" /></a></td>
 					<c:choose>
 						<c:when test="${user.roles != 'ROLE_ADMIN' && user.enabled}">
-							<td class="center"><a href="/CSS/admin/users/list/disable?user=${user.username}" class="lnkDisableUser" title="Click to disable account"><img src="<c:url value="/resources/img/icons/user.png" />" alt="Enabled" /> Enabled</a></td>
+							<td class="center"><a href="/admin/users/list/disable?user=${user.username}" class="lnkDisableUser" title="Click to disable account"><img src="<c:url value="/resources/img/icons/user.png" />" alt="Enabled" /> Enabled</a></td>
 	                 	</c:when>
 				  		<c:when test="${user.roles != 'ROLE_ADMIN' && !(user.enabled)}">
-				  			<td class="center"><a href="/CSS/admin/users/list/enable?user=${user.username}" class="lnkLockUserStory" title="Click to enable account"><img src="<c:url value="/resources/img/icons/lock.png" />" alt="Disabled"/> Disabled</a></td>
+				  			<td class="center"><a href="/admin/users/list/enable?user=${user.username}" class="lnkLockUserStory" title="Click to enable account"><img src="<c:url value="/resources/img/icons/lock.png" />" alt="Disabled"/> Disabled</a></td>
 	                 	</c:when>
 	                 	<c:when test="${user.roles == 'ROLE_ADMIN'}">
 				  			<td class="center"><img src="<c:url value="/resources/img/icons/user_green.png" />" alt="Enabled"/> Administrator account (cannot be disabled)</td>

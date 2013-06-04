@@ -366,7 +366,7 @@
 			<p>Global climate models (GCMs) are mathematical representations of the behaviour of the planet's climate system through time. Modelling of the climate system has become possible due to increased computer power and advances are continually being made that increase the models' accuracy.</p>
 			
 			<h6>Climate variables</h6>
-			<p>Within the Future Climate section of this tool, global GCMs were selected using CSIRO's <a href="http://seaports-dev.eres.rmit.edu.au:8080/CSS/public/guidelines#glossary">Climate Futures</a> tool. The tool allows the selection of GCMs using a matrix of two climate variables, in this case rainfall and temperature. Likelihoods are then assigned according to the number of climate models that fall within each category.</p> 
+			<p>Within the Future Climate section of this tool, global GCMs were selected using CSIRO's <a href="#glossary">Climate Futures</a> tool. The tool allows the selection of GCMs using a matrix of two climate variables, in this case rainfall and temperature. Likelihoods are then assigned according to the number of climate models that fall within each category.</p> 
 			<p>The Climate Smart Seaports application offers three categories, 'hotter and drier', 'cooler and wetter' and 'most likely', where the 'most likely' category represents a likelihood of 33% and above.</p>
 			For each of the NRM regions, future climate projections are available for: 
 			<ul>

@@ -46,7 +46,7 @@
 		
 		<c:if test="${dataelementsfilter == 'NonClimate'}">
 		<div id="absDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/addAbsData#tabs-non-climate-context">
+			<form:form method="post" action="/auth/workboard/addAbsData#tabs-non-climate-context">
 				<input type="hidden" name="userstoryid" value="${userstory.id}" />
 				<p><strong>2. ABS Data Element Options:</strong></p>
 				<table width="auto" height="auto" class="form">
@@ -107,7 +107,7 @@
 				
 		<c:if test="${dataelementsfilter == 'NonClimate'}">
 		<div id="bitreDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/addBitreData#tabs-non-climate-context">
+			<form:form method="post" action="/auth/workboard/addBitreData#tabs-non-climate-context">
 				<input type="hidden" name="userstoryid" value="${userstory.id}" />
 				<p><strong>2. Ports Australia Data Element Options:</strong></p>
 				<table width="auto" height="auto" class="form">
@@ -159,7 +159,7 @@
 		
 		<c:if test="${dataelementsfilter == 'NonClimate'}">
 		<div id="customFileDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/upload?id=${userstory.id}#tabs-non-climate-context" enctype="multipart/form-data">
+			<form:form method="post" action="/auth/workboard/upload?id=${userstory.id}#tabs-non-climate-context" enctype="multipart/form-data">
 				<p><strong>2. Custom Data Element Options:</strong></p>
 				<table width="auto" height="auto" class="form">
 					<tr>
@@ -183,7 +183,7 @@
 		
 		<c:if test="${dataelementsfilter == 'ObservedClimate'}">
 		<div id="pastDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/addPastData#tabs-observed-climate">
+			<form:form method="post" action="/auth/workboard/addPastData#tabs-observed-climate">
 			<input type="hidden" name="userstoryid" value="${userstory.id}" />
 			<p><strong>2. CSIRO and BoM trend Data Options:</strong></p>
 			<table width="auto" height="auto" class="form">
@@ -212,7 +212,7 @@
 		
 		<c:if test="${dataelementsfilter == 'ObservedClimate'}">
 		<div id="acornSatDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/addAcornSatData#tabs-observed-climate">
+			<form:form method="post" action="/auth/workboard/addAcornSatData#tabs-observed-climate">
 			<input type="hidden" name="userstoryid" value="${userstory.id}" />
 			<p><strong>2. BoM - ACORN-SAT Data Options:</strong></p>
 			<table width="auto" height="auto" class="form">
@@ -238,7 +238,7 @@
 		
 		<c:if test="${dataelementsfilter == 'Future'}">
 		<div id="csiroDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/addCsiroData#tabs-future-climate" modelAttribute="climateData">
+			<form:form method="post" action="/auth/workboard/addCsiroData#tabs-future-climate" modelAttribute="climateData">
 				<input type="hidden" name="userstoryid" value="${userstory.id}" />
 				<p><strong>2. CSIRO Data Options:</strong></p>
 				<table width="auto" height="auto" class="form">
@@ -317,7 +317,7 @@
 		
 		<c:if test="${dataelementsfilter == 'Future'}">
 		<div id="cmarDataForm" class="dataElementForm">
-			<form:form method="post" action="/CSS/auth/workboard/addCmarData#tabs-future-climate" modelAttribute="climateData">
+			<form:form method="post" action="/auth/workboard/addCmarData#tabs-future-climate" modelAttribute="climateData">
 				<input type="hidden" name="userstoryid" value="${userstory.id}" />
 				<p><strong>2. CSIRO - CMAR Data Options:</strong></p>
 				<table width="auto" height="auto" class="form">
@@ -390,7 +390,7 @@
 		
 		<c:if test="${dataelementsfilter == 'Applications'}">
 		<div id="engineeringDataForm" class="dataElementForm">
-			<form:form id="formEngineeringData" method="post" action="/CSS/auth/workboard/addEngineeringData?id=${userstory.id}#tabs-applications" enctype="multipart/form-data">
+			<form:form id="formEngineeringData" method="post" action="/auth/workboard/addEngineeringData?id=${userstory.id}#tabs-applications" enctype="multipart/form-data">
 				<p><strong>2. Concrete Deterioration Model Data:</strong></p>
 				
 				<input type="hidden" name="sourceType" id="hdnEngineeringSourceType" value="upload" />
@@ -460,7 +460,7 @@
 
 		<c:if test="${dataelementsfilter == 'Applications'}">
 		<div id="vulnerabilityDataForm" class="dataElementForm">
-			<form:form id="formVulnerabilityData" method="post" action="/CSS/auth/workboard/addVulnerability#tabs-applications" enctype="multipart/form-data">
+			<form:form id="formVulnerabilityData" method="post" action="//auth/workboard/addVulnerability#tabs-applications" enctype="multipart/form-data">
 				<input type="hidden" name="userstoryid" value="${userstory.id}" />
 				
 				<p><strong>2. Current Vulnerability Assessment Options:</strong></p>
@@ -526,7 +526,7 @@
 						<td colspan="2">
 							<p>
 								Identify and rate the business consequences of these impacts. Please complete the whole table&nbsp; 
-								<a href="#" class="helpTooltip" title="<p>The impacts identified in the previous question will have business-related consequences for the port.</p><p>Listed is a broad selection of common consequences.  For each listed consequence, rate its impact from &quot;no impact&quot; through to &quot;extreme&quot;. E.g: Flooding may have led to waste flow from the site - causing a Moderate Environmental Impact; and a Major Interruption to logistics operations.</p><p>Rating of &quot;No impact&quot; through to &quot;Extreme&quot; should align with your organisational risk consequence table. If you do not have access to this, refer to the <a href=&quot;/CSS/public/guidelines&quot; title=&quot;View the Guideline page&quot; target=&quot;_blan&quot;>Guidance Document</a>.</p>"><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:
+								<a href="#" class="helpTooltip" title="<p>The impacts identified in the previous question will have business-related consequences for the port.</p><p>Listed is a broad selection of common consequences.  For each listed consequence, rate its impact from &quot;no impact&quot; through to &quot;extreme&quot;. E.g: Flooding may have led to waste flow from the site - causing a Moderate Environmental Impact; and a Major Interruption to logistics operations.</p><p>Rating of &quot;No impact&quot; through to &quot;Extreme&quot; should align with your organisational risk consequence table. If you do not have access to this, refer to the <a href=&quot;/public/guidelines&quot; title=&quot;View the Guideline page&quot; target=&quot;_blan&quot;>Guidance Document</a>.</p>"><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:
 							</p>
 						</td>
 					</tr>

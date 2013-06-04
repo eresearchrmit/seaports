@@ -14,8 +14,8 @@
 	<div id="userInformations">
 		<div class="floatright marginleft10">
 			<ul class="inline-ul floatleft">
-				<li><a href="/CSS/public/user/${user.username}">${user.firstname} ${user.lastname} (<sec:authentication property="principal.username" />)</a></li>
-				<li><a href="/CSS/j_spring_security_logout">Logout</a></li>
+				<li><a href="/public/user/${user.username}">${user.firstname} ${user.lastname} (<sec:authentication property="principal.username" />)</a></li>
+				<li><a href="/j_spring_security_logout">Logout</a></li>
 			</ul>
 			<br />
 		</div>
@@ -25,5 +25,5 @@
 	</div>
 </sec:authorize>
 <sec:authorize access="!isAuthenticated()">
-	<a href="/CSS/auth/workboard/my-workboard">Log in</a>
+	<a href="/auth/workboard/my-workboard">Log in</a>
 </sec:authorize>

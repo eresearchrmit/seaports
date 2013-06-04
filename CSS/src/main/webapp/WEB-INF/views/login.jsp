@@ -22,7 +22,7 @@
 			</c:if>
 			
 			<center>
-				<form:form method="POST" action="/CSS/j_spring_security_check" >
+				<form:form method="POST" action="/j_spring_security_check" >
 					<table class="form">
 					    <tr>
 					    	<td class="col1" align="right">User name:</td>
@@ -33,7 +33,7 @@
 					    	<td class="col2" align="left"><input type="password" name="j_password" /></td>
 					    </tr>
 					</table>
-					<p><a href="/CSS/register">Don't have an account ? Click here to sign up and start</a></p>
+					<p><a href="/register">Don't have an account ? Click here to sign up and start</a></p>
 					<input name="submit" type="submit" value="Log In" class="btn btn-blue" />
 				</form:form>
 				<script type="text/javascript">$("#txtUsername").focus();</script>

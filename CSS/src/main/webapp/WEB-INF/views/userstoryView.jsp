@@ -133,7 +133,7 @@
 		<div style="float:left; padding-left: 5px">
 			&copy; ${userstory.owner.firstname} ${userstory.owner.lastname} <fmt:formatDate value="${userstory.publishDate}" pattern="yyyy" />
 			<br />
-			<a href="/CSS/public/terms-of-service#license" id="lnkLicence" target="_blank">This report is licensed under a Creative Commons Attribution license.</a><br />
+			<a href="/public/terms-of-service#license" id="lnkLicence" target="_blank">This report is licensed under a Creative Commons Attribution license.</a><br />
 		</div>
 	</div>
 	</c:if>

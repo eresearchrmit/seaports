@@ -38,7 +38,7 @@
 	</center>
 	<br />
 	<div align="center">
-		<a href="/CSS/auth/workboard/my-workboard">
+		<a href="/auth/workboard/my-workboard">
 			<button id="btnContinueToWorkboard" class="btn btn-icon btn-blue btn-arrow-right" >
 				<span></span>Get started
 			</button>

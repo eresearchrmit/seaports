@@ -30,7 +30,7 @@
 	</center>
 	<br />
 	<div align="center">
-		<a href="/CSS/auth/userstory?id=${userstory.id}">
+		<a href="/auth/userstory?id=${userstory.id}">
 			<button id="btnContinueToReport" class="btn btn-icon btn-blue btn-arrow-right" >
 				<span></span>Continue
 			</button>

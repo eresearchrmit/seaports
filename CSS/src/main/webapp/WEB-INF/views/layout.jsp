@@ -22,7 +22,7 @@
 	    <div class="container_12" style="padding-bottom: 15px">
             <div id="branding">
                 <div class="floatleft">
-                	<a href="/CSS"><img src="<c:url value="/resources/img/theme/css-logo-darkblue-100x100.png" />" alt="Logo" /></a>
+                	<a href="/"><img src="<c:url value="/resources/img/theme/css-logo-darkblue-100x100.png" />" alt="Logo" /></a>
                	</div>
                	<div id="main-title" class="floatleft"><div style="margin-top:25px">Climate Smart Seaports <span style="font-size:26pt">[beta]</span></div></div>
                 <a href="http://www.rmit.edu.au/research/eres" title="RMIT University" target="_blank"><img src="<c:url value="/resources/img/theme/rmit-logo-no-border.png" />"  class="floatright" /></a>

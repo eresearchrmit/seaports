@@ -19,8 +19,8 @@
 	<br />
 	<sec:authorize access="!isAuthenticated()">
 	<center>
-		<input type="button" class="btn btn-blue btn-large" value="Log in" onclick="location.href='/CSS/auth/workboard/my-workboard'" />&nbsp;
-		<input type="button" class="btn btn-blue btn-large" value="Sign up" onclick="location.href='/CSS/register'" />
+		<input type="button" class="btn btn-blue btn-large" value="Log in" onclick="location.href='/auth/workboard/my-workboard'" />&nbsp;
+		<input type="button" class="btn btn-blue btn-large" value="Sign up" onclick="location.href='/register'" />
 	</center>
 	<br />
 	</sec:authorize>
@@ -33,5 +33,5 @@
 	
 	<p class="info-paragraph">Often risk management is confined to specific areas of a business operation, eg. risks related to trade, to supply chains to the workplace functions or infrastructure. However, climate change poses a risk to all areas of a business. This tool attempts to bring the thinking about climate risks in different areas of the business into one report, beginning the creation of an integrated climate risk assessment.</p>	
 	
-	<a href="/CSS/public/guidelines#introduction">Read more...</a>
+	<a href="/public/guidelines#introduction">Read more...</a>
 </div>

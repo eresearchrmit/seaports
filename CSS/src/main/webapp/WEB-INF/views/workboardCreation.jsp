@@ -22,9 +22,9 @@
 	<c:set var="errorMessage" scope="request" value="${errorMessage}"/>
 	<jsp:include page="notifications.jsp" />
 	
-	<p class="hint"><i>You have no active workboard. Create a new workboard using the page below, or read the <a href="/CSS/public/guidelines#introduction" target="_blank">Climate Smart Seaports User Guide</a> for more information on how to use this tool.</i></p>
+	<p class="hint"><i>You have no active workboard. Create a new workboard using the page below, or read the <a href="/public/guidelines#introduction" target="_blank">Climate Smart Seaports User Guide</a> for more information on how to use this tool.</i></p>
 	
-	<form:form method="POST" action="/CSS/auth/workboard/create?username=${user.username}"  modelAttribute="userstory" >
+	<form:form method="POST" action="/auth/workboard/create?username=${user.username}"  modelAttribute="userstory" >
 	
 	<table class="form" width="100%">
 		<tr>
@@ -40,7 +40,7 @@
 		</tr>
 		<tr>
 			<td valign="top">
-				<label style="font-size:13px">Region Selection <a href="#" class="helpTooltip" title="Hover over a Natural Resource Management region and click to select the region you want. <a href=&quot;/CSS/public/guidelines#css-workboard&quot; target=&quot;_blank&quot;>Read more...</a>"><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</label>
+				<label style="font-size:13px">Region Selection <a href="#" class="helpTooltip" title="Hover over a Natural Resource Management region and click to select the region you want. <a href=&quot;/public/guidelines#css-workboard&quot; target=&quot;_blank&quot;>Read more...</a>"><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</label>
 			</td>
 			<td class="col2" valign="top">
 				<div id="displayUserStoryRegion" style="display:inline; font-size:13px" ><span class="hint"><i>Select a region using the map then select a seaport within it.</i></span></div>
@@ -73,7 +73,7 @@
 		</tr>
 		<tr>
 			<td class="top">
-				<label style="font-size:13px">Seaport <a href="#" class="helpTooltip" title="Select your port. <a href=&quot;/CSS/public/guidelines#css-workboard&quot; target=&quot;_blank&quot;>Read more...</a>"><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</label>
+				<label style="font-size:13px">Seaport <a href="#" class="helpTooltip" title="Select your port. <a href=&quot;/public/guidelines#css-workboard&quot; target=&quot;_blank&quot;>Read more...</a>"><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</label>
 			</td>
 			<td class="col2">
 				<select id="cbbSeaport" disabled style="width:300px">
@@ -85,7 +85,7 @@
 		</tr>
 		<tr>
 			<td class="top">
-				<label style="font-size:13px">Purpose of inquiry <a href="#" class="helpTooltip" title="Tell us why you are using this tool. For example, climate risk assessment for work; study (indicate what field) or research (indicate your area of interest / topic). <a href=&quot;/CSS/public/guidelines#css-workboard&quot; target=&quot;_blank&quot;>Read more...</a>" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</label>
+				<label style="font-size:13px">Purpose of inquiry <a href="#" class="helpTooltip" title="Tell us why you are using this tool. For example, climate risk assessment for work; study (indicate what field) or research (indicate your area of interest / topic). <a href=&quot;/public/guidelines#css-workboard&quot; target=&quot;_blank&quot;>Read more...</a>" ><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:</label>
 			</td>
 			<td class="col2" valign="top">
 				<form:textarea id ="txtWorkboardPurpose" path="purpose" rows="5" cols="30" style="width:300px" onblur="checkPurpose()" value="Test" />

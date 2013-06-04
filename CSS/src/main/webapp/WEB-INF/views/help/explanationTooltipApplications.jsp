@@ -32,4 +32,4 @@ The tool enables the user to define:
 
 <p class=&quot;justified&quot;>When considering the questions in this tab, think of the impact on port assets (machinery, buildings, equipment), infrastructure (drainage, rail, road, berths), and people (injuries, work disruptions).</p>
 
-<a href=&quot;/CSS/public/guidelines#applications&quot; target=&quot;_blank&quot;>Read more...</a>
+<a href=&quot;/public/guidelines#applications&quot; target=&quot;_blank&quot;>Read more...</a>

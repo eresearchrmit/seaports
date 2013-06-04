@@ -27,4 +27,4 @@
 	</ul>
 <p class="justified"><strong>"Custom file"</strong> data which can be text and/or images provided by the port, relating to their current, non-climate context.</p>
 
-<a href="/CSS/public/guidelines#non-climate" target="_blank">Read more...</a>
+<a href="/public/guidelines#non-climate" target="_blank">Read more...</a>
