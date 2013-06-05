@@ -90,7 +90,6 @@ public class RIFCSController {
         service.addLocation(location);
         
         service.addRelatedObject(createRelatedObject("isAdministeredBy", ERESEARCH_PARTY_KEY, service.newRelatedObject()));
-        service.addRelatedObject(createRelatedObject("isManagedBy", ERESEARCH_PARTY_KEY, service.newRelatedObject()));
         
         // Description
         service.addDescription("Climate Smart Seaports is an online decision support toolkit designed to help Australian seaports adapating to climate change and improving their resilience to it. The toolkit lets access data from various datasets such as CSIRO, BoM, ABS, BITRE as well as their own personal data. Climate Smart Seaports then allows writing and publishing reports based on this data and the user analysis.", "full", "en");
@@ -104,7 +103,7 @@ public class RIFCSController {
 	
 	public RegistryObject createRMITPartyRIFCS() throws RIFCSException {
 		RegistryObject r = rifcs.newRegistryObject();
-        r.setKey(KEY_PARTY_PREFIX + CSS_TEAM_PARTY);
+        r.setKey(ERESEARCH_PARTY_KEY);
         r.setGroup(RMIT_GROUP);
         r.setOriginatingSource(CSS_URL);
         
