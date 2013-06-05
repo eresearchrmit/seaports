@@ -38,7 +38,7 @@ public class RIFCSController {
 			RIFCSWrapper mw = new RIFCSWrapper();
 	        rifcs = mw.getRIFCSObject();
 	        rifcs.addRegistryObject(createCSSServiceRIFCS());
-	        //rifcs.addRegistryObject(createRMITPartyRIFCS());
+	        rifcs.addRegistryObject(createRMITPartyRIFCS());
 	        
 	        List<User> users = new ArrayList<User>();
 	        List<UserStory> stories = userStoryDao.getAllPublishedStories();
@@ -102,7 +102,7 @@ public class RIFCSController {
         return r;
 	}
 	
-	/*public RegistryObject createRMITPartyRIFCS() throws RIFCSException {
+	public RegistryObject createRMITPartyRIFCS() throws RIFCSException {
 		RegistryObject r = rifcs.newRegistryObject();
         r.setKey(KEY_PARTY_PREFIX + CSS_TEAM_PARTY);
         r.setGroup(RMIT_GROUP);
@@ -115,38 +115,45 @@ public class RIFCSController {
         // Name
         Name name = rmit.newName();
         name.setType("primary");
-        name.addNamePart("Climate Smart Seaport project team (RMIT University e-Research)", "subordinate");
+        NamePart namepart = name.newNamePart();
+        namepart.setValue("RMIT e-Research Office");
+        name.addNamePart(namepart);
         rmit.addName(name);
         
         // Identifier
         Identifier id = rmit.newIdentifier();
-        id.setType("url");
-        id.setValue(KEY_PARTY_PREFIX + CSS_TEAM_PARTY);
+        id.setType("local");
+        id.setValue(ERESEARCH_PARTY_KEY);
         rmit.addIdentifier(id);
         
-        // Location
+        // URL & Email
         Location loc = rmit.newLocation();
         Address address = loc.newAddress();
-        Electronic electronic = address.newElectronic();
-        electronic.setType("url");
-        electronic.setValue("http://www.rmit.edu.au/research/eres");
-        address.addElectronic(electronic);
+        Electronic url = address.newElectronic();
+        url.setType("url");
+        url.setValue("http://www.rmit.edu.au/research/eres");
+        address.addElectronic(url);
+        Electronic email = address.newElectronic();
+        email.setType("email");
+        email.setValue("eresearch@rmit.edu.au");
+        address.addElectronic(email);
         loc.addAddress(address);
         rmit.addLocation(loc);
         
-        // Manages "Climate Smart Seaports" Service
-        rmit.addRelatedObject(createRelatedObject("manages", KEY_SERVICE_PREFIX + "climatesmartseaport", rmit.newRelatedObject()));
+        rmit.addDescription("&lt;p&gt; The RMIT e-Research Office has been established to facilitate IT systems, software and services support to researchers with high-performance computing (HPC), high-bandwidth network and data-intensive collaborative spaces needs.&lt;/p&gt; &lt;p&gt; Services are centered on major research ICT infrastructure items, such as those funded through ARC Linkage Infrastructure, Equipment and Facilities grants, assistance with multi-institution and multi-disciplinary ICT support, and major state and national e-Research initiatives.&lt;/p&gt; &lt;p&gt; The e-Research office is conducting a survey regarding RMIT&amp;#39;s HPC needs, which will enable the e-Research Office to:&lt;/p&gt; &lt;ul class=\"bulleted1\"&gt; &lt;li&gt; Offer software installation and upgrade support to our HPC community in RMIT through the ITS helpdesk&lt;/li&gt; &lt;li&gt; Compile a web page of our ICT-enabled research projects&lt;/li&gt; &lt;li&gt; Understand better the needs of HPC/Grid/Cloud-enabled research&lt;/li&gt; &lt;li&gt; Represent RMIT in the Victorian and national e-research network&lt;/li&gt; &lt;/ul&gt;", "brief", "en");
+        
+        Subject subject = rmit.newSubject();
+        subject.setValue("0806"); // Information Systems -> Information and Computing Sciences
+        subject.setType("anzsrc-for");
         
         // TODO: LVL3 link to an Activity records
-        // TODO: LVL3 set subject anzsrc-for
-        // TODO: LVL3 set description, type "brief"
         // TODO: LVL3 set existence date
         
-        // TODO: isAdministeredBy "RMIT-AP35/1/2" (= e-Research Office).
+        rmit.addRelatedObject(createRelatedObject("isPartOf", "http://nla.gov.au/nla.party-1307378", rmit.newRelatedObject()));
         
         r.addParty(rmit);
         return r;
-	}*/
+	}
 	
 	public RegistryObject createPartyRIFCS(User user) throws RIFCSException {		
 		RegistryObject r = rifcs.newRegistryObject();
@@ -170,7 +177,7 @@ public class RIFCSController {
         	id.setValue(user.getNlaNumber());
         }
         else {
-        	id.setType("url");
+        	id.setType("uri");
         	id.setValue(CSS_URL + "public/user/" + user.getUsername());
         }
         p.addIdentifier(id);
@@ -207,7 +214,8 @@ public class RIFCSController {
 		Collection c = r.newCollection();
 		
 		c.setType("collection");
-        c.addIdentifier(HANDLE_PREFIX + "report" + story.getId(), "handle");
+		c.addIdentifier(HANDLE_PREFIX + "report" + story.getId(), "local");
+		c.addIdentifier(CSS_URL + "public/reports/view?id=" + story.getId(), "uri");
         c.setDateModified(story.getPublishDate());
         
         // TODO: LVL3 Add "Dates" element (not available in RIF-CS API 1.3.0)
@@ -215,7 +223,10 @@ public class RIFCSController {
         // Name
         Name name = c.newName();
         name.setType("primary");
-        name.addNamePart(story.getName(), "");
+        
+        NamePart namepart = name.newNamePart();
+        namepart.setValue(story.getName());
+        name.addNamePart(namepart);
         c.addName(name);
                 
         c.addDescription(story.getShortDescription(), "brief", "en");
@@ -253,7 +264,7 @@ public class RIFCSController {
         temporalCoverage.addDate("2070-12-31T00:00:00Z", "dateTo", "W3CDTF");
         coverage.addTemporal(temporalCoverage);
         Spatial spatialCoverage = coverage.newSpatial();
-        spatialCoverage.setType("kmlPolyCoord");
+        spatialCoverage.setType("kmlPolyCoords");
         spatialCoverage.setValue(story.getSeaport().getRegion().getCoordinates());
         coverage.addSpatial(spatialCoverage);
         c.addCoverage(coverage);

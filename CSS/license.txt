@@ -27,6 +27,10 @@ any theory of liability, whether in contract, strict liability, or tort
 (including negligence or otherwise) arising in any way out of the use of this 
 software, even if advised of the possibility of such damage.
 
+DATA USAGE AND REDISTRIBUTION:
+The sample data used or supplied with this application is for demonstration 
+purposes, RMIT does not authorise and cannot be held responsible for use or 
+redistribution these data.
 
 --------------------------------------------------------------------------------
 
