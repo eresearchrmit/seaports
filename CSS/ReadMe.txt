@@ -17,7 +17,7 @@ to gather data related from various sources and put them together into reports.
 This is achieved by guiding the user through a risk assessment driven workflow.
 
 For more information, please refer to the full user documentation, available at
-http://
+https://docs.google.com/file/d/0B5wr2axc4lYHMHRSbG9JRnFkX00/edit
 
 
 2. Quick start guide
@@ -25,11 +25,11 @@ http://
 
 For more information and details about the deployment of this project please 
 refer to the developer installation guide, available at:
-http://
+https://docs.google.com/file/d/0B5wr2axc4lYHMndlSmVYY0ZaYTg/edit
 
 For more information and details about getting started with development of 
 this project, please refer to the developer documentation, available at:
-http://
+https://docs.google.com/file/d/0B5wr2axc4lYHVW5keDVNZERLeVU/edit
 
 a. Get the database ready
 -------------------------

@@ -67,7 +67,8 @@
 	 	<c:forEach items="${userstory.dataElements}" var="dataelement" varStatus="status">
 			
 			<c:set var="dataelement" scope="request" value="${dataelement}"/>
-			
+	 		<c:set var="dataElementLoopIndex" scope="request" value="${status.index}"/>
+	 			
 			<c:if test="${dataelement.included == true}">
 			
 				<!-- Text comment data element -->

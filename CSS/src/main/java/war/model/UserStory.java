@@ -318,47 +318,39 @@ public class UserStory {
 		int i = 1;
         for (DataElement dataElement : dataElements) {        	
  			if (dataElement.getClass().equals(DataElementAbs.class) && !str.contains("ABS data")) {
- 				str += "ABS data";
- 				str += (i < dataElements.size() ? ", " : "");
+ 				str += "ABS data|";
  			}
- 			else if (dataElement.getClass().equals(DataElementBitre.class) && !str.contains("ports Australia data")) {
- 				str += "ports Australia data";
- 				str += (i < dataElements.size() ? ", " : "");
+ 			else if (dataElement.getClass().equals(DataElementBitre.class) && !str.contains("Ports Australia data")) {
+ 				str += "Ports Australia data|";
  			}
  			else if (dataElement.getClass().equals(DataElementFile.class) && !str.contains("custom data")) {
- 				str += owner.getFirstname() + " " + owner.getLastname() + "'s custom data";
- 				str += (i < dataElements.size() ? ", " : "");
+ 				str += owner.getFirstname() + " " + owner.getLastname() + "'s custom data|";
  			}
  			else if (dataElement.getClass().equals(DataElementPast.class) && !str.contains("CSIRO & BoM trend data")) {
- 				str += "CSIRO & BoM trend data";
- 				str += (i < dataElements.size() ? ", " : "");
+ 				str += "CSIRO & BoM trend data|";
  			}
  			else if (dataElement.getClass().equals(DataElementAcornSat.class) && !str.contains("measurements from ACORN-SAT stations")) {
- 				str += "measurements from ACORN-SAT stations";
- 				str += (i < dataElements.size() ? ", " : "");
+ 				str += "measurements from ACORN-SAT stations|";
  			}
  			else if (dataElement.getClass().equals(DataElementCmar.class) && !str.contains("CMAR future data")) {
- 				str += "CMAR future data";
- 				str += (i < dataElements.size() ? ", " : "");
+ 				str += "CMAR future data|";
  			}
  			else if (dataElement.getClass().equals(DataElementCsiro.class) && !str.contains("CSIRO future data")) {
- 				str += "CSIRO future data";
- 				str += (i < dataElements.size() ? ", " : "");
+ 				str += "CSIRO future data|";
  			}
  			else if (dataElement.getClass().equals(DataElementEngineeringModel.class) && !str.contains("concrete deterioration")) {
- 				str += "concrete deterioration forecast model data";
- 				str += (i < dataElements.size() ? ", " : "");
+ 				str += "concrete deterioration forecast model data|";
  			}
  			else if (dataElement.getClass().equals(DataElementVulnerability.class) && !str.contains("vulnerability assessment")) {
- 				str += seaport.getName() + " vulnerability assessment";
- 				str += (i < dataElements.size() ? ", " : "");
+ 				str += seaport.getName() + " vulnerability assessment|";
  			}
  			else if (dataElement.getClass().equals(DataElementText.class) && !str.contains("personal analysis")) {
- 				str += owner.getFirstname() + " " + owner.getLastname() + "'s personal analysis";
- 				str += (i < dataElements.size() ? ", " : "");
+ 				str += owner.getFirstname() + " " + owner.getLastname() + "'s personal analysis|";
  			}
  			i++;
         }
+        str = str.replace("|", ", ");
+        str = str.replaceAll(", $", "");
         
         return "This report was created in reference to " + seaport.getName() + " (" + seaport.getCode() 
         + "), located in the ABC NRM region " + seaport.getRegion().getName() 
