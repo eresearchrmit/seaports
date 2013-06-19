@@ -249,7 +249,7 @@
 						</td>
 						<td class="col2">
 							<select id="cbbClimateVariable" name="climateVariable">
-								<option value="All">All Variables</option>
+								<%--<option value="All">All Variables</option>--%>
 								<option value="Temperature">Temperature</option>
 								<option value="Wind speed">Wind speed</option>
 								<option value="Rainfall">Rainfall</option>
@@ -269,7 +269,7 @@
 							</select>
 						</td>
 					</tr>
-					<tr>
+					<%--<tr>
 						<td>
 							Climate Model&nbsp;
 							<a href="#" class="helpTooltip" title="<p><b>Global climate models</b> (GCMs) are mathematical representations of the behaviour of the planet's climate system through time. Each mathematical equation is the basis for complex computer programs used for simulating the atmosphere or oceans of the Earth.</p><p>For this portal, CSIRO's Climate Futures software was used to select models by considering the alignment of model results over each of the natural resource management regions. 18 climate models were sub-divided into pre-defined categories such as &quot;Hotter, Drier&quot; and then assigned a relative likelihood based on the number of climate models that fell within that category. For example, if 9 of 18 models fell into the &quot;Hotter - Drier&quot; category, it was given a relative likelihood of 50%.</p><p>Three model categories are used here:<br/>A '<b>most likely</b>'* future: hotter and little change in rainfall.<br/>A '<b>hotter and drier</b>' future: much hotter and much drier.<br/>A '<b>cooler and wetter</b>' future: cooler and wetter.<br/></p><p>*Category represented by the greatest number of models that must be greater than or equal to 33% of the total number of models.</p>"><img src="<c:url value="/resources/img/icons/help.png" />" alt="Help" /></a>:
@@ -281,7 +281,7 @@
 								<option value="Cooler &amp; Wetter">Cooler &amp; Wetter</option>
 							</select>
 						</td>
-					</tr>
+					</tr>--%>
 					<tr>
 						<td>
 							Time Period&nbsp;
@@ -303,8 +303,6 @@
 						<td class="col2">
 							<input type="radio" name="displayType" value="table" checked="checked" /> Table
 							<input type="radio" name="displayType" value="picture" /> Map image
-							<br />
-							<span class="hint"><i>Maps are available only for the 'Most Likely'<br />model and the 'Medium' emission scenario.</i></span>
 						</td>
 					</tr>
 				</table>

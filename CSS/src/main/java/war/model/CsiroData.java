@@ -73,13 +73,7 @@ public class CsiroData
 	 * The value of the variation of the variable
 	 */
 	private Double value;
-	
-	/**
-	 * The picture representing the value
-	 */
-	@Column//(columnDefinition = "LONGBLOB")
-	private String picture;
-	
+
 	/**
 	 * Default constructor of CsiroData
 	 */
@@ -96,13 +90,12 @@ public class CsiroData
 	 * @param value: the value of the data
 	 * @param picture: the picture representing the value
 	 */
-	public CsiroData(Date creationDate, ClimateParams parameters, CsiroVariable variable, int year, Double value, String picture) {
+	public CsiroData(Date creationDate, ClimateParams parameters, CsiroVariable variable, int year, Double value) {
 		setCreationDate(creationDate);
 		setParameters(parameters);
 		setVariable(variable);
 		setYear(year);
 		setValue(value);
-		setPicture(picture);
 	}
 
 	/**
@@ -207,21 +200,5 @@ public class CsiroData
 	 */
 	public void setValue(Double value) {
 		this.value = value;
-	}
-
-	/**
-	 * Getter for the picture representing the value
-	 * @return: the current picture representing the value
-	 */
-	public String getPicture() {
-		return picture;
-	}
-	
-	/**
-	 * Getter for the picture representing the value
-	 * @param value: the new picture representing the value
-	 */
-	public void setPicture(String picture) {
-		this.picture = picture;
 	}
 }

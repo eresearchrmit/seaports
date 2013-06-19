@@ -14,22 +14,23 @@
 
 <c:choose>
 	<c:when test="${not empty dataelement.csiroDataList}">
-		<p style="margin-top:10px; text-align:center; font-weight"><b>${dataelement.csiroDataList[0].parameters.modelName} model (${dataelement.csiroDataList[0].parameters.model.name}) in the region ${dataelement.csiroDataList[0].parameters.region.name} for ${dataelement.csiroDataList[0].parameters.emissionScenario.description} (${dataelement.csiroDataList[0].parameters.emissionScenario.name}) emissions scenario.</b></p>
+		<c:set var="csiroData" value="${dataelement.csiroDataList[0]}" />
 		<c:choose>
 			<c:when test="${dataelement.displayType == 'TABLE'}">
+				<p style="margin-top:10px; text-align:center; font-weight"><b>Average ${csiroData.variable.name} for the ${csiroData.parameters.region.name} NRM region under a ${csiroData.parameters.emissionScenario.description} (${csiroData.parameters.emissionScenario.name}) emissions scenario.</b></p>
+				
 				<table class="data display datatable">
 					<thead>
 						<tr>
-							<th>Variable</th>
+							<th>Climate Model</th>
 							<th>Baseline</th>
 							<th>Change centred around ${dataelement.csiroDataList[0].year}</th>
-							<%--<c:if test="${dataelement.picturesIncluded}"><th class="center">Map</th></c:if> --%>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach items="${dataelement.csiroDataList}" var="csiroData" varStatus="dataLoopStatus">
 							<tr class="${dataLoopStatus.index % 2 == 0 ? 'even' : 'odd'}">
-								<td class="top head">${csiroData.variable.name}</td>
+								<td class="top head">${csiroData.parameters.modelName} (${csiroData.parameters.model.name})</td>
 								<td class="top">${csiroData.baseline.value} ${csiroData.baseline.variable.uom}</td>
 								<td class="top"><c:if test="${csiroData.value > 0}">+</c:if>${csiroData.value} ${csiroData.variable.uomVariation}</td>
 							</tr>
@@ -39,23 +40,9 @@
 				<i class="credits">Data provided by CSIRO on <fmt:formatDate value="${dataelement.csiroDataList[0].creationDate}" pattern="dd MMM yyyy" /> was the best available to date</i>
 			</c:when>
 			<c:when test="${dataelement.displayType == 'PICTURE'}">
-				<table>
-				<tr>
-				<c:forEach items="${dataelement.csiroDataList}" var="csiroData" varStatus="dataLoopStatus">
-					<td <c:if test="${fn:length(dataelement.csiroDataList) gt 1}">style="width:25%"</c:if>>
-						<center><strong>${csiroData.variable.name}</strong></center><br />
-						<c:choose>
-							<c:when test="${not empty csiroData.picture}">
-								<img <c:if test="${fn:length(dataelement.csiroDataList) gt 1}">style="width:100%" </c:if>name="${csiroData.variable.name}" src="<c:url value="/resources/img/data/csiro/${csiroData.picture}" />" class="dataelementIllustrationPicture illustrationPicture" />
-							</c:when>
-							<c:otherwise>
-								<center>No map available</center>
-							</c:otherwise>
-						</c:choose>
-					</td>
-				</c:forEach>
-				</tr>
-				</table>
+					<c:set var="pictureName" value="/resources/img/data/csiro/${fn:replace(csiroData.variable.name, ' ', '-')}-${fn:replace(csiroData.parameters.emissionScenario.name, ' ', '-')}-${fn:replace(userstory.seaport.region.name, ' ', '-')}-${csiroData.year}.png" />
+					<c:set var="formattedPictureName" value="${fn:toLowerCase(pictureName)}" />
+					<img name="${csiroData.variable.name}" src="<c:url value="${formattedPictureName}" />" class="dataelementIllustrationPicture" style="width: 100%" />
 			</c:when>
 		</c:choose>
 	</c:when>

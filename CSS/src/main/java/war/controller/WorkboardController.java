@@ -117,7 +117,7 @@ public class WorkboardController {
 	
 	@Autowired
 	private ClimateParamsDao climateParamsDao;
-
+	
 	@Autowired
 	private WeatherEventDao weatherEventDao;
 
@@ -360,11 +360,10 @@ public class WorkboardController {
 		@RequestParam(value="userstoryid",required=true) Integer userStoryId, 
 		@RequestParam(value="climateVariable",required=true) String climateVariable,
 		@RequestParam(value="climateEmissionScenario",required=true) String climateEmissionScenario,
-		@RequestParam(value="climateModel",required=true) String climateModel,
 		@RequestParam(value="year",required=true) String year,
 		@RequestParam(value="displayType",required=false) String displayTypeString, 
 		RedirectAttributes attributes)
-	{
+	{		
 		logger.info("Inside addCsiroDataToWorkboard");
 		
 		UserStory userStory = null;
@@ -374,12 +373,12 @@ public class WorkboardController {
     		if (!(SecurityHelper.IsCurrentUserAllowedToAccess(userStory))) // Security: ownership check
     			throw new AccessDeniedException(ERR_ACCESS_DENIED);
 			
-			List<CsiroData> csiroDataList = null;
-			if (climateVariable.equals("All"))
-				csiroDataList = csiroDataDao.find(userStory.getSeaport().getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year));
-			else {
-				csiroDataList = new ArrayList<CsiroData>();
-				csiroDataList.add(csiroDataDao.find(userStory.getSeaport().getRegion().getName(), climateEmissionScenario, climateModel, Integer.valueOf(year), climateVariable));
+			List<CsiroData> csiroDataList = new ArrayList<CsiroData>();
+						
+			List<ClimateParams> parametersList = climateParamsDao.getAllInRegionForEmissionScenario(userStory.getSeaport().getRegion().getName(), climateEmissionScenario);
+			
+			for (ClimateParams parameters : parametersList) {
+				csiroDataList.addAll(csiroDataDao.find(parameters, Integer.valueOf(year), climateVariable));
 			}
 			
 			DataElement.DisplayType displayType = DataElement.DisplayType.fromString(displayTypeString);

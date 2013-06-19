@@ -127,8 +127,9 @@ public class ClimateParamsDao {
 	}
 	
 	/**
-	 * Retrieve a list of all the different Climate set of parameters in the Database
-	 * @return the list of all the different Climate set of parameters in the Database
+	 * Retrieve a list of all the different Climate set of parameters for a given region
+	 * @param regionName: the name of the region to match
+	 * @return the list of all the different Climate set of parameters for a given region
 	 * @throws NoResultException if no set of Climate parameters matches the given parameters
 	 */
 	@Transactional
@@ -139,6 +140,38 @@ public class ClimateParamsDao {
 		try {
 			Query query = entityManager.createQuery("SELECT p FROM " + TABLE_NAME + " p WHERE p.region = :region");
 			query.setParameter("region", region);
+			
+			List<ClimateParams> results = new ArrayList<ClimateParams>();
+			for (Object obj : query.getResultList()) {
+				if (obj instanceof ClimateParams)
+				results.add((ClimateParams)(obj));
+			}
+			
+			return results;
+		}
+		catch (Exception e)
+		{
+			throw new NoResultException(ERR_NO_RESULT);
+		}
+	}
+	
+	/**
+	 * Retrieve a list of all the different Climate set of parameters for a given region
+	 * @param regionName: the name of the region to match
+	 * @param emissionScenarioName: the emission scenario to match
+	 * @return the list of all the different Climate set of parameters for a given region
+	 * @throws NoResultException if no set of Climate parameters matches the given parameters
+	 */
+	@Transactional
+	public List<ClimateParams> getAllInRegionForEmissionScenario(String regionName, String emissionScenarioName) throws NoResultException {
+		
+		Region region = regionDao.find(regionName);
+		ClimateEmissionScenario emissionScenario = climateEmissionScenarioDao.find(emissionScenarioName);
+		
+		try {
+			Query query = entityManager.createQuery("SELECT p FROM " + TABLE_NAME + " p WHERE p.region = :region AND p.emissionScenario = :emissionScenario");
+			query.setParameter("region", region);
+			query.setParameter("emissionScenario", emissionScenario);
 			
 			List<ClimateParams> results = new ArrayList<ClimateParams>();
 			for (Object obj : query.getResultList()) {

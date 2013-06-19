@@ -81,6 +81,31 @@ public class CsiroDataDao {
 	}
 	
 	/**
+	 * Retrieve the CsiroData matching the required climate parameters, variable and year that are given as parameters
+	 * @param parameters: the set of Climate Parameters to match
+	 * @param year: the year to match
+	 * @param variableName: the name of the variable to match
+	 * @return the (unique) CsiroData that match all the given parameters
+	 * @throws NoResultException if no CsiroData matches the given parameters
+	 */
+	@Transactional
+	public List<CsiroData> find(ClimateParams parameters, Integer year, String variableName) throws NoResultException {
+		Variable variable = climateVariableDao.find(variableName);
+		
+		try {
+			Query query = entityManager.createQuery("SELECT d FROM " + TABLE_NAME + " d WHERE d.parameters = :parameters AND d.variable = :variable AND d.year = :year");
+			query.setParameter("parameters", parameters);
+			query.setParameter("variable", variable);
+			query.setParameter("year", year);
+		
+			return performQueryAndCheckResultList(query);
+		}
+		catch (NoResultException e) {
+			throw new NoResultException(ERR_NO_RESULT);
+		}
+	}
+	
+	/**
 	 * Retrieve the CsiroData matching the required variable, region, emission scenario, climate model and year that are given as parameters
 	 * @param regionName: the name of the region to match
 	 * @param emissionScenario: the emission scenario to match

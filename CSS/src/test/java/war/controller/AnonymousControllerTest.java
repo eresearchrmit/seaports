@@ -150,7 +150,7 @@ public class AnonymousControllerTest {
 	@Test(expected = AccessDeniedException.class)
 	public void addCsiroDataToWorkboardTest() {
 		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
-		workboardController.addCsiroDataToWorkboard(1, "Temperature", "A1B", "Hotter and Drier", "2030", "", redirectAttributes);
+		workboardController.addCsiroDataToWorkboard(1, "Temperature", "A1B", "2030", "", redirectAttributes);
 	}
 	
 	@Test(expected = AccessDeniedException.class)

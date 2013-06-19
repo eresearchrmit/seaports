@@ -13,7 +13,6 @@ import security.UserLoginService;
 import war.dao.AbsVariableDao;
 import war.dao.BitreVariableCategoryDao;
 import war.dao.ClimateEmissionScenarioDao;
-import war.dao.ClimateParamsDao;
 import war.dao.CmarDataDao;
 import war.dao.CsiroVariableDao;
 import war.dao.DataElementDao;
@@ -497,7 +496,7 @@ public class WorkboardControllerTest {
 		
 		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		String result = workboardController.addCsiroDataToWorkboard(1, 
-				"Temperature", "A1B", "Hotter & Drier", "2030", "on", redirectAttributes);
+				"Temperature", "A1B", "2030", "on", redirectAttributes);
 		
 		Assert.assertNotNull(result);
 		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
@@ -514,7 +513,7 @@ public class WorkboardControllerTest {
 		
 		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		String result = workboardController.addCsiroDataToWorkboard(1, 
-				"Temperature", "A1B", "Hotter & Drier", "2030", null, redirectAttributes);
+				"Temperature", "A1B", "2030", null, redirectAttributes);
 		
 		Assert.assertNotNull(result);
 		Assert.assertNull(redirectAttributes.getFlashAttributes().get("errorMessage"));
@@ -532,7 +531,7 @@ public class WorkboardControllerTest {
 		// UNKNOWN VARIABLE
 		RedirectAttributesModelMap redirectAttributes = new RedirectAttributesModelMap();
 		String result = workboardController.addCsiroDataToWorkboard(1, "UNKNOWN VARIABLE", 
-				"A1B", "Hotter & Drier", "2030", "", redirectAttributes);
+				"A1B", "2030", "", redirectAttributes);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
 		Assert.assertEquals(CsiroVariableDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
@@ -540,18 +539,10 @@ public class WorkboardControllerTest {
 		// UNKNOWN SCENARIO
 		redirectAttributes = new RedirectAttributesModelMap();
 		result = workboardController.addCsiroDataToWorkboard(1, "Temperature", 
-				"UNKNOWN SCENARIO", "Hotter and Drier", "2030", "", redirectAttributes);
+				"UNKNOWN SCENARIO", "2030", "", redirectAttributes);
 		Assert.assertNotNull(result);
 		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
 		Assert.assertEquals(ClimateEmissionScenarioDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
-		
-		// UNKNOWN MODEL
-		redirectAttributes = new RedirectAttributesModelMap();
-		result = workboardController.addCsiroDataToWorkboard(1, "Temperature", 
-				"A1B", "UNKNOWN MODEL", "2030", "", redirectAttributes);
-		Assert.assertNotNull(result);
-		Assert.assertNotNull(redirectAttributes.getFlashAttributes().get("warningMessage"));
-		Assert.assertEquals(ClimateParamsDao.ERR_NO_RESULT, redirectAttributes.getFlashAttributes().get("warningMessage"));
 	}
 
 	
