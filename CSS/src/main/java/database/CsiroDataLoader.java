@@ -365,42 +365,6 @@ public class CsiroDataLoader {
 		// Region 3 : Southern and Southwestern Flatlands West
 		params = new ClimateParams(r3, csiro_mk3_5, HOTTER_DRIER, A1B);
 		session.save(params);
-		session.save(new CsiroData(dateCsiroData, params, te, 2030, 0.7));
-		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -6.7));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2030, 1.10));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -0.9));
-		session.save(new CsiroData(dateCsiroData, params, te, 2055, 1.2));
-		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -12.6));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2055, 2.1));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -1.8));
-		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.6));
-		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -16.00));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2070, 2.6));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -2.3));
-		
-		params = new ClimateParams(r3, csiro_mk3_5, HOTTER_DRIER, A1FI);
-		session.save(params);
-		session.save(new CsiroData(dateCsiroData, params, te, 2030, 0.6));
-		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -6.5));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2030, 1.1));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -0.9));
-		session.save(new CsiroData(dateCsiroData, params, te, 2055, 1.5));
-		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -15.7));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2055, 2.6));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -2.2));
-		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.1));
-		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -21.70));
-		session.save(new CsiroData(dateCsiroData, params, ws, 2070, 3.6));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -3.1));
-		
-		
-		params = new ClimateParams(r3, miroc_3_2_medres, MOST_LIKELY, A1B);
-		session.save(params);
-		
-		// CMAR Data
-		session.save(new CmarData(dateCmarData, params, slr, 2030, "-27.5,113.5,125;-28.5,113.5,124;-29.5,114.5,121;-30.5,114.5,120;-31.5,115.5,119;-32.5,115.5,118;-33.5,114.5,118;-34.5,114.5,117;-34.5,115.5,117;-35.5,116.5,119;-35.5,117.5,119;-35.5,118.5,121;-34.5,119.5,118;-34.5,120.5,118;-34.5,121.5,123;-34.5,122.5,123;-34.5,123.5,124;-33.5,124.5,120", "sealevelrise-sswfw-2030.png"));
-		session.save(new CmarData(dateCmarData, params, slr, 2070, "-27.5,113.5,370;-28.5,113.5,369;-29.5,114.5,365;-30.5,114.5,363;-31.5,115.5,361;-32.5,115.5,360;-33.5,114.5,360;-34.5,114.5,360;-34.5,115.5,361;-35.5,116.5,363;-35.5,117.5,363;-35.5,118.5,364;-34.5,119.5,354;-34.5,120.5,354;-34.5,121.5,361;-34.5,122.5,360;-34.5,123.5,360;-33.5,124.5,354", "sealevelrise-sswfw-2070.png"));
-		
 		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.1));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -6.2));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2030, -1.5));
@@ -414,7 +378,7 @@ public class CsiroDataLoader {
 		session.save(new CsiroData(dateCsiroData, params, ws, 2070, -3.60));
 		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -3.70));
 		
-		params = new ClimateParams(r3, miroc_3_2_medres, MOST_LIKELY, A1FI);
+		params = new ClimateParams(r3, csiro_mk3_5, HOTTER_DRIER, A1FI);
 		session.save(params);
 		session.save(new CsiroData(dateCsiroData, params, te, 2030, 1.1));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -6.00));
@@ -427,7 +391,42 @@ public class CsiroDataLoader {
 		session.save(new CsiroData(dateCsiroData, params, te, 2070, 3.6));
 		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -20.10));
 		session.save(new CsiroData(dateCsiroData, params, ws, 2070, -4.90));
-		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -5.00));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -5.00));		
+		
+		params = new ClimateParams(r3, miroc_3_2_medres, MOST_LIKELY, A1B);
+		session.save(params);
+		
+		// CMAR Data
+		session.save(new CmarData(dateCmarData, params, slr, 2030, "-27.5,113.5,125;-28.5,113.5,124;-29.5,114.5,121;-30.5,114.5,120;-31.5,115.5,119;-32.5,115.5,118;-33.5,114.5,118;-34.5,114.5,117;-34.5,115.5,117;-35.5,116.5,119;-35.5,117.5,119;-35.5,118.5,121;-34.5,119.5,118;-34.5,120.5,118;-34.5,121.5,123;-34.5,122.5,123;-34.5,123.5,124;-33.5,124.5,120", "sealevelrise-sswfw-2030.png"));
+		session.save(new CmarData(dateCmarData, params, slr, 2070, "-27.5,113.5,370;-28.5,113.5,369;-29.5,114.5,365;-30.5,114.5,363;-31.5,115.5,361;-32.5,115.5,360;-33.5,114.5,360;-34.5,114.5,360;-34.5,115.5,361;-35.5,116.5,363;-35.5,117.5,363;-35.5,118.5,364;-34.5,119.5,354;-34.5,120.5,354;-34.5,121.5,361;-34.5,122.5,360;-34.5,123.5,360;-33.5,124.5,354", "sealevelrise-sswfw-2070.png"));
+		
+		session.save(new CsiroData(dateCsiroData, params, te, 2030, 0.7));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -6.7));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2030, 1.10));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -0.9));
+		session.save(new CsiroData(dateCsiroData, params, te, 2055, 1.2));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -12.6));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2055, 2.1));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -1.8));
+		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.6));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -16.00));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2070, 2.6));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -2.3));
+		
+		params = new ClimateParams(r3, miroc_3_2_medres, MOST_LIKELY, A1FI);
+		session.save(params);
+		session.save(new CsiroData(dateCsiroData, params, te, 2030, 0.6));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2030, -6.5));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2030, 1.1));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2030, -0.9));
+		session.save(new CsiroData(dateCsiroData, params, te, 2055, 1.5));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2055, -15.7));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2055, 2.6));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2055, -2.2));
+		session.save(new CsiroData(dateCsiroData, params, te, 2070, 2.1));
+		session.save(new CsiroData(dateCsiroData, params, rf, 2070, -21.70));
+		session.save(new CsiroData(dateCsiroData, params, ws, 2070, 3.6));
+		session.save(new CsiroData(dateCsiroData, params, rh, 2070, -3.1));
 		
 		params = new ClimateParams(r3, cccma_cgcm3_1_t63, COOLER_WETTER, A1B);
 		session.save(params);
