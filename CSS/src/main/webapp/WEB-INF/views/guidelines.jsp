@@ -367,7 +367,7 @@
 			
 			<h6>Climate variables</h6>
 			<p>Within the Future Climate section of this tool, global GCMs were selected using CSIRO's <a href="#glossary">Climate Futures</a> tool. The tool allows the selection of GCMs using a matrix of two climate variables, in this case rainfall and temperature. Likelihoods are then assigned according to the number of climate models that fall within each category.</p> 
-			<p>The Climate Smart Seaports application offers three categories, 'hotter and drier', 'cooler and wetter' and 'most likely', where the 'most likely' category represents a likelihood of 33% and above.</p>
+			<p>The Climate Smart Seaports application shows three Global Climate Models which fall into one of the possible climate future described as 'hotter and drier', 'cooler and wetter' and 'most likely', where the 'most likely' category represents a likelihood of 33% and above.</p>
 			For each of the NRM regions, future climate projections are available for: 
 			<ul>
 				<li>Four climate variables: temperature, rainfall, wind speed and relative humidity</li>
@@ -384,14 +384,13 @@
 				<li>Click the <img src="<c:url value="/resources/img/help/add_data_button.png" />" style="opacity: 0.7;" /> button</li>
 				<li>Select the data source from the pop-up screen. Users can choose from "CSIRO" (which covers temperature, wind speed, rainfall or relative humidity) or "CMAR" data (sea-level rise).</li>
 				<li>
-					<p>Once you have selected your data source, a new pop-up screen appears.  It requires you to select the particular data variable. For example, for "CSIRO", users can select "Temperature", "Wind Speed", "Rainfall" or "Relative Humidity", OR, they can select "All Variables". For "CMAR" data source - no variable choice is given, as this data source only provides information on one variable, "Sea level rise".</p>
+					<p>Once you have selected your data source, a new pop-up screen appears. It requires you to select the particular data variable. For example, for "CSIRO", users can select "Temperature", "Wind Speed", "Rainfall" or "Relative Humidity". The variables will be displayed based on the 3 Global Climate Models described above. For "CMAR" data source - no variable choice is given, as this data source only provides information on one variable, "Sea level rise".</p>
 					<p>Users are able to go through this process multiple times, so that they can select as many combinations of variables that meet their assessment needs.</p>
 					<img src="<c:url value="/resources/img/help/add_csiro_data_popup.png" />" style="opacity: 0.7;" />
 				</li>
 				
 				<li>Users are then required to select an appropriate "Emission scenario". There is a choice of two, "Medium" or "High" (Refer to the explanation of emission scenarios in "Background - IPCC Scenarios and Global Climate Models").</li>
-				<li>Next, users need to select the climate model they wish to apply to their assessment: "Most likely", "Hotter &amp; drier" or "Cooler &amp; wetter". If uncertain which climate model to select, the "Most likely" model is recommended. You may then wish to compare the different variables for different models, and select one of the other options.  For example, if your port is already in an area of heavy rainfall, and subject to flooding, you may wish to view what a "cooler &amp; wetter" model projects for your region. Alternatively, if your area is dry and prone to drought, you may want to see what a "hotter &amp; drier" model projects.</li> 
-				<li>Users are requested to select the time period which best suits their needs.  The shorter time period of 2030 may be suitable for short-term planning horizons. The time-frames of 2055 and 2070 show a greater change in climate from today, and will be particularly relevant for longer planning horizons.</li> 
+				<li>Next, users are requested to select the time period which best suits their needs.  The shorter time period of 2030 may be suitable for short-term planning horizons. The time-frames of 2055 and 2070 show a greater change in climate from today, and will be particularly relevant for longer planning horizons.</li> 
 				<li>Finally, users are able to select whether the data is displayed as a map, or a table.</li> 
 				<li>Click the <img src="<c:url value="/resources/img/help/add_csiro_data_button.png" />" style="opacity: 0.7;" /> or <img src="<c:url value="/resources/img/help/add_cmar_data_button.png" />" style="opacity: 0.7;" /> button, whichever is appropriate for the data element being added.</li> 
 			</ol>
