@@ -458,7 +458,7 @@
 
 		<c:if test="${dataelementsfilter == 'Applications'}">
 		<div id="vulnerabilityDataForm" class="dataElementForm">
-			<form:form id="formVulnerabilityData" method="post" action="//auth/workboard/addVulnerability#tabs-applications" enctype="multipart/form-data">
+			<form:form id="formVulnerabilityData" method="post" action="/auth/workboard/addVulnerability#tabs-applications" enctype="multipart/form-data">
 				<input type="hidden" name="userstoryid" value="${userstory.id}" />
 				
 				<p><strong>2. Current Vulnerability Assessment Options:</strong></p>
