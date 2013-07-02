@@ -89,13 +89,16 @@ public class RIFCSController {
         location.addAddress(address);
         service.addLocation(location);
         
-        service.addRelatedObject(createRelatedObject("isAdministeredBy", ERESEARCH_PARTY_KEY, service.newRelatedObject()));
+        service.addRelatedObject(createRelatedObject("isManagedBy", ERESEARCH_PARTY_KEY, service.newRelatedObject()));
         
         // Description
         service.addDescription("Climate Smart Seaports is an online decision support toolkit designed to help Australian seaports adapating to climate change and improving their resilience to it. The toolkit lets access data from various datasets such as CSIRO, BoM, ABS, BITRE as well as their own personal data. Climate Smart Seaports then allows writing and publishing reports based on this data and the user analysis.", "full", "en");
         
-        // Access policy
-        service.addAccessPolicy(CSS_URL + "public/terms-of-service");
+        // Rights
+        Right right = service.newRight();
+        right.setAccessRights("Open access for browsing reports. Registration required to create reports.");
+        right.setLicence("3-clause 'Revised BSD' license", "http://seaports.eres.rmit.edu.au:8080/public/terms-of-service", "BSD");
+        service.addRight(right);
         
         r.addService(service);
         return r;
@@ -185,14 +188,13 @@ public class RIFCSController {
         Location loc = p.newLocation();
         Address address = loc.newAddress();
         Electronic electronic = address.newElectronic();
-        electronic.setType("url");
-        electronic.setValue(CSS_URL + "public/user/" + user.getUsername());
+        electronic.setType("email");
+        electronic.setValue(user.getEmail());
         address.addElectronic(electronic);
         loc.addAddress(address);
         p.addLocation(loc);
         
         p.addRelatedObject(createRelatedObject("isManagedBy", ERESEARCH_PARTY_KEY, p.newRelatedObject()));
-        p.addRelatedObject(createRelatedObject("uses", KEY_SERVICE_PREFIX + CSS_APP_SERVICE, p.newRelatedObject()));
         
         // TODO: LVL3 link to an Activity records
         // TODO: LVL3 set subject anzsrc-for
