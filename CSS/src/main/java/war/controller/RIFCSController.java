@@ -75,7 +75,7 @@ public class RIFCSController {
         Name name = service.newName();
         name.setType("primary");
         NamePart namepart = name.newNamePart();
-        namepart.setValue("AP-35 Climate Smart Seaports");
+        namepart.setValue("Climate Smart Seaports");
         name.addNamePart(namepart);
         service.addName(name);
         
